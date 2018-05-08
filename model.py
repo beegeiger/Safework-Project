@@ -88,7 +88,8 @@ class Incident(db.Model):
 	city = db.Column(db.String(256), nullable=True)
 	state = db.Column(db.String(256), nullable=True)
 	date = db.Column(db.DateTime, nullable=True)
-	time = db.Column(db.DateTime, nullable=True)
+	year = db.Column(db.Integer, nullable=True)
+	time = db.Column(db.String(256))
 	description = db.Column(db.String(4096), nullable=True)
 	police_rec_num = db.Column(db.String(256), nullable=True)
 	cop_name = db.Column(db.String(256), nullable=True)
@@ -101,7 +102,7 @@ class Incident(db.Model):
 
 	def __repr__(self):
     		"""Provide helpful representation when printed."""
-		return "<incident_id={} police_dept_id={} source_id={} user_id={} inc_type={} latitude={} longitude={} address={} city={} state={} date={} time={} description={} police_rec_num={} cop_name={} cop_badge={} cop_desc={} cop_pic={} sting_strat={} avoidance={} other={}>".format(self.incident_id, self.police_dept_id, self.source_id, self.user_id, self.inc_type, self.latitude, self.longitude, self.address, self.city, self.state, self.date, self.time, self.description, self.police_rec_num, self.cop_name, self.cop_badge, self.cop_desc, self.cop_pic, self.sting_strat, self.avoidance, self.other)
+		return "<incident_id={} police_dept_id={} source_id={} user_id={} inc_type={} latitude={} longitude={} address={} city={} state={} date={} yeardb.={} time={} description={} police_rec_num={} cop_name={} cop_badge={} cop_desc={} cop_pic={} sting_strat={} avoidance={} other={}>".format(self.incident_id, self.police_dept_id, self.source_id, self.user_id, self.inc_type, self.latitude, self.longitude, self.address, self.city, self.state, self.date, self.year, self.time, self.description, self.police_rec_num, self.cop_name, self.cop_badge, self.cop_desc, self.cop_pic, self.sting_strat, self.avoidance, self.other)
 
 
 class Police(db.Model):

@@ -4,3 +4,4 @@ Flask-SQLAlchemy==2.2
 psycopg2==2.7.1
 SQLAlchemy==1.1.7
 SQLAlchemy-ImageAttach
+flask-fixtures==0.3.6
