@@ -1,12 +1,19 @@
 """Models and database functions for SafeWork App"""
-
+from flask import jsonify, Flask
+import json
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, ForeignKey, Integer, Unicode
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy_imageattach.entity import Image, image_attachment
 
+
+# Required to use Flask sessions and the debug toolbar
+
 db = SQLAlchemy()
+# Normally, if you use an undefined variable in Jinja2, it fails
+# silently. This is horrible. Fix this so that, instead, it raises an
+# error.
 
 ################################################
 
@@ -138,7 +145,6 @@ class Source(db.Model):
         	self.source_id, self.s_name, self.s_description, self.url, self.s_type)
 
 
-
 ##############################################################################
 # Helper functions
 
@@ -152,8 +158,8 @@ def connect_to_db(app):
     db.init_app(app)
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    from server import app
-    connect_to_db(app)
-    print "Connected to DB."
+#     from server import app
+#     connect_to_db(app)
+#     print "Connected to DB."
