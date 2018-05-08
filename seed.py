@@ -28,31 +28,26 @@ if __name__ == "__main__":
 #######################################################
 db.drop_all()
 db.create_all()
-def add_sf_data():
+def add_sf_data(site, source_num):
 	with app.app_context():
-		sf_info = requests.get("https://data.sfgov.org/resource/cuks-n6tp.json", params = {"category": "PROSTITUTION"}).json()
-		sf_info2 = requests.get("https://data.sfgov.org/resource/PdId.json", params = {"category": "PROSTITUTION"}).json()
+		sf_info = requests.get(site, params = {"category": "PROSTITUTION"}).json()
 		if Police.query.filter_by(police_dept_id = 1).all() == []:
 			police = Police(police_dept_id=1, name="San Franciso Police Department", city="San Francisco", state="CA")
 			db.session.add(police)
 			db.session.commit()
-		if Source.query.filter_by(source_id = 1).all() == []:
-			source = Source(source_id=1, s_name="DataSF", s_description="San Franciso Police API", url="https://data.sfgov.org/resource/cuks-n6tp.json", s_type="gov api")
+		if Source.query.filter_by(source_id = source_num).all() == []:
+			source = Source(source_id=source_num, s_name="DataSF", s_description="San Franciso Police API", url=site, s_type="gov api")
 			db.session.add(source)
 			db.session.commit()
 		for row in sf_info:
 			year = int(row["date"][0:4])
-			if "PROST" in row["descript"].upper() and year >= 2017:
-				incident = Incident(police_dept_id=1, source_id=1, inc_type="API", latitude=row["location"]["coordinates"][0], longitude=row["location"]["coordinates"][1], address=row["address"], city="San Francisco", state="CA", date=row["date"], time=row["time"], description=row["descript"], police_rec_num=row["incidntnum"])
-				db.session.add(incident)
-		for row in sf_info2:
-			year = int(row["date"][0:4])
-			if "PROST" in row["descript"].upper() and year >= 2017:
-				incident = Incident(police_dept_id=1, source_id=1, inc_type="API", latitude=row["location"]["coordinates"][0], longitude=row["location"]["coordinates"][1], address=row["address"], city="San Francisco", state="CA", date=row["date"], time=row["time"], description=row["descript"], police_rec_num=row["incidntnum"])
+			if "PROST" in row["descript"].upper() and Incident.query.filter(Incident.police_rec_num == row["incidntnum"]).all() == []:
+				incident = Incident(police_dept_id=1, source_id=source_num, inc_type="API", latitude=row["location"]["coordinates"][0], longitude=row["location"]["coordinates"][1], address=row["address"], city="San Francisco", state="CA", date=row["date"], time=row["time"], description=row["descript"], police_rec_num=row["incidntnum"])
 				db.session.add(incident)
 		db.session.commit()
 
-add_sf_data()
+add_sf_data("https://data.sfgov.org/resource/cuks-n6tp.json", 1)
+#add_sf_data("https://data.sfgov.org/resource/PdId.json", 2)
 
 ##############################################
 

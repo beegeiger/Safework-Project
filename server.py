@@ -25,7 +25,7 @@ app.jinja_env.undefined = StrictUndefined
 @app.route("/")
 def get_info():
 
-	return render_template("apis.html")
+	return render_template("map_page.html")
 
 
 
