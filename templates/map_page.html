@@ -2,22 +2,22 @@
 <html>
 <head>
 	<title>Map Page</title>
-    <style type="text/css">
-    html, body { height: 100%; margin: 0; padding: 0; }
-    #map { height: 100%; }
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&callback=initMap"
+    async defer></script>
+      
+  </script>
+
+  <style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #map { height: 100%; }
   </style>
 </head>
 <body>
 <div id="map"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
-  <!-- Google maps API -->
-  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 
-  <!-- what it looks like with a key -->
-<!-- <script async defer
-//       src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE&callback=initMap">
-</script> -->
 
-  <script src="incident_map.js"></script>
+<script src="/static/img/incident_map.js"></script>
 </body>
 </html>
