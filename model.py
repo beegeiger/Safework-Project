@@ -62,7 +62,7 @@ class User(db.Model):
 	email = db.Column(db.String(256))
 	description = db.Column(db.String(512), nullable=True)
 	#Image Attachment Documentation at http://sqlalchemy-imageattach.readthedocs.io/en/1.1.0/
-	picture = image_attachment('UserPicture')
+	picture = db.Column(db.String(256), nullable=True)
 	created_at = db.Column(db.DateTime, nullable=True)
 	edited_at = db.Column(db.DateTime, nullable=True)
 
@@ -84,22 +84,24 @@ class Incident(db.Model):
 	inc_type = db.Column(db.String(64), nullable=True)
 	latitude = db.Column(db.String(256), nullable=True)
 	longitude = db.Column(db.String(256), nullable=True)
+	address = db.Column(db.String(512), nullable=True)
 	city = db.Column(db.String(256), nullable=True)
 	state = db.Column(db.String(256), nullable=True)
-	datetime = db.Column(db.DateTime, nullable=True)
+	date = db.Column(db.DateTime, nullable=True)
+	time = db.Column(db.DateTime, nullable=True)
 	description = db.Column(db.String(4096), nullable=True)
 	police_rec_num = db.Column(db.String(256), nullable=True)
 	cop_name = db.Column(db.String(256), nullable=True)
 	cop_badge = db.Column(db.String(256), nullable=True)
 	cop_desc = db.Column(db.String(1024), nullable=True)
-	cop_pic = image_attachment('CopPicture')
+	cop_pic = db.Column(db.String(256), nullable=True)
 	sting_strat = db.Column(db.String(2048), nullable=True)
 	avoidance = db.Column(db.String(2048), nullable=True)
 	other = db.Column(db.String(2047), nullable=True)
 
 	def __repr__(self):
     		"""Provide helpful representation when printed."""
-		return "<incident_id={} police_dept_id={} source_id={} user_id={} inc_type={} latitude={} longitude={} city={} state={} datetime={} description={} police_rec_num={} cop_name={} cop_badge={} cop_desc={} cop_pic={} sting_strat={} avoidance={} other={}>".format(self.incident_id, self.police_dept_id, self.source_id, self.user_id, self.inc_type, self.latitude, self.longitude, self.city, self.state, self.datetime, self.description, self.police_rec_num, self.cop_name, self.cop_badge, self.cop_desc, self.cop_pic, self.sting_strat, self.avoidance, self.other)
+		return "<incident_id={} police_dept_id={} source_id={} user_id={} inc_type={} latitude={} longitude={} address={} city={} state={} date={} time={} description={} police_rec_num={} cop_name={} cop_badge={} cop_desc={} cop_pic={} sting_strat={} avoidance={} other={}>".format(self.incident_id, self.police_dept_id, self.source_id, self.user_id, self.inc_type, self.latitude, self.longitude, self.address, self.city, self.state, self.date, self.time, self.description, self.police_rec_num, self.cop_name, self.cop_badge, self.cop_desc, self.cop_pic, self.sting_strat, self.avoidance, self.other)
 
 
 class Police(db.Model):
