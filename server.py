@@ -45,20 +45,18 @@ def get_info():
 
 @app.route("/incidents.json")
 def get_points():
-    incidents = {
-        Incident.incident_id: {
-            "latitude": Incident.latitude,
-            "longitude": Incident.longitude,
-            "address": Incident.address,
-            "city": Incident.city,
-            "state": Incident.state,
-            "date": Incident.date,
-            "time": Incident.time,
-            "description": Incident.description,
-            "rec_number": Incident.police_rec_num
-        }
-        for incident in Incident.query}
-
+    incidents = {}
+    for inc in Incident.query.all():
+        print inc.latitude, inc.longitude
+        incidents[inc.police_rec_num] = {
+            "latitude": inc.latitude[:7],
+            "longitude": inc.longitude[:7],
+            "address": inc.address,
+            "city": inc.city,
+            "state": inc.state,
+            "date": inc.date,
+            "time": inc.time,
+            "description": inc.description}
     return jsonify(incidents)
 
 
