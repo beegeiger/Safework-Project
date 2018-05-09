@@ -56,6 +56,7 @@ def get_points():
             "address": inc.address,
             "city": inc.city,
             "state": inc.state,
+            "year": inc.year,
             "date": inc.date,
             "time": inc.time,
             "description": inc.description}

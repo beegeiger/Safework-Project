@@ -42,7 +42,7 @@ def add_sf_data(site, source_num):
 		for row in sf_info:
 			year = int(row["date"][0:4])
 			if "PROST" in row["descript"].upper() and Incident.query.filter(Incident.police_rec_num == row["incidntnum"]).all() == []:
-				incident = Incident(police_dept_id=1, source_id=source_num, inc_type="API", latitude=row["location"]["coordinates"][0], longitude=row["location"]["coordinates"][1], address=row["address"], city="San Francisco", state="CA", date=row["date"], time=row["time"], description=row["descript"], police_rec_num=row["incidntnum"])
+				incident = Incident(police_dept_id=1, source_id=source_num, inc_type="API", latitude=row["location"]["coordinates"][1], longitude=row["location"]["coordinates"][0], address=row["address"], city="San Francisco", state="CA", date=row["date"], year=year, time=row["time"], description=row["descript"], police_rec_num=row["incidntnum"])
 				db.session.add(incident)
 		db.session.commit()
 

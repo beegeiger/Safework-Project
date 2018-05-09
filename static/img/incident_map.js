@@ -15,23 +15,55 @@ function initMap() {
     getPoints(map);
 }
 
+let image = '/static/img/Marker1.png'
+
 function getPoints(map) {
     $.get('/incidents.json', function(incidents) {
     let incident, marker, html;
-    
     console.log(incidents)
     for (let key in incidents) {
         incident = incidents[key];
+        incident.year = parseInt(incident.year)
+        if (incident.year === 2018) {
+            image = '/static/img/Marker1.png'
+        };
+        if (incident.year === 2017) {
+            image = '/static/img/Marker2.png'
+        };
+        if (incident.year === 2016) {
+            image = '/static/img/Marker3.png'
+        };
+        if (incident.year === 2015) {
+            image = '/static/img/Marker4.png'
+        };
+        if (incident.year === 2014) {
+            image = '/static/img/Marker5.png'
+        };
+        if (incident.year === 2013) {
+            image = '/static/img/Marker6.png'
+        };
+        if (incident.year === 2012) {
+            image = '/static/img/Marker7.png'
+        };
+        if (incident.year === 2011) {
+            image = '/static/img/Marker8.png'
+        };
+        if (incident.year === 2010) {
+            image = '/static/img/Marker9.png'
+        };
+        if (incident.year === 2009) {
+            image = '/static/img/Marker10.png'
+        };
         let icon = {
-        url: 'https://openclipart.org/image/2400px/svg_to_png/206317/Map-Warning-Icon.png',
-        scaledSize: new google.maps.Size(25, 38),
+        url: image,
+        scaledSize: new google.maps.Size(40, 40),
     }   
         incident.latitude = parseFloat(incident.latitude);
         incident.longitude = parseFloat(incident.longitude);
         marker = new google.maps.Marker({
             // position: new google.maps.LatLng(incident.latitude, incident.longitude),
             // position : {lat: incident.latitiude, lng: incident.longitude},
-            position : {lat: incident.longitude, lng: incident.latitude},
+            position : {lat: incident.latitude, lng: incident.longitude},
             map : map,
             title : 'Incident Type:' + incident.description,
             icon : icon
@@ -39,13 +71,13 @@ function getPoints(map) {
         let infoWindow = new google.maps.InfoWindow({
         content : '<p>Marker Location:' + marker.getPosition() + '</p>'
     });
-        console.log(marker);
-        console.log({lat: incident.longitude, lng: incident.latitude});
+
+        console.log(incident.year);
         window.incident = incident;
-        console.log(typeof incident.latitude);
+
         html = (
           '<div class="window-content">' +
-                '<img src="https://openclipart.org/image/2400px/svg_to_png/206317/Map-Warning-Icon.png" alt="incident" style="width:150px;" class="thumbnail">' +
+                '<p><b>'+ incident.description +'</b></p>' +
                 '<p><b>Address: </b>' + incident.address + '</p>' +
                 '<p><b>City: </b>' + incident.city + '</p>' +
                 '<p><b>State: </b>' + incident.state + '</p>' +
