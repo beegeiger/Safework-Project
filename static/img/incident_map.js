@@ -15,8 +15,6 @@ function initMap() {
     getPoints(map);
 }
 
-
-
 function getPoints(map) {
     $.get('/incidents.json', function(incidents) {
     let incident, marker, html;
@@ -28,22 +26,23 @@ function getPoints(map) {
         url: 'https://openclipart.org/image/2400px/svg_to_png/206317/Map-Warning-Icon.png',
         scaledSize: new google.maps.Size(25, 38),
     }   
-        // incident.latitude = incident.latitude
-        // incident.longitude = incident.longitude
+        incident.latitude = parseFloat(incident.latitude);
+        incident.longitude = parseFloat(incident.longitude);
         marker = new google.maps.Marker({
-            position: new google.maps.LatLng(incident.latitude, incident.longitude),
-            // position: {lat: incident.latitiude,
-            // lng: incident.longitude},
-            map: map,
-            title: 'Incident Type:' + incident.description,
-            icon: icon
+            // position: new google.maps.LatLng(incident.latitude, incident.longitude),
+            // position : {lat: incident.latitiude, lng: incident.longitude},
+            position : {lat: incident.longitude, lng: incident.latitude},
+            map : map,
+            title : 'Incident Type:' + incident.description,
+            icon : icon
         });
         let infoWindow = new google.maps.InfoWindow({
-        content: '<p>Marker Location:' + marker.getPosition() + '</p>'
+        content : '<p>Marker Location:' + marker.getPosition() + '</p>'
     });
-        console.log(marker)
+        console.log(marker);
+        console.log({lat: incident.longitude, lng: incident.latitude});
         window.incident = incident;
-        console.log(typeof incident.latitude)
+        console.log(typeof incident.latitude);
         html = (
           '<div class="window-content">' +
                 '<img src="https://openclipart.org/image/2400px/svg_to_png/206317/Map-Warning-Icon.png" alt="incident" style="width:150px;" class="thumbnail">' +

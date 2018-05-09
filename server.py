@@ -47,10 +47,12 @@ def get_info():
 def get_points():
     incidents = {}
     for inc in Incident.query.all():
+        lat = float(inc.latitude)
+        lng = float(inc.longitude)
         print inc.latitude, inc.longitude
         incidents[inc.police_rec_num] = {
-            "latitude": inc.latitude[:7],
-            "longitude": inc.longitude[:7],
+            "latitude": lat,
+            "longitude": lng,
             "address": inc.address,
             "city": inc.city,
             "state": inc.state,
