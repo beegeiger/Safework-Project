@@ -39,9 +39,14 @@ if __name__ == "__main__":
 ####################################################################
 
 @app.route("/")
-def get_info():
+def go_home():
 
-	return render_template("map_page.html")
+	return render_template("homepage.html")
+
+@app.route("/map")
+def get_map():
+
+    return render_template("map_page.html")
 
 @app.route("/incidents.json")
 def get_points():
@@ -89,20 +94,48 @@ def register_process():
     return redirect('/')
 
 
-# @app.route("/login")
-# def get_info():
+@app.route("/login", methods=["GET"])
+def log_in():
 
-#     return render_template("sign_in.html")
+    return render_template("login.html")
 
-# @app.route("/logout")
-# def get_info():
+@app.route("/login", methods=["POST"])
+def login():
+#    @copy_current_request_context
+ #   def more_login():
+    email_input = request.form['email_input']
+    pw_input = request.form['pw_input']
 
-#     return render_template("map_page.html")
+    if User.query.filter(User.email == email_input, User.password == pw_input).all() != []:
+        session['current_user'] = email_input
+        print session['current_user']
+        flash('You were successfully logged in')
+        return redirect("/")
+    else:
+        flash('Your e-mail or password was incorrect! Please try again or Register.')
+        return render_template("login.html")
 
-# @app.route("/forums")
-# def get_info():
+@app.route("/logout")
+def logout():
+    del session['current_user']
 
-#     return render_template("forums.html")
+    flash('Byyyyyye. You have been succesfully logged out!')
+    return redirect ("/login")
+
+@app.route("/forums")
+def go_forums():
+
+    return render_template("forums.html")
+
+@app.route("/report")
+def make_report():
+
+    return render_template("forums.html")
+
+@app.route("/profile")
+def user_profile():
+
+    return render_template("user_page.html")
 	
 
 
