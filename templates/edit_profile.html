@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile{% endblock %}
+{% block head %}
+<h2>Edit Your Profile:</h2>
+{% endblock %}
+{% block content %}
+
+	<form action="/edit_profile" method="POST"><br>
+		<b>E-mail:</b> <input type=textbox name="email_input">{{ email }}</input><br><br>
+		<b>Username:</b> <input type=textbox name="username">{{ username }}<br><br>
+		<b>Old Password:</b> <input type=textbox name="old_password"></input><br><br>
+		<b>New Password:</b> <input type=textbox name="new_password"></input><br><br>
+		(Please do not use your real name. Use your sex worker name, make one up, or leave the name field blank)<br>
+		<b>First name:</b><input type=textbox name="fname">{{ fname }}</input>&nbsp &nbsp<b>Last name:</b><input type=textbox name="lname">{{ lname }}</input><br><br>
+		<b>Tell us a bit about yourself:</b><br>
+		<textarea rows="6" cols="50" name="about_me"></textarea><br>
+		<br><input type=submit>{{ about_me }}</form>
+
+{% endblock %}
