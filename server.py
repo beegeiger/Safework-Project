@@ -6,7 +6,7 @@ from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, flash,
                    session, copy_current_request_context, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import (SQLAlchemy, update)
 
 from model import Forum, Post, User, Incident, Police, Source, connect_to_db, db
 import requests
@@ -20,6 +20,8 @@ app.secret_key = "ABC"
 # silently. This is horrible. Fix this so that, instead, it raises an
 # error.
 app.jinja_env.undefined = StrictUndefined
+
+db = SQLAlchemy()
 
 def connect_to_db(app):
     """Connect the database to our Flask app."""
@@ -83,11 +85,10 @@ def register_process():
     lname = request.form['lname']
     about_me = request.form['about_me']
 
-
     if User.query.filter_by(email = email_input).all() != []:
         return redirect('/')       
     else:
-        new_user = User(email= email_input, password=pw_input)
+        new_user = User(email= email_input, password=pw_input, username=username, fname=fname, lname=lname, description=about_me)
         db.session.add(new_user)
         db.session.commit() 
 
@@ -96,8 +97,10 @@ def register_process():
 
 @app.route("/login", methods=["GET"])
 def log_in():
-
-    return render_template("login.html")
+    if 'current_user' in session.keys():
+        return redirect("/")
+    else:
+        return render_template("login.html")
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -127,16 +130,60 @@ def go_forums():
 
     return render_template("forums.html")
 
-@app.route("/report")
-def make_report():
+@app.route("/report", methods=["GET"])
+def report_page():
+    if 'current_user' in session.keys():
+        return render_template("report_form.html")
+    else:
+        return redirect("/login")
 
-    return render_template("forums.html")
+@app.route("/report", methods=["POST"])
+def submit_form():
+
+
+    user_id = (User.query.filter(User.email == session['current_user']).first()).user_id
+    inc_type = request.form['inc_type']
+    address = request.form['address']
+    city = request.form['city']
+    state = request.form['state']
+    lat = str(request.form['lat'])
+    lng = str(request.form['lng'])
+    date = request.form['date']
+    time = str(request.form['time'])
+    description = request.form['description']
+    p_name = request.form['p_name']
+    badge = request.form['badge']
+    p_description = request.form['p_description']
+    sting = request.form['sting']
+    avoid = request.form['avoid']
+    other = request.form['other']
+    year = int(row["date"][0:4])
+
+    new_report = Incident(year=year, user_id=user_id, police_dept_id=3, source_id=3, inc_type=inc_type, address=address, city=city, state=state, latitude=lat, longitude=lng, date=date, time=time, description=description, cop_name=p_name, cop_badge=badge, cop_desc=p_description, sting_strat=sting, avoidance=avoid, other=other)
+    db.session.add(new_report)
+    db.session.commit()
+
+    flash('Your report has been filed and should be added to the map soon!')
+    return redirect("/")
 
 @app.route("/profile")
 def user_profile():
+    user = User.query.filter_by(email=session['current_user']).one()
 
-    return render_template("user_page.html")
-	
+    return render_template("user_page.html", email=user.email, username=user.username, fname=user.fname, lname=user.lname, about_me=user.description)
+
+@app.route("/edit_profile", methods=["GET"])
+def user_profile():
+    user = User.query.filter_by(email=session['current_user']).one()
+
+    return render_template("edit_profile.html", email=user.email, username=user.username, fname=user.fname, lname=user.lname, about_me=user.description)
+
+@app.route("/edit_profile", methods=["POST"])
+def user_profile():
+    user = User.query.filter_by(email=session['current_user']).one()
+
+    return render_template("user_page.html", email=user.email, username=user.username, fname=user.fname, lname=user.lname, about_me=user.description)
+
 
 
 if __name__ == "__main__":

@@ -119,8 +119,8 @@ class Police(db.Model):
 
 	police_dept_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	name = db.Column(db.String(512))
-	city = db.Column(db.String(256))
-	state = db.Column(db.String(128))
+	city = db.Column(db.String(256), nullable=True)
+	state = db.Column(db.String(128), nullable=True)
 	
 	def __repr__(self):
     		"""Provide helpful representation when printed."""
@@ -158,8 +158,8 @@ def connect_to_db(app):
     db.init_app(app)
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
 
-#     from server import app
-#     connect_to_db(app)
-#     print "Connected to DB."
+    from server import app
+    connect_to_db(app)
+    print "Connected to DB."

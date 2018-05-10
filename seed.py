@@ -30,6 +30,10 @@ db.drop_all()
 db.create_all()
 def add_sf_data(site, source_num):
 	with app.app_context():
+		police2 = Police(police_dept_id=3, name="User_Input")
+		source2 = Source(source_id=3, s_name="User_report")
+		db.session.add(police2)
+		db.session.add(source2)
 		sf_info = requests.get(site, params = {"category": "PROSTITUTION"}).json()
 		if Police.query.filter_by(police_dept_id = 1).all() == []:
 			police = Police(police_dept_id=1, name="San Franciso Police Department", city="San Francisco", state="CA")

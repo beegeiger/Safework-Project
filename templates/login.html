@@ -6,7 +6,15 @@
 {% block content %}
 
 
+	<h2>Log In</h2>
+		
 
+		<form action="/login" method="POST"><br>
+			E-mail: <input type=textbox name="email_input" required></input><br>
+			Password: <input type=textbox name="pw_input" required></input>
+			<br><input type=submit>
+
+		</form>
 
 
 {% endblock %}

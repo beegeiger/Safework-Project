@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
-{% block title %}{% endblock %}
+{% block title %}Your Profile{% endblock %}
 {% block head %}
-
+<h2>Your Profile</h2>
 {% endblock %}
 {% block content %}
-
-
+<b>Username:</b> {{ username }}<br>
+<b>E-mail:</b> {{ email }}<br>
+<b>Name:</b> {{ fname }} {{ lname }}<br>
+<b>About Me:</b> {{ about_me }}<br>
 
 
 

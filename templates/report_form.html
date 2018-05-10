@@ -1,11 +1,29 @@
 {% extends 'base.html' %}
-{% block title %}{% endblock %}
+{% block title %}Police Report Form{% endblock %}
 {% block head %}
-
+<h2>Police Report Form</h2>
 {% endblock %}
 {% block content %}
 
-
+	<form action="/report" method="POST"><br>
+		<b>How would you describe the incident in 8 words or less?</b> <input type=textbox name="inc_type"></input><br><br>
+		<b>Address:</b> <input type=textbox name="address"><br><br>
+		<b>City:</b> <input type=textbox name="city"></input><br><br>
+		<b>State:</b><input type=textbox name="state"></input><br><br>
+		<b>Latitude:</b><input type=textbox name="lat"></input><br><br>
+		<b>Longitude:</b><input type=textbox name="lng"></input><br><br>
+		<b>Date:</b><input type="date" name="date"></input><br><br>
+		<b>(Local) time of incident:</b><input type="time" name="time"></input><br><br>
+		<b>Please Describe What happened:</b><br>
+		<textarea rows="6" cols="50" name="description"></textarea><br><br>
+		<h3>Police Information</h3>
+		<b>Arresting Officer's Name:</b><input type=textbox name="p_name"></input><br><br>
+		<b>Arresting Officer's Badge Number:</b><input type=textbox name="badge"></input><br><br>
+		<b>Description of arresting officer:</b><br><textarea rows="3" cols="50" name="p_description"></textarea><br><br>
+		<b>How did the police collect/have enough evidence to arrest you?</b><br><textarea rows="6" cols="50" name="sting"></textarea><br><br>
+		<b>If you could do it again, how would you (or someone else) avoid getting arrested in this situation?</b><br><textarea rows="6" cols="50" name="avoid"></textarea><br><br>
+		<b>Any other details about what happened:</b><br><textarea rows="6" cols="50" name="other"></textarea><br>
+		<br><input type=submit></form>
 
 
 
