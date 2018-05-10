@@ -1,25 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Map Page</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <!-- <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg=false" type="text/javascript"></script> -->
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&callback=initMap"
-    async defer></script>
-      
-
-  <style type="text/css">
-      html, body { height: 100%; margin: 0; padding: 0; }
-      #map { height: 100%; }
-  </style>
-</head>
-<body>
-<div id="map"></div>
+{% extends 'base.html' %}
+{% block title %}Map Page{% endblock %}
+{% block head %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&callback=initMap" async defer></script>
+    <style type="text/css">
+        html, body { height: 100%; margin: 0; padding: 0; }
+        #map { height: 100%; }
+    </style>
+{% endblock %}
+{% block content %}
+	<div id="map"></div>
 
 
 
 
-<script src="/static/img/incident_map.js" async defer></script>
-</body>
-</html>
+	<script src="/static/img/incident_map.js" async defer></script>
+{% endblock %}

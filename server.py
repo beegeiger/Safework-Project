@@ -63,11 +63,25 @@ def get_points():
     return jsonify(incidents)
 
 
+# @app.route("/login")
+# def get_info():
 
+#     return render_template("sign_in.html")
 
+# @app.route("/logout")
+# def get_info():
 
+#     return render_template("map_page.html")
 
+# @app.route("/register")
+# def get_info():
 
+#     return render_template("register.html")
+
+# @app.route("/forums")
+# def get_info():
+
+#     return render_template("forums.html")
 	
 
 

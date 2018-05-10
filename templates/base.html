@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+    <head>
+        <title>{% block title %} {% endblock %}</title>
+        {% block head %} {% endblock %}
+        
+
+    </head>
+
+    <body>
+<!--         <div>
+    	    {% if 'current_user' in session %}
+    		    <a href="/logout">Logout</a>
+    	    {% endif %}
+
+    	    {% if 'current_user' not in session %}
+    		    <a href="/login">Login</a>
+    	    {% endif %}
+        </div> -->
+
+    <ul class=flashes>	
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <div class="alert alert-warning">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+    </ul>
+    {% block content %} {% endblock %}
+
+    </body>
+</html>
