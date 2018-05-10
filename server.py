@@ -62,6 +62,32 @@ def get_points():
             "description": inc.description}
     return jsonify(incidents)
 
+@app.route("/register", methods=["GET"])
+def register_form():
+    """Registration Form."""
+    return render_template("register.html")
+
+@app.route("/register", methods=["POST"])
+def register_process():
+    """Registration Form."""
+
+    email_input = request.form['email_input']
+    pw_input = request.form['password']
+    username = request.form['username']
+    fname = request.form['fname']
+    lname = request.form['lname']
+    about_me = request.form['about_me']
+
+
+    if User.query.filter_by(email = email_input).all() != []:
+        return redirect('/')       
+    else:
+        new_user = User(email= email_input, password=pw_input)
+        db.session.add(new_user)
+        db.session.commit() 
+
+    return redirect('/')
+
 
 # @app.route("/login")
 # def get_info():
@@ -72,11 +98,6 @@ def get_points():
 # def get_info():
 
 #     return render_template("map_page.html")
-
-# @app.route("/register")
-# def get_info():
-
-#     return render_template("register.html")
 
 # @app.route("/forums")
 # def get_info():
