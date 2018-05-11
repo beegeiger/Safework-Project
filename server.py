@@ -147,7 +147,7 @@ def get_forum(forum_id):
 def add_post(forum_id):
     post_content = request.form['content']
 
-    new_post = Post()
+    new_post = Post(user_id)
 
     forum = Forum.query.filter_by(forum_id=forum_id).one()
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone)
