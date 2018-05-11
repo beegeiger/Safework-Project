@@ -36,7 +36,7 @@ if __name__ == "__main__":
  
     connect_to_db(app)
     print "Connected to DB."
-    
+
 ####################################################################
 
 @app.route("/")
@@ -126,8 +126,18 @@ def logout():
 
 @app.route("/forums")
 def go_forums():
+    cam = Forum.query.filter_by(forum_id=1).one()
+    dom = Forum.query.filter_by(forum_id=2).one()
+    escort = Forum.query.filter_by(forum_id=3).one()
+    porn = Forum.query.filter_by(forum_id=4).one()
+    dance = Forum.query.filter_by(forum_id=5).one()
+    phone = Forum.query.filter_by(forum_id=6).one()
+    return render_template("forums.html", cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone)
 
-    return render_template("forums.html")
+@app.route("/forums/<forum_id>")
+def get_forum():
+    forum = Forum.query.filter_by(forum_id=forum_id).one()
+    return render_template("forums.html",)
 
 @app.route("/report", methods=["GET"])
 def report_page():

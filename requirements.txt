@@ -6,3 +6,4 @@ SQLAlchemy==1.1.7
 SQLAlchemy-ImageAttach
 flask-fixtures==0.3.6
 requests
+WTForms
