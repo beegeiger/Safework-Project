@@ -7,11 +7,11 @@
         <a href="/">SafeWork Homepage</a> &nbsp &nbsp
         <a href="/map">Map</a> &nbsp &nbsp
         <a href="/register">Register</a>  &nbsp &nbsp
-        {% if 'current_user' not in session %}<a href="/login">Login</a>  &nbsp &nbsp{% endif %}
-        {% if 'current_user' in session %}<a href="/logout">Logout</a>  &nbsp &nbsp{% endif %}
+        {% if 'current_user' not in session %}<a href="/login">Login</a>  &nbsp &nbsp {% endif %}
         <a href="/forums">Discussion Forums</a>  &nbsp &nbsp
         <a href="/report">Report a Police Action</a>  &nbsp &nbsp
-        <a href="/profile">Your Profile</a>
+        {% if 'current_user' in session %} <a href="/profile">Your Profile</a>&nbsp &nbsp<a href="/logout">Logout</a> {% endif %}
+
         {% block head %} {% endblock %}
     </head>
 

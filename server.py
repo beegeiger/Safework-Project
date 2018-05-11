@@ -33,11 +33,6 @@ def connect_to_db(app):
     db.init_app(app)
 
 
-if __name__ == "__main__":
-
-    connect_to_db(app)
-    print "Connected to DB."
-
 ####################################################################
 
 @app.route("/")
@@ -135,6 +130,7 @@ def report_page():
     if 'current_user' in session.keys():
         return render_template("report_form.html")
     else:
+        flash('You must sign in before making a report.')
         return redirect("/login")
 
 @app.route("/report", methods=["POST"])
