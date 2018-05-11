@@ -124,20 +124,33 @@ def logout():
     flash('Byyyyyye. You have been succesfully logged out!')
     return redirect ("/login")
 
-@app.route("/forums")
-def go_forums():
+with app.app_context():
     cam = Forum.query.filter_by(forum_id=1).one()
     dom = Forum.query.filter_by(forum_id=2).one()
     escort = Forum.query.filter_by(forum_id=3).one()
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
+
+@app.route("/forums")
+def go_forums():
+    
     return render_template("forums.html", cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone)
 
-@app.route("/forums/<forum_id>")
-def get_forum():
+@app.route("/forums/<forum_id>", methods=["GET"])
+def get_forum(forum_id):
+
     forum = Forum.query.filter_by(forum_id=forum_id).one()
-    return render_template("forums.html",)
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone)
+
+@app.route("/forums/<forum_id>", methods=["POST"])
+def add_post(forum_id):
+    post_content = request.form['content']
+
+    new_post = Post()
+
+    forum = Forum.query.filter_by(forum_id=forum_id).one()
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone)
 
 @app.route("/report", methods=["GET"])
 def report_page():
