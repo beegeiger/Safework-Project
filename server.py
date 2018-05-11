@@ -6,8 +6,8 @@ from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, flash,
                    session, copy_current_request_context, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
-from flask_sqlalchemy import (SQLAlchemy, update)
-
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import update
 from model import Forum, Post, User, Incident, Police, Source, connect_to_db, db
 import requests
 
@@ -173,17 +173,35 @@ def user_profile():
     return render_template("user_page.html", email=user.email, username=user.username, fname=user.fname, lname=user.lname, about_me=user.description)
 
 @app.route("/edit_profile", methods=["GET"])
-def user_profile():
+def edit_page():
     user = User.query.filter_by(email=session['current_user']).one()
 
     return render_template("edit_profile.html", email=user.email, username=user.username, fname=user.fname, lname=user.lname, about_me=user.description)
 
 @app.route("/edit_profile", methods=["POST"])
-def user_profile():
-    user = User.query.filter_by(email=session['current_user']).one()
+def edit_profile():
+    email_input = request.form['email_input']
+    pw_input = request.form['old_password']
+    new_password = request.form['new_password']
+    username = request.form['username']
+    fname = request.form['fname']
+    lname = request.form['lname']
+    about_me = request.form['about_me']
 
-    return render_template("user_page.html", email=user.email, username=user.username, fname=user.fname, lname=user.lname, about_me=user.description)
 
+    user = db.session.query(User).filter(User.email == session['current_user'], User.password == pw_input).update({'fname': fname})
+    db.session.commit()
+
+
+    # if user:
+    #     user[0].update().\
+    #         where(user[0].email==session['current_user']).values(email= email_input, password=new_password, username=username, fname=fname, lname=lname, description=about_me)
+    #     db.session.commit()
+    #     flash('Your Profile was Updated!')
+    #     return redirect("/")
+    # else:
+    #     flash('Your e-mail or password was incorrect! Please try again or Register.')
+    #     return render_template("login.html")
 
 
 if __name__ == "__main__":
