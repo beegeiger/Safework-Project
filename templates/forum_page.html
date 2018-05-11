@@ -1,0 +1,19 @@
+{% extends 'forums.html' %}
+{% block forum %} 
+<h1>{{ forum.forum_name }}</h1>
+{{ forum.forum_desc }}<br> <br>
+
+<div>
+	<form action="/forums/{{ forum.forum_id }}" method="POST"><br>
+		<b>New Post:</b>
+		<br><textarea rows="6" cols="50" name="content"></textarea><br>
+		<br><input type=submit>
+	</form>
+</div>
+{% for post in posts %}
+	<div>
+		<b>{{ post.username }}:</b> {{ post.content }}
+	</div>	
+{% endfor %}
+
+{% endblock %}

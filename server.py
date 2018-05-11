@@ -1,15 +1,17 @@
 """SafeWork Server"""
 import json
 from jinja2 import StrictUndefined
-
+import datetime
 
 from flask import (Flask, render_template, redirect, request, flash,
                    session, copy_current_request_context, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import update
+from sqlalchemy import (update, desc)
 from model import Forum, Post, User, Incident, Police, Source, connect_to_db, db
 import requests
+
+db = SQLAlchemy()
 
 app = Flask(__name__)
 
@@ -21,7 +23,7 @@ app.secret_key = "ABC"
 # error.
 app.jinja_env.undefined = StrictUndefined
 
-db = SQLAlchemy()
+
 
 def connect_to_db(app):
     """Connect the database to our Flask app."""
@@ -68,10 +70,13 @@ def get_points():
             "description": inc.description}
     return jsonify(incidents)
 
+
 @app.route("/register", methods=["GET"])
 def register_form():
     """Registration Form."""
     return render_template("register.html")
+
+
 
 @app.route("/register", methods=["POST"])
 def register_process():
@@ -101,6 +106,8 @@ def log_in():
     else:
         return render_template("login.html")
 
+
+
 @app.route("/login", methods=["POST"])
 def login():
 #    @copy_current_request_context
@@ -117,6 +124,7 @@ def login():
         flash('Your e-mail or password was incorrect! Please try again or Register.')
         return render_template("login.html")
 
+
 @app.route("/logout")
 def logout():
     del session['current_user']
@@ -132,25 +140,40 @@ with app.app_context():
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
 
+
+
 @app.route("/forums")
 def go_forums():
     
     return render_template("forums.html", cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone)
 
+
+
 @app.route("/forums/<forum_id>", methods=["GET"])
 def get_forum(forum_id):
 
+    posts = Post.query.filter_by(forum_id=forum_id).all()
+
     forum = Forum.query.filter_by(forum_id=forum_id).one()
-    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone)
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts)
+
+
 
 @app.route("/forums/<forum_id>", methods=["POST"])
 def add_post(forum_id):
     post_content = request.form['content']
+    user = User.query.filter_by(email = session['current_user']).one()
+    
+    new_post = Post(user_id=user.user_id, username=user.username, forum_id=forum_id, content=post_content, p_datetime=datetime.datetime.now())
+    db.session.add(new_post)
+    db.session.commit()
 
-    new_post = Post(user_id)
+    posts = Post.query.filter_by(forum_id=forum_id).all()
 
     forum = Forum.query.filter_by(forum_id=forum_id).one()
-    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone)
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts)
+
+
 
 @app.route("/report", methods=["GET"])
 def report_page():
@@ -159,6 +182,8 @@ def report_page():
     else:
         flash('You must sign in before making a report.')
         return redirect("/login")
+
+
 
 @app.route("/report", methods=["POST"])
 def submit_form():
@@ -189,11 +214,15 @@ def submit_form():
     flash('Your report has been filed and should be added to the map soon!')
     return redirect("/")
 
+
+
 @app.route("/profile")
 def user_profile():
     user = User.query.filter_by(email=session['current_user']).one()
 
     return render_template("user_page.html", email=user.email, username=user.username, fname=user.fname, lname=user.lname, about_me=user.description)
+
+
 
 @app.route("/edit_profile", methods=["GET"])
 def edit_page():
@@ -201,30 +230,26 @@ def edit_page():
 
     return render_template("edit_profile.html", email=user.email, username=user.username, fname=user.fname, lname=user.lname, about_me=user.description)
 
-# @app.route("/edit_profile", methods=["POST"])
-# def edit_profile():
-#     email_input = request.form['email_input']
-#     pw_input = request.form['old_password']
-#     new_password = request.form['new_password']
-#     username = request.form['username']
-#     fname = request.form['fname']
-#     lname = request.form['lname']
-#     about_me = request.form['about_me']
 
 
-#     user = db.session.query(User).filter(User.email == session['current_user'], User.password == pw_input).update({'fname': fname})
-#     db.session.commit()
+@app.route("/edit_profile", methods=["POST"])
+def edit_profile():
+    email_input = request.form['email_input']
+    pw_input = request.form['old_password']
+    new_password = request.form['new_password']
+    username = request.form['username']
+    fname = request.form['fname']
+    lname = request.form['lname']
+    about_me = request.form['about_me']
 
-
-    # if user:
-    #     user[0].update().\
-    #         where(user[0].email==session['current_user']).values(email= email_input, password=new_password, username=username, fname=fname, lname=lname, description=about_me)
-    #     db.session.commit()
-    #     flash('Your Profile was Updated!')
-    #     return redirect("/")
-    # else:
-    #     flash('Your e-mail or password was incorrect! Please try again or Register.')
-    #     return render_template("login.html")
+    if User.query.filter(User.email == email_input, User.password == pw_input).all() != []:
+        user = db.session.query(User).filter(User.email == session['current_user'], User.password == pw_input).update({'fname': fname, 'lname': lname, 'email': email_input, 'password': new_password, 'username': username, 'description': about_me})
+        db.session.commit()
+        flash('Your Profile was Updated!')
+        return redirect("/profile")
+    else:
+        flash('Your e-mail or password was incorrect! Please try again or Register.')
+        return render_template("login.html")
 
 
 if __name__ == "__main__":

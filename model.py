@@ -14,6 +14,11 @@ db = SQLAlchemy()
 # Normally, if you use an undefined variable in Jinja2, it fails
 # silently. This is horrible. Fix this so that, instead, it raises an
 # error.
+app = Flask(__name__)
+
+# Required to use Flask sessions and the debug toolbar
+app.secret_key = "ABC"
+
 
 ################################################
 
@@ -42,6 +47,7 @@ class Post(db.Model):
 
 	post_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	username = db.Column(db.String(64))
 	forum_id = db.Column(db.Integer, db.ForeignKey('forums.forum_id'))
 	parent_post_id = db.Column(db.Integer, db.ForeignKey('posts.post_id'), nullable=True)
 	content = db.Column(db.String(4096))
@@ -52,8 +58,8 @@ class Post(db.Model):
 
 	def __repr__(self):
     		"""Provide helpful representation when printed."""
-		return "<post_id={} user_id={} forum_id={} parent_post_id={} content={} p_datetime={} edit_datetime={} like_num={} dislike_num={}>".format(
-        	self.post_id, self.user_id, self.forum_id, self.parent_post_id, self.content, self.p_datetime, self.edit_datetime, self.like_num, self.dislike_num)
+		return "<username={} post_id={} user_id={} forum_id={} parent_post_id={} content={} p_datetime={} edit_datetime={} like_num={} dislike_num={}>".format(
+        	self.username, self.post_id, self.user_id, self.forum_id, self.parent_post_id, self.content, self.p_datetime, self.edit_datetime, self.like_num, self.dislike_num)
 
 
 class User(db.Model):
@@ -150,16 +156,15 @@ class Source(db.Model):
 
 def connect_to_db(app):
     """Connect the database to our Flask app."""
-
     # Configure to use our PstgreSQL database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///safework'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     db.app = app
     db.init_app(app)
 
-
 if __name__ == "__main__":
 
-    from server import app
     connect_to_db(app)
     print "Connected to DB."
+
+
