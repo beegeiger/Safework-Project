@@ -11,7 +11,6 @@ from sqlalchemy import (update, desc)
 from model import Forum, Post, User, Incident, Police, Source, connect_to_db, db
 import requests
 
-db = SQLAlchemy()
 
 app = Flask(__name__)
 
@@ -23,19 +22,18 @@ app.secret_key = "ABC"
 # error.
 app.jinja_env.undefined = StrictUndefined
 
-
-
 def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     # Configure to use our PstgreSQL database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///safework'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
+connect_to_db(app)
 
 if __name__ == "__main__":
- 
+
     connect_to_db(app)
     print "Connected to DB."
 
@@ -43,12 +41,12 @@ if __name__ == "__main__":
 
 @app.route("/")
 def go_home():
-
-	return render_template("homepage.html")
+    """Renders the safework homepage."""
+    return render_template("homepage.html")
 
 @app.route("/map")
 def get_map():
-
+    """Renders safework's arrest map."""
     return render_template("map_page.html")
 
 @app.route("/incidents.json")
