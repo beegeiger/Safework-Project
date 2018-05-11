@@ -32,7 +32,11 @@ def connect_to_db(app):
     db.app = app
     db.init_app(app)
 
-
+if __name__ == "__main__":
+ 
+    connect_to_db(app)
+    print "Connected to DB."
+    
 ####################################################################
 
 @app.route("/")
@@ -174,19 +178,19 @@ def edit_page():
 
     return render_template("edit_profile.html", email=user.email, username=user.username, fname=user.fname, lname=user.lname, about_me=user.description)
 
-@app.route("/edit_profile", methods=["POST"])
-def edit_profile():
-    email_input = request.form['email_input']
-    pw_input = request.form['old_password']
-    new_password = request.form['new_password']
-    username = request.form['username']
-    fname = request.form['fname']
-    lname = request.form['lname']
-    about_me = request.form['about_me']
+# @app.route("/edit_profile", methods=["POST"])
+# def edit_profile():
+#     email_input = request.form['email_input']
+#     pw_input = request.form['old_password']
+#     new_password = request.form['new_password']
+#     username = request.form['username']
+#     fname = request.form['fname']
+#     lname = request.form['lname']
+#     about_me = request.form['about_me']
 
 
-    user = db.session.query(User).filter(User.email == session['current_user'], User.password == pw_input).update({'fname': fname})
-    db.session.commit()
+#     user = db.session.query(User).filter(User.email == session['current_user'], User.password == pw_input).update({'fname': fname})
+#     db.session.commit()
 
 
     # if user:
