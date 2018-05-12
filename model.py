@@ -150,6 +150,34 @@ class Source(db.Model):
 		return "<source_id={} s_name={} s_description={} url={} s_type={}>".format(
         	self.source_id, self.s_name, self.s_description, self.url, self.s_type)
 
+################################################################################
+
+def example_data():
+	"""Example data to be used for testing."""
+	#Deleting tables in case this file has been run before
+	Forum.query.delete()
+	Post.delete()
+	User.query.delete()
+	Incident.query.delete()
+	Police.query.delete()
+	Sources.query.delete()
+
+	#Example Forum Objects
+	f1 = Forum(forum_id=1, forum_name="Cam Modeling", forum_type="main", forum_desc="Central Forum for all Cam Models to discuss Strategies.", created_by="dev")
+	f2 = Forum(forum_id=2, forum_name="Pro-Domination", forum_type="main", forum_desc="Central Forum for all Pro Domme's to discuss Strategies.", created_by="dev")
+	f3 = Forum(forum_id=3, forum_name="Escorting", forum_type="main", forum_desc="Central Forum for all escorts to discuss Strategies.", created_by="dev")
+
+	#Example Posts
+	p1
+	p2
+	p3
+
+
+
+	db.session.add_all([f1, f2, f3])
+    db.session.commit()
+
+
 
 ##############################################################################
 # Helper functions
