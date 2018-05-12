@@ -51,6 +51,7 @@ def get_map():
 
 @app.route("/incidents.json")
 def get_points():
+    """Gets the incident/marker points as JSON to be plotted on the map."""
     incidents = {}
     for inc in Incident.query.all():
         lat = float(inc.latitude)
@@ -71,7 +72,7 @@ def get_points():
 
 @app.route("/register", methods=["GET"])
 def register_form():
-    """Registration Form."""
+    """Goes to registration Form."""
     return render_template("register.html")
 
 
@@ -94,7 +95,7 @@ def register_process():
         db.session.add(new_user)
         db.session.commit() 
 
-    return redirect('/')
+    return redirect('/login')
 
 
 @app.route("/login", methods=["GET"])
@@ -117,7 +118,7 @@ def login():
         session['current_user'] = email_input
         print session['current_user']
         flash('You were successfully logged in')
-        return redirect("/")
+        return redirect("/forums")
     else:
         flash('Your e-mail or password was incorrect! Please try again or Register.')
         return render_template("login.html")
@@ -142,9 +143,11 @@ with app.app_context():
 
 @app.route("/forums")
 def go_forums():
-    
-    return render_template("forums.html", cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone)
-
+    if 'current_user' in session.keys():
+        return render_template("forums.html", cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone)
+    else:
+        flash("Please login before entering the forums.")
+        return redirect ("/login")
 
 
 @app.route("/forums/<forum_id>", methods=["GET"])

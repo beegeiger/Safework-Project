@@ -11,8 +11,8 @@ class safeworkIntegrationTestCase(unittest.TestCase):
 
 	def setUp(self):
 		print "(setUp ran)"
-        self.client = server.app.test_client()
-        server.app.config['TESTING'] = True
+		self.client = server.app.test_client()
+		server.app.config['TESTING'] = True
 
 	def test_homepage(self):
 		result = self.client.get('/')
@@ -20,8 +20,15 @@ class safeworkIntegrationTestCase(unittest.TestCase):
 
 	def test_map_page(self):
 		result = self.client.get('/map')
-		elf.assertIn('LOITERING FOR PURPOSE OF PROSTITUTION', result.data)
+		self.assertIn('<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>', result.data)
 
+	def test_incidents(self):
+		result = self.client.get('incidents.json')
+		self.assertIn('2011', result.data)
+
+	# def test_reg_page(self):
+	# 	result = self.client.get('incidents.json')
+	# 	self.assertIn('2011', result.data)
 
 ######################################################
 
