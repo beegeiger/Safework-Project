@@ -13,6 +13,14 @@ class safeworkIntegrationTestCase(unittest.TestCase):
 		print "(setUp ran)"
 		self.client = server.app.test_client()
 		server.app.config['TESTING'] = True
+		connect_to_db(app, "postgresql:///testdb")
+		db.create_all()
+        example_data()
+
+	def tearDown(self):
+        """Do at end of every test."""
+        db.session.close()
+        db.drop_all()
 
 	def test_homepage(self):
 		result = self.client.get('/')
@@ -23,12 +31,12 @@ class safeworkIntegrationTestCase(unittest.TestCase):
 		self.assertIn('<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>', result.data)
 
 	def test_incidents(self):
-		result = self.client.get('incidents.json')
+		result = self.client.get('/incidents.json')
 		self.assertIn('2011', result.data)
 
-	# def test_reg_page(self):
-	# 	result = self.client.get('incidents.json')
-	# 	self.assertIn('2011', result.data)
+	def test_reg_page(self):
+		result = self.client.get('/register', methods=["GET"])
+		self.assertIn('2011', result.data)
 
 ######################################################
 
