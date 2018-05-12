@@ -1,5 +1,6 @@
 """Models and database functions for SafeWork App"""
 from flask import jsonify, Flask
+import datetime
 import json
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, ForeignKey, Integer, Unicode
@@ -168,7 +169,7 @@ def example_data():
 	f3 = Forum(forum_id=3, forum_name="Escorting", forum_type="main", forum_desc="Central Forum for all escorts to discuss Strategies.", created_by="dev")
 
 	#Example Posts
-	p1
+	p1 = Post(post_id=1, user_id=1, forum_id=1, username="LaceyKittey", content="Testing 123", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=4, dislike_num=10)
 	p2
 	p3
 
