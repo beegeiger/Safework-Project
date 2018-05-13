@@ -105,7 +105,7 @@ class Incident(db.Model):
 	year = db.Column(db.Integer, nullable=True)
 	time = db.Column(db.String(256))
 	description = db.Column(db.String(4096), nullable=True)
-	police_rec_num = db.Column(db.String(256), nullable=True)
+	police_rec_num = db.Column(db.String(256), nullable=False)
 	cop_name = db.Column(db.String(256), nullable=True)
 	cop_badge = db.Column(db.String(256), nullable=True)
 	cop_desc = db.Column(db.String(1024), nullable=True)
@@ -141,6 +141,7 @@ class Source(db.Model):
 	__tablename__ = "sources"
 
 	source_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	police_dept_id = db.Column(db.Integer, db.ForeignKey('police.police_dept_id'), nullable=True)
 	s_name = db.Column(db.String(256))
 	s_description = db.Column(db.String(512), nullable=True)
 	url = db.Column(db.String(256), nullable=True)
@@ -153,30 +154,30 @@ class Source(db.Model):
 
 ################################################################################
 
-def example_data():
-	"""Example data to be used for testing."""
-	#Deleting tables in case this file has been run before
-	Forum.query.delete()
-	Post.delete()
-	User.query.delete()
-	Incident.query.delete()
-	Police.query.delete()
-	Sources.query.delete()
+# def example_data():
+# 	"""Example data to be used for testing."""
+# 	#Deleting tables in case this file has been run before
+# 	Forum.query.delete()
+# 	Post.delete()
+# 	User.query.delete()
+# 	Incident.query.delete()
+# 	Police.query.delete()
+# 	Sources.query.delete()
 
-	#Example Forum Objects
-	f1 = Forum(forum_id=1, forum_name="Cam Modeling", forum_type="main", forum_desc="Central Forum for all Cam Models to discuss Strategies.", created_by="dev")
-	f2 = Forum(forum_id=2, forum_name="Pro-Domination", forum_type="main", forum_desc="Central Forum for all Pro Domme's to discuss Strategies.", created_by="dev")
-	f3 = Forum(forum_id=3, forum_name="Escorting", forum_type="main", forum_desc="Central Forum for all escorts to discuss Strategies.", created_by="dev")
+# 	#Example Forum Objects
+# 	f1 = Forum(forum_id=1, forum_name="Cam Modeling", forum_type="main", forum_desc="Central Forum for all Cam Models to discuss Strategies.", created_by="dev")
+# 	f2 = Forum(forum_id=2, forum_name="Pro-Domination", forum_type="main", forum_desc="Central Forum for all Pro Domme's to discuss Strategies.", created_by="dev")
+# 	f3 = Forum(forum_id=3, forum_name="Escorting", forum_type="main", forum_desc="Central Forum for all escorts to discuss Strategies.", created_by="dev")
 
-	#Example Posts
-	p1 = Post(post_id=1, user_id=1, forum_id=1, username="LaceyKittey", content="Testing 123", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=4, dislike_num=10)
-	p2
-	p3
+# 	#Example Posts
+# 	p1 = Post(post_id=1, user_id=1, forum_id=1, username="LaceyKittey", content="Testing 123", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=4, dislike_num=10)
+# 	p2
+# 	p3
 
 
 
-	db.session.add_all([f1, f2, f3])
-    db.session.commit()
+# 	db.session.add_all([f1, f2, f3])
+#     db.session.commit()
 
 
 
@@ -187,13 +188,14 @@ def connect_to_db(app):
     """Connect the database to our Flask app."""
     # Configure to use our PstgreSQL database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///safework'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     db.app = app
     db.init_app(app)
 
 if __name__ == "__main__":
 
-    connect_to_db(app)
-    print "Connected to DB."
+	from server import app
+	connect_to_db(app)
+	print "Connected to DB."
 
 
