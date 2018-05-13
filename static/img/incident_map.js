@@ -78,7 +78,7 @@ function getPoints(map) {
         content : '<p>Marker Location:' + marker.getPosition() + '</p>'
     });
 
-        console.log(incident.year);
+        console.log(incident);
         window.incident = incident;
 
         html = (
