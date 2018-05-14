@@ -15,9 +15,9 @@ import os
 from geopy import geocoders
 
 #######################################################
-# with app.app_context():
-# 	db.drop_all()
-# 	db.create_all()
+with app.app_context():
+ 	db.drop_all()
+ 	db.create_all()
 
 def fill_basics():
 	with app.app_context():
@@ -37,7 +37,7 @@ def fill_basics():
 		db.session.add(source)
 		db.session.add(source4)
 		db.session.commit()
-# fill_basics()
+fill_basics()
 
 #Used Syntax from https://gis.stackexchange.com/questions/22108/how-to-geocode-300-000-addresses-on-the-fly
 def geocode(address):
@@ -85,7 +85,7 @@ def add_incident_data(source_nums):
 						# print incident.police_rec_num
 						db.session.commit()
 
-add_incident_data([2, 3, 4])
+add_incident_data([2,3])
 
 
 
