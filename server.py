@@ -54,21 +54,32 @@ def get_points():
     """Gets the incident/marker points as JSON to be plotted on the map."""
     incidents = {}
     for inc in Incident.query.all():
-        lat = float(inc.latitude)
-        lng = float(inc.longitude)
-        print inc.latitude, inc.longitude
-        incidents[inc.police_rec_num] = {
-            "latitude": lat,
-            "longitude": lng,
-            "address": inc.address,
-            "city": inc.city,
-            "state": inc.state,
-            "year": inc.year,
-            "date": inc.date,
-            "time": inc.time,
-            "description": inc.description,
-            "source_id": inc.source_id,
-            "rec_number": inc.police_rec_num}
+        if inc.source_id == 4:
+            incidents[inc.police_rec_num] = {
+                "address": inc.address,
+                "city": inc.city,
+                "state": inc.state,
+                "year": inc.year,
+                "date": inc.date,
+                "time": inc.time,
+                "description": inc.description,
+                "source_id": inc.source_id,
+                "rec_number": inc.police_rec_num}
+        else:    
+            lat = float(inc.latitude)
+            lng = float(inc.longitude)
+            incidents[inc.police_rec_num] = {
+                "latitude": lat,
+                "longitude": lng,
+                "address": inc.address,
+                "city": inc.city,
+                "state": inc.state,
+                "year": inc.year,
+                "date": inc.date,
+                "time": inc.time,
+                "description": inc.description,
+                "source_id": inc.source_id,
+                "rec_number": inc.police_rec_num}
     return jsonify(incidents)
 
 

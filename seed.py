@@ -10,6 +10,7 @@ import datetime
 import urllib
 from datetime import datetime
 from server import app
+import string
 
 #######################################################
 with app.app_context():
@@ -49,10 +50,18 @@ def add_incident_data(source_nums):
 					incident = row.split(",")
 					inc = []
 					for item in incident:
-						item.strip()
-						inc += item
+						inc += [item.translate(None, string.punctuation)]
+					print inc
+					address = ""
+					for dig in inc[5]:
+						if dig == "/":
+							address += "&"
+						else:
+							address += dig
+					address += ", Oakland, CA"
+					print address
 					if "PROST" in inc[3].upper():
-						incident = Incident(police_dept_id=3, source_id=4, inc_type="API", address=inc[5], city="Oakland", state="CA", date=inc[1], year=inc[1][:4], time=inc[1][11:16], description=inc[3], police_rec_num=inc[2])
+						incident = Incident(police_dept_id=3, source_id=4, inc_type="API", address=address, city="Oakland", state="CA", date=inc[1], year=inc[1][:4], time=inc[1][11:16], description=inc[3], police_rec_num=inc[2])
 						db.session.add(incident)
 						db.session.commit()
 			for row in incident_info:
