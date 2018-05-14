@@ -81,20 +81,20 @@ function getPoints(map) {
                     }
             });
         }   
-            // else {
-            //     marker = new google.maps.Marker({
-            //         // position: new google.maps.LatLng(incident.latitude, incident.longitude),
-            //         // position : {lat: incident.latitiude, lng: incident.longitude},
-            //         position : {lat: incident.latitude, lng: incident.longitude},
-            //         map : map,
-            //         title : 'Incident Type:' + incident.description,
-            //         icon : icon
-            //     });
-            // }
+            else {
+                marker = new google.maps.Marker({
+                    // position: new google.maps.LatLng(incident.latitude, incident.longitude),
+                    // position : {lat: incident.latitiude, lng: incident.longitude},
+                    position : {lat: incident.latitude, lng: incident.longitude},
+                    map : map,
+                    title : 'Incident Type:' + incident.description,
+                    icon : icon
+                });
+            }
 
-        // let infoWindow = new google.maps.InfoWindow({
-        // content : '<p>Marker Location:' + marker.getPosition() + '</p>'
-        //     });
+        let infoWindow = new google.maps.InfoWindow({
+        content : '<p>Marker Location:' + marker.getPosition() + '</p>'
+            });
         
 
         
