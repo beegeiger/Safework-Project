@@ -66,17 +66,35 @@ function getPoints(map) {
     }   
         incident.latitude = parseFloat(incident.latitude);
         incident.longitude = parseFloat(incident.longitude);
-        marker = new google.maps.Marker({
-            // position: new google.maps.LatLng(incident.latitude, incident.longitude),
-            // position : {lat: incident.latitiude, lng: incident.longitude},
-            position : {lat: incident.latitude, lng: incident.longitude},
-            map : map,
-            title : 'Incident Type:' + incident.description,
-            icon : icon
-        });
+        
+        if (incident.source_id == 4) {
+            let inci = new google.maps.Geocoder();
+            inci.geocode({'address': incident.address},
+                function(results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        let marker = new google.maps.Marker({
+                            map: map,
+                            position: results[0].geometry.location
+                        });
+                    } else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+            });
+        }   else {
+                marker = new google.maps.Marker({
+                    // position: new google.maps.LatLng(incident.latitude, incident.longitude),
+                    // position : {lat: incident.latitiude, lng: incident.longitude},
+                    position : {lat: incident.latitude, lng: incident.longitude},
+                    map : map,
+                    title : 'Incident Type:' + incident.description,
+                    icon : icon
+                });
+            }
+
         let infoWindow = new google.maps.InfoWindow({
         content : '<p>Marker Location:' + marker.getPosition() + '</p>'
-    });
+            });
+        }
 
         console.log(incident);
         window.incident = incident;
@@ -92,9 +110,7 @@ function getPoints(map) {
                 '<p><b>Police Record Number: </b>' + incident.rec_number + '</p>' +
               '</div>');
         bindInfoWindow(marker, map, infoWindow, html);
-        }
-
-    });
+        });
 }
     
 

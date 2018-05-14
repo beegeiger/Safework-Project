@@ -67,6 +67,7 @@ def get_points():
             "date": inc.date,
             "time": inc.time,
             "description": inc.description,
+            "source_id": inc.source_id,
             "rec_number": inc.police_rec_num}
     return jsonify(incidents)
 
