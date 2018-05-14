@@ -1,0 +1,5 @@
+cd src
+cd geiger
+cd Geiger-HB-Project/
+source env/bin/activate
+python server.py
