@@ -11,11 +11,13 @@ import urllib
 from datetime import datetime
 from server import app
 import string
+import os
+from geopy import geocoders
 
 #######################################################
-with app.app_context():
-	db.drop_all()
-	db.create_all()
+# with app.app_context():
+# 	db.drop_all()
+# 	db.create_all()
 
 def fill_basics():
 	with app.app_context():
@@ -35,7 +37,13 @@ def fill_basics():
 		db.session.add(source)
 		db.session.add(source4)
 		db.session.commit()
-fill_basics()
+# fill_basics()
+
+#Used Syntax from https://gis.stackexchange.com/questions/22108/how-to-geocode-300-000-addresses-on-the-fly
+def geocode(address):
+    g = geocoders.GoogleV3()
+    place, (lat, lng) = g.geocode(address)
+    return [lat, lng]
 
 def add_incident_data(source_nums):
 	"""Takes a list of source_ids to collect data from"""
@@ -51,17 +59,17 @@ def add_incident_data(source_nums):
 					inc = []
 					for item in incident:
 						inc += [item.translate(None, string.punctuation)]
-					print inc
-					address = ""
-					for dig in inc[5]:
-						if dig == "/":
-							address += "&"
-						else:
-							address += dig
-					address += ", Oakland, CA"
-					print address
 					if "PROST" in inc[3].upper():
-						incident = Incident(police_dept_id=3, source_id=4, inc_type="API", address=address, city="Oakland", state="CA", date=inc[1], year=inc[1][:4], time=inc[1][11:16], description=inc[3], police_rec_num=inc[2])
+						address = ""
+						for dig in inc[5]:
+							if dig == "/":
+								address += "&"
+							else:
+								address += dig
+						address += ", Oakland, CA"
+						loc = geocode(address)
+						print loc
+						incident = Incident(police_dept_id=3, source_id=4, inc_type="API", address=address, latitude=loc[0], longitude=loc[1], city="Oakland", state="CA", date=inc[1], year=inc[1][:4], time=inc[1][11:16], description=inc[3], police_rec_num=inc[2])
 						db.session.add(incident)
 						db.session.commit()
 			for row in incident_info:

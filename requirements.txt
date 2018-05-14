@@ -7,3 +7,4 @@ SQLAlchemy-ImageAttach
 flask-fixtures==0.3.6
 requests
 WTForms
+geopy
