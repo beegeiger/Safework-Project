@@ -28,13 +28,13 @@ def fill_basics():
 		db.session.add(police2)
 		db.session.add(police3)
 		db.session.commit()
-		source2 = Source(source_id=3, s_name="DataSF", police_dept_id=2, s_description="San Franciso Police API", url="https://data.sfgov.org/resource/cuks-n6tp.json", s_type="gov api")
-		source3 = Source(source_id=2, s_name="DataSF", police_dept_id=2, s_description="San Franciso Police API", url="https://data.sfgov.org/resource/PdId.json", s_type="gov api")
+		source2 = Source(source_id=3, s_name="DataSF", police_dept_id=2, s_description="San Franciso Police API", url="https://data.sfgov.org/resource/cuks-n6tp.json?$limit=50000", s_type="gov api")
+		# source3 = Source(source_id=2, s_name="DataSF", police_dept_id=2, s_description="San Franciso Police API", url="https://data.sfgov.org/resource/PdId.json", s_type="gov api")
 		source = Source(source_id=1, s_name="User_report")
 		source4 = Source(source_id=4, s_name="oaklandnet_90_days", police_dept_id=3, s_description="Oakland Police API Last 90 Days", url="ftp://crimewatchdata.oaklandnet.com/crimePublicData.csv", s_type="gov api")
 		# source5 = Source(source_id=5, s_name="oaklandnet_2015", police_dept_id=3, s_description="Oakland Police API 2015", url="https://data.oaklandnet.com/resource/b6ww-9zsp.json", s_type="gov api")
 		db.session.add(source2)
-		db.session.add(source3)
+		# db.session.add(source3)
 		db.session.add(source)
 		db.session.add(source4)
 		db.session.commit()
@@ -46,17 +46,22 @@ def geocode(address):
     place, (lat, lng) = g.geocode(address)
     return [lat, lng]
 
+parameters = [{"category": "PROSTITUTION"}]
+# , "dayofweek": "Monday"}, {"category": "PROSTITUTION", "dayofweek": "Tuesday"}, {"category": "PROSTITUTION", "dayofweek": "Wednesday"}, {"category": "PROSTITUTION", "dayofweek": "Thursday"}, {"category": "PROSTITUTION", "dayofweek": "Friday"}, {"category": "PROSTITUTION", "dayofweek": "Saturday"}, {"category": "PROSTITUTION", "dayofweek": "Sunday"}]
+
+
 def add_incident_data(source_nums):
 	"""Takes a list of source_ids to collect data from"""
 	with app.app_context():
 		for s_num in source_nums:
 			sour = Source.query.filter_by(source_id=s_num).one()
+			sf_num = 0	
 			if s_num == 2 or s_num == 3:
-				incident_info = requests.get(sour.url, params = {"category": "PROSTITUTION"}).json()
-				sf_num = 0
+				incident_info = requests.get(sour.url, params={"category": "PROSTITUTION"}).json()
 				for row in incident_info:
 					sf_num += 1
 					print "sf # " + str(sf_num)
+					print row
 					year = int(row["date"][0:4])
 					if "PROST" in row["descript"].upper() and Incident.query.filter(Incident.police_rec_num == row["incidntnum"]).all() == []:
 						if year >= 2008:	
@@ -68,7 +73,7 @@ def add_incident_data(source_nums):
 								db.session.add(incident)
 							 	print incident.latitude, incident.longitude
 							 	print type(incident.latitude), type(incident.longitude)
-							db.session.commit()
+						db.session.commit()
 			elif s_num == 4:
 				o_num = 0
 				for row in open("seed_data/oaklandcoords.csv"):
@@ -90,9 +95,9 @@ def add_incident_data(source_nums):
 					print incident.latitude, incident.longitude
 					print type(incident.latitude), type(incident.longitude)
 					db.session.commit()
-			
+				
 
-add_incident_data([2, 3, 4])
+add_incident_data([3, 4])
 
 
 

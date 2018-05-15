@@ -155,30 +155,43 @@ class Source(db.Model):
 
 ################################################################################
 
-# def example_data():
-# 	"""Example data to be used for testing."""
-# 	#Deleting tables in case this file has been run before
-# 	Forum.query.delete()
-# 	Post.delete()
-# 	User.query.delete()
-# 	Incident.query.delete()
-# 	Police.query.delete()
-# 	Sources.query.delete()
+def example_data():
+	"""Example data to be used for testing."""
+	#Deleting tables in case this file has been run before
+	Forum.query.delete()
+	Post.delete()
+	User.query.delete()
+	Incident.query.delete()
+	Police.query.delete()
+	Sources.query.delete()
 
-# 	#Example Forum Objects
-# 	f1 = Forum(forum_id=1, forum_name="Cam Modeling", forum_type="main", forum_desc="Central Forum for all Cam Models to discuss Strategies.", created_by="dev")
-# 	f2 = Forum(forum_id=2, forum_name="Pro-Domination", forum_type="main", forum_desc="Central Forum for all Pro Domme's to discuss Strategies.", created_by="dev")
-# 	f3 = Forum(forum_id=3, forum_name="Escorting", forum_type="main", forum_desc="Central Forum for all escorts to discuss Strategies.", created_by="dev")
+	#Example Forum Objects
+	f1 = Forum(forum_id=1, forum_name="Cam Modeling", forum_type="main", forum_desc="Central Forum for all Cam Models to discuss Strategies.", created_by="dev")
+	f2 = Forum(forum_id=2, forum_name="Pro-Domination", forum_type="main", forum_desc="Central Forum for all Pro Domme's to discuss Strategies.", created_by="dev")
+	f3 = Forum(forum_id=3, forum_name="Escorting", forum_type="main", forum_desc="Central Forum for all escorts to discuss Strategies.", created_by="dev")
 
-# 	#Example Posts
-# 	p1 = Post(post_id=1, user_id=1, forum_id=1, username="LaceyKittey", content="Testing 123", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=4, dislike_num=10)
-# 	p2
-# 	p3
+	#Example Users
+	u1 = User(user_id=1, password="123", username="LaceyKittey", fname="Lacey", lname="Kittey", email="lkitty@.com", description="Former Escort", created_at=datetime.now(), edited_at=datetime.now())
+	u2 = User(user_id=2, password="1234", username="HappyDoc", fname="Happy", lname="Doc", email="HDoc@.com", description="Former Cam Model", created_at=datetime.now(), edited_at=datetime.now())
+	
+	#Example Posts
+	p1 = Post(post_id=1, user_id=1, forum_id=1, username="LaceyKittey", content="Testing 123", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=4, dislike_num=10)
+	p2 = Post(post_id=2, user_id=1, forum_id=3, username="HappyDoc", content="PlumpyDopey", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=30, dislike_num=1)
 
+	#Example Police
+	po1 = Police(police_dept_id=1, name="San Franciso Police Department", city="San Francisco", state="CA")
+	po2 = Police(police_dept_id=2, name="Oakland Police Department", city="Oakland", state="CA")
 
+	#Example Sources
+	s1 = Source(source_id=2, s_name="DataSF", police_dept_id=1, s_description="San Franciso Police API", url="https://data.sfgov.org/resource/cuks-n6tp.json?$limit=50000", s_type="gov api")
+	s2 = Source(source_id=1, s_name="DataSF", police_dept_id=1, s_description="San Franciso Police API", url="https://data.sfgov.org/resource/PdId.json", s_type="gov api")
 
-# 	db.session.add_all([f1, f2, f3])
-#     db.session.commit()
+	#Example Incidents
+	i1 = Incident(police_dept_id=1, source_id=1, inc_type="API", latitude="33.23425", longitude="-122.124141", address="Address", city="San Francisco", state="CA", date=datetime.now(), year=2018, time="3:00", description="Prost", police_rec_num="asasdasd")
+	i1 = Incident(police_dept_id=1, source_id=1, inc_type="API", latitude="33.21235", longitude="-122.123141", address="Address", city="San Francisco", state="CA", date=datetime.now(), year=2018, time="3:00", description="Prostitution Solicitation", police_rec_num="123123")
+	
+	db.session.add_all([f1, f2, f3, u1, u2, p1, p2, po1, po2, s1, s2, i1, i2])
+    db.session.commit()
 
 
 
