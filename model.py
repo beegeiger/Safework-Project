@@ -1,6 +1,7 @@
 """Models and database functions for SafeWork App"""
 from flask import jsonify, Flask
 import datetime
+from datetime import datetime
 import json
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, ForeignKey, Integer, Unicode
@@ -56,11 +57,12 @@ class Post(db.Model):
 	edit_datetime = db.Column(db.DateTime, nullable=True)
 	like_num = db.Column(db.Integer, default=0)
 	dislike_num = db.Column(db.Integer, default=0)
+	date_posted = db.Column(db.String(64), nullable=True)
 
 	def __repr__(self):
     		"""Provide helpful representation when printed."""
-		return "<username={} post_id={} user_id={} forum_id={} parent_post_id={} content={} p_datetime={} edit_datetime={} like_num={} dislike_num={}>".format(
-        	self.username, self.post_id, self.user_id, self.forum_id, self.parent_post_id, self.content, self.p_datetime, self.edit_datetime, self.like_num, self.dislike_num)
+		return "<username={} post_id={} user_id={} forum_id={} parent_post_id={} content={} p_datetime={} edit_datetime={} like_num={} dislike_num={} date_posted={}>".format(
+        	self.username, self.post_id, self.user_id, self.forum_id, self.parent_post_id, self.content, self.p_datetime, self.edit_datetime, self.like_num, self.dislike_num, self.date_posted)
 
 
 class User(db.Model):
@@ -153,17 +155,32 @@ class Source(db.Model):
 		return "<source_id={} s_name={} s_description={} url={} s_type={}>".format(
         	self.source_id, self.s_name, self.s_description, self.url, self.s_type)
 
+class Like(db.Model):
+	"""Discussion Forum in SafeWork App"""
+
+	__tablename__ = "likes"
+
+	like_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	post_id = db.Column(db.Integer, db.ForeignKey('posts.post_id'))
+	like_dislike = db.Column(db.string(24))
+
+	def __repr__(self):
+    		"""Provide helpful representation when printed."""
+		return "<like_id={} user_id={} post_id={} like_dislike={}>".format(
+        	self.like_id, self.user_id, self.post_id, self.like_dislike)
+
 ################################################################################
 
 def example_data():
 	"""Example data to be used for testing."""
 	#Deleting tables in case this file has been run before
 	Forum.query.delete()
-	Post.delete()
+	Post.query.delete()
 	User.query.delete()
 	Incident.query.delete()
 	Police.query.delete()
-	Sources.query.delete()
+	Source.query.delete()
 
 	#Example Forum Objects
 	f1 = Forum(forum_id=1, forum_name="Cam Modeling", forum_type="main", forum_desc="Central Forum for all Cam Models to discuss Strategies.", created_by="dev")
@@ -188,20 +205,25 @@ def example_data():
 
 	#Example Incidents
 	i1 = Incident(police_dept_id=1, source_id=1, inc_type="API", latitude="33.23425", longitude="-122.124141", address="Address", city="San Francisco", state="CA", date=datetime.now(), year=2018, time="3:00", description="Prost", police_rec_num="asasdasd")
-	i1 = Incident(police_dept_id=1, source_id=1, inc_type="API", latitude="33.21235", longitude="-122.123141", address="Address", city="San Francisco", state="CA", date=datetime.now(), year=2018, time="3:00", description="Prostitution Solicitation", police_rec_num="123123")
+	i2 = Incident(police_dept_id=1, source_id=1, inc_type="API", latitude="33.21235", longitude="-122.123141", address="Address", city="San Francisco", state="CA", date=datetime.now(), year=2018, time="3:00", description="Prostitution Solicitation", police_rec_num="123123")
 	
-	db.session.add_all([f1, f2, f3, u1, u2, p1, p2, po1, po2, s1, s2, i1, i2])
-    db.session.commit()
-
+	db.session.add_all([f1, f2, f3, u1, u2])
+	db.session.commit()
+	db.session.add_all([p1, p2, po1, po2])
+	db.session.commit()
+	db.session.add_all([s1, s2])
+	db.session.commit()
+	db.session.add_all([i1, i2])
+	db.session.commit()
 
 
 ##############################################################################
 # Helper functions
 
-def connect_to_db(app):
+def connect_to_db(app, db_uri='postgresql:///safework'):
     """Connect the database to our Flask app."""
     # Configure to use our PstgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///safework'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     db.app = app
     db.init_app(app)

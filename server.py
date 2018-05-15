@@ -2,7 +2,7 @@
 import json
 from jinja2 import StrictUndefined
 import datetime
-
+from datetime import datetime
 from flask import (Flask, render_template, redirect, request, flash,
                    session, copy_current_request_context, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
@@ -132,13 +132,13 @@ def logout():
     flash('Byyyyyye. You have been succesfully logged out!')
     return redirect ("/login")
 
-# with app.app_context():
-#     cam = Forum.query.filter_by(forum_id=1).one()
-#     dom = Forum.query.filter_by(forum_id=2).one()
-#     escort = Forum.query.filter_by(forum_id=3).one()
-#     porn = Forum.query.filter_by(forum_id=4).one()
-#     dance = Forum.query.filter_by(forum_id=5).one()
-#     phone = Forum.query.filter_by(forum_id=6).one()
+with app.app_context():
+    cam = Forum.query.filter_by(forum_id=1).one()
+    dom = Forum.query.filter_by(forum_id=2).one()
+    escort = Forum.query.filter_by(forum_id=3).one()
+    porn = Forum.query.filter_by(forum_id=4).one()
+    dance = Forum.query.filter_by(forum_id=5).one()
+    phone = Forum.query.filter_by(forum_id=6).one()
 
 
 
@@ -166,7 +166,7 @@ def add_post(forum_id):
     post_content = request.form['content']
     user = User.query.filter_by(email = session['current_user']).one()
     
-    new_post = Post(user_id=user.user_id, username=user.username, forum_id=forum_id, content=post_content, p_datetime=datetime.datetime.now())
+    new_post = Post(user_id=user.user_id, username=user.username, forum_id=forum_id, content=post_content, p_datetime=datetime.now(), date_posted=(str(datetime.now())[:16]))
     db.session.add(new_post)
     db.session.commit()
 
