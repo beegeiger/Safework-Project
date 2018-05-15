@@ -17,6 +17,7 @@ import os
 from geopy import geocoders
 import csv
 from geopy.geocoders import GoogleV3
+from itertools import izip
 ###################################################
 # def geocode(source_num):
 # 	if source_num == 4:
@@ -74,4 +75,21 @@ def make_address_file():
 		writer = csv.writer(fout)
 		writer.writerows(dout)
 
-make_address_file()
+# make_address_file()
+
+def combine_data(input_file1, input_file2, output_file):
+	f1_index = 0
+	f1 = []
+	f2_index = 0
+	f2 = []
+	for row in open(input_file1):
+		f1.append(row)
+	for row in open(input_file2):
+		f2.append(row)
+	with open(output_file, 'wb') as fout:
+		for num in range(len(f1)):
+			fout.write(str(f1[num] + "abcdef" + f2[num]))
+
+
+
+combine_data("raw_data/OaklandProst5_14.csv", "Oakland.csv", "oaklandcoords.csv")

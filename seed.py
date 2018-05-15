@@ -50,43 +50,48 @@ def add_incident_data(source_nums):
 	with app.app_context():
 		for s_num in source_nums:
 			sour = Source.query.filter_by(source_id=s_num).one()
-			# if s_num == 2 or s_num == 3:
-			# 	incident_info = requests.get(sour.url, params = {"category": "PROSTITUTION"}).json()
-			# 	for row in incident_info:
-			# 		year = int(row["date"][0:4])
-			# 		if "PROST" in row["descript"].upper() and Incident.query.filter(Incident.police_rec_num == row["incidntnum"]).all() == []:
-			# 			if year >= 2008:	
-			# 				if s_num == 3:
-			# 					incident = Incident(police_dept_id=2, source_id=3, inc_type="API", latitude=row["location"]["coordinates"][1], longitude=row["location"]["coordinates"][0], address=row["address"], city="San Francisco", state="CA", date=row["date"], year=year, time=row["time"], description=row["descript"], police_rec_num=row["incidntnum"])
-			# 					db.session.add(incident)
-			# 				elif s_num == 2:
-			# 					incident = Incident(police_dept_id=2, source_id=2, inc_type="API", latitude=row["location"]["latitude"], longitude=row["location"]["longitude"], address=row["address"], city="San Francisco", state="CA", date=row["date"], year=year, time=row["time"], description=row["descript"], police_rec_num=row["incidntnum"])
-			# 					db.session.add(incident)
-			# 				# print incident.police_rec_num
-			# 				db.session.commit()
+			if s_num == 2 or s_num == 3:
+				incident_info = requests.get(sour.url, params = {"category": "PROSTITUTION"}).json()
+				sf_num = 0
+				for row in incident_info:
+					sf_num += 1
+					print "sf # " + str(sf_num)
+					year = int(row["date"][0:4])
+					if "PROST" in row["descript"].upper() and Incident.query.filter(Incident.police_rec_num == row["incidntnum"]).all() == []:
+						if year >= 2008:	
+							if s_num == 3:
+								incident = Incident(police_dept_id=2, source_id=3, inc_type="API", latitude=row["location"]["coordinates"][1], longitude=row["location"]["coordinates"][0], address=row["address"], city="San Francisco", state="CA", date=row["date"], year=year, time=row["time"], description=row["descript"], police_rec_num=row["incidntnum"])
+								db.session.add(incident)
+							elif s_num == 2:
+								incident = Incident(police_dept_id=2, source_id=2, inc_type="API", latitude=row["location"]["latitude"], longitude=row["location"]["longitude"], address=row["address"], city="San Francisco", state="CA", date=row["date"], year=year, time=row["time"], description=row["descript"], police_rec_num=row["incidntnum"])
+								db.session.add(incident)
+							 	print incident.latitude, incident.longitude
+							 	print type(incident.latitude), type(incident.longitude)
+							db.session.commit()
 			elif s_num == 4:
-				raw_data = urllib.urlretrieve("ftp://crimewatchdata.oaklandnet.com/crimePublicData.csv", "oakland_data.csv")
-				for row in open("seed_data/oakland_data.csv"):
-					incident = row.split(",")
+				o_num = 0
+				for row in open("seed_data/oaklandcoords.csv"):
+					o_num += 1
+					print "Oakland # " + str(o_num)
+					incident_row = row.split(",")
+					# print incident[-2], incident[-1]
 					inc = []
-					for item in incident:
-						inc += [item.translate(None, string.punctuation)]
-					if "PROST" in inc[3].upper():
-						address = ""
-						for dig in inc[5]:
-							if dig == "/":
-								address += "&"
-							else:
-								address += dig
-						address += ", Oakland, CA"
-						loc = geocode(address)
-						print loc
-						incident = Incident(police_dept_id=3, source_id=4, inc_type="API", address=address, latitude=loc[0], longitude=loc[1], city="Oakland", state="CA", date=inc[1], year=inc[1][:4], time=inc[1][11:16], description=inc[3], police_rec_num=inc[2])
-						db.session.add(incident)
-						db.session.commit()
+					item_num = 0
+					for item in incident_row:
+						item_num += 1
+						if item_num <=10:
+							inc += [item.translate(None, string.punctuation)]
+						else:
+							inc += item
+					address = str(inc[5])
+					incident = Incident(police_dept_id=3, source_id=4, inc_type="API", address=address, latitude=unicode(incident_row[-2].strip(), "utf-8"), longitude=unicode(incident_row[-1].strip(), "utf-8"), city="Oakland", state="CA", date=inc[1], year=inc[1][:4], time=inc[1][11:16], description=inc[3], police_rec_num=inc[2])
+					db.session.add(incident)
+					print incident.latitude, incident.longitude
+					print type(incident.latitude), type(incident.longitude)
+					db.session.commit()
 			
 
-add_incident_data([2,3])
+add_incident_data([2, 3, 4])
 
 
 

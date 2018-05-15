@@ -53,33 +53,21 @@ def get_map():
 def get_points():
     """Gets the incident/marker points as JSON to be plotted on the map."""
     incidents = {}
-    for inc in Incident.query.all():
-        if inc.source_id == 4:
-            incidents[inc.police_rec_num] = {
-                "address": inc.address,
-                "city": inc.city,
-                "state": inc.state,
-                "year": inc.year,
-                "date": inc.date,
-                "time": inc.time,
-                "description": inc.description,
-                "source_id": inc.source_id,
-                "rec_number": inc.police_rec_num}
-        else:    
-            lat = float(inc.latitude)
-            lng = float(inc.longitude)
-            incidents[inc.police_rec_num] = {
-                "latitude": lat,
-                "longitude": lng,
-                "address": inc.address,
-                "city": inc.city,
-                "state": inc.state,
-                "year": inc.year,
-                "date": inc.date,
-                "time": inc.time,
-                "description": inc.description,
-                "source_id": inc.source_id,
-                "rec_number": inc.police_rec_num}
+    for inc in Incident.query.all():   
+        lat = float(inc.latitude)
+        lng = float(inc.longitude)
+        incidents[inc.police_rec_num] = {
+            "latitude": lat,
+            "longitude": lng,
+            "address": inc.address,
+            "city": inc.city,
+            "state": inc.state,
+            "year": inc.year,
+            "date": inc.date,
+            "time": inc.time,
+            "description": inc.description,
+            "source_id": inc.source_id,
+            "rec_number": inc.police_rec_num}
     return jsonify(incidents)
 
 
@@ -144,13 +132,13 @@ def logout():
     flash('Byyyyyye. You have been succesfully logged out!')
     return redirect ("/login")
 
-with app.app_context():
-    cam = Forum.query.filter_by(forum_id=1).one()
-    dom = Forum.query.filter_by(forum_id=2).one()
-    escort = Forum.query.filter_by(forum_id=3).one()
-    porn = Forum.query.filter_by(forum_id=4).one()
-    dance = Forum.query.filter_by(forum_id=5).one()
-    phone = Forum.query.filter_by(forum_id=6).one()
+# with app.app_context():
+#     cam = Forum.query.filter_by(forum_id=1).one()
+#     dom = Forum.query.filter_by(forum_id=2).one()
+#     escort = Forum.query.filter_by(forum_id=3).one()
+#     porn = Forum.query.filter_by(forum_id=4).one()
+#     dance = Forum.query.filter_by(forum_id=5).one()
+#     phone = Forum.query.filter_by(forum_id=6).one()
 
 
 

@@ -19,6 +19,7 @@ let image = '/static/img/Marker1.png'
 
 function getPoints(map) {
     $.get('/incidents.json', function(incidents) {
+        // debugger;
     let incident, marker, html;
     for (let key in incidents) {
         incident = incidents[key];
@@ -63,41 +64,23 @@ function getPoints(map) {
         url: image,
         scaledSize: new google.maps.Size(50, 50),
     }   
+        console.log(incident.latitude, incident.longitude)
         incident.latitude = parseFloat(incident.latitude);
         incident.longitude = parseFloat(incident.longitude);
-        console.log(incident.address)
-        if (incident.source_id == "4") {
-            // console.log(incident);
-            let inci = new google.maps.Geocoder();
-            inci.geocode({'address': incident.address},
-                function(results, status) {
-                    if (status === google.maps.GeocoderStatus.OK) {
-                        let marker = new google.maps.Marker({
-                            map: map,
-                            position: results[0].geometry.location
-                        });
-                    } else {
-                        alert('Geocode was not successful for the following reason: ' + status);
-                    }
-            });
-        }   
-            else {
-                marker = new google.maps.Marker({
-                    // position: new google.maps.LatLng(incident.latitude, incident.longitude),
-                    // position : {lat: incident.latitiude, lng: incident.longitude},
-                    position : {lat: incident.latitude, lng: incident.longitude},
-                    map : map,
-                    title : 'Incident Type:' + incident.description,
-                    icon : icon
-                });
-            }
-
+        marker = new google.maps.Marker({
+            // position: new google.maps.LatLng(incident.latitude, incident.longitude),
+            // position : {lat: incident.latitiude, lng: incident.longitude},
+            position : {lat: incident.latitude, lng: incident.longitude},
+            map : map,
+            title : 'Incident Type:' + incident.description,
+            icon : icon
+        });
         let infoWindow = new google.maps.InfoWindow({
         content : '<p>Marker Location:' + marker.getPosition() + '</p>'
-            });
-        
+    });
 
-        
+        console.log(incident);
+        console.log(incident.latitude, incident.longitude)
         window.incident = incident;
 
         html = (
@@ -110,7 +93,7 @@ function getPoints(map) {
                 '<p><b>Time: </b>' + incident.time + '</p>' +
                 '<p><b>Police Record Number: </b>' + incident.rec_number + '</p>' +
               '</div>');
-        // bindInfoWindow(marker, map, infoWindow, html);
+        bindInfoWindow(marker, map, infoWindow, html);
         };
     });
 }
