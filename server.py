@@ -117,13 +117,13 @@ def logout():
     flash('Byyyyyye. You have been succesfully logged out!')
     return redirect ("/login")
 
-# with app.app_context():
-#     cam = Forum.query.filter_by(forum_id=1).one()
-#     dom = Forum.query.filter_by(forum_id=2).one()
-#     escort = Forum.query.filter_by(forum_id=3).one()
-#     porn = Forum.query.filter_by(forum_id=4).one()
-#     dance = Forum.query.filter_by(forum_id=5).one()
-#     phone = Forum.query.filter_by(forum_id=6).one()
+with app.app_context():
+    cam = Forum.query.filter_by(forum_id=1).one()
+    dom = Forum.query.filter_by(forum_id=2).one()
+    escort = Forum.query.filter_by(forum_id=3).one()
+    porn = Forum.query.filter_by(forum_id=4).one()
+    dance = Forum.query.filter_by(forum_id=5).one()
+    phone = Forum.query.filter_by(forum_id=6).one()
 
 
 
@@ -166,21 +166,35 @@ def add_like(post_id):
     user_id = User.query.filter_by(email=session['current_user']).one().user_id
     forum_id = Post.query.filter_by(post_id=post_id).one().forum_id
     like_query = Like.query.filter(Like.post_id==post_id, Like.user_id==user_id).all()
+    post_query = db.session.query(Post).filter_by(post_id=post_id).one()
     if like_query == []:
         new_like = Like(user_id=user_id, post_id=post_id, like_dislike="like")
+        db.session.query(Post).filter_by(post_id=post_id).update({"like_num": (post_query.like_num + 1)})
         db.session.add(new_like)
         db.session.commit()
-    else:
-        update_like = db.session.query(Like).filter(Like.post_id==post_id, Like.user_id==user_id).update()
-        user = db.session.query(User).filter(User.email == session['current_user'], User.password == pw_input).update({"user_id": user_id, "post_id": post_id, like_dislike="like"})
+    elif like_query.like_dislike == "dislike":
+        db.session.query(Like).filter(Like.post_id==post_id, Like.user_id==user_id).update({"user_id": user_id, "post_id": post_id, "like_dislike": "like"})
+        db.session.query(Post).filter_by(post_id=post_id).update({"like_num": (post_query.like_num + 1), "dislike_num": (post_query.dislike_num - 1)})
         db.session.commit()
-    return redirect("/forums/<forum_id>")
+    return redirect("/forums/{}".format(forum_id))
 
 
 @app.route("/forums/dislike/<post_id>", methods=["GET"])
 def add_dislike(post_id):
-    forum_id = Post.query.filter_by(post_id=post_id).one()
-    return redirect("/forums/<forum_id>")
+    user_id = User.query.filter_by(email=session['current_user']).one().user_id
+    forum_id = Post.query.filter_by(post_id=post_id).one().forum_id
+    like_query = Like.query.filter(Like.post_id==post_id, Like.user_id==user_id).all()
+    post_query = db.session.query(Post).filter_by(post_id=post_id).one()
+    if like_query == []:
+        new_dislike = Like(user_id=user_id, post_id=post_id, like_dislike="dislike")
+        db.session.query(Post).filter_by(post_id=post_id).update({"dislike_num": (post_query.dislike_num + 1)})
+        db.session.add(new_like)
+        db.session.commit()
+    elif like_query.like_dislike == "like":
+        db.session.query(Like).filter(Like.post_id==post_id, Like.user_id==user_id).update({"user_id": user_id, "post_id": post_id, "like_dislike": "dislike"})
+        db.session.query(Post).filter_by(post_id=post_id).update({"dislike_num": (post_query.dislike_num + 1), "like_num": (post_query.like_num - 1)})
+        db.session.commit()
+    return redirect("/forums/{}".format(forum_id))
 
 
 
@@ -252,7 +266,7 @@ def edit_profile():
     about_me = request.form['about_me']
 
     if User.query.filter(User.email == email_input, User.password == pw_input).all() != []:
-        user = db.session.query(User).filter(User.email == session['current_user'], User.password == pw_input).update({'fname': fname, 'lname': lname, 'email': email_input, 'password': new_password, 'username': username, 'description': about_me})
+        db.session.query(User).filter(User.email == session['current_user'], User.password == pw_input).update({'fname': fname, 'lname': lname, 'email': email_input, 'password': new_password, 'username': username, 'description': about_me})
         db.session.commit()
         flash('Your Profile was Updated!')
         return redirect("/profile")
@@ -265,3 +279,4 @@ def edit_profile():
 if __name__ == "__main__":
     connect_to_db(app, 'postgresql:///safework')
     print "Connected to DB."
+    app.run(debug=True)
