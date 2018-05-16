@@ -22,21 +22,6 @@ app.secret_key = "ABC"
 # error.
 app.jinja_env.undefined = StrictUndefined
 
-def connect_to_db(app):
-    """Connect the database to our Flask app."""
-
-    # Configure to use our PstgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///safework'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    db.app = app
-    db.init_app(app)
-connect_to_db(app)
-
-if __name__ == "__main__":
-
-    connect_to_db(app)
-    print "Connected to DB."
-
 ####################################################################
 
 @app.route("/")
@@ -132,13 +117,13 @@ def logout():
     flash('Byyyyyye. You have been succesfully logged out!')
     return redirect ("/login")
 
-with app.app_context():
-    cam = Forum.query.filter_by(forum_id=1).one()
-    dom = Forum.query.filter_by(forum_id=2).one()
-    escort = Forum.query.filter_by(forum_id=3).one()
-    porn = Forum.query.filter_by(forum_id=4).one()
-    dance = Forum.query.filter_by(forum_id=5).one()
-    phone = Forum.query.filter_by(forum_id=6).one()
+# with app.app_context():
+#     cam = Forum.query.filter_by(forum_id=1).one()
+#     dom = Forum.query.filter_by(forum_id=2).one()
+#     escort = Forum.query.filter_by(forum_id=3).one()
+#     porn = Forum.query.filter_by(forum_id=4).one()
+#     dance = Forum.query.filter_by(forum_id=5).one()
+#     phone = Forum.query.filter_by(forum_id=6).one()
 
 
 
@@ -174,6 +159,28 @@ def add_post(forum_id):
 
     forum = Forum.query.filter_by(forum_id=forum_id).one()
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts)
+
+
+@app.route("/forums/like/<post_id>", methods=["GET"])
+def add_like(post_id):
+    user_id = User.query.filter_by(email=session['current_user']).one().user_id
+    forum_id = Post.query.filter_by(post_id=post_id).one().forum_id
+    like_query = Like.query.filter(Like.post_id==post_id, Like.user_id==user_id).all()
+    if like_query == []:
+        new_like = Like(user_id=user_id, post_id=post_id, like_dislike="like")
+        db.session.add(new_like)
+        db.session.commit()
+    else:
+        update_like = db.session.query(Like).filter(Like.post_id==post_id, Like.user_id==user_id).update()
+        user = db.session.query(User).filter(User.email == session['current_user'], User.password == pw_input).update({"user_id": user_id, "post_id": post_id, like_dislike="like"})
+        db.session.commit()
+    return redirect("/forums/<forum_id>")
+
+
+@app.route("/forums/dislike/<post_id>", methods=["GET"])
+def add_dislike(post_id):
+    forum_id = Post.query.filter_by(post_id=post_id).one()
+    return redirect("/forums/<forum_id>")
 
 
 
@@ -253,6 +260,8 @@ def edit_profile():
         flash('Your e-mail or password was incorrect! Please try again or Register.')
         return render_template("login.html")
 
+#####################################################
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    connect_to_db(app, 'postgresql:///safework')
+    print "Connected to DB."

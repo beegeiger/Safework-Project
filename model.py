@@ -13,13 +13,6 @@ from sqlalchemy_imageattach.entity import Image, image_attachment
 # Required to use Flask sessions and the debug toolbar
 
 db = SQLAlchemy()
-# Normally, if you use an undefined variable in Jinja2, it fails
-# silently. This is horrible. Fix this so that, instead, it raises an
-# error.
-app = Flask(__name__)
-
-# Required to use Flask sessions and the debug toolbar
-app.secret_key = "ABC"
 
 
 ################################################
@@ -163,7 +156,7 @@ class Like(db.Model):
 	like_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 	post_id = db.Column(db.Integer, db.ForeignKey('posts.post_id'))
-	like_dislike = db.Column(db.string(24))
+	like_dislike = db.Column(db.String(24))
 
 	def __repr__(self):
     		"""Provide helpful representation when printed."""
@@ -231,7 +224,7 @@ def connect_to_db(app, db_uri='postgresql:///safework'):
 if __name__ == "__main__":
 
 	from server import app
-	connect_to_db(app)
+	connect_to_db(app, 'postgresql:///safework')
 	print "Connected to DB."
 
 

@@ -13,7 +13,8 @@
 {% for post in posts %}
 	<div>
 		<b>{{ post.username }}:</b> {{ post.content }}
-		<div align="left">Like({{ post.like_num}})/Dislike({{ post.dislike_num }}) </div><div align="right">Posted: {{ post.date_posted }}</div>
+		<div align="left">Like({{ post.like_num}})/Dislike({{ post.dislike_num }}) </div>
+		<div align="right">Posted: {{ post.date_posted }}</div>
 	</div>	
 {% endfor %}
 

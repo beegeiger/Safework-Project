@@ -14,6 +14,7 @@ import string
 import os
 from geopy import geocoders
 
+connect_to_db(app, 'postgresql:///safework')
 #######################################################
 with app.app_context():
  	db.drop_all()
@@ -133,17 +134,9 @@ add_starter_forums()
 
 ##############################################
 
-def connect_to_db(app):
-    """Connect the database to our Flask app."""
-    # Configure to use our PstgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///safework'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    db.app = app
-    db.init_app(app)
 
 if __name__ == "__main__":
 
-    connect_to_db(app)
-    
-    print "Connected to DB."
+	connect_to_db(app, 'postgresql:///safework')
+	print "Connected to DB."
 

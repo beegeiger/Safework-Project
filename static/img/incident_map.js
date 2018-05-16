@@ -64,7 +64,7 @@ function getPoints(map) {
         url: image,
         scaledSize: new google.maps.Size(50, 50),
     }   
-        console.log(incident.latitude, incident.longitude)
+        // console.log(incident.latitude, incident.longitude)
         incident.latitude = parseFloat(incident.latitude);
         incident.longitude = parseFloat(incident.longitude);
         marker = new google.maps.Marker({
@@ -79,8 +79,8 @@ function getPoints(map) {
         content : '<p>Marker Location:' + marker.getPosition() + '</p>'
     });
 
-        console.log(incident);
-        console.log(incident.latitude, incident.longitude)
+        // console.log(incident);
+        // console.log(incident.latitude, incident.longitude)
         window.incident = incident;
 
         html = (
