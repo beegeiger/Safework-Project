@@ -9,6 +9,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy_imageattach.entity import Image, image_attachment
 
+from server import app
 
 # Required to use Flask sessions and the debug toolbar
 
@@ -223,7 +224,7 @@ def connect_to_db(app, db_uri='postgresql:///safework'):
 
 if __name__ == "__main__":
 
-	from server import app
+	
 	connect_to_db(app, 'postgresql:///safework')
 	print "Connected to DB."
 

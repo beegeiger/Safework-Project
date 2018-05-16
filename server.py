@@ -8,7 +8,7 @@ from flask import (Flask, render_template, redirect, request, flash,
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (update, desc)
-from model import Forum, Post, User, Incident, Police, Source, connect_to_db, db
+# from model import Forum, Post, User, Incident, Police, Source, connect_to_db, db
 import requests
 
 
@@ -117,13 +117,13 @@ def logout():
     flash('Byyyyyye. You have been succesfully logged out!')
     return redirect ("/login")
 
-with app.app_context():
-    cam = Forum.query.filter_by(forum_id=1).one()
-    dom = Forum.query.filter_by(forum_id=2).one()
-    escort = Forum.query.filter_by(forum_id=3).one()
-    porn = Forum.query.filter_by(forum_id=4).one()
-    dance = Forum.query.filter_by(forum_id=5).one()
-    phone = Forum.query.filter_by(forum_id=6).one()
+# with app.app_context():
+#     cam = Forum.query.filter_by(forum_id=1).one()
+#     dom = Forum.query.filter_by(forum_id=2).one()
+#     escort = Forum.query.filter_by(forum_id=3).one()
+#     porn = Forum.query.filter_by(forum_id=4).one()
+#     dance = Forum.query.filter_by(forum_id=5).one()
+#     phone = Forum.query.filter_by(forum_id=6).one()
 
 
 
