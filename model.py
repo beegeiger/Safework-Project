@@ -52,11 +52,12 @@ class Post(db.Model):
 	like_num = db.Column(db.Integer, default=0)
 	dislike_num = db.Column(db.Integer, default=0)
 	date_posted = db.Column(db.String(64), nullable=True)
+	flag_num = db.Column(db.Integer, default=0)
 
 	def __repr__(self):
     		"""Provide helpful representation when printed."""
-		return "<username={} post_id={} user_id={} forum_id={} parent_post_id={} content={} p_datetime={} edit_datetime={} like_num={} dislike_num={} date_posted={}>".format(
-        	self.username, self.post_id, self.user_id, self.forum_id, self.parent_post_id, self.content, self.p_datetime, self.edit_datetime, self.like_num, self.dislike_num, self.date_posted)
+		return "<username={} post_id={} user_id={} forum_id={} parent_post_id={} content={} p_datetime={} edit_datetime={} like_num={} dislike_num={} date_posted={} flag_num={}>".format(
+        	self.username, self.post_id, self.user_id, self.forum_id, self.parent_post_id, self.content, self.p_datetime, self.edit_datetime, self.like_num, self.dislike_num, self.date_posted, self.flag_num)
 
 
 class User(db.Model):
@@ -163,6 +164,22 @@ class Like(db.Model):
     		"""Provide helpful representation when printed."""
 		return "<like_id={} user_id={} post_id={} like_dislike={}>".format(
         	self.like_id, self.user_id, self.post_id, self.like_dislike)
+
+class Flag(db.Model):
+	"""Discussion Forum in SafeWork App"""
+
+	__tablename__ = "flags"
+
+	flag_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	post_id = db.Column(db.Integer, db.ForeignKey('posts.post_id'))
+	flag_type = db.Column(db.String(24))
+
+	def __repr__(self):
+    		"""Provide helpful representation when printed."""
+		return "<flag_id={} user_id={} post_id={} flag_type={}>".format(
+        	self.flag_id, self.user_id, self.post_id, self.flag_type)
+
 
 ################################################################################
 

@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Discussion Forums{% endblock %}
 {% block head %}
+<style>
+	div.post {outline-style: solid;}
+
+</style>
+
 <h2>Discussion Forums</h2>
  <a href="/forums/1">{{ cam.forum_name }}</a> &nbsp &nbsp
  <a href="/forums/2">{{ dom.forum_name }}</a> &nbsp &nbsp

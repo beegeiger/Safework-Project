@@ -150,6 +150,7 @@ def get_forum(forum_id):
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
+    
     posts = Post.query.filter_by(forum_id=forum_id).all()
 
     forum = Forum.query.filter_by(forum_id=forum_id).one()
@@ -169,9 +170,9 @@ def add_post(forum_id):
     user = User.query.filter_by(email = session['current_user']).one()
     
     new_post = Post(user_id=user.user_id, username=user.username, forum_id=forum_id, content=post_content, p_datetime=datetime.now(), date_posted=(str(datetime.now())[:16]))
-    db.session.add(new_post)
-    db.session.commit()
-
+    if Post.query.filter(Post.content==new_post.content, Post.username==new_post.username).all() ==[]: 
+        db.session.add(new_post)
+        db.session.commit()
     posts = Post.query.filter_by(forum_id=forum_id).all()
 
     forum = Forum.query.filter_by(forum_id=forum_id).one()
@@ -202,17 +203,33 @@ def add_dislike(post_id):
     forum_id = Post.query.filter_by(post_id=post_id).one().forum_id
     like_query = Like.query.filter(Like.post_id==post_id, Like.user_id==user_id).all()
     post_query = db.session.query(Post).filter_by(post_id=post_id).one()
-    if like_query == []:
+    f_type = 
+    if flag_query == []:
+        new_flag = Flag(user_id=user_id, post_id=post_id, flag_type=f_type)
+        db.session.query(Post).filter_by(post_id=post_id).update({"flag_num": (post_query.flag_num + 1)})
+        db.session.add(new_flag)
+        db.session.commit()
+    elif like_query[0].flag_type != f_type:
+        db.session.query(Flag).filter_by(post_id=post_id).update({"flag_type": f_type})
+        db.session.commit()
+    return redirect("/forums/{}".format(forum_id))
+
+@app.route("/forums/flag/<post_id>", methods=["GET"])
+def flag_post(post_id):
+    user_id = User.query.filter_by(email=session['current_user']).one().user_id
+    forum_id = Post.query.filter_by(post_id=post_id).one().forum_id
+    flag_query = Flag.query.filter(Flag.post_id==post_id, Flag.user_id==user_id).all()
+    post_query = db.session.query(Post).filter_by(post_id=post_id).one()
+    if flag_query == []:
         new_dislike = Like(user_id=user_id, post_id=post_id, like_dislike="dislike")
         db.session.query(Post).filter_by(post_id=post_id).update({"dislike_num": (post_query.dislike_num + 1)})
         db.session.add(new_dislike)
         db.session.commit()
-    elif like_query[0].like_dislike == "like":
+    else:
         db.session.query(Like).filter(Like.post_id==post_id, Like.user_id==user_id).update({"user_id": user_id, "post_id": post_id, "like_dislike": "dislike"})
         db.session.query(Post).filter_by(post_id=post_id).update({"dislike_num": (post_query.dislike_num + 1), "like_num": (post_query.like_num - 1)})
         db.session.commit()
     return redirect("/forums/{}".format(forum_id))
-
 
 
 @app.route("/report", methods=["GET"])

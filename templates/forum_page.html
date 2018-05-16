@@ -11,10 +11,14 @@
 	</form>
 </div>
 {% for post in posts %}
-	<div>
-		<b>{{ post.username }}:</b> {{ post.content }}
-		<div align="left"><a href="/forums/like/{{ post.post_id }}">Like</a>({{ post.like_num }})/<a href="/forums/dislike/{{ post.post_id }}">Dislike</a>({{ post.dislike_num }}) </div>
-		<div align="right">Posted: {{ post.date_posted }}</div>
+	<div class="post">
+		<div align="right">Flag/Report Post For Removal<br> Why should this post be removed?<form action="/forums/flag/{{ post.post_id }}">
+			<input type="radio" name="flag" value=""></form></div> 
+			
+			<b>{{ post.username }}:</b> {{ post.content }}
+
+			<p style="text-align:left;"><a href="/forums/like/{{ post.post_id }}">Like</a>({{ post.like_num }})/<a href="/forums/dislike/{{ post.post_id }}">Dislike</a>({{ post.dislike_num }}) <span style="float:right;"> Posted: {{ post.date_posted }}</span></p>
+
 	</div>	
 {% endfor %}
 
