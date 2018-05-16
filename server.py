@@ -8,7 +8,7 @@ from flask import (Flask, render_template, redirect, request, flash,
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (update, desc)
-# from model import Forum, Post, User, Incident, Police, Source, connect_to_db, db
+from model import Forum, Post, User, Incident, Police, Source, Like, connect_to_db, db
 import requests
 
 
@@ -129,6 +129,12 @@ def logout():
 
 @app.route("/forums")
 def go_forums():
+    cam = Forum.query.filter_by(forum_id=1).one()
+    dom = Forum.query.filter_by(forum_id=2).one()
+    escort = Forum.query.filter_by(forum_id=3).one()
+    porn = Forum.query.filter_by(forum_id=4).one()
+    dance = Forum.query.filter_by(forum_id=5).one()
+    phone = Forum.query.filter_by(forum_id=6).one()
     if 'current_user' in session.keys():
         return render_template("forums.html", cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone)
     else:
@@ -138,7 +144,12 @@ def go_forums():
 
 @app.route("/forums/<forum_id>", methods=["GET"])
 def get_forum(forum_id):
-
+    cam = Forum.query.filter_by(forum_id=1).one()
+    dom = Forum.query.filter_by(forum_id=2).one()
+    escort = Forum.query.filter_by(forum_id=3).one()
+    porn = Forum.query.filter_by(forum_id=4).one()
+    dance = Forum.query.filter_by(forum_id=5).one()
+    phone = Forum.query.filter_by(forum_id=6).one()
     posts = Post.query.filter_by(forum_id=forum_id).all()
 
     forum = Forum.query.filter_by(forum_id=forum_id).one()
@@ -148,6 +159,12 @@ def get_forum(forum_id):
 
 @app.route("/forums/<forum_id>", methods=["POST"])
 def add_post(forum_id):
+    cam = Forum.query.filter_by(forum_id=1).one()
+    dom = Forum.query.filter_by(forum_id=2).one()
+    escort = Forum.query.filter_by(forum_id=3).one()
+    porn = Forum.query.filter_by(forum_id=4).one()
+    dance = Forum.query.filter_by(forum_id=5).one()
+    phone = Forum.query.filter_by(forum_id=6).one()
     post_content = request.form['content']
     user = User.query.filter_by(email = session['current_user']).one()
     
@@ -172,7 +189,7 @@ def add_like(post_id):
         db.session.query(Post).filter_by(post_id=post_id).update({"like_num": (post_query.like_num + 1)})
         db.session.add(new_like)
         db.session.commit()
-    elif like_query.like_dislike == "dislike":
+    elif like_query[0].like_dislike == "dislike":
         db.session.query(Like).filter(Like.post_id==post_id, Like.user_id==user_id).update({"user_id": user_id, "post_id": post_id, "like_dislike": "like"})
         db.session.query(Post).filter_by(post_id=post_id).update({"like_num": (post_query.like_num + 1), "dislike_num": (post_query.dislike_num - 1)})
         db.session.commit()
@@ -188,9 +205,9 @@ def add_dislike(post_id):
     if like_query == []:
         new_dislike = Like(user_id=user_id, post_id=post_id, like_dislike="dislike")
         db.session.query(Post).filter_by(post_id=post_id).update({"dislike_num": (post_query.dislike_num + 1)})
-        db.session.add(new_like)
+        db.session.add(new_dislike)
         db.session.commit()
-    elif like_query.like_dislike == "like":
+    elif like_query[0].like_dislike == "like":
         db.session.query(Like).filter(Like.post_id==post_id, Like.user_id==user_id).update({"user_id": user_id, "post_id": post_id, "like_dislike": "dislike"})
         db.session.query(Post).filter_by(post_id=post_id).update({"dislike_num": (post_query.dislike_num + 1), "like_num": (post_query.like_num - 1)})
         db.session.commit()
