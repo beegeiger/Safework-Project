@@ -7,7 +7,7 @@ from flask import (Flask, render_template, redirect, request, flash,
                    session, copy_current_request_context, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import (update, desc)
+from sqlalchemy import (update, asc, desc)
 from model import Forum, Post, User, Incident, Police, Source, Like, Flag, connect_to_db, db
 import requests
 
@@ -59,22 +59,44 @@ def get_points():
 @app.route("/register", methods=["GET"])
 def register_form():
     """Goes to registration Form."""
-    return render_template("register.html")
+    email_input = ""
+    pw_input = ""
+    username = ""
+    fname = ""
+    lname = ""
+    about_me = ""
+    return render_template("register.html", email=email_input, username=username, fname=fname, lname=lname, about_me=about_me)
 
 
 
 @app.route("/register", methods=["POST"])
 def register_process():
     """Registration Form."""
+    email_input = ""
+    pw_input = ""
+    username = ""
+    fname = ""
+    lname = ""
+    about_me = ""
 
-    email_input = request.form['email_input']
-    pw_input = request.form['password']
-    username = request.form['username']
-    fname = request.form['fname']
-    lname = request.form['lname']
-    about_me = request.form['about_me']
+    if len(request.form['email_input']) >= 1:
+        email_input = request.form['email_input']
+    if len(request.form['password']) >= 1:
+        pw_input = request.form['password']
+    if len(request.form['username']) >= 1:
+        username = request.form['username']
+    if len(request.form['fname']) >= 1:
+        fname = request.form['fname']
+    if len(request.form['lname']) >= 1:
+        lname = request.form['lname']
+    if len(request.form['about_me']) >= 1:
+        about_me = request.form['about_me']
 
-    if User.query.filter_by(email = email_input).all() != []:
+    if "." not in email_input and "@" not in email_input:
+        flash(email_input + " is not a valid e-mail address!")
+        return render_template("register.html", email=email_input, username=username, fname=fname, lname=lname, about_me=about_me)
+    
+    elif User.query.filter_by(email = email_input).all() != []:
         return redirect('/')       
     else:
         new_user = User(email= email_input, password=pw_input, username=username, fname=fname, lname=lname, description=about_me)
@@ -142,30 +164,30 @@ def go_forums():
         return redirect ("/login")
 
 
-@app.route("/forums/<forum_id>", methods=["GET"])
-def get_forum(forum_id):
-    cam = Forum.query.filter_by(forum_id=1).one()
-    dom = Forum.query.filter_by(forum_id=2).one()
-    escort = Forum.query.filter_by(forum_id=3).one()
-    porn = Forum.query.filter_by(forum_id=4).one()
-    dance = Forum.query.filter_by(forum_id=5).one()
-    phone = Forum.query.filter_by(forum_id=6).one()
+# @app.route("/forums/<forum_id>", methods=["GET"])
+# def get_forum(forum_id):
+#     cam = Forum.query.filter_by(forum_id=1).one()
+#     dom = Forum.query.filter_by(forum_id=2).one()
+#     escort = Forum.query.filter_by(forum_id=3).one()
+#     porn = Forum.query.filter_by(forum_id=4).one()
+#     dance = Forum.query.filter_by(forum_id=5).one()
+#     phone = Forum.query.filter_by(forum_id=6).one()
     
-    posts = Post.query.filter_by(forum_id=forum_id).all()
-    user = User.query.filter_by(email=session['current_user']).one()
-    flag_query = Flag.query.filter(Flag.user_id==User.user_id).all()
-    print flag_query
-    flags = []
-    if len(flag_query) > 0:
-        for item in flag_query:
-            print item
-            print item.post_id
-            flags.append(item.post_id)
-    print flags
-    print posts
-    print session['current_user']
-    forum = Forum.query.filter_by(forum_id=forum_id).one()
-    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts, flags=flags, flagnum=0)
+#     posts = Post.query.filter_by(forum_id=forum_id).all()
+#     user = User.query.filter_by(email=session['current_user']).one()
+#     flag_query = Flag.query.filter(Flag.user_id==User.user_id).all()
+#     print flag_query
+#     flags = []
+#     if len(flag_query) > 0:
+#         for item in flag_query:
+#             print item
+#             print item.post_id
+#             flags.append(item.post_id)
+#     print flags
+#     print posts
+#     print session['current_user']
+#     forum = Forum.query.filter_by(forum_id=forum_id).one()
+#     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts, flags=flags, flagnum=0)
 
 
 
@@ -211,7 +233,7 @@ def add_like(post_id):
         db.session.query(Like).filter(Like.post_id==post_id, Like.user_id==user_id).update({"user_id": user_id, "post_id": post_id, "like_dislike": "like"})
         db.session.query(Post).filter_by(post_id=post_id).update({"like_num": (post_query.like_num + 1), "dislike_num": (post_query.dislike_num - 1)})
         db.session.commit()
-    return redirect("/forums/{}".format(forum_id))
+    return redirect("/forums/order_by_date/{}".format(forum_id))
 
 
 @app.route("/forums/dislike/<post_id>", methods=["GET"])
@@ -229,7 +251,7 @@ def add_dislike(post_id):
         db.session.query(Like).filter(Like.post_id==post_id, Like.user_id==user_id).update({"user_id": user_id, "post_id": post_id, "like_dislike": "dislike"})
         db.session.query(Post).filter_by(post_id=post_id).update({"dislike_num": (post_query.dislike_num + 1), "like_num": (post_query.like_num - 1)})
         db.session.commit()
-    return redirect("/forums/{}".format(forum_id))
+    return redirect("/forums/order_by_date/{}".format(forum_id))
 
 
 @app.route("/forums/flag/<post_id>", methods=["POST"])
@@ -248,7 +270,53 @@ def flag_post(post_id):
         db.session.query(Flag).filter_by(post_id=post_id).update({"flag_type": f_type})
         db.session.commit()
     flash('Your report has been submitted!')
-    return redirect("/forums/{}".format(forum_id))    
+    return redirect("/forums/order_by_date/{}".format(forum_id))
+
+@app.route("/forums/order_by_date/<forum_id>")    
+def date_order(forum_id):
+    cam = Forum.query.filter_by(forum_id=1).one()
+    dom = Forum.query.filter_by(forum_id=2).one()
+    escort = Forum.query.filter_by(forum_id=3).one()
+    porn = Forum.query.filter_by(forum_id=4).one()
+    dance = Forum.query.filter_by(forum_id=5).one()
+    phone = Forum.query.filter_by(forum_id=6).one()
+    
+    posts = Post.query.filter_by(forum_id=forum_id).order_by(asc(Post.post_id)).all()
+    user = User.query.filter_by(email=session['current_user']).one()
+    flag_query = Flag.query.filter(Flag.user_id==User.user_id).all()
+
+    flags = []
+    if len(flag_query) > 0:
+        for item in flag_query:
+            print item
+            print item.post_id
+            flags.append(item.post_id)
+
+    forum = Forum.query.filter_by(forum_id=forum_id).one()
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts, flags=flags, flagnum=0)
+
+@app.route("/forums/order_by_pop/<forum_id>")    
+def pop_order(forum_id):
+    cam = Forum.query.filter_by(forum_id=1).one()
+    dom = Forum.query.filter_by(forum_id=2).one()
+    escort = Forum.query.filter_by(forum_id=3).one()
+    porn = Forum.query.filter_by(forum_id=4).one()
+    dance = Forum.query.filter_by(forum_id=5).one()
+    phone = Forum.query.filter_by(forum_id=6).one()
+    
+    posts = Post.query.filter_by(forum_id=forum_id).order_by(desc(Post.like_num)).all()
+    user = User.query.filter_by(email=session['current_user']).one()
+    flag_query = Flag.query.filter(Flag.user_id==User.user_id).all()
+
+    flags = []
+    if len(flag_query) > 0:
+        for item in flag_query:
+            print item
+            print item.post_id
+            flags.append(item.post_id)
+
+    forum = Forum.query.filter_by(forum_id=forum_id).one()
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts, flags=flags, flagnum=0)
 
 @app.route("/report", methods=["GET"])
 def report_page():

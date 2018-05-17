@@ -1,17 +1,15 @@
 {% extends 'forums.html' %}
 {% block forum %} 
 <h1>{{ forum.forum_name }}</h1>
-{{ forum.forum_desc }}<br> <br>
-<script>
+{{ forum.forum_desc }} <div align="right" display="inline-block">Order By: <form action="/forums/order_by_date/{{ forum.forum_id }}"><input type="submit" id="Date" value="Date Posted"></form><form action="/forums/order_by_pop/{{ forum.forum_id }}"><input type="submit" id="Pop" value="Post Popularity"></form></div><br> <br>
 
-</script>
 {% for post in posts %}
-	<div class="post">
-		<div align="right" id={{ post.post_id }}>
+	<div class="post" id="post{{ loop.index }}">
+		<div align="right" id="div{{ loop.index }}">
 				{% if post.post_id not in flags %}
-				<button class="but_class">Flag/Report Post For Removal</button>
-				<div class="hidden" id="Flag_Form">
-				<p id="Flag_Form">Why should this post be removed?
+				<button class="but_class" id="but{{ loop.index }}">Flag/Report Post For Removal</button>
+				<div class="hidden" id="Flag_Form{{ loop.index }}">
+				<p id="Flag_Form" >Why should this post be removed?
 				<form id="Flagging_form" action="/forums/flag/{{ post.post_id }}" method="POST">
 				<input type="radio" name="flag_rad" value="abusive">Abusive
 				<input type="radio" name="flag_rad" value="trolling">Trolling
@@ -28,7 +26,22 @@
 	</div></div>
 
 
+<script>
 
+
+let flagBut{{ loop.index }} = document.querySelector('#but{{ loop.index }}');
+let subFlag{{ loop.index }} = document.querySelector('#Flag_Form{{ loop.index }}');
+console.log((flagBut{{ loop.index }}))
+console.log(subFlag{{ loop.index }})
+function flag{{ loop.index }}(evt) {
+	evt.preventDefault();
+	$(flagBut{{ loop.index }}).hide();
+	$(subFlag{{ loop.index }}).show();
+	
+}
+flagBut{{ loop.index }}.addEventListener('click', flag{{ loop.index }});
+
+</script>
 {% endfor %}
 <div>
 <form action="/forums/{{ forum.forum_id }}" method="POST"><br>
@@ -37,22 +50,5 @@
 <br><input type=submit>
 </form>
 </div>
-<script>
-"use strict"
 
-let flagBut = document.querySelector('#but_class');
-let subFlag = document.querySelector('#hidden');
-function flag(evt) {
-	evt.preventDefault();
-	let parent_id = $(this).parent().attr('id');
-	let children = $(parent_id).children()
-
-	$(flagBut).hide();
-	$(subFlag).show();
-	
-}
-
-flagBut.addEventListener('click', flag);
-
-			</script>
 {% endblock %}
