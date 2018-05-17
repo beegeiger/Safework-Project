@@ -2,24 +2,57 @@
 {% block forum %} 
 <h1>{{ forum.forum_name }}</h1>
 {{ forum.forum_desc }}<br> <br>
+<script>
 
-<div>
-	<form action="/forums/{{ forum.forum_id }}" method="POST"><br>
-		<b>New Post:</b>
-		<br><textarea rows="6" cols="50" name="content"></textarea><br>
-		<br><input type=submit>
-	</form>
-</div>
+</script>
 {% for post in posts %}
 	<div class="post">
-		<div align="right">Flag/Report Post For Removal<br> Why should this post be removed?<form action="/forums/flag/{{ post.post_id }}">
-			<input type="radio" name="flag" value=""></form></div> 
+		<div align="right" id={{ post.post_id }}>
+				{% if post.post_id not in flags %}
+				<button class="but_class">Flag/Report Post For Removal</button>
+				<div class="hidden" id="Flag_Form">
+				<p id="Flag_Form">Why should this post be removed?
+				<form id="Flagging_form" action="/forums/flag/{{ post.post_id }}" method="POST">
+				<input type="radio" name="flag_rad" value="abusive">Abusive
+				<input type="radio" name="flag_rad" value="trolling">Trolling
+				<input type="radio" name="flag_rad" value="off_topic">Off-Topic
+				<input type="radio" name="flag_rad" value="other">Other
+				<input type="submit" id="Flag_Post_but" value="Flag Post">
+				{% else %} <p> "You have flagged this post for removal!" </p> {% endif %}
+			</form></p></div><br>
 			
-			<b>{{ post.username }}:</b> {{ post.content }}
+			<div align="left"><b>{{ post.username }}:</b> {{ post.content }}</div>
 
 			<p style="text-align:left;"><a href="/forums/like/{{ post.post_id }}">Like</a>({{ post.like_num }})/<a href="/forums/dislike/{{ post.post_id }}">Dislike</a>({{ post.dislike_num }}) <span style="float:right;"> Posted: {{ post.date_posted }}</span></p>
 
-	</div>	
-{% endfor %}
+	</div></div>
 
+
+
+{% endfor %}
+<div>
+<form action="/forums/{{ forum.forum_id }}" method="POST"><br>
+<b>New Post:</b>
+<br><textarea rows="6" cols="50" name="content"></textarea><br>
+<br><input type=submit>
+</form>
+</div>
+<script>
+"use strict"
+
+let flagBut = document.querySelector('#but_class');
+let subFlag = document.querySelector('#hidden');
+function flag(evt) {
+	evt.preventDefault();
+	let parent_id = $(this).parent().attr('id');
+	let children = $(parent_id).children()
+
+	$(flagBut).hide();
+	$(subFlag).show();
+	
+}
+
+flagBut.addEventListener('click', flag);
+
+			</script>
 {% endblock %}

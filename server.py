@@ -8,7 +8,7 @@ from flask import (Flask, render_template, redirect, request, flash,
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (update, desc)
-from model import Forum, Post, User, Incident, Police, Source, Like, connect_to_db, db
+from model import Forum, Post, User, Incident, Police, Source, Like, Flag, connect_to_db, db
 import requests
 
 
@@ -152,9 +152,20 @@ def get_forum(forum_id):
     phone = Forum.query.filter_by(forum_id=6).one()
     
     posts = Post.query.filter_by(forum_id=forum_id).all()
-
+    user = User.query.filter_by(email=session['current_user']).one()
+    flag_query = Flag.query.filter(Flag.user_id==User.user_id).all()
+    print flag_query
+    flags = []
+    if len(flag_query) > 0:
+        for item in flag_query:
+            print item
+            print item.post_id
+            flags.append(item.post_id)
+    print flags
+    print posts
+    print session['current_user']
     forum = Forum.query.filter_by(forum_id=forum_id).one()
-    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts)
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts, flags=flags, flagnum=0)
 
 
 
@@ -168,7 +179,13 @@ def add_post(forum_id):
     phone = Forum.query.filter_by(forum_id=6).one()
     post_content = request.form['content']
     user = User.query.filter_by(email = session['current_user']).one()
-    
+    flag_query = Flag.query.filter(Flag.user_id==User.user_id).all()
+    flags = []
+    if len(flag_query) > 0:
+        for item in flag_query:
+            print item
+            print item.post_id
+            flags.append(item.post_id)
     new_post = Post(user_id=user.user_id, username=user.username, forum_id=forum_id, content=post_content, p_datetime=datetime.now(), date_posted=(str(datetime.now())[:16]))
     if Post.query.filter(Post.content==new_post.content, Post.username==new_post.username).all() ==[]: 
         db.session.add(new_post)
@@ -176,7 +193,7 @@ def add_post(forum_id):
     posts = Post.query.filter_by(forum_id=forum_id).all()
 
     forum = Forum.query.filter_by(forum_id=forum_id).one()
-    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts)
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts, flags=flags)
 
 
 @app.route("/forums/like/<post_id>", methods=["GET"])
@@ -203,24 +220,7 @@ def add_dislike(post_id):
     forum_id = Post.query.filter_by(post_id=post_id).one().forum_id
     like_query = Like.query.filter(Like.post_id==post_id, Like.user_id==user_id).all()
     post_query = db.session.query(Post).filter_by(post_id=post_id).one()
-    f_type = 
-    if flag_query == []:
-        new_flag = Flag(user_id=user_id, post_id=post_id, flag_type=f_type)
-        db.session.query(Post).filter_by(post_id=post_id).update({"flag_num": (post_query.flag_num + 1)})
-        db.session.add(new_flag)
-        db.session.commit()
-    elif like_query[0].flag_type != f_type:
-        db.session.query(Flag).filter_by(post_id=post_id).update({"flag_type": f_type})
-        db.session.commit()
-    return redirect("/forums/{}".format(forum_id))
-
-@app.route("/forums/flag/<post_id>", methods=["GET"])
-def flag_post(post_id):
-    user_id = User.query.filter_by(email=session['current_user']).one().user_id
-    forum_id = Post.query.filter_by(post_id=post_id).one().forum_id
-    flag_query = Flag.query.filter(Flag.post_id==post_id, Flag.user_id==user_id).all()
-    post_query = db.session.query(Post).filter_by(post_id=post_id).one()
-    if flag_query == []:
+    if like_query == []:
         new_dislike = Like(user_id=user_id, post_id=post_id, like_dislike="dislike")
         db.session.query(Post).filter_by(post_id=post_id).update({"dislike_num": (post_query.dislike_num + 1)})
         db.session.add(new_dislike)
@@ -231,6 +231,24 @@ def flag_post(post_id):
         db.session.commit()
     return redirect("/forums/{}".format(forum_id))
 
+
+@app.route("/forums/flag/<post_id>", methods=["POST"])
+def flag_post(post_id):
+    user_id = User.query.filter_by(email=session['current_user']).one().user_id
+    forum_id = Post.query.filter_by(post_id=post_id).one().forum_id
+    flag_query = Flag.query.filter(Flag.post_id==post_id, Flag.user_id==user_id).all()
+    post_query = db.session.query(Post).filter_by(post_id=post_id).one()
+    f_type = request.form['flag_rad']
+    if flag_query == []:
+        new_flag = Flag(user_id=user_id, post_id=post_id, flag_type=f_type)
+        db.session.query(Post).filter_by(post_id=post_id).update({"flag_num": (post_query.flag_num + 1)})
+        db.session.add(new_flag)
+        db.session.commit()
+    elif flag_query[0].flag_type != f_type:
+        db.session.query(Flag).filter_by(post_id=post_id).update({"flag_type": f_type})
+        db.session.commit()
+    flash('Your report has been submitted!')
+    return redirect("/forums/{}".format(forum_id))    
 
 @app.route("/report", methods=["GET"])
 def report_page():

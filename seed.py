@@ -1,5 +1,5 @@
 """Adds data to the safework dbase"""
-from model import (Forum, Post, User, Incident, Police, Source, connect_to_db, db)
+from model import (Forum, Post, User, Incident, Police, Source, Like, Flag, connect_to_db, db)
 import requests
 from flask import (Flask, render_template, redirect, request, flash,
                    session, copy_current_request_context, jsonify, current_app)
@@ -14,20 +14,22 @@ import string
 import os
 from geopy import geocoders
 
+from server import app
+
 connect_to_db(app, 'postgresql:///safework')
 #######################################################
-# with app.app_context():
-#  	db.drop_all()
-#  	db.create_all()
+with app.app_context():
+ 	db.drop_all()
+ 	db.create_all()
 
 def fill_basics():
 	with app.app_context():
-		police = Police(police_dept_id=1, name="User_Input")
-		police2 = Police(police_dept_id=2, name="San Franciso Police Department", city="San Francisco", state="CA")
-		police3 = Police(police_dept_id=3, name="Oakland Police Department", city="Oakland", state="CA")
-		db.session.add(police)
-		db.session.add(police2)
-		db.session.add(police3)
+		Police1 = Police(police_dept_id=1, name="User_Input")
+		Police2 = Police(police_dept_id=2, name="San Franciso Police Department", city="San Francisco", state="CA")
+		Police3 = Police(police_dept_id=3, name="Oakland Police Department", city="Oakland", state="CA")
+		db.session.add(Police1)
+		db.session.add(Police2)
+		db.session.add(Police3)
 		db.session.commit()
 		source2 = Source(source_id=3, s_name="DataSF", police_dept_id=2, s_description="San Franciso Police API", url="https://data.sfgov.org/resource/cuks-n6tp.json?$limit=50000", s_type="gov api")
 		# source3 = Source(source_id=2, s_name="DataSF", police_dept_id=2, s_description="San Franciso Police API", url="https://data.sfgov.org/resource/PdId.json", s_type="gov api")
@@ -39,7 +41,7 @@ def fill_basics():
 		db.session.add(source)
 		db.session.add(source4)
 		db.session.commit()
-# fill_basics()
+fill_basics()
 
 #Used Syntax from https://gis.stackexchange.com/questions/22108/how-to-geocode-300-000-addresses-on-the-fly
 def geocode(address):
@@ -98,7 +100,7 @@ def add_incident_data(source_nums):
 					db.session.commit()
 				
 
-# add_incident_data([3, 4])
+add_incident_data([3, 4])
 
 
 
@@ -130,7 +132,7 @@ def add_starter_forums():
 
 			db.session.commit()
 
-# add_starter_forums()
+add_starter_forums()
 
 ##############################################
 
