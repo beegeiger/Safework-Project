@@ -1,10 +1,10 @@
 """SafeWork Server"""
 import json
-from jinja2 import StrictUndefined
 import datetime
 from datetime import datetime
+from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, flash,
-                   session, copy_current_request_context, jsonify)
+                   session, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (update, asc, desc)
@@ -17,9 +17,7 @@ app = Flask(__name__)
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "ABC"
 
-# Normally, if you use an undefined variable in Jinja2, it fails
-# silently. This is horrible. Fix this so that, instead, it raises an
-# error.
+# Causes error messages for undefined variables in jinja
 app.jinja_env.undefined = StrictUndefined
 
 ####################################################################
@@ -29,16 +27,20 @@ def go_home():
     """Renders the safework homepage."""
     return render_template("homepage.html")
 
+
 @app.route("/map")
 def get_map():
     """Renders safework's arrest map."""
     return render_template("map_page.html")
 
+
 @app.route("/incidents.json")
 def get_points():
     """Gets the incident/marker points as JSON to be plotted on the map."""
+
+    #Initializes empty dictionary which is then filled with the marker data
     incidents = {}
-    for inc in Incident.query.all():   
+    for inc in Incident.query.all():
         lat = float(inc.latitude)
         lng = float(inc.longitude)
         incidents[inc.police_rec_num] = {
@@ -53,31 +55,34 @@ def get_points():
             "description": inc.description,
             "source_id": inc.source_id,
             "rec_number": inc.police_rec_num}
+
+    #The marker dictionary is jsonified and sent to the google maps API through JavaScript
     return jsonify(incidents)
 
 
 @app.route("/register", methods=["GET"])
 def register_form():
     """Goes to registration Form."""
-    
-    #Creating empty strings to send through jinja so that if someone is redirected from /register(POST), their data will still be in the registration form
+
+    """Creating empty strings to send through jinja so that if someone is redirected
+     from /register(POST), their data will still be in the registration form"""
     email_input = ""
-    pw_input = ""
     username = ""
     fname = ""
     lname = ""
     about_me = ""
-    
-    #Renders registration page with empty form variables
-    return render_template("register.html", email=email_input, username=username, fname=fname, lname=lname, about_me=about_me)
 
+    #Renders registration page with empty form variables
+    return render_template("register.html", email=email_input, username=username,
+                           name=fname, lname=lname, about_me=about_me)
 
 
 @app.route("/register", methods=["POST"])
 def register_process():
     """Registration Form."""
 
-    #Creating empty strings in case there aren't already data being passed from the registration redirect
+    """Creating empty strings in case there aren't already
+                data being passed from the registration redirect"""
     fname = ""
     lname = ""
     about_me = ""
@@ -87,7 +92,8 @@ def register_process():
     pw_input = request.form['password']
     username = request.form['username']
 
-    #Checks to make sure values exist in the optional fields before setting the variables equal to the form values
+    """Checks to make sure values exist in the optional fields
+                before setting the variables equal to the form values"""
     if len(request.form['fname']) >= 1:
         fname = request.form['fname']
     if len(request.form['lname']) >= 1:
@@ -98,53 +104,62 @@ def register_process():
     #Checking that the e-mail address field at least includes a "." and a "@"
     if "." not in email_input or "@" not in email_input:
         flash(email_input + " is not a valid e-mail address!")
-        return render_template("register.html", email=email_input, username=username, fname=fname, lname=lname, about_me=about_me)
-    
+        return render_template("register.html", email=email_input, username=username,
+                               fname=fname, lname=lname, about_me=about_me)
+
     #Checking that the e-mail address hasn't already been registered
     elif User.query.filter_by(email=email_input).all() != []:
-        flash(email_input + "This e-mail has already been registered! Either sign in with it, use a different e-mail address, or reset your password if you forgot it.")    
-        return render_template("register.html", email=email_input, username=username, fname=fname, lname=lname, about_me=about_me)
+        flash(email_input + """This e-mail has already been registered! Either sign in with it,
+                use a different e-mail address, or reset your password if you forgot it.""")
+        return render_template("register.html", email=email_input, username=username, fname=fname,
+                               lname=lname, about_me=about_me)
 
     #Checking that the username is available
     elif User.query.filter_by(username=username).all() != []:
         flash(email_input + "This username is already in use! Please try another one!")
-        return render_template("register.html", email=email_input, username=username, fname=fname, lname=lname, about_me=about_me)
+        return render_template("register.html", email=email_input, username=username, fname=fname,
+                               lname=lname, about_me=about_me)
 
-    #Checking that the password length is at least 6       
+    #Checking that the password length is at least 6
     elif len(pw_input) < 6:
         flash("Your password must be at least 5 characters long! Try again.")
-        return render_template("register.html", email=email_input, username=username, fname=fname, lname=lname, about_me=about_me)  
+        return render_template("register.html", email=email_input, username=username, fname=fname,
+                               lname=lname, about_me=about_me)
 
-    #Otherwise, the new user's information is added to the database  
+    #Otherwise, the new user's information is added to the database
     else:
-        new_user = User(email= email_input, password=pw_input, username=username, fname=fname, lname=lname, description=about_me)
+        new_user = User(email=email_input, password=pw_input, username=username, fname=fname,
+                        lname=lname, description=about_me)
         db.session.add(new_user)
-        db.session.commit() 
+        db.session.commit()
 
     return redirect('/login')
 
 
 @app.route("/login", methods=["GET"])
 def log_in():
+    """Render's the log-in page if user not in session, otherwise redirects to the homepage"""
     if 'current_user' in session.keys():
         return redirect("/")
     else:
         return render_template("login.html")
 
 
-
 @app.route("/login", methods=["POST"])
 def login():
-#    @copy_current_request_context
- #   def more_login():
+    """Gets login info, verifies it, & either redirects to the forums or gives an error message"""
+
+    #Sets variable equal to the login form inputs
     email_input = request.form['email_input']
     pw_input = request.form['pw_input']
 
+    #Queries to see if the email and pword match the database. If so, redirects to forums.
     if User.query.filter(User.email == email_input, User.password == pw_input).all() != []:
         session['current_user'] = email_input
-        print session['current_user']
         flash('You were successfully logged in')
         return redirect("/forums")
+
+    #Otherwise, it re-renders the page and throws an error message to the user
     else:
         flash('Your e-mail or password was incorrect! Please try again or Register.')
         return render_template("login.html")
@@ -152,105 +167,107 @@ def login():
 
 @app.route("/logout")
 def logout():
+    """Logs user out and delets them from the session"""
     del session['current_user']
 
-    flash('Byyyyyye. You have been succesfully logged out!')
-    return redirect ("/login")
-
-# with app.app_context():
-#     cam = Forum.query.filter_by(forum_id=1).one()
-#     dom = Forum.query.filter_by(forum_id=2).one()
-#     escort = Forum.query.filter_by(forum_id=3).one()
-#     porn = Forum.query.filter_by(forum_id=4).one()
-#     dance = Forum.query.filter_by(forum_id=5).one()
-#     phone = Forum.query.filter_by(forum_id=6).one()
-
+    flash('Byye. You have been succesfully logged out!')
+    return redirect("/login")
 
 
 @app.route("/forums")
 def go_forums():
+    """Renders the central forum page"""
+
+    #Defining the central forums (within app context) to be rendered
     cam = Forum.query.filter_by(forum_id=1).one()
     dom = Forum.query.filter_by(forum_id=2).one()
     escort = Forum.query.filter_by(forum_id=3).one()
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
+
+    #Checks to see if the user is logged in. If so, renders forums
     if 'current_user' in session.keys():
-        return render_template("forums.html", cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone)
+        return render_template("forums.html", cam=cam, dom=dom, escort=escort,
+                               porn=porn, dance=dance, phone=phone)
+    #Otherwise it redirects to the login page
     else:
         flash("Please login before entering the forums.")
-        return redirect ("/login")
-
-
-# @app.route("/forums/<forum_id>", methods=["GET"])
-# def get_forum(forum_id):
-#     cam = Forum.query.filter_by(forum_id=1).one()
-#     dom = Forum.query.filter_by(forum_id=2).one()
-#     escort = Forum.query.filter_by(forum_id=3).one()
-#     porn = Forum.query.filter_by(forum_id=4).one()
-#     dance = Forum.query.filter_by(forum_id=5).one()
-#     phone = Forum.query.filter_by(forum_id=6).one()
-    
-#     posts = Post.query.filter_by(forum_id=forum_id).all()
-#     user = User.query.filter_by(email=session['current_user']).one()
-#     flag_query = Flag.query.filter(Flag.user_id==User.user_id).all()
-#     print flag_query
-#     flags = []
-#     if len(flag_query) > 0:
-#         for item in flag_query:
-#             print item
-#             print item.post_id
-#             flags.append(item.post_id)
-#     print flags
-#     print posts
-#     print session['current_user']
-#     forum = Forum.query.filter_by(forum_id=forum_id).one()
-#     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts, flags=flags, flagnum=0)
-
+        return redirect("/login")
 
 
 @app.route("/forums/<forum_id>", methods=["POST"])
 def add_post(forum_id):
+    """Uses POST request to create a new post within a forum"""
+
+    #Defining the central forums (within app context) to be rendered
     cam = Forum.query.filter_by(forum_id=1).one()
     dom = Forum.query.filter_by(forum_id=2).one()
     escort = Forum.query.filter_by(forum_id=3).one()
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
+
+    #Gets the new posts content
     post_content = request.form['content']
-    user = User.query.filter_by(email = session['current_user']).one()
-    flag_query = Flag.query.filter(Flag.user_id==User.user_id).all()
+
+    #Checks to see the users info and which posts they have flagged
+    user = User.query.filter_by(email=session['current_user']).one()
+    flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
     flags = []
     if len(flag_query) > 0:
         for item in flag_query:
             print item
             print item.post_id
             flags.append(item.post_id)
-    new_post = Post(user_id=user.user_id, username=user.username, forum_id=forum_id, content=post_content, p_datetime=datetime.now(), date_posted=(str(datetime.now())[:16]))
-    if Post.query.filter(Post.content==new_post.content, Post.username==new_post.username).all() ==[]: 
+
+    #Adds the new post to the database
+    new_post = Post(user_id=user.user_id, username=user.username, forum_id=forum_id,
+                    content=post_content, p_datetime=datetime.now(),
+                    date_posted=(str(datetime.now())[:16]))
+
+    #Doublechecks that the user isn't creating a duplicate post
+    if Post.query.filter(Post.content == new_post.content,
+                         Post.username == new_post.username).all() == []:
         db.session.add(new_post)
         db.session.commit()
-    posts = Post.query.filter_by(forum_id=forum_id).all()
 
+    #Queries the post and forun data and renders everything back to the same forum page
+    posts = Post.query.filter_by(forum_id=forum_id).all()
     forum = Forum.query.filter_by(forum_id=forum_id).one()
-    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts, flags=flags)
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
+                           porn=porn, dance=dance, phone=phone, posts=posts, flags=flags)
 
 
 @app.route("/forums/like/<post_id>", methods=["GET"])
 def add_like(post_id):
+    """When the use "likes" post, it adds it to the dbase and updates page with new like info"""
+
+    #Queries from all of the dbase tables that need to be updated and/or rendered
     user_id = User.query.filter_by(email=session['current_user']).one().user_id
     forum_id = Post.query.filter_by(post_id=post_id).one().forum_id
-    like_query = Like.query.filter(Like.post_id==post_id, Like.user_id==user_id).all()
+    like_query = Like.query.filter(Like.post_id == post_id, Like.user_id == user_id).all()
     post_query = db.session.query(Post).filter_by(post_id=post_id).one()
+
+    #If the user hasn't already liked/disliked the post, it adds the like to the dbase
     if like_query == []:
         new_like = Like(user_id=user_id, post_id=post_id, like_dislike="like")
-        db.session.query(Post).filter_by(post_id=post_id).update({"like_num": (post_query.like_num + 1)})
+        db.session.query(Post).filter_by(post_id=
+                                         post_id).update({"like_num": (post_query.like_num + 1)})
         db.session.add(new_like)
         db.session.commit()
+
+    #If the user previously dislike the comment, it updates it to a like
     elif like_query[0].like_dislike == "dislike":
-        db.session.query(Like).filter(Like.post_id==post_id, Like.user_id==user_id).update({"user_id": user_id, "post_id": post_id, "like_dislike": "like"})
-        db.session.query(Post).filter_by(post_id=post_id).update({"like_num": (post_query.like_num + 1), "dislike_num": (post_query.dislike_num - 1)})
+        db.session.query(Like).filter(Like.post_id == post_id,
+                                      Like.user_id == user_id).update({"user_id": user_id,
+                                                                       "post_id": post_id,
+                                                                       "like_dislike": "like"})
+        (db.session.query(Post).filter_by(post_id=post_id).update(
+            {"like_num": (post_query.like_num + 1), "dislike_num": (post_query.dislike_num - 1)}))
         db.session.commit()
+
+    #Re-renders the forum page with the updated like info
     return redirect("/forums/order_by_date/{}".format(forum_id))
 
 
