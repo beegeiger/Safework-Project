@@ -59,12 +59,16 @@ def get_points():
 @app.route("/register", methods=["GET"])
 def register_form():
     """Goes to registration Form."""
+    
+    #Creating empty strings to send through jinja so that if someone is redirected from /register(POST), their data will still be in the registration form
     email_input = ""
     pw_input = ""
     username = ""
     fname = ""
     lname = ""
     about_me = ""
+    
+    #Renders registration page with empty form variables
     return render_template("register.html", email=email_input, username=username, fname=fname, lname=lname, about_me=about_me)
 
 
@@ -72,19 +76,18 @@ def register_form():
 @app.route("/register", methods=["POST"])
 def register_process():
     """Registration Form."""
-    email_input = ""
-    pw_input = ""
-    username = ""
+
+    #Creating empty strings in case there aren't already data being passed from the registration redirect
     fname = ""
     lname = ""
     about_me = ""
 
-    if len(request.form['email_input']) >= 1:
-        email_input = request.form['email_input']
-    if len(request.form['password']) >= 1:
-        pw_input = request.form['password']
-    if len(request.form['username']) >= 1:
-        username = request.form['username']
+    #Sets variables equal to the form values
+    email_input = request.form['email_input']
+    pw_input = request.form['password']
+    username = request.form['username']
+
+    #Checks to make sure values exist in the optional fields before setting the variables equal to the form values
     if len(request.form['fname']) >= 1:
         fname = request.form['fname']
     if len(request.form['lname']) >= 1:
@@ -92,12 +95,27 @@ def register_process():
     if len(request.form['about_me']) >= 1:
         about_me = request.form['about_me']
 
-    if "." not in email_input and "@" not in email_input:
+    #Checking that the e-mail address field at least includes a "." and a "@"
+    if "." not in email_input or "@" not in email_input:
         flash(email_input + " is not a valid e-mail address!")
         return render_template("register.html", email=email_input, username=username, fname=fname, lname=lname, about_me=about_me)
     
-    elif User.query.filter_by(email = email_input).all() != []:
-        return redirect('/')       
+    #Checking that the e-mail address hasn't already been registered
+    elif User.query.filter_by(email=email_input).all() != []:
+        flash(email_input + "This e-mail has already been registered! Either sign in with it, use a different e-mail address, or reset your password if you forgot it.")    
+        return render_template("register.html", email=email_input, username=username, fname=fname, lname=lname, about_me=about_me)
+
+    #Checking that the username is available
+    elif User.query.filter_by(username=username).all() != []:
+        flash(email_input + "This username is already in use! Please try another one!")
+        return render_template("register.html", email=email_input, username=username, fname=fname, lname=lname, about_me=about_me)
+
+    #Checking that the password length is at least 6       
+    elif len(pw_input) < 6:
+        flash("Your password must be at least 5 characters long! Try again.")
+        return render_template("register.html", email=email_input, username=username, fname=fname, lname=lname, about_me=about_me)  
+
+    #Otherwise, the new user's information is added to the database  
     else:
         new_user = User(email= email_input, password=pw_input, username=username, fname=fname, lname=lname, description=about_me)
         db.session.add(new_user)

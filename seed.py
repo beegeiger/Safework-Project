@@ -18,30 +18,33 @@ from server import app
 
 connect_to_db(app, 'postgresql:///safework')
 #######################################################
-with app.app_context():
- 	db.drop_all()
- 	db.create_all()
+# with app.app_context():
+#  	db.drop_all()
+#  	db.create_all()
 
 def fill_basics():
 	with app.app_context():
 		Police1 = Police(police_dept_id=1, name="User_Input")
 		Police2 = Police(police_dept_id=2, name="San Franciso Police Department", city="San Francisco", state="CA")
 		Police3 = Police(police_dept_id=3, name="Oakland Police Department", city="Oakland", state="CA")
+		Police4 = Police(police_dept_id=4, name="Alameda County Sheriff's Department", city="Oakland", state="CA")
 		db.session.add(Police1)
 		db.session.add(Police2)
 		db.session.add(Police3)
+		db.session.add(Police4)
 		db.session.commit()
 		source2 = Source(source_id=3, s_name="DataSF", police_dept_id=2, s_description="San Franciso Police API", url="https://data.sfgov.org/resource/cuks-n6tp.json?$limit=50000", s_type="gov api")
-		# source3 = Source(source_id=2, s_name="DataSF", police_dept_id=2, s_description="San Franciso Police API", url="https://data.sfgov.org/resource/PdId.json", s_type="gov api")
+		source3 = Source(source_id=2, s_name="DataSF", police_dept_id=2, s_description="San Franciso Police API", url="https://data.sfgov.org/resource/PdId.json", s_type="gov api")
 		source = Source(source_id=1, s_name="User_report")
 		source4 = Source(source_id=4, s_name="oaklandnet_90_days", police_dept_id=3, s_description="Oakland Police API Last 90 Days", url="ftp://crimewatchdata.oaklandnet.com/crimePublicData.csv", s_type="gov api")
-		# source5 = Source(source_id=5, s_name="oaklandnet_2015", police_dept_id=3, s_description="Oakland Police API 2015", url="https://data.oaklandnet.com/resource/b6ww-9zsp.json", s_type="gov api")
+		source5 = Source(source_id=5, s_name="socrata", police_dept_id=4, s_description="Alameda County Sheriff's Department API", url="https://moto.data.socrata.com/resource/bvi2-5rde.json?$where=incident_description%20like%20%27%25PROST%25%27", s_type="gov api")
 		db.session.add(source2)
-		# db.session.add(source3)
+		db.session.add(source3)
 		db.session.add(source)
 		db.session.add(source4)
+		db.session.add(source5)
 		db.session.commit()
-fill_basics()
+# fill_basics()
 
 #Used Syntax from https://gis.stackexchange.com/questions/22108/how-to-geocode-300-000-addresses-on-the-fly
 def geocode(address):
@@ -77,6 +80,19 @@ def add_incident_data(source_nums):
 							 	print incident.latitude, incident.longitude
 							 	print type(incident.latitude), type(incident.longitude)
 						db.session.commit()
+			elif s_num == 5:
+				incident_info = requests.get(sour.url).json()
+				alameda = 0
+				for row in incident_info:
+					alameda += 1
+					print "Alameda " + str(alameda)
+					print row
+					year = int(row["incident_datetime"][0:4])
+					if Incident.query.filter(Incident.police_rec_num == row["incident_id"]).all() == []:
+						if year >= 2008:	
+								incident = Incident(police_dept_id=2, source_id=3, inc_type="API", latitude=row["latitude"], longitude=row["longitude"], address=row["address_1"], city="San Francisco", state="CA", date=row["incident_datetime"], year=year, time=(str(row["hour_of_day"]) + ":00"), description=row["incident_description"], police_rec_num=row["incident_id"])
+								db.session.add(incident)
+						db.session.commit()
 			elif s_num == 4:
 				o_num = 0
 				for row in open("seed_data/oaklandcoords.csv"):
@@ -96,11 +112,11 @@ def add_incident_data(source_nums):
 					incident = Incident(police_dept_id=3, source_id=4, inc_type="API", address=address, latitude=unicode(incident_row[-2].strip(), "utf-8"), longitude=unicode(incident_row[-1].strip(), "utf-8"), city="Oakland", state="CA", date=inc[1], year=inc[1][:4], time=inc[1][11:16], description=inc[3], police_rec_num=inc[2])
 					db.session.add(incident)
 					print incident.latitude, incident.longitude
-					print type(incident.latitude), type(incident.longitude)
+					print type(incident.latitude)
 					db.session.commit()
 				
 
-add_incident_data([3, 4])
+add_incident_data([5])
 
 
 
