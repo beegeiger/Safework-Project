@@ -241,7 +241,7 @@ def add_post(forum_id):
 
 @app.route("/forums/like/<post_id>", methods=["GET"])
 def add_like(post_id):
-    """When the use "likes" post, it adds it to the dbase and updates page with new like info"""
+    """When the user "likes" a post, it adds it to the dbase and updates page with new like info"""
 
     #Queries from all of the dbase tables that need to be updated and/or rendered
     user_id = User.query.filter_by(email=session['current_user']).one().user_id
@@ -257,7 +257,7 @@ def add_like(post_id):
         db.session.add(new_like)
         db.session.commit()
 
-    #If the user previously dislike the comment, it updates it to a like
+    #If the user previously disliked the comment, it updates it to a like
     elif like_query[0].like_dislike == "dislike":
         db.session.query(Like).filter(Like.post_id == post_id,
                                       Like.user_id == user_id).update({"user_id": user_id,
@@ -273,39 +273,59 @@ def add_like(post_id):
 
 @app.route("/forums/dislike/<post_id>", methods=["GET"])
 def add_dislike(post_id):
+    """When the user "dislikes" a post, it adds it to the dbase & updates page with new like info"""
+
+    #Queries from all of the dbase tables that need to be updated and/or rendered
     user_id = User.query.filter_by(email=session['current_user']).one().user_id
     forum_id = Post.query.filter_by(post_id=post_id).one().forum_id
-    like_query = Like.query.filter(Like.post_id==post_id, Like.user_id==user_id).all()
+    like_query = Like.query.filter(Like.post_id == post_id, Like.user_id == user_id).all()
     post_query = db.session.query(Post).filter_by(post_id=post_id).one()
+
+    #If the user hasn't already liked/disliked the post, it adds the dislike to the dbase
     if like_query == []:
         new_dislike = Like(user_id=user_id, post_id=post_id, like_dislike="dislike")
-        db.session.query(Post).filter_by(post_id=post_id).update({"dislike_num": (post_query.dislike_num + 1)})
+        (db.session.query(Post).filter_by(post_id=post_id).update(
+            {"dislike_num": (post_query.dislike_num + 1)}))
         db.session.add(new_dislike)
         db.session.commit()
+
+    #If the user previously liked the comment, it updates it to a dislike
     else:
-        db.session.query(Like).filter(Like.post_id==post_id, Like.user_id==user_id).update({"user_id": user_id, "post_id": post_id, "like_dislike": "dislike"})
-        db.session.query(Post).filter_by(post_id=post_id).update({"dislike_num": (post_query.dislike_num + 1), "like_num": (post_query.like_num - 1)})
+        (db.session.query(Like).filter(Like.post_id == post_id, Like.user_id == user_id).update(
+            {"user_id": user_id, "post_id": post_id, "like_dislike": "dislike"}))
+        (db.session.query(Post).filter_by(post_id=post_id).update(
+            {"dislike_num": (post_query.dislike_num + 1), "like_num": (post_query.like_num - 1)}))
         db.session.commit()
+
+    #Re-renders the forum page with the updated dislike info
     return redirect("/forums/order_by_date/{}".format(forum_id))
 
 
 @app.route("/forums/flag/<post_id>", methods=["POST"])
 def flag_post(post_id):
+    """When a user submitts a flag for removal, adds it to the dbase and refreshes page"""
+
+    #Queries from all of the dbase tables that need to be updated and/or rendered
     user_id = User.query.filter_by(email=session['current_user']).one().user_id
     forum_id = Post.query.filter_by(post_id=post_id).one().forum_id
-    flag_query = Flag.query.filter(Flag.post_id==post_id, Flag.user_id==user_id).all()
+    flag_query = Flag.query.filter(Flag.post_id == post_id, Flag.user_id == user_id).all()
     post_query = db.session.query(Post).filter_by(post_id=post_id).one()
+
+    #Gets the flag type from the flag form submission
     f_type = request.form['flag_rad']
+
+    #Doublecheck the user hasn't already liked the post and then updates the dbase
     if flag_query == []:
         new_flag = Flag(user_id=user_id, post_id=post_id, flag_type=f_type)
-        db.session.query(Post).filter_by(post_id=post_id).update({"flag_num": (post_query.flag_num + 1)})
+        db.session.query(Post).filter_by(post_id=
+                                         post_id).update({"flag_num": (post_query.flag_num + 1)})
         db.session.add(new_flag)
         db.session.commit()
-    elif flag_query[0].flag_type != f_type:
-        db.session.query(Flag).filter_by(post_id=post_id).update({"flag_type": f_type})
-        db.session.commit()
-    flash('Your report has been submitted!')
+
+    #Flashes message and re-renders the forum page
+        flash('Your report has been submitted!')
     return redirect("/forums/order_by_date/{}".format(forum_id))
+
 
 @app.route("/forums/order_by_date/<forum_id>")    
 def date_order(forum_id):
