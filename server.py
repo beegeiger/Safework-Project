@@ -11,6 +11,8 @@ from sqlalchemy import (update, asc, desc)
 from model import Forum, Post, User, Incident, Police, Source, Like, Flag, connect_to_db, db
 import requests
 from requests_oauthlib import OAuth1
+from secrets.sh import CLIENT_ID
+
 
 app = Flask(__name__)
 
@@ -74,7 +76,7 @@ def register_form():
 
     #Renders registration page with empty form variables
     return render_template("register.html", email=email_input, username=username,
-                           name=fname, lname=lname, about_me=about_me)
+                           fname=fname, lname=lname, about_me=about_me)
 
 
 @app.route("/register", methods=["POST"])
@@ -142,7 +144,7 @@ def log_in():
     if 'current_user' in session.keys():
         return redirect("/")
     else:
-        return render_template("login.html")
+        return render_template("login.html", client_id=CLIENT_ID)
 
 
 @app.route("/login", methods=["POST"])

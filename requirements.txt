@@ -11,3 +11,4 @@ jinja2>=2.6
 geopy
 itertools
 requests_authlib
+NodeJS
