@@ -10,7 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (update, asc, desc)
 from model import Forum, Post, User, Incident, Police, Source, Like, Flag, connect_to_db, db
 import requests
-
+from requests_oauthlib import OAuth1
 
 app = Flask(__name__)
 

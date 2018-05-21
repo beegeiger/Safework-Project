@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, ForeignKey, Integer, Unicode
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy_imageattach.entity import Image, image_attachment
+# from sqlalchemy_imageattach.entity import Image, image_attachment
 
 # from server import app
 
@@ -76,11 +76,13 @@ class User(db.Model):
 	picture = db.Column(db.String(256), nullable=True)
 	created_at = db.Column(db.DateTime, nullable=True)
 	edited_at = db.Column(db.DateTime, nullable=True)
+	user_type_main = db.Column(db.String(256), nullable=True)
+	user_type_secondary = db.Column(db.String(256), nullable=True)
 
 	def __repr__(self):
     		"""Provide helpful representation when printed."""
-		return "<user_id={} password={} username={} fname={} lname={} email={} description={} picture={} created_at={} edited_at={}>".format(
-        	self.user_id, self.password, self.username, self.fname, self.lname, self.email, self.description, self.picture, self.created_at, self.edited_at)
+		return "<user_id={} password={} username={} fname={} lname={} email={} description={} picture={} created_at={} edited_at={} user_type_main={} user_type_secondary={}>".format(
+        	self.user_id, self.password, self.username, self.fname, self.lname, self.email, self.description, self.picture, self.created_at, self.edited_at, self.user_type_main, self.user_type_secondary)
 
 
 class Incident(db.Model):

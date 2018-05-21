@@ -14,13 +14,13 @@ import string
 import os
 from geopy import geocoders
 
-from server import app
+# from server import app
 
 connect_to_db(app, 'postgresql:///safework')
 #######################################################
-# with app.app_context():
-#  	db.drop_all()
-#  	db.create_all()
+with app.app_context():
+ 	db.drop_all()
+ 	db.create_all()
 
 def fill_basics():
 	with app.app_context():
@@ -44,7 +44,7 @@ def fill_basics():
 		db.session.add(source4)
 		db.session.add(source5)
 		db.session.commit()
-# fill_basics()
+fill_basics()
 
 #Used Syntax from https://gis.stackexchange.com/questions/22108/how-to-geocode-300-000-addresses-on-the-fly
 def geocode(address):
@@ -116,7 +116,7 @@ def add_incident_data(source_nums):
 					db.session.commit()
 				
 
-add_incident_data([5])
+add_incident_data([3, 4, 5])
 
 
 
