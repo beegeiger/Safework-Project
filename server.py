@@ -168,9 +168,10 @@ def login():
 @app.route("/logout")
 def logout():
     """Logs user out and delets them from the session"""
+
     del session['current_user']
 
-    flash('Byye. You have been succesfully logged out!')
+    flash('Bye! You have been succesfully logged out!')
     return redirect("/login")
 
 
@@ -327,19 +328,25 @@ def flag_post(post_id):
     return redirect("/forums/order_by_date/{}".format(forum_id))
 
 
-@app.route("/forums/order_by_date/<forum_id>")    
+@app.route("/forums/order_by_date/<forum_id>")
 def date_order(forum_id):
+    """Renders forum page with posts ordered by date"""
+
+    #Defining the central forums (within app context) to be rendered
     cam = Forum.query.filter_by(forum_id=1).one()
     dom = Forum.query.filter_by(forum_id=2).one()
     escort = Forum.query.filter_by(forum_id=3).one()
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
-    
+
+    #Queries from all of the dbase tables that need to be updated and/or rendered
     posts = Post.query.filter_by(forum_id=forum_id).order_by(asc(Post.post_id)).all()
     user = User.query.filter_by(email=session['current_user']).one()
-    flag_query = Flag.query.filter(Flag.user_id==User.user_id).all()
+    flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
+    forum = Forum.query.filter_by(forum_id=forum_id).one()
 
+    #Defines empty flag list to be filled with user's flags
     flags = []
     if len(flag_query) > 0:
         for item in flag_query:
@@ -347,22 +354,30 @@ def date_order(forum_id):
             print item.post_id
             flags.append(item.post_id)
 
-    forum = Forum.query.filter_by(forum_id=forum_id).one()
-    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts, flags=flags, flagnum=0)
+    #Renders Page
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
+                           porn=porn, dance=dance, phone=phone, posts=posts, flags=flags, flagnum=0)
 
-@app.route("/forums/order_by_pop/<forum_id>")    
+
+@app.route("/forums/order_by_pop/<forum_id>")
 def pop_order(forum_id):
+    """Renders forum page with posts ordered by popularity"""
+
+    #Defining the central forums (within app context) to be rendered
     cam = Forum.query.filter_by(forum_id=1).one()
     dom = Forum.query.filter_by(forum_id=2).one()
     escort = Forum.query.filter_by(forum_id=3).one()
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
-    
+
+    #Queries from all of the dbase tables that need to be updated and/or rendered
     posts = Post.query.filter_by(forum_id=forum_id).order_by(desc(Post.like_num)).all()
     user = User.query.filter_by(email=session['current_user']).one()
-    flag_query = Flag.query.filter(Flag.user_id==User.user_id).all()
+    flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
+    forum = Forum.query.filter_by(forum_id=forum_id).one()
 
+    #Defines empty flag list to be filled with user's flags
     flags = []
     if len(flag_query) > 0:
         for item in flag_query:
@@ -370,11 +385,15 @@ def pop_order(forum_id):
             print item.post_id
             flags.append(item.post_id)
 
-    forum = Forum.query.filter_by(forum_id=forum_id).one()
-    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, porn=porn, dance=dance, phone=phone, posts=posts, flags=flags, flagnum=0)
+    #Renders Page
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
+                           porn=porn, dance=dance, phone=phone, posts=posts, flags=flags, flagnum=0)
+
 
 @app.route("/report", methods=["GET"])
 def report_page():
+    """If user logged in, renders report form page, otherwise redirects to login"""
+
     if 'current_user' in session.keys():
         return render_template("report_form.html")
     else:
@@ -385,8 +404,9 @@ def report_page():
 
 @app.route("/report", methods=["POST"])
 def submit_form():
+    """Submits the report form and saves incident to database"""
 
-
+    #Queries dBase and gets info from form to be saves as new incident
     user_id = (User.query.filter(User.email == session['current_user']).first()).user_id
     inc_type = request.form['inc_type']
     address = request.form['address']
@@ -403,12 +423,14 @@ def submit_form():
     sting = request.form['sting']
     avoid = request.form['avoid']
     other = request.form['other']
-    year = int(row["date"][0:4])
+    year = date[0:4]
 
+    #Creates new incident and commits it to dBase
     new_report = Incident(year=year, user_id=user_id, police_dept_id=3, source_id=3, inc_type=inc_type, address=address, city=city, state=state, latitude=lat, longitude=lng, date=date, time=time, description=description, cop_name=p_name, cop_badge=badge, cop_desc=p_description, sting_strat=sting, avoidance=avoid, other=other)
     db.session.add(new_report)
     db.session.commit()
 
+    #Redirects to homepage
     flash('Your report has been filed and should be added to the map soon!')
     return redirect("/")
 
@@ -416,7 +438,10 @@ def submit_form():
 
 @app.route("/profile")
 def user_profile():
+
+
     user = User.query.filter_by(email=session['current_user']).one()
+
 
     return render_template("user_page.html", email=user.email, username=user.username, fname=user.fname, lname=user.lname, about_me=user.description)
 
@@ -424,7 +449,10 @@ def user_profile():
 
 @app.route("/edit_profile", methods=["GET"])
 def edit_page():
+
+
     user = User.query.filter_by(email=session['current_user']).one()
+
 
     return render_template("edit_profile.html", email=user.email, username=user.username, fname=user.fname, lname=user.lname, about_me=user.description)
 
@@ -432,6 +460,8 @@ def edit_page():
 
 @app.route("/edit_profile", methods=["POST"])
 def edit_profile():
+
+
     email_input = request.form['email_input']
     pw_input = request.form['old_password']
     new_password = request.form['new_password']
@@ -440,11 +470,14 @@ def edit_profile():
     lname = request.form['lname']
     about_me = request.form['about_me']
 
+
     if User.query.filter(User.email == email_input, User.password == pw_input).all() != []:
         db.session.query(User).filter(User.email == session['current_user'], User.password == pw_input).update({'fname': fname, 'lname': lname, 'email': email_input, 'password': new_password, 'username': username, 'description': about_me})
         db.session.commit()
         flash('Your Profile was Updated!')
         return redirect("/profile")
+
+
     else:
         flash('Your e-mail or password was incorrect! Please try again or Register.')
         return render_template("login.html")
