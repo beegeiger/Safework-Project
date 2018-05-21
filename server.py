@@ -426,7 +426,11 @@ def submit_form():
     year = date[0:4]
 
     #Creates new incident and commits it to dBase
-    new_report = Incident(year=year, user_id=user_id, police_dept_id=3, source_id=3, inc_type=inc_type, address=address, city=city, state=state, latitude=lat, longitude=lng, date=date, time=time, description=description, cop_name=p_name, cop_badge=badge, cop_desc=p_description, sting_strat=sting, avoidance=avoid, other=other)
+    new_report = Incident(year=year, user_id=user_id, police_dept_id=3, source_id=3,
+                          inc_type=inc_type, address=address, city=city, state=state, latitude=lat,
+                          longitude=lng, date=date, time=time, description=description,
+                          cop_name=p_name, cop_badge=badge, cop_desc=p_description,
+                          sting_strat=sting, avoidance=avoid, other=other)
     db.session.add(new_report)
     db.session.commit()
 
@@ -438,30 +442,31 @@ def submit_form():
 
 @app.route("/profile")
 def user_profile():
-
+    """Renders user's profile"""
 
     user = User.query.filter_by(email=session['current_user']).one()
 
-
-    return render_template("user_page.html", email=user.email, username=user.username, fname=user.fname, lname=user.lname, about_me=user.description)
+    return render_template("user_page.html", email=user.email, username=user.username,
+                           fname=user.fname, lname=user.lname, about_me=user.description)
 
 
 
 @app.route("/edit_profile", methods=["GET"])
 def edit_page():
-
+    """Renders the edit profile page"""
 
     user = User.query.filter_by(email=session['current_user']).one()
 
-
-    return render_template("edit_profile.html", email=user.email, username=user.username, fname=user.fname, lname=user.lname, about_me=user.description)
+    return render_template("edit_profile.html", email=user.email, username=user.username,
+                           fname=user.fname, lname=user.lname, about_me=user.description)
 
 
 
 @app.route("/edit_profile", methods=["POST"])
 def edit_profile():
+    """Submits the profile edits"""
 
-
+    #Gets info from html form and dbase
     email_input = request.form['email_input']
     pw_input = request.form['old_password']
     new_password = request.form['new_password']
@@ -469,18 +474,23 @@ def edit_profile():
     fname = request.form['fname']
     lname = request.form['lname']
     about_me = request.form['about_me']
+    user = User.query.filter_by(email=session['current_user']).one()
 
-
+    #Checks that the password matches the user's password. If so, updates the user's info
     if User.query.filter(User.email == email_input, User.password == pw_input).all() != []:
-        db.session.query(User).filter(User.email == session['current_user'], User.password == pw_input).update({'fname': fname, 'lname': lname, 'email': email_input, 'password': new_password, 'username': username, 'description': about_me})
+        (db.session.query(User).filter(
+            User.email == session['current_user'], User.password == pw_input).update(
+                {'fname': fname, 'lname': lname, 'email': email_input, 'password': new_password,
+                 'username': username, 'description': about_me}))
         db.session.commit()
         flash('Your Profile was Updated!')
         return redirect("/profile")
 
-
+    #Otherwise, it flashes a message and redirects to the login page
     else:
         flash('Your e-mail or password was incorrect! Please try again or Register.')
-        return render_template("login.html")
+        return render_template("edit_profile.html", email=user.email, username=user.username,
+                               fname=user.fname, lname=user.lname, about_me=user.description)
 
 #####################################################
 
