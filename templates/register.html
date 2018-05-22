@@ -61,25 +61,53 @@
 
 <button class="test_but" id="test_but">Test</button>
 <script type="text/javascript">
-	let current_worker = $('input[name=current_worker]:checked').val();
-	let former_worker = $('#former_worker');
-	let aspiring_worker = $('#aspiring_worker');
-	let researcher = $('#researcher');
-	let other_reason = $('#other_reason');
 
 	let current = $('#current1');
 	let former = $('#former1');
-	let aspire = $('#aspiring1');
+	let aspire = $('#aspire1');
 	let research = $('#research1');
 	let other = $('#other1');
 
-	function show_current(evt) {
-		evt.preventDefault();
-		current.removeClass(["hidden"]);
-		$('#current_worker').show();
-	}
 
-	current_worker.on("click", show_current);
+	$(document).ready(function() {
+    $('input[type=radio][name=user_type]').change(function() {
+        if (this.value == 'current_worker') {
+            current.show();
+            former.hide();
+            aspire.hide();
+            research.hide();
+            other.hide();
+        }
+        else if (this.value == 'former_worker') {
+            current.hide();
+            former.show();
+            aspire.hide();
+            research.hide();
+            other.hide();
+        }
+        else if (this.value == 'aspiring_worker') {
+            current.hide();
+            former.hide();
+            aspire.show();
+            research.hide();
+            other.hide();
+        }
+        else if (this.value == 'researcher') {
+            current.hide();
+            former.hide();
+            aspire.hide();
+            research.show();
+            other.hide();
+        }
+        else if (this.value == 'other_reason') {
+            current.hide();
+            former.hide();
+            aspire.hide();
+            research.hide();
+            other.show();
+        }
+    });
+});
 
 </script>
 

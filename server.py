@@ -100,6 +100,8 @@ def register_process():
     pw_input = request.form['password'].encode('utf-8')
     username = request.form['username']
     hashed_word = bcrypt.hashpw(pw_input, bcrypt.gensalt())
+    user_type = request.form['user_type']
+    second_type = request.form['2nd']
 
     """Checks to make sure values exist in the optional fields
                 before setting the variables equal to the form values"""
@@ -138,7 +140,8 @@ def register_process():
     #Otherwise, the new user's information is added to the database
     else:
         new_user = User(email=email_input, password=hashed_word, username=username, fname=fname,
-                        lname=lname, description=about_me)
+                        lname=lname, description=about_me, user_type_main=user_type,
+                        user_type_secondary=second_type)
         db.session.add(new_user)
         db.session.commit()
 
