@@ -1,4 +1,11 @@
 """SafeWork Server"""
+
+from __future__ import absolute_import
+
+import flask
+import bcrypt
+import bcrypt
+import config
 import json
 import datetime
 from datetime import datetime
@@ -10,8 +17,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (update, asc, desc)
 from model import Forum, Post, User, Incident, Police, Source, Like, Flag, connect_to_db, db
 import requests
-from requests_oauthlib import OAuth1
-from secrets.sh import CLIENT_ID
+from secrets_env import CLIENT_ID
 
 
 app = Flask(__name__)
@@ -91,8 +97,9 @@ def register_process():
 
     #Sets variables equal to the form values
     email_input = request.form['email_input']
-    pw_input = request.form['password']
+    pw_input = request.form['password'].encode('utf-8')
     username = request.form['username']
+    hashed_word = bcrypt.hashpw(pw_input, bcrypt.gensalt())
 
     """Checks to make sure values exist in the optional fields
                 before setting the variables equal to the form values"""
@@ -130,7 +137,7 @@ def register_process():
 
     #Otherwise, the new user's information is added to the database
     else:
-        new_user = User(email=email_input, password=pw_input, username=username, fname=fname,
+        new_user = User(email=email_input, password=hashed_word, username=username, fname=fname,
                         lname=lname, description=about_me)
         db.session.add(new_user)
         db.session.commit()
@@ -153,10 +160,16 @@ def login():
 
     #Sets variable equal to the login form inputs
     email_input = request.form['email_input']
-    pw_input = request.form['pw_input']
+    pw_input = request.form['pw_input'].encode('utf-8')
+    user_query = User.query.filter(User.email == email_input).all()
+
+    if user_query == []:
+        flash('There is no record of your e-mail address! Please try again or Register.')
+        return render_template("login.html")        
+
 
     #Queries to see if the email and pword match the database. If so, redirects to forums.
-    if User.query.filter(User.email == email_input, User.password == pw_input).all() != []:
+    elif bcrypt.checkpw(pw_input, user_query[0].password.encode('utf-8')):
         session['current_user'] = email_input
         flash('You were successfully logged in')
         return redirect("/forums")
@@ -436,7 +449,7 @@ def submit_form():
     db.session.add(new_report)
     db.session.commit()
 
-    #Redirects to homepage
+    #Redirects to homepage sudo apt-get install build-essential libffi-dev python-dev
     flash('Your report has been filed and should be added to the map soon!')
     return redirect("/")
 

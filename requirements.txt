@@ -10,5 +10,5 @@ WTForms
 jinja2>=2.6
 geopy
 itertools
-requests_authlib
-NodeJS
+bcrypt
+ sudo apt-get install build-essential libffi-dev python-dev

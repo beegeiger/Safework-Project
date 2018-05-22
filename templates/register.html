@@ -11,6 +11,43 @@
 		<b>Password</b> (at least 6 characters): <input type=textbox name="password" required></input><br><br>
 		(Please do not use your real name. Use your sex worker name, make one up, or leave the name field blank)<br>
 		<b>First name:</b><input type=textbox name="fname" value={{ fname }}></input>&nbsp &nbsp<b>Last name:</b><input type=textbox name="lname" value={{ lname }}></input><br><br>
+		<b>Which of the following best describes you?</b><br>
+			<input type="radio" name="user_type" value="current_worker" required>Current Sex Worker &nbsp &nbsp
+			<input type="radio" name="user_type" value="former_worker">Former Sex Worker &nbsp &nbsp
+			<input type="radio" name="user_type" value="aspiring_worker">Aspiring Sex Worker &nbsp &nbsp
+			<input type="radio" name="user_type" value="researcher">Researcher &nbsp &nbsp
+			<input type="radio" name="user_type" value="other_reason">Other			
+			<p class="current"><b>What is your primary area of expertise?</b><br>
+				<input type="radio" name="2nd" value="escort" required>Escorting &nbsp &nbsp
+				<input type="radio" name="2nd" value="cam">Cam Modeling &nbsp &nbsp
+				<input type="radio" name="2nd" value="dom" required>Pro-Domination &nbsp &nbsp
+				<input type="radio" name="2nd" value="porn" required>Porn &nbsp &nbsp
+				<input type="radio" name="2nd" value="dance" required>Dancing/Stripping &nbsp &nbsp
+				<input type="radio" name="2nd" value="phone" required>Phone Sex &nbsp &nbsp</p>
+			<p class="former"><b>What was your primary area of expertise?</b><br>
+				<input type="radio" name="2nd" value="escort" required>Escorting &nbsp &nbsp
+				<input type="radio" name="2nd" value="cam" required>Cam Modeling &nbsp &nbsp
+				<input type="radio" name="2nd" value="dom" required>Pro-Domination &nbsp &nbsp
+				<input type="radio" name="2nd" value="porn" required>Porn &nbsp &nbsp
+				<input type="radio" name="2nd" value="dance" required>Dancing/Stripping &nbsp &nbsp
+				<input type="radio" name="2nd" value="phone" required>Phone Sex &nbsp &nbsp</p>
+			<p class="aspire"><b>What will be your primary area of expertise?</b><br>
+				<input type="radio" name="2nd" value="escort" required>Escorting &nbsp &nbsp
+				<input type="radio" name="2nd" value="cam" required>Cam Modeling &nbsp &nbsp
+				<input type="radio" name="2nd" value="dom" required>Pro-Domination &nbsp &nbsp
+				<input type="radio" name="2nd" value="porn" required>Porn &nbsp &nbsp
+				<input type="radio" name="2nd" value="dance" required>Dancing/Stripping &nbsp &nbsp
+				<input type="radio" name="2nd" value="phone" required>Phone Sex &nbsp &nbsp</p>
+			<p class="research"><b>Why are you doing research?</b><br>
+				<input type="radio" name="2nd" value="school" required>School/University &nbsp &nbsp
+				<input type="radio" name="2nd" value="social_justice" required>Sex Worker Social Justice &nbsp &nbsp
+				<input type="radio" name="2nd" value="law" required>Law Enforcement &nbsp &nbsp
+				<input type="radio" name="2nd" value="curiosity" required>Curiosity &nbsp &nbsp</p>
+			<p class="other"><b>Why are you on this site?</b><br>
+				<input type="radio" name="2nd" value="john" required>To hire a Sex Worker &nbsp &nbsp
+				<input type="radio" name="2nd" value="law" required>You are Law Enforcement &nbsp &nbsp
+				<input type="radio" name="2nd" value="troll" required>To give your non-sex worker opion to sex workers</p>
+
 		<b>Tell us a bit about yourself:</b><br>
 		<textarea rows="6" cols="50" name="about_me">{{ about_me }}</textarea><br>
 		<br><input type=submit></form>
