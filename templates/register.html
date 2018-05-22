@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}{% endblock %}
+{% block title %}Registration{% endblock %}
 {% block head %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -54,7 +54,11 @@
 				<input type="radio" name="2nd" value="law" required>You are Law Enforcement &nbsp &nbsp
 				<input type="radio" name="2nd" value="support" required>To support sex workers &nbsp &nbsp
 				<input type="radio" name="2nd" value="troll" required>To give your non-sex worker opion to sex workers</p>
-
+				<br>
+<!-- 			<p id="john1" class="hidden">This site is not at all intended to hire sex workers. If you try to hire someone, you will be banned immediately.</p>
+			<p id="law1" class="hidden">You may enter the site, but please know that this site is only intended for adult, consensual sex workers. Pimps and human traffickers are NOT welcome here!!!</p>
+			<p id="support1" class="hidden">Remember, the best way to support is to listen.</p>
+			<p id="troll1" class="hidden">You may join the site, but know that it is not intended for you. The forums are heavily moderated and any trolling will be dealt with swiftly.</p> -->
 		<br><br><b>Tell us a bit about yourself:</b><br>
 		<textarea rows="6" cols="50" name="about_me">{{ about_me }}</textarea><br>
 		<br><input type=submit></form>
@@ -67,7 +71,10 @@
 	let aspire = $('#aspire1');
 	let research = $('#research1');
 	let other = $('#other1');
-
+	// let john = $('#john1');
+	// let law = $('#law1');
+	// let support = $('#support1');
+	// let troll = $('#troll1');
 
 	$(document).ready(function() {
     $('input[type=radio][name=user_type]').change(function() {
@@ -108,6 +115,44 @@
         }
     });
 });
+
+
+
+// 	$(document).ready(function() {
+//     $('input[type=radio][name=2nd]').change(function() {
+//         else if (this.value == 'john') {
+//             john.show();
+//             law.hide();
+//             support.hide();
+//             troll.hide();
+//         }
+//         else if (this.value == 'law') {
+//             john.hide();
+//             law.show();
+//             support.hide();
+//             troll.hide();
+//         }
+//         else if (this.value == 'support') {
+//             john.hide();
+//             law.hide();
+//             support.show();
+//             troll.hide();
+//         }
+//         else if (this.value == 'troll') {
+//             john.hide();
+//             law.hide();
+//             support.hide();
+//             troll.show();
+//         }
+//         else {
+//             john.hide();
+//             law.hide();
+//             support.hide();
+//             troll.hide();        	
+//         }        
+//     });
+// });
+
 
 </script>
 
