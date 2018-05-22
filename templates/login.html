@@ -11,10 +11,20 @@
 
 		<form action="/login" method="POST"><br>
 			E-mail: <input type=textbox name="email_input" required></input><br>
-			Password: <input type=textbox name="pw_input" required></input>
+			Password: <input type="password" name="pw_input" id="myInput" required></input><br>
+			<input type="checkbox" onclick="myFunction()">Show Password<br>
 			<br><input type=submit>
 
 		</form><br> Don't have an account? &nbsp &nbsp <a href="/register"> Register Here!</a>
 
-
+<script>
+	function myFunction() {
+    var x = document.getElementById("myInput");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+</script>
 {% endblock %}

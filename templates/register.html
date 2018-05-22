@@ -14,7 +14,8 @@
 	<form action="/register" method="POST"><br>
 		<b>E-mail:</b> <input type=textbox name="email_input"  value="{{ email }}" required></input><br><br>
 		<b>Username:</b> <input type=textbox name="username" value="{{ username }}" required><br><br>
-		<b>Password</b> (at least 6 characters): <input type=textbox name="password" required></input><br><br>
+		<b>Password</b> (at least 6 characters): <input type=password name="password" id="myInput" required></input><br>
+		<input type="checkbox" onclick="myFunction()">Show Password<br><br>
 		(Please do not use your real name. Use your sex worker name, make one up, or leave the name field blank)<br>
 		<b>First name:</b><input type=textbox name="fname" value={{ fname }}></input>&nbsp &nbsp<b>Last name:</b><input type=textbox name="lname" value={{ lname }}></input><br><br>
 		<b>Which of the following best describes you?</b><br>
@@ -116,7 +117,14 @@
     });
 });
 
-
+function myFunction() {
+    var x = document.getElementById("myInput");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
 
 // 	$(document).ready(function() {
 //     $('input[type=radio][name=2nd]').change(function() {

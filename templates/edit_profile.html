@@ -8,12 +8,34 @@
 	<form action="/edit_profile" method="POST"><br>
 		<b>E-mail:</b> <input type=textbox name="email_input" value={{ email }}></input><br><br>
 		<b>Username:</b> <input type=textbox name="username" value={{ username }}><br><br>
-		<b>Old Password:</b> <input type=textbox name="old_password" value=></input><br><br>
-		<b>New Password:</b> <input type=textbox name="new_password" value=></input><br><br>
+		<b>Old Password:</b> <input type="password" name="old_password" id="myInput" required></input><br>
+		<input type="checkbox" onclick="myFunction()">Show Password<br>
+		<b>New Password:</b> <input type="password" name="new_password" id="myInput2"></input><br>
+		<input type="checkbox" onclick="myFunction2()">Show Password<br><br>
 		(Please do not use your real name. Use your sex worker name, make one up, or leave the name field blank)<br>
 		<b>First name:</b><input type=textbox name="fname" value="{{ fname }}"></input>&nbsp &nbsp<b>Last name:</b><input type=textbox name="lname" value={{ lname }}></input><br><br>
 		<b>Tell us a bit about yourself:</b><br>
 		<textarea rows="6" cols="50" name="about_me">{{ about_me }}</textarea><br>
 		<br><input type=submit></form>
 
+<script>
+	function myFunction() {
+    var x = document.getElementById("myInput");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+
+	function myFunction2() {
+    var x = document.getElementById("myInput2");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+
+</script>
 {% endblock %}

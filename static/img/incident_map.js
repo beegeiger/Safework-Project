@@ -45,7 +45,13 @@ function initMap() {
     "elementType": "labels.text",
     "stylers": [
       {
-        "weight": 4.5
+        "saturation": 100
+      },
+      {
+        "lightness": 95
+      },
+      {
+        "weight": 8
       }
     ]
   },
@@ -79,6 +85,15 @@ function initMap() {
     "stylers": [
       {
         "lightness": -15
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.neighborhood",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "visibility": "off"
       }
     ]
   },
@@ -151,6 +166,9 @@ function initMap() {
     "stylers": [
       {
         "color": "#95298d"
+      },
+      {
+        "lightness": -25
       }
     ]
   },
@@ -160,6 +178,9 @@ function initMap() {
     "stylers": [
       {
         "color": "#6e0837"
+      },
+      {
+        "visibility": "off"
       }
     ]
   },
