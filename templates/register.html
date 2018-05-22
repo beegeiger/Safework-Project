@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}{% endblock %}
 {% block head %}
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<style>
+	p.hidden {
+		display: none;
+	}
+</style>
 {% endblock %}
 {% block content %}
 
@@ -17,39 +23,65 @@
 			<input type="radio" name="user_type" value="aspiring_worker">Aspiring Sex Worker &nbsp &nbsp
 			<input type="radio" name="user_type" value="researcher">Researcher &nbsp &nbsp
 			<input type="radio" name="user_type" value="other_reason">Other			
-			<p class="current"><b>What is your primary area of expertise?</b><br>
+			<p id="current1" class="hidden"><b>What is your primary area of expertise?</b><br>
 				<input type="radio" name="2nd" value="escort" required>Escorting &nbsp &nbsp
 				<input type="radio" name="2nd" value="cam">Cam Modeling &nbsp &nbsp
 				<input type="radio" name="2nd" value="dom" required>Pro-Domination &nbsp &nbsp
 				<input type="radio" name="2nd" value="porn" required>Porn &nbsp &nbsp
 				<input type="radio" name="2nd" value="dance" required>Dancing/Stripping &nbsp &nbsp
 				<input type="radio" name="2nd" value="phone" required>Phone Sex &nbsp &nbsp</p>
-			<p class="former"><b>What was your primary area of expertise?</b><br>
+			<p id="former1" class="hidden"><b>What was your primary area of expertise?</b><br>
 				<input type="radio" name="2nd" value="escort" required>Escorting &nbsp &nbsp
 				<input type="radio" name="2nd" value="cam" required>Cam Modeling &nbsp &nbsp
 				<input type="radio" name="2nd" value="dom" required>Pro-Domination &nbsp &nbsp
 				<input type="radio" name="2nd" value="porn" required>Porn &nbsp &nbsp
 				<input type="radio" name="2nd" value="dance" required>Dancing/Stripping &nbsp &nbsp
 				<input type="radio" name="2nd" value="phone" required>Phone Sex &nbsp &nbsp</p>
-			<p class="aspire"><b>What will be your primary area of expertise?</b><br>
+			<p id="aspire1" class="hidden"><b>What will be your primary area of expertise?</b><br>
 				<input type="radio" name="2nd" value="escort" required>Escorting &nbsp &nbsp
 				<input type="radio" name="2nd" value="cam" required>Cam Modeling &nbsp &nbsp
 				<input type="radio" name="2nd" value="dom" required>Pro-Domination &nbsp &nbsp
 				<input type="radio" name="2nd" value="porn" required>Porn &nbsp &nbsp
 				<input type="radio" name="2nd" value="dance" required>Dancing/Stripping &nbsp &nbsp
 				<input type="radio" name="2nd" value="phone" required>Phone Sex &nbsp &nbsp</p>
-			<p class="research"><b>Why are you doing research?</b><br>
+			<p id="research1" class="hidden"><b>Why are you doing research?</b><br>
 				<input type="radio" name="2nd" value="school" required>School/University &nbsp &nbsp
 				<input type="radio" name="2nd" value="social_justice" required>Sex Worker Social Justice &nbsp &nbsp
 				<input type="radio" name="2nd" value="law" required>Law Enforcement &nbsp &nbsp
 				<input type="radio" name="2nd" value="curiosity" required>Curiosity &nbsp &nbsp</p>
-			<p class="other"><b>Why are you on this site?</b><br>
+			<p id="other1" class="hidden"><b>Why are you on this site?</b><br>
 				<input type="radio" name="2nd" value="john" required>To hire a Sex Worker &nbsp &nbsp
 				<input type="radio" name="2nd" value="law" required>You are Law Enforcement &nbsp &nbsp
+				<input type="radio" name="2nd" value="support" required>To support sex workers &nbsp &nbsp
 				<input type="radio" name="2nd" value="troll" required>To give your non-sex worker opion to sex workers</p>
 
-		<b>Tell us a bit about yourself:</b><br>
+		<br><br><b>Tell us a bit about yourself:</b><br>
 		<textarea rows="6" cols="50" name="about_me">{{ about_me }}</textarea><br>
 		<br><input type=submit></form>
+
+<button class="test_but" id="test_but">Test</button>
+<script type="text/javascript">
+	let current_worker = $('input[name=current_worker]:checked').val();
+	let former_worker = $('#former_worker');
+	let aspiring_worker = $('#aspiring_worker');
+	let researcher = $('#researcher');
+	let other_reason = $('#other_reason');
+
+	let current = $('#current1');
+	let former = $('#former1');
+	let aspire = $('#aspiring1');
+	let research = $('#research1');
+	let other = $('#other1');
+
+	function show_current(evt) {
+		evt.preventDefault();
+		current.removeClass(["hidden"]);
+		$('#current_worker').show();
+	}
+
+	current_worker.on("click", show_current);
+
+</script>
+
 
 {% endblock %}
