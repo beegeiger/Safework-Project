@@ -28,12 +28,14 @@
 				<span style="float:right;"> Posted: {{ post.date_posted }}</span></p>
 
 	</div></div>
-<form action="/forums/child/{{ forum.forum_id }}" method="POST"><br>
-<b>New Post:</b>
-<br><textarea rows="6" cols="50" name="child_content"></textarea><br>
-
+<div class="hidden" id="child{{ loop.index }}">
+	<form action="/forums/child/{{ post.post_id }}" method="POST"><br>
+	<b>New Post:</b>
+	<br><textarea rows="6" cols="50" name="child_content"></textarea><br>
+	<br><input type=submit>
+	</form><br>
+</div>
 <script>
-
 
 let flagBut{{ loop.index }} = document.querySelector('#but{{ loop.index }}');
 let subFlag{{ loop.index }} = document.querySelector('#Flag_Form{{ loop.index }}');
@@ -45,7 +47,15 @@ function flag{{ loop.index }}(evt) {
 }
 flagBut{{ loop.index }}.addEventListener('click', flag{{ loop.index }});
 
+let childReply{{ loop.index }} = document.querySelector('#child{{ loop.index }}');
+let repBut{{ loop.index }} = document.querySelector('#reply{{ loop.index }}');
+function reply{{ loop.index }}(evt) {
+	evt.preventDefault();
+	$(repBut{{ loop.index }}).hide();
+	$(childReply{{ loop.index }}).show();
+}
 
+repBut{{ loop.index }}.addEventListener('click', reply{{ loop.index }});
 
 </script>
 {% endfor %}
