@@ -252,10 +252,11 @@ def add_post(forum_id):
         db.session.commit()
 
     #Queries the post and forun data and renders everything back to the same forum page
-    posts = Post.query.filter_by(forum_id=forum_id).all()
+    posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0).order_by(asc(Post.post_id)).all()
+    child_posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
     forum = Forum.query.filter_by(forum_id=forum_id).one()
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
-                           porn=porn, dance=dance, phone=phone, posts=posts, flags=flags)
+                           porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts, flags=flags)
 
 
 @app.route("/forums/child/<post_id>", methods=["POST"])
@@ -285,7 +286,7 @@ def add_child_post(post_id):
 
     #Adds the new post to the database
     parent_post = Post.query.filter_by(post_id=post_id).one()
-    new_post = Post(user_id=user.user_id, username=user.username, forum_id=parent_post.forum_id,
+    new_post = Post(user_id=user.user_id, username=user.username, forum_id=parent_post.forum_id, parent_post_id=post_id,
                     content=post_content, p_datetime=datetime.now(),
                     date_posted=(str(datetime.now())[:16]))
 
@@ -296,10 +297,12 @@ def add_child_post(post_id):
         db.session.commit()
 
     #Queries the post and forum data and renders everything back to the same forum page
-    posts = Post.query.filter(Post.forum_id == parent_post.forum_id, Post.parent_post_id == None).all()
+    posts = Post.query.filter(Post.forum_id == parent_post.forum_id, Post.parent_post_id == 0).order_by(asc(Post.post_id)).all()
+    child_posts = Post.query.filter(Post.forum_id == parent_post.forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
+    print child_posts
     forum = Forum.query.filter_by(forum_id=posts[0].forum_id).one()
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
-                           porn=porn, dance=dance, phone=phone, posts=posts, flags=flags, 
+                           porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts, flags=flags, 
                            parent_post_id=post_id)
 
 
@@ -420,7 +423,7 @@ def date_order(forum_id):
 
     #Renders Page
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
-                           porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts flags=flags, flagnum=0)
+                           porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts, flags=flags, flagnum=0)
 
 
 @app.route("/forums/order_by_pop/<forum_id>")
