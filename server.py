@@ -258,6 +258,49 @@ def add_post(forum_id):
                            porn=porn, dance=dance, phone=phone, posts=posts, flags=flags)
 
 
+@app.route("/forums/chil/<forum_id>", methods=["POST"])
+def add_chile_post(forum_id):
+    """Uses POST request to create a new post within a forum"""
+
+    #Defining the central forums (within app context) to be rendered
+    cam = Forum.query.filter_by(forum_id=1).one()
+    dom = Forum.query.filter_by(forum_id=2).one()
+    escort = Forum.query.filter_by(forum_id=3).one()
+    porn = Forum.query.filter_by(forum_id=4).one()
+    dance = Forum.query.filter_by(forum_id=5).one()
+    phone = Forum.query.filter_by(forum_id=6).one()
+
+    #Gets the new posts content
+    post_content = request.form['content']
+
+    #Checks to see the users info and which posts they have flagged
+    user = User.query.filter_by(email=session['current_user']).one()
+    flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
+    flags = []
+    if len(flag_query) > 0:
+        for item in flag_query:
+            print item
+            print item.post_id
+            flags.append(item.post_id)
+
+    #Adds the new post to the database
+    new_post = Post(user_id=user.user_id, username=user.username, forum_id=forum_id,
+                    content=post_content, p_datetime=datetime.now(),
+                    date_posted=(str(datetime.now())[:16]))
+
+    #Doublechecks that the user isn't creating a duplicate post
+    if Post.query.filter(Post.content == new_post.content,
+                         Post.username == new_post.username).all() == []:
+        db.session.add(new_post)
+        db.session.commit()
+
+    #Queries the post and forun data and renders everything back to the same forum page
+    posts = Post.query.filter_by(forum_id=forum_id).all()
+    forum = Forum.query.filter_by(forum_id=forum_id).one()
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
+                           porn=porn, dance=dance, phone=phone, posts=posts, flags=flags)
+
+
 @app.route("/forums/like/<post_id>", methods=["GET"])
 def add_like(post_id):
     """When the user "likes" a post, it adds it to the dbase and updates page with new like info"""

@@ -7,3 +7,7 @@ https://moto.data.socrata.com/dataset/Alameda-County-Sheriff-s-Office/bvi2-5rde
 https://moto.data.socrata.com/resource/bvi2-5rde.json?$where=incident_description%20like%20%27%25PROST%25%27
 
 sudo apt-get install build-essential libffi-dev python-dev
+
+San Leandro: https://moto.data.socrata.com/resource/6nbc-apvm.json?$where=incident_description%20like%20%27%25PROST%25%27
+
+San Pablo: https://moto.data.socrata.com/resource/tsdt-igxn.json?$where=incident_description%20like%20%27%25PROST%25%27

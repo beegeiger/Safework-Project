@@ -14,6 +14,8 @@
 				<input type="radio" name="flag_rad" value="abusive">Abusive
 				<input type="radio" name="flag_rad" value="trolling">Trolling
 				<input type="radio" name="flag_rad" value="off_topic">Off-Topic
+				<input type="radio" name="flag_rad" value="human_traf">Human-Trafficking
+				<input type="radio" name="flag_rad" value="pimping">Pimping
 				<input type="radio" name="flag_rad" value="other">Other
 				<input type="submit" id="Flag_Post_but" value="Flag Post">
 				{% else %} <p> "You have flagged this post for removal!" </p> {% endif %}
@@ -21,18 +23,20 @@
 			
 			<div align="left"><b>{{ post.username }}:</b> {{ post.content }}</div>
 
-			<p style="text-align:left;"><a href="/forums/like/{{ post.post_id }}">Like</a>({{ post.like_num }})/<a href="/forums/dislike/{{ post.post_id }}">Dislike</a>({{ post.dislike_num }}) <span style="float:right;"> Posted: {{ post.date_posted }}</span></p>
+			<p style="text-align:left;"><a href="/forums/like/{{ post.post_id }}">Like</a>({{ post.like_num }})/<a href="/forums/dislike/{{ post.post_id }}">Dislike</a>({{ post.dislike_num }}) 
+				<span style="float:center;"><button class="reply_class" id="reply{{ loop.index }}">Reply to Post</button></span>
+				<span style="float:right;"> Posted: {{ post.date_posted }}</span></p>
 
 	</div></div>
-
+<form action="/forums/child/{{ forum.forum_id }}" method="POST"><br>
+<b>New Post:</b>
+<br><textarea rows="6" cols="50" name="child_content"></textarea><br>
 
 <script>
 
 
 let flagBut{{ loop.index }} = document.querySelector('#but{{ loop.index }}');
 let subFlag{{ loop.index }} = document.querySelector('#Flag_Form{{ loop.index }}');
-console.log((flagBut{{ loop.index }}))
-console.log(subFlag{{ loop.index }})
 function flag{{ loop.index }}(evt) {
 	evt.preventDefault();
 	$(flagBut{{ loop.index }}).hide();
@@ -40,6 +44,8 @@ function flag{{ loop.index }}(evt) {
 	
 }
 flagBut{{ loop.index }}.addEventListener('click', flag{{ loop.index }});
+
+
 
 </script>
 {% endfor %}
