@@ -45,7 +45,7 @@ class Post(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 	username = db.Column(db.String(64))
 	forum_id = db.Column(db.Integer, db.ForeignKey('forums.forum_id'))
-	parent_post_id = db.Column(db.Integer, db.ForeignKey('posts.post_id'), nullable=True)
+	parent_post_id = db.Column(db.Integer, nullable=True)
 	content = db.Column(db.String(4096))
 	p_datetime = db.Column(db.DateTime, nullable=True)
 	edit_datetime = db.Column(db.DateTime, nullable=True)

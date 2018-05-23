@@ -241,7 +241,7 @@ def add_post(forum_id):
             flags.append(item.post_id)
 
     #Adds the new post to the database
-    new_post = Post(user_id=user.user_id, username=user.username, forum_id=forum_id,
+    new_post = Post(parent_post_id=0, user_id=user.user_id, username=user.username, forum_id=forum_id,
                     content=post_content, p_datetime=datetime.now(),
                     date_posted=(str(datetime.now())[:16]))
 
@@ -404,7 +404,8 @@ def date_order(forum_id):
     phone = Forum.query.filter_by(forum_id=6).one()
 
     #Queries from all of the dbase tables that need to be updated and/or rendered
-    posts = Post.query.filter_by(forum_id=forum_id).order_by(asc(Post.post_id)).all()
+    posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0).order_by(asc(Post.post_id)).all()
+    child_posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
     user = User.query.filter_by(email=session['current_user']).one()
     flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
     forum = Forum.query.filter_by(forum_id=forum_id).one()
@@ -419,7 +420,7 @@ def date_order(forum_id):
 
     #Renders Page
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
-                           porn=porn, dance=dance, phone=phone, posts=posts, flags=flags, flagnum=0)
+                           porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts flags=flags, flagnum=0)
 
 
 @app.route("/forums/order_by_pop/<forum_id>")
@@ -435,7 +436,8 @@ def pop_order(forum_id):
     phone = Forum.query.filter_by(forum_id=6).one()
 
     #Queries from all of the dbase tables that need to be updated and/or rendered
-    posts = Post.query.filter_by(forum_id=forum_id).order_by(desc(Post.like_num)).all()
+    posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0).order_by(desc(Post.like_num)).all()
+    child_posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id != 0).order_by(desc(Post.like_num)).all()
     user = User.query.filter_by(email=session['current_user']).one()
     flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
     forum = Forum.query.filter_by(forum_id=forum_id).one()
@@ -450,7 +452,7 @@ def pop_order(forum_id):
 
     #Renders Page
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
-                           porn=porn, dance=dance, phone=phone, posts=posts, flags=flags, flagnum=0)
+                           porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts, flags=flags, flagnum=0)
 
 
 @app.route("/report", methods=["GET"])

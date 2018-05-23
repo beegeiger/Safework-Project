@@ -27,37 +27,80 @@
 				<span style="float:center;"><button class="reply_class" id="reply{{ loop.index }}">Reply to Post</button></span>
 				<span style="float:right;"> Posted: {{ post.date_posted }}</span></p>
 
-	</div></div>
-<div class="hidden" id="child{{ loop.index }}">
-	<form action="/forums/child/{{ post.post_id }}" method="POST"><br>
-	<b>New Post:</b>
-	<br><textarea rows="6" cols="50" name="child_content"></textarea><br>
-	<br><input type=submit>
-	</form><br>
-</div>
-<script>
 
-let flagBut{{ loop.index }} = document.querySelector('#but{{ loop.index }}');
-let subFlag{{ loop.index }} = document.querySelector('#Flag_Form{{ loop.index }}');
-function flag{{ loop.index }}(evt) {
-	evt.preventDefault();
-	$(flagBut{{ loop.index }}).hide();
-	$(subFlag{{ loop.index }}).show();
-	
-}
-flagBut{{ loop.index }}.addEventListener('click', flag{{ loop.index }});
 
-let childReply{{ loop.index }} = document.querySelector('#child{{ loop.index }}');
-let repBut{{ loop.index }} = document.querySelector('#reply{{ loop.index }}');
-function reply{{ loop.index }}(evt) {
-	evt.preventDefault();
-	$(repBut{{ loop.index }}).hide();
-	$(childReply{{ loop.index }}).show();
-}
+		</div></div>
+	{% for c_post in child_posts %}
+		{% if c_post.parent_post_id == post.post_id %}	
+			<div class="post" align="right" id="child_post{{ loop.index }}">
+				<div align="right" id="child_div{{ loop.index }}">
+				{% if post.post_id not in flags %}
+				<button class="child_but_class" id="child_but{{ loop.index }}">Flag/Report Post For Removal</button>
+				<div class="hidden" id="child_Flag_Form{{ loop.index }}">
+				<p id="child_Flag_Form" >Why should this post be removed?
+				<form id="child_Flagging_form" action="/forums/flag/{{ child.post_id }}" method="POST">
+				<input type="radio" name="flag_rad" value="abusive">Abusive
+				<input type="radio" name="flag_rad" value="trolling">Trolling
+				<input type="radio" name="flag_rad" value="off_topic">Off-Topic
+				<input type="radio" name="flag_rad" value="human_traf">Human-Trafficking
+				<input type="radio" name="flag_rad" value="pimping">Pimping
+				<input type="radio" name="flag_rad" value="other">Other
+				<input type="submit" id="Flag_Post_but" value="Flag Post">
+				{% else %} <p> "You have flagged this post for removal!" </p> {% endif %}
+				</form></p></div><br>
+				
+				<div align="left"><b>{{ c_post.username }}:</b> {{ c_post.content }}</div>
 
-repBut{{ loop.index }}.addEventListener('click', reply{{ loop.index }});
+				<p style="text-align:left;"><a href="/forums/like/{{ c_post.post_id }}">Like</a>({{ c_post.like_num }})/<a href="/forums/dislike/{{ c_post.post_id }}">Dislike</a>({{ c_post.dislike_num }}) 
+					<span style="float:right;"> Posted: {{ c_post.date_posted }}</span></p>
+				</div>
+			</div>
+			<script>
 
-</script>
+				let c_flagBut{{ loop.index }} = document.querySelector('#child_but{{ loop.index }}');
+				let c_subFlag{{ loop.index }} = document.querySelector('#child_Flag_Form{{ loop.index }}');
+				function flag{{ loop.index }}(evt) {
+					evt.preventDefault();
+					$(c_flagBut{{ loop.index }}).hide();
+					$(c_subFlag{{ loop.index }}).show();
+					
+				}
+				c_flagBut{{ loop.index }}.addEventListener('click', flag{{ loop.index }});
+			</script>
+
+
+		{% end if %}
+	{% endfor %}
+	<div class="hidden" id="child{{ loop.index }}">
+		<form action="/forums/child/{{ post.post_id }}" method="POST"><br>
+		<b>New Post:</b>
+		<br><textarea rows="6" cols="50" name="child_content"></textarea><br>
+		<br><input type=submit>
+		</form><br>
+	</div>
+	<script>
+
+	let flagBut{{ loop.index }} = document.querySelector('#but{{ loop.index }}');
+	let subFlag{{ loop.index }} = document.querySelector('#Flag_Form{{ loop.index }}');
+	function flag{{ loop.index }}(evt) {
+		evt.preventDefault();
+		$(flagBut{{ loop.index }}).hide();
+		$(subFlag{{ loop.index }}).show();
+		
+	}
+	flagBut{{ loop.index }}.addEventListener('click', flag{{ loop.index }});
+
+	let childReply{{ loop.index }} = document.querySelector('#child{{ loop.index }}');
+	let repBut{{ loop.index }} = document.querySelector('#reply{{ loop.index }}');
+	function reply{{ loop.index }}(evt) {
+		evt.preventDefault();
+		$(repBut{{ loop.index }}).hide();
+		$(childReply{{ loop.index }}).show();
+	}
+
+	repBut{{ loop.index }}.addEventListener('click', reply{{ loop.index }});
+
+	</script>
 {% endfor %}
 <div>
 <form action="/forums/{{ forum.forum_id }}" method="POST"><br>
