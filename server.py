@@ -497,9 +497,10 @@ def submit_form():
     new_report = Incident(year=year, user_id=user_id, police_dept_id=3, source_id=3,
                           inc_type=inc_type, address=address, city=city, state=state, latitude=lat,
                           longitude=lng, date=date, time=time, description=description,
-                          cop_name=p_name, cop_badge=badge, cop_desc=p_description,
                           sting_strat=sting, avoidance=avoid, other=other)
+    new_cop = Cop(user_id=user_id, police_dept_id=3, cop_name=p_name, cop_badge=badge, cop_desc=p_description)
     db.session.add(new_report)
+    db.session.add(new_cop)
     db.session.commit()
 
     #Redirects to homepage sudo apt-get install build-essential libffi-dev python-dev

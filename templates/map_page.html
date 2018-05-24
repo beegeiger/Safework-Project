@@ -2,7 +2,8 @@
 {% block title %}Map Page{% endblock %}
 {% block head %}
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&callback=initMap" async defer></script>
+<!--     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&callback=initMap" async defer></script> -->
+<!--     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&library=places" async defer></script> -->
     <script src="/static/img/incident_map.js" async defer></script>
     <style type="text/css">
         html, body { height: 100%; margin: 0; padding: 0; }
@@ -11,10 +12,10 @@
 
 {% endblock %}
 {% block content %}
+	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
 	<div id="map"></div>
 
-
-
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&libraries=places&callback=initMap"
+         async defer></script>
 	
 {% endblock %}

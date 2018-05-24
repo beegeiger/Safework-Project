@@ -105,10 +105,6 @@ class Incident(db.Model):
 	time = db.Column(db.String(256))
 	description = db.Column(db.String(4096), nullable=True)
 	police_rec_num = db.Column(db.String(256), nullable=False)
-	cop_name = db.Column(db.String(256), nullable=True)
-	cop_badge = db.Column(db.String(256), nullable=True)
-	cop_desc = db.Column(db.String(1024), nullable=True)
-	cop_pic = db.Column(db.String(256), nullable=True)
 	sting_strat = db.Column(db.String(2048), nullable=True)
 	avoidance = db.Column(db.String(2048), nullable=True)
 	other = db.Column(db.String(2047), nullable=True)
@@ -118,6 +114,23 @@ class Incident(db.Model):
 		"""Provide helpful representation when printed."""
 		return "<incident_id={} police_dept_id={} source_id={} user_id={} inc_type={} latitude={} longitude={} address={} city={} state={} date={} yeardb.={} time={} description={} police_rec_num={} cop_name={} cop_badge={} cop_desc={} cop_pic={} sting_strat={} avoidance={} other={} db_added_date={}>".format(self.incident_id, self.police_dept_id, self.source_id, self.user_id, self.inc_type, self.latitude, self.longitude, self.address, self.city, self.state, self.date, self.year, self.time, self.description, self.police_rec_num, self.cop_name, self.cop_badge, self.cop_desc, self.cop_pic, self.sting_strat, self.avoidance, self.other, self.db_added_date)
 
+
+class Cop(db.Model):
+	"""Cops reported in SafeWork App"""
+
+	__tablename__ = "cops"
+	cop_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	police_dept_id = db.Column(db.Integer, db.ForeignKey('police.police_dept_id'), nullable=True)
+	cop_name = db.Column(db.String(256), nullable=True)
+	cop_badge = db.Column(db.String(256), nullable=True)
+	cop_desc = db.Column(db.String(1024), nullable=True)
+	cop_pic = db.Column(db.String(256), nullable=True)
+
+	def __repr__(self):
+		"""Provide helpful representation when printed."""
+		return "<cop_id={} police_dept_id={} user_id={} cop_name={} cop_badge={} cop_desc={} cop_pic={}>".format(
+			self.cop_id, self.police_dept_id, self.user_id, self.cop_name, self.cop_badge, self.cop_desc, self.cop_pic)
 
 class Police(db.Model):
 	"""Discussion Forum in SafeWork App"""
