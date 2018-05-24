@@ -31,9 +31,9 @@ class Forum(db.Model):
 	parent_forum_id = db.Column(db.Integer, db.ForeignKey('forums.forum_id'), nullable=True)
 
 	def __repr__(self):
-    		"""Provide helpful representation when printed."""
+		"""Provide helpful representation when printed."""
 		return "<forum_id={} forum_name={} forum_type={} forum_desc={} created_by={} parent_forum_id={}>".format(
-        	self.forum_id, self.forum_name, self.forum_type, self.forum_desc, self.created_by, self.parent_forum_id)
+			self.forum_id, self.forum_name, self.forum_type, self.forum_desc, self.created_by, self.parent_forum_id)
 
 
 class Post(db.Model):
@@ -55,9 +55,9 @@ class Post(db.Model):
 	flag_num = db.Column(db.Integer, default=0)
 
 	def __repr__(self):
-    		"""Provide helpful representation when printed."""
+		"""Provide helpful representation when printed."""
 		return "<username={} post_id={} user_id={} forum_id={} parent_post_id={} content={} p_datetime={} edit_datetime={} like_num={} dislike_num={} date_posted={} flag_num={}>".format(
-        	self.username, self.post_id, self.user_id, self.forum_id, self.parent_post_id, self.content, self.p_datetime, self.edit_datetime, self.like_num, self.dislike_num, self.date_posted, self.flag_num)
+			self.username, self.post_id, self.user_id, self.forum_id, self.parent_post_id, self.content, self.p_datetime, self.edit_datetime, self.like_num, self.dislike_num, self.date_posted, self.flag_num)
 
 
 class User(db.Model):
@@ -80,9 +80,9 @@ class User(db.Model):
 	user_type_secondary = db.Column(db.String(256), nullable=True)
 
 	def __repr__(self):
-    		"""Provide helpful representation when printed."""
+		"""Provide helpful representation when printed."""
 		return "<user_id={} password={} username={} fname={} lname={} email={} description={} picture={} created_at={} edited_at={} user_type_main={} user_type_secondary={}>".format(
-        	self.user_id, self.password, self.username, self.fname, self.lname, self.email, self.description, self.picture, self.created_at, self.edited_at, self.user_type_main, self.user_type_secondary)
+			self.user_id, self.password, self.username, self.fname, self.lname, self.email, self.description, self.picture, self.created_at, self.edited_at, self.user_type_main, self.user_type_secondary)
 
 
 class Incident(db.Model):
@@ -115,7 +115,7 @@ class Incident(db.Model):
 	db_added_date = db.Column(db.DateTime, nullable=True)
 
 	def __repr__(self):
-    		"""Provide helpful representation when printed."""
+		"""Provide helpful representation when printed."""
 		return "<incident_id={} police_dept_id={} source_id={} user_id={} inc_type={} latitude={} longitude={} address={} city={} state={} date={} yeardb.={} time={} description={} police_rec_num={} cop_name={} cop_badge={} cop_desc={} cop_pic={} sting_strat={} avoidance={} other={} db_added_date={}>".format(self.incident_id, self.police_dept_id, self.source_id, self.user_id, self.inc_type, self.latitude, self.longitude, self.address, self.city, self.state, self.date, self.year, self.time, self.description, self.police_rec_num, self.cop_name, self.cop_badge, self.cop_desc, self.cop_pic, self.sting_strat, self.avoidance, self.other, self.db_added_date)
 
 
@@ -130,9 +130,9 @@ class Police(db.Model):
 	state = db.Column(db.String(128), nullable=True)
 	
 	def __repr__(self):
-    		"""Provide helpful representation when printed."""
+		"""Provide helpful representation when printed."""
 		return "<police_dept_id={} name={} city={} state={}>".format(
-        	self.police_dept_id, self.name, self.city, self.state)
+			self.police_dept_id, self.name, self.city, self.state)
 
 
 class Source(db.Model):
@@ -148,9 +148,9 @@ class Source(db.Model):
 	s_type =  db.Column(db.String(128), nullable=True)
 
 	def __repr__(self):
-    		"""Provide helpful representation when printed."""
+		"""Provide helpful representation when printed."""
 		return "<source_id={} s_name={} s_description={} url={} s_type={}>".format(
-        	self.source_id, self.s_name, self.s_description, self.url, self.s_type)
+			self.source_id, self.s_name, self.s_description, self.url, self.s_type)
 
 class Like(db.Model):
 	"""Discussion Forum in SafeWork App"""
@@ -163,9 +163,9 @@ class Like(db.Model):
 	like_dislike = db.Column(db.String(24))
 
 	def __repr__(self):
-    		"""Provide helpful representation when printed."""
+		"""Provide helpful representation when printed."""
 		return "<like_id={} user_id={} post_id={} like_dislike={}>".format(
-        	self.like_id, self.user_id, self.post_id, self.like_dislike)
+			self.like_id, self.user_id, self.post_id, self.like_dislike)
 
 class Flag(db.Model):
 	"""Discussion Forum in SafeWork App"""
@@ -178,9 +178,9 @@ class Flag(db.Model):
 	flag_type = db.Column(db.String(24))
 
 	def __repr__(self):
-    		"""Provide helpful representation when printed."""
+		"""Provide helpful representation when printed."""
 		return "<flag_id={} user_id={} post_id={} flag_type={}>".format(
-        	self.flag_id, self.user_id, self.post_id, self.flag_type)
+			self.flag_id, self.user_id, self.post_id, self.flag_type)
 
 
 ################################################################################
@@ -234,12 +234,12 @@ def example_data():
 # Helper functions
 
 def connect_to_db(app, db_uri='postgresql:///safework'):
-    """Connect the database to our Flask app."""
-    # Configure to use our PstgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-    db.app = app
-    db.init_app(app)
+	"""Connect the database to our Flask app."""
+	# Configure to use our PstgreSQL database
+	app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+	db.app = app
+	db.init_app(app)
 
 if __name__ == "__main__":
 
