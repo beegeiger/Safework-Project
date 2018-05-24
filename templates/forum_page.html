@@ -4,7 +4,7 @@
 {{ forum.forum_desc }} <div align="right" display="inline-block">Order By: <form action="/forums/order_by_date/{{ forum.forum_id }}"><input type="submit" id="Date" value="Date Posted"></form><form action="/forums/order_by_pop/{{ forum.forum_id }}"><input type="submit" id="Pop" value="Post Popularity"></form></div><br> <br>
 
 {% for post in posts %}
-	<div class="post" id="post{{ loop.index }}">
+	<br><br><div class="post" id="post{{ loop.index }}">
 		<div align="right" id="div{{ loop.index }}">
 				{% if post.post_id not in flags %}
 				<button class="but_class" id="but{{ loop.index }}">Flag/Report Post For Removal</button>
@@ -29,10 +29,10 @@
 
 
 
-		</div>
+		</div></div>
 	{% for c_post in child_posts %}
 		{% if c_post.parent_post_id == post.post_id %}	
-			<div class="child_post" align="right" id="child_post{{ loop.index }}">
+			<div class="child_post" id="child_post{{ loop.index }}">
 				<div align="right" id="child_div{{ loop.index }}">
 				{% if post.post_id not in flags %}
 				<button class="child_but_class" id="child_but{{ loop.index }}">Flag/Report Post For Removal</button>
@@ -53,8 +53,8 @@
 
 				<p style="text-align:left;"><a href="/forums/like/{{ c_post.post_id }}">Like</a>({{ c_post.like_num }})/<a href="/forums/dislike/{{ c_post.post_id }}">Dislike</a>({{ c_post.dislike_num }}) 
 					<span style="float:right;"> Posted: {{ c_post.date_posted }}</span></p>
-				</div></div>
-			</div>
+				</div>
+			</div><br><br><br><br><br>
 			<script>
 
 				let c_flagBut{{ loop.index }} = document.querySelector('#child_but{{ loop.index }}');

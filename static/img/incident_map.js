@@ -250,7 +250,7 @@ function initMap() {
     getPoints(map, infoWindow = infoWindow);
 }
 
-let image = '/static/img/Marker1.png'
+let image = '/static/img/NewMarker1.gif'
 
 
 
@@ -262,45 +262,45 @@ function getPoints(map, infoWindow = infoWindow) {
     for (let key in incidents) {
         incident = incidents[key];
         incident.year = parseInt(incident.year)
-        if (incident.year === 2018) {
-            image = '/static/img/Marker1.png'
-        };
-        if (incident.year === 2017) {
-            image = '/static/img/Marker1.png'
-        };
-        if (incident.year === 2016) {
-            image = '/static/img/Marker2.png'
-        };
-        if (incident.year === 2015) {
-            image = '/static/img/Marker3.png'
-        };
-        if (incident.year === 2014) {
-            image = '/static/img/Marker4.png'
-        };
-        if (incident.year === 2013) {
-            image = '/static/img/Marker5.png'
-        };
-        if (incident.year === 2012) {
-            image = '/static/img/Marker6.png'
-        };
-        if (incident.year === 2011) {
-            image = '/static/img/Marker7.png'
-        };
-        if (incident.year === 2010) {
-            image = '/static/img/Marker8.png'
-        };
-        if (incident.year === 2009) {
-            image = '/static/img/Marker9.png'
-        };
-        if (incident.year === 2008) {
-            image = '/static/img/Marker10.png'
-        };
-        if (incident.year === 2008) {
-            image = '/static/img/Marker11.png'
-        };
+        // if (incident.year === 2018) {
+        //     image = '/static/img/Marker1.png'
+        // };
+        // if (incident.year === 2017) {
+        //     image = '/static/img/Marker1.png'
+        // };
+        // if (incident.year === 2016) {
+        //     image = '/static/img/Marker2.png'
+        // };
+        // if (incident.year === 2015) {
+        //     image = '/static/img/Marker3.png'
+        // };
+        // if (incident.year === 2014) {
+        //     image = '/static/img/Marker4.png'
+        // };
+        // if (incident.year === 2013) {
+        //     image = '/static/img/Marker5.png'
+        // };
+        // if (incident.year === 2012) {
+        //     image = '/static/img/Marker6.png'
+        // };
+        // if (incident.year === 2011) {
+        //     image = '/static/img/Marker7.png'
+        // };
+        // if (incident.year === 2010) {
+        //     image = '/static/img/Marker8.png'
+        // };
+        // if (incident.year === 2009) {
+        //     image = '/static/img/Marker9.png'
+        // };
+        // if (incident.year === 2008) {
+        //     image = '/static/img/Marker10.png'
+        // };
+        // if (incident.year === 2008) {
+        //     image = '/static/img/Marker11.png'
+        // };
         let icon = {
         url: image,
-        scaledSize: new google.maps.Size(50, 50),
+        scaledSize: new google.maps.Size(40, 50),
     }   
         // console.log(incident.latitude, incident.longitude)
         incident.latitude = parseFloat(incident.latitude);
