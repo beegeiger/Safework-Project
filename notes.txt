@@ -11,3 +11,7 @@ sudo apt-get install build-essential libffi-dev python-dev
 San Leandro: https://moto.data.socrata.com/resource/6nbc-apvm.json?$where=incident_description%20like%20%27%25PROST%25%27
 
 San Pablo: https://moto.data.socrata.com/resource/tsdt-igxn.json?$where=incident_description%20like%20%27%25PROST%25%27
+
+
+https://data.cityofnewyork.us/resource/9s4h-37hy.json?$where=ofns_desc%20like%20%27%25PROST%25%27
+https://data.cityofnewyork.us/resource/7x9x-zpz6.json?$where=ofns_desc%20like%20%27%25PROST%25%27

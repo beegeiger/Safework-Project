@@ -30,12 +30,10 @@ def fill_basics():
 		Police4 = Police(police_dept_id=4, name="Alameda County Sheriff's Department", city="Oakland", state="CA")
 		Police5 = Police(police_dept_id=5, name="Santa Clara County Sheriff's Office", city="San Jose", state="CA")
 		Police6 = Police(police_dept_id=6, name="Fremont Police Department", city="Fremont", state="CA")
-		db.session.add(Police1)
-		db.session.add(Police2)
-		db.session.add(Police3)
-		db.session.add(Police4)
-		db.session.add(Police5)
-		db.session.add(Police6)
+		Police7 = Police(police_dept_id=7, name="San Leandro Police Department", city="San Leandro", state="CA")
+		Police8 = Police(police_dept_id=8, name="San Pablo Police Department", city="San Pablo", state="CA")
+		Police9 = Police(police_dept_id=9, name="New York Police Department", city="New York", state="NY")
+		db.session.add_all([Police1, Police2, Police3, Police4, Police5, Police6, Police7, Police8, Police9])
 		db.session.commit()
 		source2 = Source(source_id=3, s_name="DataSF", police_dept_id=2, s_description="San Franciso Police API", url="https://data.sfgov.org/resource/cuks-n6tp.json?$limit=50000", s_type="gov api")
 		source3 = Source(source_id=2, s_name="DataSF", police_dept_id=2, s_description="San Franciso Police API", url="https://data.sfgov.org/resource/PdId.json", s_type="gov api")
@@ -44,13 +42,11 @@ def fill_basics():
 		source5 = Source(source_id=5, s_name="socrata", police_dept_id=4, s_description="Alameda County Sheriff's Department API", url="https://moto.data.socrata.com/resource/bvi2-5rde.json?$where=incident_description%20like%20%27%25PROST%25%27", s_type="gov api")
 		source6 = Source(source_id=6, s_name="socrata", police_dept_id=5, s_description="Santa Clara County Sheriff's Office API", url="https://moto.data.socrata.com/resource/wrmr-tdyp.json?$where=incident_description%20like%20%27%25PROST%25%27", s_type="gov api")
 		source7 = Source(source_id=7, s_name="socrata", police_dept_id=6, s_description="FPD API", url="https://moto.data.socrata.com/resource/nnzs-rxi5.json?$where=incident_description%20like%20%27%25PROST%25%27", s_type="gov api")
-		db.session.add(source2)
-		db.session.add(source3)
-		db.session.add(source)
-		db.session.add(source4)
-		db.session.add(source5)
-		db.session.add(source6)
-		db.session.add(source7)
+		source8 = Source(source_id=8, s_name="socrata", police_dept_id=7, s_description="SLPD API", url="https://moto.data.socrata.com/resource/6nbc-apvm.json?$where=incident_description%20like%20%27%25PROST%25%27", s_type="gov api")
+		source9 = Source(source_id=9, s_name="socrata", police_dept_id=8, s_description="SPPD API", url="https://moto.data.socrata.com/resource/tsdt-igxn.json?$where=incident_description%20like%20%27%25PROST%25%27", s_type="gov api")
+		source10 = Source(source_id=10, s_name="socrata", police_dept_id=9, s_description="NYPD Socrata API Recent Data", url="https://data.cityofnewyork.us/resource/7x9x-zpz6.json?$where=pd_desc%20like%20%27%25PROST%25%27", s_type="gov api")
+		source11 = Source(source_id=11, s_name="socrata", police_dept_id=9, s_description="NYPD Socrata API Historic Data", url="https://data.cityofnewyork.us/resource/9s4h-37hy.json?$where=pd_desc%20like%20%27%25PROST%25%27&$limit=50000", s_type="gov api")
+		db.session.add_all([source2, source3, source4, source5, source6, source7, source8, source9, source10, source11])
 		db.session.commit()
 fill_basics()
 
@@ -68,6 +64,7 @@ def add_incident_data(source_nums):
 	"""Takes a list of source_ids to collect data from"""
 	with app.app_context():
 		for s_num in source_nums:
+			new_york = 0
 			sour = Source.query.filter_by(source_id=s_num).one()
 			sf_num = 0	
 			if s_num == 2 or s_num == 3:
@@ -127,6 +124,46 @@ def add_incident_data(source_nums):
 								incident = Incident(police_dept_id=6, source_id=7, inc_type="API", latitude=row["latitude"], longitude=row["longitude"], address=row["address_1"], city=row["city"], state="CA", date=row["incident_datetime"], year=year, time=(str(row["hour_of_day"]) + ":00"), description=row["incident_description"], police_rec_num=row["incident_id"])
 								db.session.add(incident)
 						db.session.commit()
+			elif s_num == 8:
+				incident_info = requests.get(sour.url).json()
+				san_leandro = 0
+				for row in incident_info:
+					san_leandro+= 1
+					print "San Leandro " + str(san_leandro)
+					print row
+					year = int(row["incident_datetime"][0:4])
+					if Incident.query.filter(Incident.police_rec_num == row["incident_id"]).all() == []:
+						if year >= 2008:	
+								incident = Incident(police_dept_id=7, source_id=8, inc_type="API", latitude=row["latitude"], longitude=row["longitude"], address=row["address_1"], city=row["city"], state="CA", date=row["incident_datetime"], year=year, time=(str(row["hour_of_day"]) + ":00"), description=row["incident_description"], police_rec_num=row["incident_id"])
+								db.session.add(incident)
+						db.session.commit()
+			elif s_num == 9:
+				incident_info = requests.get(sour.url).json()
+				san_pablo = 0
+				for row in incident_info:
+					san_pablo += 1
+					print "San Pablo " + str(san_pablo)
+					print row
+					year = int(row["incident_datetime"][0:4])
+					if Incident.query.filter(Incident.police_rec_num == row["incident_id"]).all() == []:
+						if year >= 2008:	
+								incident = Incident(police_dept_id=8, source_id=9, inc_type="API", latitude=row["latitude"], longitude=row["longitude"], address=row["address_1"], city=row["city"], state="CA", date=row["incident_datetime"], year=year, time=(str(row["hour_of_day"]) + ":00"), description=row["incident_description"], police_rec_num=row["incident_id"])
+								db.session.add(incident)
+						db.session.commit()
+			elif s_num == 10 or s_num == 11:
+				incident_info = requests.get(sour.url).json()
+				inde = 0
+				for row in incident_info:
+					new_york += 1
+					inde += 1
+					print "New York " + str(new_york)
+					print row
+					year = int(row["cmplnt_fr_dt"][0:4])
+					if Incident.query.filter(Incident.police_rec_num == row["cmplnt_num"]).all() == [] and "latitude" in row:
+						if year >= 2008:	
+								incident = Incident(police_dept_id=9, source_id=s_num, inc_type="API", latitude=row["latitude"], longitude=row["longitude"], address=row["boro_nm"], city="New York", state="CA", date=row["cmplnt_fr_dt"], year=year, time=(str(row["cmplnt_fr_tm"])), description=row["pd_desc"], police_rec_num=row["cmplnt_num"])
+								db.session.add(incident)
+						db.session.commit()
 			elif s_num == 4:
 				o_num = 0
 				for row in open("seed_data/oaklandcoords.csv"):
@@ -150,7 +187,7 @@ def add_incident_data(source_nums):
 					db.session.commit()
 				
 
-add_incident_data([3, 4, 5, 6, 7])
+add_incident_data([3, 4, 5, 6, 7, 8, 9, 10, 11])
 
 
 
