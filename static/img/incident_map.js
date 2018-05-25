@@ -4,9 +4,30 @@
 
 let sf_cent = {lat: 37.772121, lng: -122.420850};
 
+// this.scriptCache = cache({
+//   google: 'https://api.google.com/some/script.js'
+// });
+
+// GoogleApi({
+//   apiKey: "AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg",
+//   libraries: ['places']
+// });
+
+
+// const Container = React.createClass({
+//   render: function() {
+//     return "<div>Google</div>";
+//     }
+//   })
+
+// export default GoogleApiComponent({
+//   apiKey: "AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg"
+// })(Container)
+
+
 
 //////////////////////////////////////////////
-
+var map, heatmap;
 function initMap() {
     let styledMapType = new google.maps.StyledMapType(
                 [
@@ -247,8 +268,38 @@ function initMap() {
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
     let infoWindow = new google.maps.InfoWindow({});
-    getPoints(map, infoWindow = infoWindow);
-// Create the search box and link it to the UI element.
+    let heatmap = new google.maps.visualization.HeatmapLayer({
+          data: getPoints(map, infoWindow),
+          map: map
+        });   
+        // Try HTML5 geolocation.
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+
+          infoWindow.setPosition(pos);
+          infoWindow.setContent('Location found.');
+          infoWindow.open(map);
+          map.setCenter(pos);
+        }, function() {
+          handleLocationError(true, infoWindow, map.getCenter());
+        });
+      } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+      }
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+      }
+    getPoints(map, infoWindow);
+    // Create the search box and link it to the UI element.
     var input = document.getElementById('pac-input');
     var searchBox = new google.maps.places.SearchBox(input);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
@@ -311,13 +362,45 @@ function initMap() {
 
 let image = '/static/img/NewMarker1.gif'
 
+function toggleHeatmap() {
+        heatmap.setMap(heatmap.getMap() ? null : map);
+      }
+
+function changeGradient() {
+    var gradient = [
+          'rgba(0, 255, 255, 0)',
+          'rgba(0, 255, 255, 1)',
+          'rgba(0, 191, 255, 1)',
+          'rgba(0, 127, 255, 1)',
+          'rgba(0, 63, 255, 1)',
+          'rgba(0, 0, 255, 1)',
+          'rgba(0, 0, 223, 1)',
+          'rgba(0, 0, 191, 1)',
+          'rgba(0, 0, 159, 1)',
+          'rgba(0, 0, 127, 1)',
+          'rgba(63, 0, 91, 1)',
+          'rgba(127, 0, 63, 1)',
+          'rgba(191, 0, 31, 1)',
+          'rgba(255, 0, 0, 1)'
+        ]
+    heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+}
+
+function changeRadius() {
+  heatmap.set('radius', heatmap.get('radius') ? null : 20);
+      }
+
+function changeOpacity() {
+  heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+}
 
 
-function getPoints(map, infoWindow = infoWindow) {
+function getPoints(map, infoWindow) {
     $.get('/incidents.json', function(incidents) {
-        // debugger;
+        // debugger;var map, heatmap;
     let incident, marker, html;
-        let markerArray = [];
+    let markerArray = [];
+    let heatArray = []
     for (let key in incidents) {
         incident = incidents[key];
         incident.year = parseInt(incident.year)
@@ -373,7 +456,7 @@ function getPoints(map, infoWindow = infoWindow) {
             icon : icon
         });
         markerArray.push(marker);
-
+        heatArray.push({lat: incident.latitude, lng: incident.longitude})
         // console.log(incident);
         // console.log(incident.latitude, incident.longitude)
         window.incident = incident;
@@ -389,6 +472,8 @@ function getPoints(map, infoWindow = infoWindow) {
                 '<p><b>Police Record Number: </b>' + incident.rec_number + '</p>' +
               '</div>');
         bindInfo(marker, map, html, infoWindow = infoWindow);
+        console.log(heatArray)
+        return heatArray
         };
     });
 }
