@@ -144,7 +144,13 @@ def register_process():
                         user_type_secondary=second_type)
         db.session.add(new_user)
         db.session.commit()
-
+        if user_type == "other":
+            flash("""While you may enter the discussion forums if you are not a sex worker,
+                   keep in mind that this website is not intended for you. Do your best to respect
+                   the sex workers on this site as well as their experiences and thoughts. Also,
+                   please note that pimps and human traffickers are NOT welcome on this site. This
+                   site is intended for consensual sex workers working on their own
+                   volition ONLY.""")
     return redirect('/login')
 
 
@@ -168,7 +174,7 @@ def login():
 
     if user_query == []:
         flash('There is no record of your e-mail address! Please try again or Register.')
-        return render_template("login.html")        
+        return render_template("login.html")
 
 
     #Queries to see if the email and pword match the database. If so, redirects to forums.
@@ -204,11 +210,12 @@ def go_forums():
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
+    other = Forum.query.filter_by(forum_id=7).one()
 
     #Checks to see if the user is logged in. If so, renders forums
     if 'current_user' in session.keys():
         return render_template("forums.html", cam=cam, dom=dom, escort=escort,
-                               porn=porn, dance=dance, phone=phone)
+                               porn=porn, dance=dance, phone=phone, other=other)
     #Otherwise it redirects to the login page
     else:
         flash("Please login before entering the forums.")
@@ -226,6 +233,7 @@ def add_post(forum_id):
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
+    other = Forum.query.filter_by(forum_id=7).one()
 
     #Gets the new posts content
     post_content = request.form['content']
@@ -256,7 +264,8 @@ def add_post(forum_id):
     child_posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
     forum = Forum.query.filter_by(forum_id=forum_id).one()
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
-                           porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts, flags=flags)
+                           porn=porn, dance=dance, phone=phone, posts=posts, 
+                           child_posts=child_posts, flags=flags, other=other)
 
 
 @app.route("/forums/child/<post_id>", methods=["POST"])
@@ -270,6 +279,7 @@ def add_child_post(post_id):
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
+    other = Forum.query.filter_by(forum_id=7).one()
 
     #Gets the new posts content
     post_content = request.form['child_content']
@@ -303,7 +313,7 @@ def add_child_post(post_id):
     forum = Forum.query.filter_by(forum_id=posts[0].forum_id).one()
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
                            porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts, flags=flags, 
-                           parent_post_id=post_id)
+                           parent_post_id=post_id, other=other)
 
 
 @app.route("/forums/like/<post_id>", methods=["GET"])
@@ -405,6 +415,7 @@ def date_order(forum_id):
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
+    other = Forum.query.filter_by(forum_id=7).one()
 
     #Queries from all of the dbase tables that need to be updated and/or rendered
     posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0).order_by(asc(Post.post_id)).all()
@@ -423,7 +434,8 @@ def date_order(forum_id):
 
     #Renders Page
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
-                           porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts, flags=flags, flagnum=0)
+                           porn=porn, dance=dance, phone=phone, posts=posts, 
+                           child_posts=child_posts, flags=flags, flagnum=0, other=other)
 
 
 @app.route("/forums/order_by_pop/<forum_id>")
@@ -437,6 +449,7 @@ def pop_order(forum_id):
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
+    other = Forum.query.filter_by(forum_id=7).one()
 
     #Queries from all of the dbase tables that need to be updated and/or rendered
     posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0).order_by(desc(Post.like_num)).all()
@@ -455,7 +468,8 @@ def pop_order(forum_id):
 
     #Renders Page
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
-                           porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts, flags=flags, flagnum=0)
+                           porn=porn, dance=dance, phone=phone, posts=posts, 
+                           child_posts=child_posts, flags=flags, flagnum=0, other=other)
 
 
 @app.route("/report", methods=["GET"])

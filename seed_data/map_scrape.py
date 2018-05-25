@@ -1,0 +1,1 @@
+"""Get's data from map points"""

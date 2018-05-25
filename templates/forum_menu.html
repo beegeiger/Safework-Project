@@ -1,21 +1,8 @@
-{% extends 'base.html' %}
-{% block title %}Discussion Forums{% endblock %}
-{% block head %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<style>
-	div.post {outline-style: solid;}
-	div.child_post {outline-style:solid; width:80%; float:right;}
-	div.hidden {
-	display: none;
-	}
-	form.hidden {
-	display: none;
-	}	
-</style>
+{% extends 'forums.html' %}
+{% block forum_menu %}
 
-<h2>Discussion Forums</h2>
- <table style="width:100%">
+
+
 	<tr>
 		<th><a href="/forums/order_by_date/1">{{ cam.forum_name }}</a> &nbsp &nbsp</th>
 		<th><a href="/forums/order_by_date/2">{{ dom.forum_name }}</a> &nbsp &nbsp</th>
@@ -25,14 +12,5 @@
 		<th><a href="/forums/order_by_date/6">{{ phone.forum_name }}</a> &nbsp &nbsp</th>
 		<th><a href="/forums/order_by_date/7">{{ other.forum_name }}</a> &nbsp</th>
 	</tr>
-{% block forum_menu %}
-{% endblock %}
- </table>
-{% endblock %}
-{% block content %}
-
-
-{% block forum %} {% endblock %}
-
 
 {% endblock %}

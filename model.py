@@ -28,7 +28,7 @@ class Forum(db.Model):
 	forum_type = db.Column(db.String(64), nullable=True)
 	forum_desc = db.Column(db.String(256), nullable=True)
 	created_by = db.Column(db.String(128), nullable=True)
-	parent_forum_id = db.Column(db.Integer, db.ForeignKey('forums.forum_id'), nullable=True)
+	parent_forum_id = db.Column(db.Integer, nullable=True)
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
