@@ -434,7 +434,7 @@ def date_order(forum_id):
 
     #Renders Page
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
-                           porn=porn, dance=dance, phone=phone, posts=posts, 
+                           porn=porn, dance=dance, phone=phone, posts=posts, user=user,
                            child_posts=child_posts, flags=flags, flagnum=0, other=other)
 
 

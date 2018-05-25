@@ -37,15 +37,15 @@
 {% endblock %}
 {% block content %}
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
-	<div id="floating-panel">
+<!-- 	<div id="floating-panel">
       <button onclick="toggleHeatmap()">Toggle Heatmap</button>
       <button onclick="changeGradient()">Change gradient</button>
       <button onclick="changeRadius()">Change radius</button>
       <button onclick="changeOpacity()">Change opacity</button>
-    </div>
+    </div> -->
 	<div id="map"></div>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&libraries=places&libraries=visualization&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&libraries=visualization,places&callback=initMap"
          async defer></script>
 
 {% endblock %}
