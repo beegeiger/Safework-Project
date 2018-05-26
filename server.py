@@ -15,7 +15,7 @@ from flask import (Flask, render_template, redirect, request, flash,
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (update, asc, desc)
-# from model import Forum, Post, User, Incident, Police, Source, Like, Flag, connect_to_db, db
+from model import Forum, Post, User, Incident, Police, Source, Like, Flag, connect_to_db, db
 import requests
 from secrets_env import CLIENT_ID
 
@@ -222,7 +222,7 @@ def go_forums():
         return redirect("/login")
 
 
-@app.route("/forums/<forum_id>", methods=["POST"])
+@app.route("/forums/parent/<forum_id>", methods=["POST"])
 def add_post(forum_id):
     """Uses POST request to create a new post within a forum"""
 

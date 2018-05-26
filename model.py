@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 # from sqlalchemy_imageattach.entity import Image, image_attachment
 
-from server import app
+# from server import app
 
 # Required to use Flask sessions and the debug toolbar
 
