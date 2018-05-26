@@ -15,7 +15,7 @@ from flask import (Flask, render_template, redirect, request, flash,
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (update, asc, desc)
-from model import Forum, Post, User, Incident, Police, Source, Like, Flag, connect_to_db, db
+# from model import Forum, Post, User, Incident, Police, Source, Like, Flag, connect_to_db, db
 import requests
 from secrets_env import CLIENT_ID
 
@@ -314,6 +314,55 @@ def add_child_post(post_id):
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
                            porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts, flags=flags, 
                            parent_post_id=post_id, other=other)
+
+
+@app.route("/forums/edit_delete/<post_id>", methods=["GET"])
+def edit_delete_post(post_id):
+    """Uses POST request to create a new post within a forum"""
+
+    #Defining the central forums (within app context) to be rendered
+    cam = Forum.query.filter_by(forum_id=1).one()
+    dom = Forum.query.filter_by(forum_id=2).one()
+    escort = Forum.query.filter_by(forum_id=3).one()
+    porn = Forum.query.filter_by(forum_id=4).one()
+    dance = Forum.query.filter_by(forum_id=5).one()
+    phone = Forum.query.filter_by(forum_id=6).one()
+    other = Forum.query.filter_by(forum_id=7).one()
+
+    #Gets the new posts content
+    post_content = request.form['edit_delete']
+
+    #Checks to see the users info and which posts they have flagged
+    user = User.query.filter_by(email=session['current_user']).one()
+    flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
+    flags = []
+    if len(flag_query) > 0:
+        for item in flag_query:
+            print item
+            print item.post_id
+            flags.append(item.post_id)
+
+    #Adds the new post to the database
+    parent_post = Post.query.filter_by(post_id=post_id).one()
+    new_post = Post(user_id=user.user_id, username=user.username, forum_id=parent_post.forum_id, parent_post_id=post_id,
+                    content=post_content, p_datetime=datetime.now(),
+                    date_posted=(str(datetime.now())[:16]))
+
+    #Doublechecks that the user isn't creating a duplicate post
+    if Post.query.filter(Post.content == new_post.content,
+                         Post.username == new_post.username).all() == []:
+        db.session.add(new_post)
+        db.session.commit()
+
+    #Queries the post and forum data and renders everything back to the same forum page
+    posts = Post.query.filter(Post.forum_id == parent_post.forum_id, Post.parent_post_id == 0).order_by(asc(Post.post_id)).all()
+    child_posts = Post.query.filter(Post.forum_id == parent_post.forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
+    print child_posts
+    forum = Forum.query.filter_by(forum_id=posts[0].forum_id).one()
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
+                           porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts, flags=flags, 
+                           parent_post_id=post_id, other=other)
+
 
 
 @app.route("/forums/like/<post_id>", methods=["GET"])

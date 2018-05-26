@@ -20,11 +20,12 @@
 				<input type="submit" id="Flag_Post_but" value="Flag Post"></form>
 				{% elif session['current_user'] != user.email %} <p> "You have flagged this post for removal!" </p> 
 				{% else %}
-				<button class="edit_delete_class" id="edit_delete{{ loop.index }}">Edit/Delete</button>
+				<button class="edit_class{{ post.post_id }}" id="edit{{ loop.index }}">Edit Post</button>
+				<button class="delete_class{{ post.post_id }}" id="delete{{ loop.index }}">Delete Post</button>
 				{% endif %}
 			</p></div><br>
 			
-			<div align="left"><b>{{ post.username }}:</b> {{ post.content }}</div>
+			<div class="parent_content{{ post.post_id }}" align="left"><b>{{ post.username }}:</b> {{ post.content }}</div>
 
 			<p style="text-align:left;"><a href="/forums/like/{{ post.post_id }}">Like</a>({{ post.like_num }})/<a href="/forums/dislike/{{ post.post_id }}">Dislike</a>({{ post.dislike_num }}) 
 				<span style="float:center;"><button class="reply_class" id="reply{{ loop.index }}">Reply to Post</button></span>
@@ -51,11 +52,12 @@
 				<input type="submit" id="Flag_Post_but" value="Flag Post"></form>
 				{% elif session['current_user'] != user.email %} <p> "You have flagged this post for removal!" </p>
 				{% else %}
-				<button class="child_edit_delete_class" id="child_edit_delete{{ loop.index }}">Edit/Delete</button>
+				<button class="child_edit_class{{ c_post.post_id }}" id="child_edit{{ loop.index }}">Edit</button>
+				<button class="child_delete_class{{ c_post.post_id }}" id="child_delete{{ loop.index }}">Delete</button>
 				{% endif %}
 				</p></div><br>
 				
-				<div align="left"><b>{{ c_post.username }}:</b> {{ c_post.content }}</div>
+				<div class="child_content{{ c_post.post_id }}" align="left"><b>{{ c_post.username }}:</b> {{ c_post.content }}</div>
 
 				<p style="text-align:left;"><a href="/forums/like/{{ c_post.post_id }}">Like</a>({{ c_post.like_num }})/<a href="/forums/dislike/{{ c_post.post_id }}">Dislike</a>({{ c_post.dislike_num }}) 
 					<span style="float:right;"> Posted: {{ c_post.date_posted }}</span></p>
@@ -105,6 +107,8 @@
 	}
 
 	repBut{{ loop.index }}.addEventListener('click', reply{{ loop.index }});
+
+
 
 	</script>
 {% endfor %}

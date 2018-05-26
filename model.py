@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 # from sqlalchemy_imageattach.entity import Image, image_attachment
 
-# from server import app
+from server import app
 
 # Required to use Flask sessions and the debug toolbar
 
@@ -53,11 +53,12 @@ class Post(db.Model):
 	dislike_num = db.Column(db.Integer, default=0)
 	date_posted = db.Column(db.String(64), nullable=True)
 	flag_num = db.Column(db.Integer, default=0)
+	deleted = db.Column(db.Boolean, default=False)
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<username={} post_id={} user_id={} forum_id={} parent_post_id={} content={} p_datetime={} edit_datetime={} like_num={} dislike_num={} date_posted={} flag_num={}>".format(
-			self.username, self.post_id, self.user_id, self.forum_id, self.parent_post_id, self.content, self.p_datetime, self.edit_datetime, self.like_num, self.dislike_num, self.date_posted, self.flag_num)
+		return "<username={} post_id={} user_id={} forum_id={} parent_post_id={} content={} p_datetime={} edit_datetime={} like_num={} dislike_num={} date_posted={} flag_num={} deleted={}>".format(
+			self.username, self.post_id, self.user_id, self.forum_id, self.parent_post_id, self.content, self.p_datetime, self.edit_datetime, self.like_num, self.dislike_num, self.date_posted, self.flag_num, self.deleted)
 
 
 class User(db.Model):
