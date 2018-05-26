@@ -311,7 +311,7 @@ def add_child_post(post_id):
     child_posts = Post.query.filter(Post.forum_id == parent_post.forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
     print child_posts
     forum = Forum.query.filter_by(forum_id=posts[0].forum_id).one()
-    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, user=user,
                            porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts, flags=flags, 
                            parent_post_id=post_id, other=other)
 

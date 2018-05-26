@@ -17,20 +17,24 @@
 				<input type="radio" name="flag_rad" value="human_traf">Human-Trafficking
 				<input type="radio" name="flag_rad" value="pimping">Pimping
 				<input type="radio" name="flag_rad" value="other">Other
-				<input type="submit" id="Flag_Post_but" value="Flag Post">Flag</form>
+				<input type="submit" id="Flag_Post_but" value="Flag Post">Flag</form></p></div>
 				{% elif post.user_id != user.user_id %} <p> "You have flagged this post for removal!" </p> 
 				{% else %}
-				<button class="edit_class{{ post.post_id }}" id="edit{{ loop.index }}">Edit Post</button>
-				<button class="delete_class{{ post.post_id }}" id="delete{{ loop.index }}">Delete Post</button>
+				<button class="edit_class{{ post.post_id }}" id="parent_edit{{ loop.index }}">Edit Post</button>
+				<button class="delete_class{{ post.post_id }}" id="parent_delete{{ loop.index }}">Delete Post</button>
 				{% endif %}
-				<form class="hidden" id="delete_form{{ post.post_id }}">
+				<form class="hidden" id="parent_delete_form{{ post.post_id }}">
 					Are you sure you want to delete this post?<br>
 					<input type="radio" name="delete_check" value="Yes">Yes
-					<input type="submit" id="delete_sub{{ post.post_id }}">Delete Post</form>
+					<input type="submit" id="delete_sub{{ post.post_id }}" value="Delete Post"></form>
 				</form>
 			</p></div><br>
-			
-			<div class="parent_content{{ post.post_id }}" align="left"><b>{{ post.username }}:</b> {{ post.content }}</div>
+			<form class="hidden" action="/forums/child/{{ post.post_id }}" id="parent_edit_form{{ post.post_id }}" method="POST"><br>
+			<b>Edit your post:</b>
+			<br><textarea rows="3" cols="50" name="child_content">{{ post.content }}</textarea><br>
+			<br><input type=submit value="Submit Edit">
+			</form>
+			<div id="parent_content{{ post.post_id }}" align="left"><b>{{ post.username }}:</b> {{ post.content }}</div>
 
 			<p style="text-align:left;"><a href="/forums/like/{{ post.post_id }}">Like</a>({{ post.like_num }})/<a href="/forums/dislike/{{ post.post_id }}">Dislike</a>({{ post.dislike_num }}) 
 				<span style="float:center;"><button id="parent_reply_but{{ loop.index }}" style="display:inline">Reply to Post</button></span>
@@ -38,12 +42,12 @@
 
 
 
-		</div></div>
+		</div>
 	{% for c_post in child_posts %}
 		{% if c_post.parent_post_id == post.post_id %}	
 			<div class="child_post" id="child_post{{ loop.index }}">
 				<div align="right" id="child_div{{ loop.index }}">
-				{% if post.post_id not in flags and post.user_id != user.user_idl %}
+				{% if c_post.post_id not in flags and c_post.user_id != user.user_id %}
 				<button class="child_but_class" id="child_but{{ loop.index }}">Flag/Report Post For Removal</button>
 				<div class="hidden" id="child_Flag_Form{{ loop.index }}">
 				<p id="child_Flag_Form" >Why should this post be removed?
@@ -55,13 +59,22 @@
 				<input type="radio" name="flag_rad" value="pimping">Pimping
 				<input type="radio" name="flag_rad" value="other">Other
 				<input type="submit" id="Flag_Post_but" value="Flag Post"></form>
-				{% elif post.user_id != user.user_id %} <p> "You have flagged this post for removal!" </p>
+				{% elif c_post.user_id != user.user_id %} <p> "You have flagged this post for removal!" </p>
 				{% else %}
-				<button class="child_edit_class{{ c_post.post_id }}" id="child_edit{{ loop.index }}">Edit</button>
-				<button class="child_delete_class{{ c_post.post_id }}" id="child_delete{{ loop.index }}">Delete</button>
+				<button class="child_edit_class{{ c_post.post_id }}" id="child_edit{{ loop.index }}">Edit Reply</button>
+				<button class="child_delete_class{{ c_post.post_id }}" id="child_delete{{ loop.index }}">Delete Reply</button>
 				{% endif %}
+				<form class="hidden" id="child_delete_form{{ c_post.post_id }}">
+					Are you sure you want to delete this post?<br>
+					<input type="radio" name="delete_check" value="Yes">Yes
+					<input type="submit" id="delete_sub{{ c_post.post_id }}" value="Delete Post"></form>
+				</form>
 				</p></div><br>
-				
+				<form class="hidden" action="/forums/child/{{ c_post.post_id }}" id="child_edit_form{{ c_post.post_id }}" method="POST"><br>
+				<b>Edit your post:</b>
+				<br><textarea rows="3" cols="50" name="child_content">{{ post.content }}</textarea><br>
+				<br><input type=submit value="Submit Edit">
+				</form>
 				<div class="child_content{{ c_post.post_id }}" align="left"><b>{{ c_post.username }}:</b> {{ c_post.content }}</div>
 
 				<p style="text-align:left;"><a href="/forums/like/{{ c_post.post_id }}">Like</a>({{ c_post.like_num }})/<a href="/forums/dislike/{{ c_post.post_id }}">Dislike</a>({{ c_post.dislike_num }}) 
@@ -69,64 +82,130 @@
 				</div>
 			</div><br><br><br><br><br>
 			<script>
-				{% if post.user_id != user.user_id %}
-				let c_flagBut{{ loop.index }} = document.querySelector('#child_but{{ loop.index }}');
-				let c_subFlag{{ loop.index }} = document.querySelector('#child_Flag_Form{{ loop.index }}');
-				function flag{{ loop.index }}(evt) {
-					evt.preventDefault();
-					$(c_flagBut{{ loop.index }}).hide();
-					$(c_subFlag{{ loop.index }}).show();
+				// {% if post.user_id != user.user_id %}
+				// let c_flagBut{{ loop.index }} = document.querySelector('#child_but{{ loop.index }}');
+				// let c_subFlag{{ loop.index }} = document.querySelector('#child_Flag_Form{{ loop.index }}');
+				// function flag{{ loop.index }}(evt) {
+				// 	evt.preventDefault();
+				// 	$(c_flagBut{{ loop.index }}).hide();
+				// 	$(c_subFlag{{ loop.index }}).show();
 					
-				}
-				c_flagBut{{ loop.index }}.addEventListener('click', flag{{ loop.index }};
-				{% endif %}
+				// }
+				// c_flagBut{{ loop.index }}.addEventListener('click', flag{{ loop.index }};
+				// {% endif %}
+
+				$(document).ready(function(){
+				    $( "#child_edit{{ loop.index }}" ).click(function(){
+				        $( "#child_delete{{ loop.index }}" ).hide();
+				        $( "#child_edit{{ loop.index }}" ).hide();
+				        $( "#child_content{{ c_post.post_id }}" ).hide();
+				        $( "#child_edit_form{{ c_post.post_id }}" ).show();
+				        console.log("Child Delete Button is working");
+				    });
+				});
+
+
+				$(document).ready(function(){
+				    $( "#child_delete{{ loop.index }}" ).click(function(){
+				        $( "#child_delete{{ loop.index }}" ).hide();
+				        $( "#child_edit{{ loop.index }}" ).hide();
+				        $( "#child_delete_form{{ c_post.post_id }}" ).show();
+				        console.log("Child Delete Button is working");
+				    });
+				});
+
+
+
+
 			</script>
 
 
 		{% endif %}
 	{% endfor %}
-	<div class="hidden" id="child{{ loop.index }}">
-		<form class ="hidden" action="/forums/child/{{ post.post_id }}" method="POST"><br>
-		<b>New Post:</b>
+	<div class="hidden" id="child_reply{{ loop.index }}">
+		<form action="/forums/child/{{ post.post_id }}" method="POST"><br>
+		<b>Reply to Post by {{ post.username }}:</b>
 		<br><textarea rows="6" cols="50" name="child_content"></textarea><br>
 		<br><input type=submit>
 		</form><br>
 	</div>
 	<script>
+	let childReply{{ loop.index }} = document.querySelector( '#child{{ loop.index }}' );
+	let repBut{{ loop.index }} = document.querySelector( '#parent_reply_but{{ loop.index }}');
+	let editBut{{ loop.index }} = document.querySelector( '#edit_class{{ loop.index }}' );
+	let deleteBut{{ loop.index }} = document.querySelector( '#delete_class{{ loop.index }}' );
+	let deleteForm{{ loop.index }} = document.querySelector( '#delete_form{{ post.post_id }}' );
 	{% if post.user_id != user.user_id %}
-	let flagBut{{ loop.index }} = document.querySelector('#flag_but{{ loop.index }}');
-	let subFlag{{ loop.index }} = document.querySelector('#Flag_Form{{ loop.index }}');
+	let flagBut{{ loop.index }} = document.querySelector( '#flag_but{{ loop.index }}' );
+	let subFlag{{ loop.index }} = document.querySelector( '#Flag_Form{{ loop.index }}' );
+	
+
 	function flag{{ loop.index }}(evt) {
 		evt.preventDefault();
-		$(flagBut{{ loop.index }}).hide();
-		$(subFlag{{ loop.index }}).show();
+		flagBut{{ loop.index }}.hide();
+		subFlag{{ loop.index }}.show();
 		
-	}
-	flagBut{{ loop.index }}.addEventListener('click', flag{{ loop.index }}());
+	};
+	flagBut{{ loop.index }}.addEventListener('click', flag{{ loop.index }});
 	{% endif %}
 
-	let childReply{{ loop.index }} = document.querySelector('#child{{ loop.index }}');
-	let repBut{{ loop.index }} = document.querySelector('#parent_reply_but{{ loop.index }}');
-	function reply{{ loop.index }}() {
-		// evt.preventDefault();
-		$(repBut{{ loop.index }}).hide();
-		$(childReply{{ loop.index }}).show();
-	}
+	// let childReply{{ loop.index }} = document.querySelector('#child{{ loop.index }}');
+	// let repBut{{ loop.index }} = document.querySelector('#parent_reply_but{{ loop.index }}');
+	// function reply{{ loop.index }}(evt) {
+	// 	evt.preventDefault();
+	// 	repBut{{ loop.index }}.hide();
+	// 	childReply{{ loop.index }}.show();
+	// };
 
-	repBut{{ loop.index }}.addEventListener('click', reply{{ loop.index }}());
+	// repBut{{ loop.index }}.addEventListener('click', reply{{ loop.index }});
 
-	let editBut{{ loop.index }} = document.querySelector('#edit_class{{ loop.index }}');
-	let deleteBut{{ loop.index }} = document.querySelector('#delete_class{{ loop.index }}');
-	let deleteForm{{ loop.index }} = document.querySelector('#delete_form{{ post.post_id }}');
-	function delete_parent{{ loop.index }}() {
-		// evt.preventDefault();
-		$(deleteBut{{ loop.index }}).hide();
-		$(editBut{{ loop.index }}).hide();
-		$(deleteForm{{ loop.index }}).show();
-		console.log("Button is working")
-	}
+	$(document).ready(function(){
+	    $( "#parent_edit{{ loop.index }}" ).click(function(){
+	        $( "#parent_delete{{ loop.index }}" ).hide();
+	        $( "#parent_edit{{ loop.index }}" ).hide();
+	        $( "#parent_content{{ post.post_id }}" ).hide();
+	        $( "#parent_edit_form{{ post.post_id }}" ).show();
+	        console.log("Delete Button is working");
+	    });
+	});
 
-	deleteBut{{ loop.index }}.addEventListener('click', delete_parent{{ loop.index }});
+
+	$(document).ready(function(){
+	    $( "#parent_delete{{ loop.index }}" ).click(function(){
+	        $( "#parent_delete{{ loop.index }}" ).hide();
+	        $( "#parent_edit{{ loop.index }}" ).hide();
+	        $( "#parent_delete_form{{ post.post_id }}" ).show();
+	        console.log("Delete Button is working");
+	    });
+	});
+
+
+
+
+	$(document).ready(function(){
+	    $( "#parent_reply_but{{ loop.index }}" ).click(function(){
+	        $( "#parent_reply_but{{ loop.index }}" ).hide();
+	        $( "#child_reply{{ loop.index }}" ).show();
+	        console.log("Reply Button is working");
+	    });
+	});
+
+
+
+	// {% if post.user_id == user.user_id %}
+	// // let editBut{{ loop.index }} = document.querySelector('#edit_class{{ loop.index }}');
+	// // let deleteBut{{ loop.index }} = document.querySelector('#delete_class{{ loop.index }}');
+	// // let deleteForm{{ loop.index }} = document.querySelector('#delete_form{{ post.post_id }}');
+	// function delete_parent{{ loop.index }}(evt) {
+	// 	evt.preventDefault();
+	// 	deleteBut{{ loop.index }}.hide();
+	// 	editBut{{ loop.index }}.hide();
+	// 	deleteForm{{ loop.index }}.show();
+	// 	console.log("Button is working");
+	// }
+
+	// deleteBut{{ loop.index }}.addEventListener('click', delete_parent{{ loop.index }});
+	// {% endif %}
 
 	</script>
 {% endfor %}
