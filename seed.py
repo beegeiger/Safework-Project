@@ -214,8 +214,11 @@ def add_starter_forums():
 			
 			phone = Forum(forum_id=6, forum_name="Phone Sex Operating", forum_type="main", forum_desc="Central Forum for all phone operators to discuss Strategies.", created_by="dev", parent_forum_id=0)
 			db.session.add(phone)
+
+			sugar = Forum(forum_id=7, forum_name="Sugaring", forum_type="main", forum_desc="Central Forum for all Sugar Babies to discuss Strategies.", created_by="dev", parent_forum_id=0)
+			db.session.add(sugar)
 			
-			other = Forum(forum_id=7, forum_name="All Other Forums", forum_type="main", forum_desc="Collection of all other discussion forums.", created_by="dev", parent_forum_id=0)
+			other = Forum(forum_id=8, forum_name="All Other Forums", forum_type="main", forum_desc="Collection of all other discussion forums.", created_by="dev", parent_forum_id=0)
 			db.session.add(other)
 
 			db.session.commit()

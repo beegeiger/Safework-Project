@@ -210,12 +210,13 @@ def go_forums():
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
-    other = Forum.query.filter_by(forum_id=7).one()
+    sugar = Forum.query.filter_by(forum_id=7).one()
+    other = Forum.query.filter_by(forum_id=8).one()
 
     #Checks to see if the user is logged in. If so, renders forums
     if 'current_user' in session.keys():
         return render_template("forums.html", cam=cam, dom=dom, escort=escort,
-                               porn=porn, dance=dance, phone=phone, other=other)
+                               porn=porn, dance=dance, phone=phone, other=other, sugar=sugar)
     #Otherwise it redirects to the login page
     else:
         flash("Please login before entering the forums.")
@@ -233,7 +234,8 @@ def add_post(forum_id):
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
-    other = Forum.query.filter_by(forum_id=7).one()
+    sugar = Forum.query.filter_by(forum_id=7).one()
+    other = Forum.query.filter_by(forum_id=8).one()
 
     #Gets the new posts content
     post_content = request.form['content']
@@ -264,8 +266,8 @@ def add_post(forum_id):
     child_posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
     forum = Forum.query.filter_by(forum_id=forum_id).one()
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
-                           porn=porn, dance=dance, phone=phone, posts=posts, 
-                           child_posts=child_posts, flags=flags, other=other)
+                           porn=porn, dance=dance, phone=phone, posts=posts, user=user,
+                           child_posts=child_posts, flags=flags, other=other, sugar=sugar)
 
 
 @app.route("/forums/child/<post_id>", methods=["POST"])
@@ -279,7 +281,8 @@ def add_child_post(post_id):
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
-    other = Forum.query.filter_by(forum_id=7).one()
+    sugar = Forum.query.filter_by(forum_id=7).one()
+    other = Forum.query.filter_by(forum_id=8).one()
 
     #Gets the new posts content
     post_content = request.form['child_content']
@@ -297,12 +300,10 @@ def add_child_post(post_id):
     #Adds the new post to the database
     parent_post = Post.query.filter_by(post_id=post_id).one()
     new_post = Post(user_id=user.user_id, username=user.username, forum_id=parent_post.forum_id, parent_post_id=post_id,
-                    content=post_content, p_datetime=datetime.now(),
-                    date_posted=(str(datetime.now())[:16]))
+                    content=post_content, p_datetime=datetime.now())
 
     #Doublechecks that the user isn't creating a duplicate post
-    if Post.query.filter(Post.content == new_post.content,
-                         Post.username == new_post.username).all() == []:
+    if Post.query.filter(Post.content == post_content, Post.username == user.username).all() == []:
         db.session.add(new_post)
         db.session.commit()
 
@@ -313,55 +314,25 @@ def add_child_post(post_id):
     forum = Forum.query.filter_by(forum_id=posts[0].forum_id).one()
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, user=user,
                            porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts, flags=flags, 
-                           parent_post_id=post_id, other=other)
+                           parent_post_id=post_id, other=other, sugar=sugar)
 
 
-@app.route("/forums/edit_delete/<post_id>", methods=["GET"])
-def edit_delete_post(post_id):
+@app.route("/forums/edit/<post_id>", methods=["POST"])
+def edit_post(post_id):
     """Uses POST request to create a new post within a forum"""
 
-    #Defining the central forums (within app context) to be rendered
-    cam = Forum.query.filter_by(forum_id=1).one()
-    dom = Forum.query.filter_by(forum_id=2).one()
-    escort = Forum.query.filter_by(forum_id=3).one()
-    porn = Forum.query.filter_by(forum_id=4).one()
-    dance = Forum.query.filter_by(forum_id=5).one()
-    phone = Forum.query.filter_by(forum_id=6).one()
-    other = Forum.query.filter_by(forum_id=7).one()
 
     #Gets the new posts content
-    post_content = request.form['edit_delete']
+    post_content = request.form['child_content']
 
-    #Checks to see the users info and which posts they have flagged
-    user = User.query.filter_by(email=session['current_user']).one()
-    flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
-    flags = []
-    if len(flag_query) > 0:
-        for item in flag_query:
-            print item
-            print item.post_id
-            flags.append(item.post_id)
+    #Updates post content
+    if Post.query.filter(Post.post_id == post_id, Post.content == post_content).all() != []:
+        (db.session.query(Post).filter_by(post_id=post_id).update(
+                {'content': content, 'edit_datetime': datetime.now()}))
 
-    #Adds the new post to the database
     parent_post = Post.query.filter_by(post_id=post_id).one()
-    new_post = Post(user_id=user.user_id, username=user.username, forum_id=parent_post.forum_id, parent_post_id=post_id,
-                    content=post_content, p_datetime=datetime.now(),
-                    date_posted=(str(datetime.now())[:16]))
-
-    #Doublechecks that the user isn't creating a duplicate post
-    if Post.query.filter(Post.content == new_post.content,
-                         Post.username == new_post.username).all() == []:
-        db.session.add(new_post)
-        db.session.commit()
-
-    #Queries the post and forum data and renders everything back to the same forum page
-    posts = Post.query.filter(Post.forum_id == parent_post.forum_id, Post.parent_post_id == 0).order_by(asc(Post.post_id)).all()
-    child_posts = Post.query.filter(Post.forum_id == parent_post.forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
-    print child_posts
-    forum = Forum.query.filter_by(forum_id=posts[0].forum_id).one()
-    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
-                           porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts, flags=flags, 
-                           parent_post_id=post_id, other=other)
+    
+    return redirect('/forums/order_by_date/' + str(parent_post.forum_id))
 
 
 
@@ -464,7 +435,8 @@ def date_order(forum_id):
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
-    other = Forum.query.filter_by(forum_id=7).one()
+    sugar = Forum.query.filter_by(forum_id=7).one()
+    other = Forum.query.filter_by(forum_id=8).one()
 
     #Queries from all of the dbase tables that need to be updated and/or rendered
     posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0).order_by(asc(Post.post_id)).all()
@@ -484,7 +456,7 @@ def date_order(forum_id):
     #Renders Page
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
                            porn=porn, dance=dance, phone=phone, posts=posts, user=user,
-                           child_posts=child_posts, flags=flags, flagnum=0, other=other)
+                           child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar)
 
 
 @app.route("/forums/order_by_pop/<forum_id>")
@@ -498,7 +470,8 @@ def pop_order(forum_id):
     porn = Forum.query.filter_by(forum_id=4).one()
     dance = Forum.query.filter_by(forum_id=5).one()
     phone = Forum.query.filter_by(forum_id=6).one()
-    other = Forum.query.filter_by(forum_id=7).one()
+    sugar = Forum.query.filter_by(forum_id=7).one()
+    other = Forum.query.filter_by(forum_id=8).one()
 
     #Queries from all of the dbase tables that need to be updated and/or rendered
     posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0).order_by(desc(Post.like_num)).all()
@@ -518,7 +491,7 @@ def pop_order(forum_id):
     #Renders Page
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
                            porn=porn, dance=dance, phone=phone, posts=posts, 
-                           child_posts=child_posts, flags=flags, flagnum=0, other=other)
+                           child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar)
 
 
 @app.route("/report", methods=["GET"])

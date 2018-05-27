@@ -40,8 +40,6 @@
 				<span style="float:center;"><button id="parent_reply_but{{ loop.index }}" style="display:inline">Reply to Post</button></span>
 				<span style="float:right;"> Posted: {{ post.date_posted }}</span></p>
 
-
-
 		</div>
 	{% for c_post in child_posts %}
 		{% if c_post.parent_post_id == post.post_id %}	
@@ -82,17 +80,6 @@
 				</div>
 			</div><br><br><br><br><br>
 			<script>
-				// {% if post.user_id != user.user_id %}
-				// let c_flagBut{{ loop.index }} = document.querySelector('#child_but{{ loop.index }}');
-				// let c_subFlag{{ loop.index }} = document.querySelector('#child_Flag_Form{{ loop.index }}');
-				// function flag{{ loop.index }}(evt) {
-				// 	evt.preventDefault();
-				// 	$(c_flagBut{{ loop.index }}).hide();
-				// 	$(c_subFlag{{ loop.index }}).show();
-					
-				// }
-				// c_flagBut{{ loop.index }}.addEventListener('click', flag{{ loop.index }};
-				// {% endif %}
 
 				$(document).ready(function(){
 				    $( "#child_edit{{ loop.index }}" ).click(function(){
@@ -104,7 +91,6 @@
 				    });
 				});
 
-
 				$(document).ready(function(){
 				    $( "#child_delete{{ loop.index }}" ).click(function(){
 				        $( "#child_delete{{ loop.index }}" ).hide();
@@ -114,11 +100,7 @@
 				    });
 				});
 
-
-
-
 			</script>
-
 
 		{% endif %}
 	{% endfor %}
@@ -130,34 +112,6 @@
 		</form><br>
 	</div>
 	<script>
-	let childReply{{ loop.index }} = document.querySelector( '#child{{ loop.index }}' );
-	let repBut{{ loop.index }} = document.querySelector( '#parent_reply_but{{ loop.index }}');
-	let editBut{{ loop.index }} = document.querySelector( '#edit_class{{ loop.index }}' );
-	let deleteBut{{ loop.index }} = document.querySelector( '#delete_class{{ loop.index }}' );
-	let deleteForm{{ loop.index }} = document.querySelector( '#delete_form{{ post.post_id }}' );
-	{% if post.user_id != user.user_id %}
-	let flagBut{{ loop.index }} = document.querySelector( '#flag_but{{ loop.index }}' );
-	let subFlag{{ loop.index }} = document.querySelector( '#Flag_Form{{ loop.index }}' );
-	
-
-	function flag{{ loop.index }}(evt) {
-		evt.preventDefault();
-		flagBut{{ loop.index }}.hide();
-		subFlag{{ loop.index }}.show();
-		
-	};
-	flagBut{{ loop.index }}.addEventListener('click', flag{{ loop.index }});
-	{% endif %}
-
-	// let childReply{{ loop.index }} = document.querySelector('#child{{ loop.index }}');
-	// let repBut{{ loop.index }} = document.querySelector('#parent_reply_but{{ loop.index }}');
-	// function reply{{ loop.index }}(evt) {
-	// 	evt.preventDefault();
-	// 	repBut{{ loop.index }}.hide();
-	// 	childReply{{ loop.index }}.show();
-	// };
-
-	// repBut{{ loop.index }}.addEventListener('click', reply{{ loop.index }});
 
 	$(document).ready(function(){
 	    $( "#parent_edit{{ loop.index }}" ).click(function(){
@@ -169,7 +123,6 @@
 	    });
 	});
 
-
 	$(document).ready(function(){
 	    $( "#parent_delete{{ loop.index }}" ).click(function(){
 	        $( "#parent_delete{{ loop.index }}" ).hide();
@@ -179,9 +132,6 @@
 	    });
 	});
 
-
-
-
 	$(document).ready(function(){
 	    $( "#parent_reply_but{{ loop.index }}" ).click(function(){
 	        $( "#parent_reply_but{{ loop.index }}" ).hide();
@@ -189,23 +139,6 @@
 	        console.log("Reply Button is working");
 	    });
 	});
-
-
-
-	// {% if post.user_id == user.user_id %}
-	// // let editBut{{ loop.index }} = document.querySelector('#edit_class{{ loop.index }}');
-	// // let deleteBut{{ loop.index }} = document.querySelector('#delete_class{{ loop.index }}');
-	// // let deleteForm{{ loop.index }} = document.querySelector('#delete_form{{ post.post_id }}');
-	// function delete_parent{{ loop.index }}(evt) {
-	// 	evt.preventDefault();
-	// 	deleteBut{{ loop.index }}.hide();
-	// 	editBut{{ loop.index }}.hide();
-	// 	deleteForm{{ loop.index }}.show();
-	// 	console.log("Button is working");
-	// }
-
-	// deleteBut{{ loop.index }}.addEventListener('click', delete_parent{{ loop.index }});
-	// {% endif %}
 
 	</script>
 {% endfor %}
