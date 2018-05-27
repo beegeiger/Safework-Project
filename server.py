@@ -300,7 +300,7 @@ def add_child_post(post_id):
     #Adds the new post to the database
     parent_post = Post.query.filter_by(post_id=post_id).one()
     new_post = Post(user_id=user.user_id, username=user.username, forum_id=parent_post.forum_id, parent_post_id=post_id,
-                    content=post_content, p_datetime=datetime.now())
+                    content=post_content, p_datetime=datetime.now(), date_posted=(str(datetime.now())[:16]))
 
     #Doublechecks that the user isn't creating a duplicate post
     if Post.query.filter(Post.content == post_content, Post.username == user.username).all() == []:
@@ -324,13 +324,35 @@ def edit_post(post_id):
 
     #Gets the new posts content
     post_content = request.form['child_content']
-
+    print post_content
     #Updates post content
-    if Post.query.filter(Post.post_id == post_id, Post.content == post_content).all() != []:
-        (db.session.query(Post).filter_by(post_id=post_id).update(
-                {'content': content, 'edit_datetime': datetime.now()}))
+
+    (db.session.query(Post).filter_by(post_id=post_id).update(
+            {'content': post_content, 'edit_datetime': datetime.now()}))
+    db.session.commit()
 
     parent_post = Post.query.filter_by(post_id=post_id).one()
+    
+    return redirect('/forums/order_by_date/' + str(parent_post.forum_id))
+
+
+@app.route("/forums/delete/<post_id>", methods=["POST"])
+def delete_post(post_id):
+    """Uses POST request to create a new post within a forum"""
+
+    #Gets the new posts content
+    post_content = str(request.form['delete_check'])
+    print post_content
+    print type(post_content)
+    #Updates post content
+    if post_content == "Yes":
+        print "Should be working!"
+        (db.session.query(Post).filter_by(post_id=post_id).update(
+                {'content': 'This post has been deleted by its poster.', 'edit_datetime': datetime.now(), 'deleted': True}))
+        db.session.commit()
+
+    parent_post = Post.query.filter_by(post_id=post_id).one()
+    print parent_post
     
     return redirect('/forums/order_by_date/' + str(parent_post.forum_id))
 
