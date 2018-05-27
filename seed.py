@@ -221,6 +221,30 @@ def add_starter_forums():
 			other = Forum(forum_id=8, forum_name="All Other Forums", forum_type="main", forum_desc="Collection of all other discussion forums.", created_by="dev", parent_forum_id=0)
 			db.session.add(other)
 
+			cam_sites = Forum(forum_id=9, forum_name="What sites do workers actually make money on?", forum_type="secondary", forum_desc="There are so many camming sites out there and so much biased info about which is the best. What sites have you actually performed on and which made you the most money?", created_by="dev", parent_forum_id=1)
+			db.session.add(cam_sites)
+			
+			cam_strat = Forum(forum_id=10, forum_name="What camming strategies make you the most money?", forum_type="secondary", forum_desc="Performers each have their own unique styles of camming and strategies for making money. Some tease forever. Some jump right into playtime. Some use games. What actually makes the most money? What has (and hasn't) worked for you?", created_by="dev", parent_forum_id=1)
+			db.session.add(cam_strat)
+			
+			dom_dungeon = Forum(forum_id=11, forum_name="Free Agent or Dungeon?", forum_type="secondary", forum_desc="What will actually make you the most money? Going it alone or working at a dungeon? Do you end up sacrificing safety either way? (If willing, include what state you were/are working in)" , created_by="dev", parent_forum_id=2)
+			db.session.add(dom_dungeon)
+			
+			porn = Forum(forum_id=12, forum_name="Staying Safe from Cops and out of Jail", forum_type="secondary", forum_desc="Central Forum for all porn-makers to discuss Strategies.", created_by="dev", parent_forum_id=3)
+			db.session.add(porn)
+			
+			dance = Forum(forum_id=13, forum_name="If Caught, Avoiding a Conviction", forum_type="secondary", forum_desc="Central Forum for all dancers to discuss Strategies.", created_by="dev", parent_forum_id=0)
+			db.session.add(dance)
+			
+			phone = Forum(forum_id=14, forum_name="How to Stay Safe from Clients", forum_type="secondary", forum_desc="Central Forum for all phone operators to discuss Strategies.", created_by="dev", parent_forum_id=0)
+			db.session.add(phone)
+
+			sugar = Forum(forum_id=15, forum_name="Best Ways to Actually Make Money", forum_type="secondary", forum_desc="Central Forum for all Sugar Babies to discuss Strategies.", created_by="dev", parent_forum_id=0)
+			db.session.add(sugar)
+			
+			other = Forum(forum_id=16, forum_name="What Websites can you still Advertise on and Make Money?", forum_type="secondary", forum_desc="Collection of all other discussion forums.", created_by="dev", parent_forum_id=0)
+			db.session.add(other)
+
 			db.session.commit()
 
 add_starter_forums()
