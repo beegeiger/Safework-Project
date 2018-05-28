@@ -5,6 +5,7 @@ from __future__ import absolute_import
 import flask
 import bcrypt
 import bcrypt
+import math
 import config
 import json
 import datetime
@@ -223,8 +224,8 @@ def go_forums():
         return redirect("/login")
 
 
-@app.route("/forums/parent/<forum_id>", methods=["POST"])
-def add_post(forum_id):
+@app.route("/forums/parent/<forum_id>/<page_num>", methods=["POST"])
+def add_post(forum_id, page_num=1):
     """Uses POST request to create a new post within a forum"""
 
     #Defining the central forums (within app context) to be rendered
@@ -265,13 +266,11 @@ def add_post(forum_id):
     posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0).order_by(asc(Post.post_id)).all()
     child_posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
     forum = Forum.query.filter_by(forum_id=forum_id).one()
-    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
-                           porn=porn, dance=dance, phone=phone, posts=posts, user=user,
-                           child_posts=child_posts, flags=flags, other=other, sugar=sugar)
+    return redirect("/forums/order_by_date/" + str(forum_id) + "/" + str(page_num))
 
 
 @app.route("/forums/child/<post_id>", methods=["POST"])
-def add_child_post(post_id):
+def add_child_post(post_id, page_num=1):
     """Uses POST request to create a new post within a forum"""
 
     #Defining the central forums (within app context) to be rendered
@@ -312,9 +311,7 @@ def add_child_post(post_id):
     child_posts = Post.query.filter(Post.forum_id == parent_post.forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
     print child_posts
     forum = Forum.query.filter_by(forum_id=posts[0].forum_id).one()
-    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, user=user,
-                           porn=porn, dance=dance, phone=phone, posts=posts, child_posts=child_posts, flags=flags, 
-                           parent_post_id=post_id, other=other, sugar=sugar)
+    return  redirect("/forums/order_by_date/" + str(forum_id) + "/" + str(page_num))
 
 
 @app.route("/forums/edit/<post_id>", methods=["POST"])
@@ -333,7 +330,7 @@ def edit_post(post_id):
 
     parent_post = Post.query.filter_by(post_id=post_id).one()
     
-    return redirect('/forums/order_by_date/' + str(parent_post.forum_id))
+    return redirect('/forums/order_by_date/' + str(parent_post.forum_id) + "/1")
 
 
 @app.route("/forums/delete/<post_id>", methods=["POST"])
@@ -354,7 +351,7 @@ def delete_post(post_id):
     parent_post = Post.query.filter_by(post_id=post_id).one()
     print parent_post
     
-    return redirect('/forums/order_by_date/' + str(parent_post.forum_id))
+    return redirect('/forums/order_by_date/' + str(parent_post.forum_id) + "/1")
 
 
 
@@ -387,7 +384,7 @@ def add_like(post_id):
         db.session.commit()
 
     #Re-renders the forum page with the updated like info
-    return redirect("/forums/order_by_date/{}".format(forum_id))
+    return redirect("/forums/order_by_date/{}/1".format(forum_id))
 
 
 @app.route("/forums/dislike/<post_id>", methods=["GET"])
@@ -417,7 +414,7 @@ def add_dislike(post_id):
         db.session.commit()
 
     #Re-renders the forum page with the updated dislike info
-    return redirect("/forums/order_by_date/{}".format(forum_id))
+    return redirect("/forums/order_by_date/{}/1".format(forum_id))
 
 
 @app.route("/forums/flag/<post_id>", methods=["POST"])
@@ -443,11 +440,11 @@ def flag_post(post_id):
 
     #Flashes message and re-renders the forum page
         flash('Your report has been submitted!')
-    return redirect("/forums/order_by_date/{}".format(forum_id))
+    return redirect("/forums/order_by_date/{}/1".format(forum_id))
 
 
-@app.route("/forums/order_by_date/<forum_id>")
-def date_order(forum_id):
+@app.route("/forums/order_by_date/<forum_id>/<page_num>")
+def date_order(forum_id, page_num=1):
     """Renders forum page with posts ordered by date"""
 
     #Defining the central forums (within app context) to be rendered
@@ -466,7 +463,9 @@ def date_order(forum_id):
     user = User.query.filter_by(email=session['current_user']).one()
     flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
     forum = Forum.query.filter_by(forum_id=forum_id).one()
-
+    post_index=int(math.ceil((len(posts)/float(10))))
+    print post_index
+    print type(post_index)
     #Defines empty flag list to be filled with user's flags
     flags = []
     if len(flag_query) > 0:
@@ -478,11 +477,11 @@ def date_order(forum_id):
     #Renders Page
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
                            porn=porn, dance=dance, phone=phone, posts=posts, user=user,
-                           child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar)
+                           child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar, post_index=post_index, current_page=int(page_num))
 
 
-@app.route("/forums/order_by_pop/<forum_id>")
-def pop_order(forum_id):
+@app.route("/forums/order_by_pop/<forum_id>/<page_num>")
+def pop_order(forum_id, page_num=1):
     """Renders forum page with posts ordered by popularity"""
 
     #Defining the central forums (within app context) to be rendered
@@ -494,7 +493,9 @@ def pop_order(forum_id):
     phone = Forum.query.filter_by(forum_id=6).one()
     sugar = Forum.query.filter_by(forum_id=7).one()
     other = Forum.query.filter_by(forum_id=8).one()
-
+    post_index=int(math.ceil((len(posts)/float(10))))
+    print post_index
+    print type(post_index)
     #Queries from all of the dbase tables that need to be updated and/or rendered
     posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0).order_by(desc(Post.like_num)).all()
     child_posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id != 0).order_by(desc(Post.like_num)).all()
@@ -502,6 +503,7 @@ def pop_order(forum_id):
     flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
     forum = Forum.query.filter_by(forum_id=forum_id).one()
 
+    print type(posts)
     #Defines empty flag list to be filled with user's flags
     flags = []
     if len(flag_query) > 0:
@@ -513,7 +515,7 @@ def pop_order(forum_id):
     #Renders Page
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
                            porn=porn, dance=dance, phone=phone, posts=posts, 
-                           child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar)
+                           child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar, post_index=post_index, current_page=page_num)
 
 
 @app.route("/report", methods=["GET"])

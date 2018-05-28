@@ -1,9 +1,9 @@
 {% extends 'forums.html' %}
 {% block forum %} 
 <h1>{{ forum.forum_name }}</h1>
-{{ forum.forum_desc }} <div align="right" display="inline-block">Order By: <form action="/forums/order_by_date/{{ forum.forum_id }}"><input type="submit" id="Date" value="Date Posted"></form><form action="/forums/order_by_pop/{{ forum.forum_id }}"><input type="submit" id="Pop" value="Post Popularity"></form></div><br> <br>
+{{ forum.forum_desc }} <div align="right" display="inline-block">Order By: <form action="/forums/order_by_date/{{ forum.forum_id }}/{{ current_page }}"><input type="submit" id="Date" value="Date Posted"></form><form action="/forums/order_by_pop/{{ forum.forum_id }}"><input type="submit" id="Pop" value="Post Popularity"></form></div><br> <br>
 
-{% for post in posts %}
+{% for post in posts[((10 * current_page) - 10): (10 * current_page)] %}
 	<br><br><br><br><div class="post" id="post{{ post.post_id }}">
 		<div align="right" id="div{{ post.post_id }}">
 				{% if post.post_id not in flags and post.user_id != user.user_id %}
@@ -139,7 +139,7 @@
 	        console.log("Reply Button is working");
 	    });
 	});
-
+	console.log({{ post_index }})
 	</script>
 {% endfor %}
 <div>
@@ -149,5 +149,15 @@
 <br><input type=submit>
 </form>
 </div>
-
+<div class="pagination">
+  <a href="/forums/order_by_date/{{ forum.forum_id }}/{{ current_page - 1 }}">&laquo;</a>
+  {% for numb in range(1, (post_index+1)) %}
+  {% if numb|int == current_page %}
+  <a class="active" href="#">{{ numb }}</a>
+  {% else %}
+  <a href="/forums/order_by_date/{{ forum.forum_id }}/{{ numb }}">{{ numb }}</a>
+  {% endif %}
+  {% endfor %}
+  <a href="/forums/order_by_date/{{ forum.forum_id }}/{{ current_page + 1 }}">&raquo;</a>
+</div>
 {% endblock %}
