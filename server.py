@@ -214,10 +214,57 @@ def go_forums():
     sugar = Forum.query.filter_by(forum_id=7).one()
     other = Forum.query.filter_by(forum_id=8).one()
 
+    cam_query = Forum.query.filter_by(parent_forum_id=1).all()
+    dom_query = Forum.query.filter_by(parent_forum_id=2).all()
+    escort_query = Forum.query.filter_by(parent_forum_id=3).all()
+    porn_query = Forum.query.filter_by(parent_forum_id=4).all()
+    dance_query = Forum.query.filter_by(parent_forum_id=5).all()
+    phone_query = Forum.query.filter_by(parent_forum_id=6).all()
+    sugar_query = Forum.query.filter_by(parent_forum_id=7).all()
+    other_query = Forum.query.filter_by(parent_forum_id=8).all()
+
+    all_forums = []
+    while cam_query + dom_query + escort_query + porn_query + dance_query + phone_query + sugar_query + other_query != []:
+        row = []
+        if cam_query == []:
+            row.extend([[0]])
+        else:
+            row.append(cam_query.pop([0]))
+        if dom_query == []:
+            row.extend([[0]])
+        else:
+            row.append(dom_query.pop([0]))
+        if escort_query == []:
+            row.extend([[0]])
+        else:
+            row.append(escort_query.pop([0]))
+        if porn_query == []:
+            row.extend([[0]])
+        else:
+            row.append(porn_query.pop([0]))
+        if dance_query == []:
+            row.extend([[0]])
+        else:
+            row.append(dance_query.pop([0]))
+        if phone_query == []:
+            row.extend([[0]])
+        else:
+            row.append(phone_query.pop([0]))
+        if sugar_query == []:
+            row.extend([[0]])
+        else:
+            row.append(sugar_query.pop([0]))
+        if other_query == []:
+            row.extend([[0]])
+        else:
+            row.append(other_query.pop([0]))
+        all_forums.append(row)
+        print all_forums
+
     #Checks to see if the user is logged in. If so, renders forums
     if 'current_user' in session.keys():
-        return render_template("forums.html", cam=cam, dom=dom, escort=escort,
-                               porn=porn, dance=dance, phone=phone, other=other, sugar=sugar)
+        return render_template("forum_menu.html", cam=cam, dom=dom, escort=escort,
+                               porn=porn, dance=dance, phone=phone, other=other, sugar=sugar, all_forums=all_forums)
     #Otherwise it redirects to the login page
     else:
         flash("Please login before entering the forums.")

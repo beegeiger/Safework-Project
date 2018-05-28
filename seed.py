@@ -220,6 +220,7 @@ def add_starter_forums():
 			
 			other = Forum(forum_id=8, forum_name="All Other Forums", forum_type="main", forum_desc="Collection of all other discussion forums.", created_by="dev", parent_forum_id=0)
 			db.session.add(other)
+			db.session.commit()
 
 			cam_sites = Forum(forum_id=9, forum_name="What sites do workers actually make money on?", forum_type="secondary", forum_desc="There are so many camming sites out there and so much biased info about which is the best. What sites have you actually performed on and which made you the most money?", created_by="dev", parent_forum_id=1)
 			db.session.add(cam_sites)
@@ -230,21 +231,36 @@ def add_starter_forums():
 			dom_dungeon = Forum(forum_id=11, forum_name="Free Agent or Dungeon?", forum_type="secondary", forum_desc="What will actually make you the most money? Going it alone or working at a dungeon? Do you end up sacrificing safety either way? (If willing, include what state you were/are working in)" , created_by="dev", parent_forum_id=2)
 			db.session.add(dom_dungeon)
 			
-			porn = Forum(forum_id=12, forum_name="Staying Safe from Cops and out of Jail", forum_type="secondary", forum_desc="Central Forum for all porn-makers to discuss Strategies.", created_by="dev", parent_forum_id=3)
-			db.session.add(porn)
+			escort_safe_cops = Forum(forum_id=12, forum_name="Staying Safe from Cops and out of Jail", forum_type="secondary", forum_desc="What are strategies you've used to stay away from cops and out of jail? If you are a street-walker, your experience is particularly needed!", created_by="dev", parent_forum_id=3)
+			db.session.add(escort_safe_cops)
 			
-			dance = Forum(forum_id=13, forum_name="If Caught, Avoiding a Conviction", forum_type="secondary", forum_desc="Central Forum for all dancers to discuss Strategies.", created_by="dev", parent_forum_id=0)
-			db.session.add(dance)
+			escort_convictions = Forum(forum_id=13, forum_name="If Caught, Avoiding a Conviction", forum_type="secondary", forum_desc="If you are caught escorting, how can you avoid or minimize a convinction? What strategies and resources have worked for people before?", created_by="dev", parent_forum_id=3)
+			db.session.add(escort_convictions)
 			
-			phone = Forum(forum_id=14, forum_name="How to Stay Safe from Clients", forum_type="secondary", forum_desc="Central Forum for all phone operators to discuss Strategies.", created_by="dev", parent_forum_id=0)
-			db.session.add(phone)
+			escort_clients = Forum(forum_id=14, forum_name="How to Stay Safe from Clients", forum_type="secondary", forum_desc="The greatest dangers to sex workers often come from their clients/johns. What strategies have you used to stay safe from johns and how do you prevent them from corning you or ripping you off?", created_by="dev", parent_forum_id=3)
+			db.session.add(escort_clients)
 
-			sugar = Forum(forum_id=15, forum_name="Best Ways to Actually Make Money", forum_type="secondary", forum_desc="Central Forum for all Sugar Babies to discuss Strategies.", created_by="dev", parent_forum_id=0)
-			db.session.add(sugar)
+			escort_money = Forum(forum_id=15, forum_name="Best Ways to Actually Make Money", forum_type="secondary", forum_desc="What strategies, advertising, and rates actually have made you the most money?", created_by="dev", parent_forum_id=3)
+			db.session.add(escort_money)
 			
-			other = Forum(forum_id=16, forum_name="What Websites can you still Advertise on and Make Money?", forum_type="secondary", forum_desc="Collection of all other discussion forums.", created_by="dev", parent_forum_id=0)
-			db.session.add(other)
+			escort_sites = Forum(forum_id=16, forum_name="What Websites can you still Advertise on and Make Money?", forum_type="secondary", forum_desc="Over the past couple of years, more and more of the escorting sites have been taken down. What sites are currently available to advertise on and which provide the most (safe) clients.", created_by="dev", parent_forum_id=3)
+			db.session.add(escort_sites)
+			db.session.commit()
 
+			trans_women = Forum(forum_id=17, forum_name="Issues for Trans Women", forum_type="main", forum_desc="Central Forum for all Cam Models to discuss Strategies.", created_by="dev", parent_forum_id=0)
+			db.session.add(trans_women)
+			
+			cis_women = Forum(forum_id=18, forum_name="Issues for Cis Women", forum_type="main", forum_desc="Central Forum for all Pro Domme's to discuss Strategies.", created_by="dev", parent_forum_id=0)
+			db.session.add(cis_women)
+			
+			cis_men = Forum(forum_id=19, forum_name="Issues for Cis Men", forum_type="main", forum_desc="Central Forum for all escorts to discuss Strategies.", created_by="dev", parent_forum_id=0)
+			db.session.add(cis_men)
+			
+			all_trans = Forum(forum_id=20, forum_name="Issues for all Trans* People", forum_type="main", forum_desc="Central Forum for all porn-makers to discuss Strategies.", created_by="dev", parent_forum_id=0)
+			db.session.add(all_trans)
+			
+			poc_issues = Forum(forum_id=21, forum_name="Issues for POC", forum_type="main", forum_desc="Central Forum for all dancers to discuss Strategies.", created_by="dev", parent_forum_id=0)
+			db.session.add(poc_issues)
 			db.session.commit()
 
 add_starter_forums()
