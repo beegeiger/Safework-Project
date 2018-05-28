@@ -23,19 +23,20 @@
 	form.hidden {
 	display: none;
 	}	
+	th.forums {width:12.5%;}
 </style>
 
 <h2>Discussion Forums</h2>
  <table style="width:100%">
 	<tr>
-		<th><a href="/forums/order_by_date/1/1">{{ cam.forum_name }}</a></th>
-		<th><a href="/forums/order_by_date/2/1">{{ dom.forum_name }}</a></th>
-		<th><a href="/forums/order_by_date/3/1">{{ escort.forum_name }}</a></th>
-		<th><a href="/forums/order_by_date/4/1">{{ porn.forum_name }}</a></th>
-		<th><a href="/forums/order_by_date/5/1">{{ dance.forum_name }}</a></th>
-		<th><a href="/forums/order_by_date/6/1">{{ phone.forum_name }}</a></th>
-		<th><a href="/forums/order_by_date/7/1">{{ sugar.forum_name }}</a></th>
-		<th><a href="/forums/order_by_date/8/1">{{ other.forum_name }}</a></th>
+		<th class="forums"><a href="/forums/order_by_date/1/1">{{ cam.forum_name }}</a></th>
+		<th class="forums"><a href="/forums/order_by_date/2/1">{{ dom.forum_name }}</a></th>
+		<th class="forums"><a href="/forums/order_by_date/3/1">{{ escort.forum_name }}</a></th>
+		<th class="forums"><a href="/forums/order_by_date/4/1">{{ porn.forum_name }}</a></th>
+		<th class="forums"><a href="/forums/order_by_date/5/1">{{ dance.forum_name }}</a></th>
+		<th class="forums"><a href="/forums/order_by_date/6/1">{{ phone.forum_name }}</a></th>
+		<th class="forums"><a href="/forums/order_by_date/7/1">{{ sugar.forum_name }}</a></th>
+		<th class="forums"><a href="/forums/order_by_date/8/1">{{ other.forum_name }}</a></th>
 	</tr>
 {% block forum_menu %}
 {% endblock %}

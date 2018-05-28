@@ -218,7 +218,7 @@ def add_starter_forums():
 			sugar = Forum(forum_id=7, forum_name="Sugaring", forum_type="main", forum_desc="Central Forum for all Sugar Babies to discuss Strategies.", created_by="dev", parent_forum_id=0)
 			db.session.add(sugar)
 			
-			other = Forum(forum_id=8, forum_name="All Other Forums", forum_type="main", forum_desc="Collection of all other discussion forums.", created_by="dev", parent_forum_id=0)
+			other = Forum(forum_id=8, forum_name="All Other Forums", forum_type="main", forum_desc="Collection of all other discussion forums that crosscut all sex work types.", created_by="dev", parent_forum_id=0)
 			db.session.add(other)
 			db.session.commit()
 
@@ -247,19 +247,19 @@ def add_starter_forums():
 			db.session.add(escort_sites)
 			db.session.commit()
 
-			trans_women = Forum(forum_id=17, forum_name="Issues for Trans Women", forum_type="main", forum_desc="Central Forum for all Cam Models to discuss Strategies.", created_by="dev", parent_forum_id=0)
+			trans_women = Forum(forum_id=17, forum_name="Issues for Trans Women", forum_type="main", forum_desc="Forum for all trans women sex workers to discuss issues specific to them.", created_by="dev", parent_forum_id=8)
 			db.session.add(trans_women)
 			
-			cis_women = Forum(forum_id=18, forum_name="Issues for Cis Women", forum_type="main", forum_desc="Central Forum for all Pro Domme's to discuss Strategies.", created_by="dev", parent_forum_id=0)
+			cis_women = Forum(forum_id=18, forum_name="Issues for Cis Women", forum_type="main", forum_desc="Forum for all cis women sex workers to discuss issues specific to them.", created_by="dev", parent_forum_id=8)
 			db.session.add(cis_women)
 			
-			cis_men = Forum(forum_id=19, forum_name="Issues for Cis Men", forum_type="main", forum_desc="Central Forum for all escorts to discuss Strategies.", created_by="dev", parent_forum_id=0)
+			cis_men = Forum(forum_id=19, forum_name="Issues for Cis Men", forum_type="main", forum_desc="Forum for all cis men sex workers to discuss issues specific to them.", created_by="dev", parent_forum_id=8)
 			db.session.add(cis_men)
 			
-			all_trans = Forum(forum_id=20, forum_name="Issues for all Trans* People", forum_type="main", forum_desc="Central Forum for all porn-makers to discuss Strategies.", created_by="dev", parent_forum_id=0)
+			all_trans = Forum(forum_id=20, forum_name="Issues for all Trans* People", forum_type="main", forum_desc="Forum for all non-binary and trans-masculine sex workers to discuss issues specific to them.", created_by="dev", parent_forum_id=8)
 			db.session.add(all_trans)
 			
-			poc_issues = Forum(forum_id=21, forum_name="Issues for POC", forum_type="main", forum_desc="Central Forum for all dancers to discuss Strategies.", created_by="dev", parent_forum_id=0)
+			poc_issues = Forum(forum_id=21, forum_name="Issues for POC", forum_type="main", forum_desc="Forum for all sex workers of color to discuss issues specific to them.", created_by="dev", parent_forum_id=8)
 			db.session.add(poc_issues)
 			db.session.commit()
 

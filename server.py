@@ -225,41 +225,50 @@ def go_forums():
 
     all_forums = []
     while cam_query + dom_query + escort_query + porn_query + dance_query + phone_query + sugar_query + other_query != []:
-        row = []
+        row = {}
         if cam_query == []:
-            row.extend([[0]])
+            row[1] = {"forum_id": "", "forum_name": ""}
         else:
-            row.append(cam_query.pop([0]))
+            q_object = cam_query.pop(0)
+            row[1] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
         if dom_query == []:
-            row.extend([[0]])
+            row[2] = {"forum_id": "", "forum_name": ""}
         else:
-            row.append(dom_query.pop([0]))
+            q_object = dom_query.pop(0)
+            row[2] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
         if escort_query == []:
-            row.extend([[0]])
+            row[3] = {"forum_id": "", "forum_name": ""}
         else:
-            row.append(escort_query.pop([0]))
+            q_object = escort_query.pop(0)
+            row[3] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
         if porn_query == []:
-            row.extend([[0]])
+            row[4] = {"forum_id": "", "forum_name": ""}
         else:
-            row.append(porn_query.pop([0]))
+            q_object = porn_query.pop(0)
+            row[4] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
         if dance_query == []:
-            row.extend([[0]])
+            row[5] = {"forum_id": "", "forum_name": ""}
         else:
-            row.append(dance_query.pop([0]))
+            q_object = dance_query.pop(0)
+            row[5] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
         if phone_query == []:
-            row.extend([[0]])
+            row[6] = {"forum_id": "", "forum_name": ""}
         else:
-            row.append(phone_query.pop([0]))
+            q_object = phone_query.pop(0)
+            row[6] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
         if sugar_query == []:
-            row.extend([[0]])
+            row[7] = {"forum_id": "", "forum_name": ""}
         else:
-            row.append(sugar_query.pop([0]))
+            q_object = sugar_query.pop(0)
+            row[7] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
         if other_query == []:
-            row.extend([[0]])
+            row[8] = {"forum_id": "", "forum_name": ""}
         else:
-            row.append(other_query.pop([0]))
+            q_object = other_query.pop(0)
+            row[8] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
         all_forums.append(row)
         print all_forums
+
 
     #Checks to see if the user is logged in. If so, renders forums
     if 'current_user' in session.keys():
