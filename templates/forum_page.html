@@ -4,6 +4,7 @@
 {{ forum.forum_desc }} <div align="right" display="inline-block">Order By: <form action="/forums/order_by_date/{{ forum.forum_id }}/{{ current_page }}"><input type="submit" id="Date" value="Date Posted"></form><form action="/forums/order_by_pop/{{ forum.forum_id }}"><input type="submit" id="Pop" value="Post Popularity"></form></div><br> <br>
 
 {% for post in posts[((10 * current_page) - 10): (10 * current_page)] %}
+	{% set postloop = loop %}
 	<br><br><br><br><div class="post" id="post{{ post.post_id }}">
 		<div align="right" id="div{{ post.post_id }}">
 				{% if post.post_id not in flags and post.user_id != user.user_id %}
@@ -41,9 +42,11 @@
 				<span style="float:right;"> Posted: {{ post.date_posted }}</span></p>
 
 		</div>
+	{% set child_count = [0] %}
 	{% for c_post in child_posts %}
 		{% if c_post.parent_post_id == post.post_id %}	
-			<div class="child_post" id="child_post{{ c_post.post_id }}">
+			{% if child_count.append(child_count.pop() + 1) %}{% endif %}	
+			<div  {% if child_count != [1] and child_count != [2] %} class="child_post_hidden{{ postloop.index }}" {% else %} class="child_post" {% endif %} id="child_post{{ c_post.post_id }}">
 				<div align="right" id="child_div{{ c_post.post_id }}">
 				{% if c_post.post_id not in flags and c_post.user_id != user.user_id %}
 				<button class="child_but_class" id="child_but{{ c_post.post_id }}">Flag/Report Post For Removal</button>
@@ -78,8 +81,11 @@
 				<p style="text-align:left;"><a href="/forums/like/{{ c_post.post_id }}">Like</a>({{ c_post.like_num }})/<a href="/forums/dislike/{{ c_post.post_id }}">Dislike</a>({{ c_post.dislike_num }}) 
 					<span style="float:right;"> Posted: {{ c_post.date_posted }}</span></p>
 				</div>
-			</div><br><br><br><br><br>
+			</div><br><br><br>
 			<script>
+console.log("Parent Loop =" + "{{ postloop.index }}" )
+console.log( {{ child_count }} )
+
 
 				$(document).ready(function(){
 				    $( "#child_edit{{ c_post.post_id }}" ).click(function(){
@@ -104,6 +110,7 @@
 
 		{% endif %}
 	{% endfor %}
+	{% if child_count[0] > 2 %}<button id="show_comments{{ post.post_id }}">Show more comments</button>{% endif %}
 	<div class="hidden" id="child_reply{{ post.post_id }}">
 		<form action="/forums/child/{{ post.post_id }}" method="POST"><br>
 		<b>Reply to Post by {{ post.username }}:</b>
@@ -112,6 +119,14 @@
 		</form><br>
 	</div>
 	<script>
+
+	$(document).ready(function(){
+	    $( "#show_comments{{ post.post_id }}" ).click(function(){
+	        $( "#show_comments{{ post.post_id }}" ).hide();
+	        $( ".child_post_hidden{{ postloop.index }}" ).show();
+	        console.log("Delete Button is working");
+	    });
+	});
 
 	$(document).ready(function(){
 	    $( "#parent_edit{{ post.post_id }}" ).click(function(){
@@ -139,7 +154,7 @@
 	        console.log("Reply Button is working");
 	    });
 	});
-	console.log({{ post_index }})
+
 	</script>
 {% endfor %}
 <div>

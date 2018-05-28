@@ -311,7 +311,7 @@ def add_child_post(post_id, page_num=1):
     child_posts = Post.query.filter(Post.forum_id == parent_post.forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
     print child_posts
     forum = Forum.query.filter_by(forum_id=posts[0].forum_id).one()
-    return  redirect("/forums/order_by_date/" + str(forum_id) + "/" + str(page_num))
+    return  redirect("/forums/order_by_date/" + str(parent_post.forum_id) + "/" + str(page_num))
 
 
 @app.route("/forums/edit/<post_id>", methods=["POST"])
