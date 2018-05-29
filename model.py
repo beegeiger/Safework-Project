@@ -2,6 +2,7 @@
 from flask import jsonify, Flask
 import datetime
 from datetime import datetime
+import bcrypt
 import json
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, ForeignKey, Integer, Unicode
@@ -175,7 +176,6 @@ class Like(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 	post_id = db.Column(db.Integer, db.ForeignKey('posts.post_id'))
 	like_dislike = db.Column(db.String(24))
-
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
 		return "<like_id={} user_id={} post_id={} like_dislike={}>".format(
@@ -208,15 +208,35 @@ def example_data():
 	Incident.query.delete()
 	Police.query.delete()
 	Source.query.delete()
+	Like.query.delete()
+	Flag.query.delete()
 
 	#Example Forum Objects
-	f1 = Forum(forum_id=1, forum_name="Cam Modeling", forum_type="main", forum_desc="Central Forum for all Cam Models to discuss Strategies.", created_by="dev")
-	f2 = Forum(forum_id=2, forum_name="Pro-Domination", forum_type="main", forum_desc="Central Forum for all Pro Domme's to discuss Strategies.", created_by="dev")
-	f3 = Forum(forum_id=3, forum_name="Escorting", forum_type="main", forum_desc="Central Forum for all escorts to discuss Strategies.", created_by="dev")
+	cam = Forum(forum_id=1, forum_name="Cam Modeling", forum_type="main", forum_desc="Central Forum for all Cam Models to discuss Strategies.", created_by="dev", parent_forum_id=0)
+	db.session.add(cam)	
+	dom = Forum(forum_id=2, forum_name="Pro-Domination", forum_type="main", forum_desc="Central Forum for all Pro Domme's to discuss Strategies.", created_by="dev", parent_forum_id=0)
+	db.session.add(dom)		
+	escort = Forum(forum_id=3, forum_name="Escorting", forum_type="main", forum_desc="Central Forum for all escorts to discuss Strategies.", created_by="dev", parent_forum_id=0)
+	db.session.add(escort)		
+	porn = Forum(forum_id=4, forum_name="Porn", forum_type="main", forum_desc="Central Forum for all porn-makers to discuss Strategies.", created_by="dev", parent_forum_id=0)
+	db.session.add(porn)		
+	dance = Forum(forum_id=5, forum_name="Dancing/Stripping", forum_type="main", forum_desc="Central Forum for all dancers to discuss Strategies.", created_by="dev", parent_forum_id=0)
+	db.session.add(dance)		
+	phone = Forum(forum_id=6, forum_name="Phone Sex Operating", forum_type="main", forum_desc="Central Forum for all phone operators to discuss Strategies.", created_by="dev", parent_forum_id=0)
+	db.session.add(phone)
+	sugar = Forum(forum_id=7, forum_name="Sugaring", forum_type="main", forum_desc="Central Forum for all Sugar Babies to discuss Strategies.", created_by="dev", parent_forum_id=0)
+	db.session.add(sugar)			
+	other = Forum(forum_id=8, forum_name="All Other Forums", forum_type="main", forum_desc="Collection of all other discussion forums that crosscut all sex work types.", created_by="dev", parent_forum_id=0)
+	db.session.add(other)
+	db.session.commit()
+	f1 = Forum(forum_id=9, forum_name="Example Forum Name For Testing", forum_type="main", forum_desc="Central Forum for all Cam Models to discuss Strategies.", created_by="dev", parent_forum_id=1)
+	f2 = Forum(forum_id=10, forum_name="Pro-Domination", forum_type="main", forum_desc="Central Forum for all Pro Domme's to discuss Strategies.", created_by="dev", parent_forum_id=1)
+	f3 = Forum(forum_id=11, forum_name="Escorting", forum_type="main", forum_desc="Central Forum for all escorts to discuss Strategies.", created_by="dev", parent_forum_id=1)
 
 	#Example Users
-	u1 = User(user_id=1, password="123", username="LaceyKittey", fname="Lacey", lname="Kittey", email="lkitty@.com", description="Former Escort", created_at=datetime.now(), edited_at=datetime.now())
-	u2 = User(user_id=2, password="1234", username="HappyDoc", fname="Happy", lname="Doc", email="HDoc@.com", description="Former Cam Model", created_at=datetime.now(), edited_at=datetime.now())
+	u1 = User(user_id=1, password=bcrypt.hashpw("12356", bcrypt.gensalt()), username="LaceyKittey", fname="Lacey", lname="Kittey", email="lkitty@.com", description="Former Escort", created_at=datetime.now(), edited_at=datetime.now())
+	u2 = User(user_id=2, password=bcrypt.hashpw("abcdef", bcrypt.gensalt()), username="HappyDoc", fname="Happy", lname="Doc", email="HDoc@.com", description="Former Cam Model", created_at=datetime.now(), edited_at=datetime.now())
+	u3 = User(user_id=3, password=bcrypt.hashpw("Testing", bcrypt.gensalt()), username="Testing", fname="Dev", lname="Tester", email="Testing@gmail.com", description="Former Sugar baby", created_at=datetime.now(), edited_at=datetime.now())
 	
 	#Example Posts
 	p1 = Post(post_id=1, user_id=1, forum_id=1, username="LaceyKittey", content="Testing 123", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=4, dislike_num=10)
@@ -234,13 +254,25 @@ def example_data():
 	i1 = Incident(police_dept_id=1, source_id=1, inc_type="API", latitude="33.23425", longitude="-122.124141", address="Address", city="San Francisco", state="CA", date=datetime.now(), year=2018, time="3:00", description="Prost", police_rec_num="asasdasd")
 	i2 = Incident(police_dept_id=1, source_id=1, inc_type="API", latitude="33.21235", longitude="-122.123141", address="Address", city="San Francisco", state="CA", date=datetime.now(), year=2018, time="3:00", description="Prostitution Solicitation", police_rec_num="123123")
 	
-	db.session.add_all([f1, f2, f3, u1, u2])
+	#Example Likes
+	l1 = Like(user_id=1, post_id=2, like_dislike="like")
+	l2 = Like(user_id=2, post_id=1, like_dislike="dislike")
+
+	#Example Flags
+	fl1 = Flag(user_id=3, post_id=1, flag_type="trolling")
+	fl2 = Flag(user_id=3, post_id=2, flag_type="abusive")
+
+	db.session.add_all([f1, f2, f3, u1, u2, u3])
 	db.session.commit()
 	db.session.add_all([p1, p2, po1, po2])
 	db.session.commit()
 	db.session.add_all([s1, s2])
 	db.session.commit()
 	db.session.add_all([i1, i2])
+	db.session.commit()
+	db.session.add_all([l1, l2])
+	db.session.commit()
+	db.session.add_all([fl1, fl2])
 	db.session.commit()
 
 

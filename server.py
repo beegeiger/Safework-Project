@@ -268,7 +268,6 @@ def go_forums():
             q_object = other_query.pop(0)
             row[8] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
         all_forums.append(row)
-        print all_forums
 
 
     #Checks to see if the user is logged in. If so, renders forums
