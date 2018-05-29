@@ -63,6 +63,7 @@ def get_points():
             "time": inc.time,
             "description": inc.description,
             "source_id": inc.source_id,
+            "incident_id": inc.incident_id,
             "rec_number": inc.police_rec_num}
 
     #The marker dictionary is jsonified and sent to the google maps API through JavaScript

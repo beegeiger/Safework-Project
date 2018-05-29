@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}Map Page{% endblock %}
 {% block head %}
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <!--     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&callback=initMap" async defer></script> -->
 <!--     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&library=places" async defer></script> -->
 
@@ -32,10 +33,16 @@
         top: 10px;
         z-index: 5;
       }
+    
+
+
+
+
     </style>
 
 {% endblock %}
 {% block content %}
+
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
 <!-- 	<div id="floating-panel">
       <button onclick="toggleHeatmap()">Toggle Heatmap</button>
@@ -44,7 +51,16 @@
       <button onclick="changeOpacity()">Change opacity</button>
     </div> -->
 	<div id="map"></div>
-
+<script type="text/javascript">
+  $(document).ready(function(){
+            $( "#since_2017" ).click(function(){
+                $(":contains('marker_since_2017')").show();
+                $(":contains('marker_since_2010')").hide();
+                $(":contains('marker_since_2000')").hide();
+                console.log("2017 Button Working");
+            });
+        });
+</script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&libraries=visualization,places&callback=initMap"
          async defer></script>
 
