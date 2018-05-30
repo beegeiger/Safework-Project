@@ -1,7 +1,6 @@
 """Tests for safework server.py"""
 import sqlalchemy
 import server
-from unittest import TestCase
 import bcrypt
 from server import app
 from flask import session
@@ -55,7 +54,7 @@ class safeworkIntegrationTestCase(unittest.TestCase):
 
 ######################################################
 
-class safeworkTestsDatabase(TestCase):
+class safeworkTestsDatabase(unittest.TestCase):
     """Flask tests that use the database."""
 
     def setUp(self):
@@ -74,10 +73,15 @@ class safeworkTestsDatabase(TestCase):
         example_data()
 
     def test_registration(self):
-        result = self.client.post('/register',
-                                    data={"email_input": "Testing123@gmail.com", "pw_input": "Testing123", "username": "Developer", "user_type": "other"},
-                                    follow_redirects=True)
-        self.assertIn('While you may enter the discussion forums if you are not a sex worker', result.data)
+        """Testing Registration"""
+        result = self.client.post("/register",
+                                  data={"email_input": "Testing1234@gmail.com", "password": "Testing123", "username": "Developer", "user_type": "other", "2nd": "support", "fname": "Happy", "lname": "Dopey", "about_me": "Doc"},
+                                  follow_redirects=True)
+        self.assertIn("enter the discussion forums if you are not a sex worker", result.data)
+        result = self.client.post('/login',
+                                  data={"email_input": "Testing1234@gmail.com", "pw_input": "Testing123"},
+                                  follow_redirects=True)
+        self.assertIn('You were successfully logged in', result.data)
 
 
     def test_login_failure(self):
@@ -107,11 +111,11 @@ class safeworkTestsDatabase(TestCase):
     def tearDown(self):
         """Do at end of every test."""
         db.session.close()
-        
+    
 
 ##############################################################
 
-class FlaskTestsLoggedIn(TestCase):
+class FlaskTestsLoggedIn(unittest.TestCase):
     """Flask tests with user logged in to session."""
 
     def setUp(self):
@@ -136,6 +140,24 @@ class FlaskTestsLoggedIn(TestCase):
     def test_forums(self):
         result = self.client.get('/forums')
         self.assertIn('Example Forum Name For Testing', result.data)
+
+    def test_add_post(self):
+        result = self.client.post('/forums/parent/1/1',
+                                    data={"content": "Test Post Content for Testing9876543"},
+                                    follow_redirects=True)
+        self.assertIn("Test Post Content for Testing9876543", result.data)
+        self.assertIn("Central Forum for all Cam Models to discuss Strategies", result.data)
+        
+    def test_add_child_post(self):
+        result = self.client.post('/forums/parent/1/1',
+                                    data={"content": "Test Post Content for Testing9876543"},
+                                    follow_redirects=True)
+        p_post = Post.query.filter_by(content="Test Post Content for Testing9876543").one()
+        result = self.client.post('/forums/child/' + str(p_post.post_id),
+                                    data={"child_content": "Test Post Content for Testing ABC 876", "parent_post_id": p_post.post_id},
+                                    follow_redirects=True)
+        self.assertIn("Test Post Content for Testing ABC 876", result.data)
+
 
     def tearDown(self):
         """Do at end of every test."""

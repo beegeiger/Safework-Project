@@ -354,6 +354,7 @@ def add_child_post(post_id, page_num=1):
 
     #Adds the new post to the database
     parent_post = Post.query.filter_by(post_id=post_id).one()
+
     new_post = Post(user_id=user.user_id, username=user.username, forum_id=parent_post.forum_id, parent_post_id=post_id,
                     content=post_content, p_datetime=datetime.now(), date_posted=(str(datetime.now())[:16]))
 
@@ -366,7 +367,7 @@ def add_child_post(post_id, page_num=1):
     posts = Post.query.filter(Post.forum_id == parent_post.forum_id, Post.parent_post_id == 0).order_by(asc(Post.post_id)).all()
     child_posts = Post.query.filter(Post.forum_id == parent_post.forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
     print child_posts
-    forum = Forum.query.filter_by(forum_id=posts[0].forum_id).one()
+    forum = Forum.query.filter_by(forum_id=parent_post.forum_id).one()
     return  redirect("/forums/order_by_date/" + str(parent_post.forum_id) + "/" + str(page_num))
 
 
