@@ -158,6 +158,32 @@ class FlaskTestsLoggedIn(unittest.TestCase):
                                     follow_redirects=True)
         self.assertIn("Test Post Content for Testing ABC 876", result.data)
 
+    def test_edit_post(self):
+        result = self.client.post('/forums/parent/1/1',
+                                    data={"content": "Test Post Content for Testing9876543"},
+                                    follow_redirects=True)
+        result = self.client.post('/forums/edit/3',
+                                    data={"child_content": "Edited Post12345 for Testing"},
+                                    follow_redirects=True)
+        self.assertIn("Edited Post12345 for Testing", result.data)
+        
+    def test_delete_post(self):
+        result = self.client.post('/forums/parent/1/1',
+                                    data={"content": "Test Post Content for Testing9876543"},
+                                    follow_redirects=True)
+        result = self.client.post('/forums/delete/3',
+                                    data={"delete_check": "Yes"},
+                                    follow_redirects=True)
+        self.assertNotIn("Edited Post12345 for Testing", result.data)
+
+    def test_like_post(self):
+        result = self.client.post('/forums/parent/1/1',
+                                  data={"content": "Test Post Content for Testing9876543"},
+                                  follow_redirects=True)
+        result = self.client.get('/forums/like/3',
+                                   follow_redirects=True)
+        print result
+        self.assertIn('<a href="/forums/like/3">Like</a>(1)', result.data)
 
     def tearDown(self):
         """Do at end of every test."""

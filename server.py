@@ -33,13 +33,13 @@ app.jinja_env.undefined = StrictUndefined
 
 @app.route("/")
 def go_home():
-    """Renders the safework homepage."""
+    """Renders the safework homepage. (Tested)"""
     return render_template("homepage.html")
 
 
 @app.route("/map")
 def get_map():
-    """Renders safework's arrest map."""
+    """Renders safework's arrest map. (Tested)"""
     return render_template("map_page.html")
 
 
@@ -72,7 +72,7 @@ def get_points():
 
 @app.route("/register", methods=["GET"])
 def register_form():
-    """Goes to registration Form."""
+    """Goes to registration Form. (Tested)"""
 
     """Creating empty strings to send through jinja so that if someone is redirected
      from /register(POST), their data will still be in the registration form"""
@@ -89,7 +89,7 @@ def register_form():
 
 @app.route("/register", methods=["POST"])
 def register_process():
-    """Registration Form."""
+    """Registration Form. (Tested)"""
 
     """Creating empty strings in case there aren't already
                 data being passed from the registration redirect"""
@@ -158,7 +158,9 @@ def register_process():
 
 @app.route("/login", methods=["GET"])
 def log_in():
-    """Render's the log-in page if user not in session, otherwise redirects to the homepage"""
+    """Render's the log-in page if user not in session,
+     otherwise redirects to the homepage (Tested)"""
+
     if 'current_user' in session.keys():
         return redirect("/")
     else:
@@ -167,7 +169,8 @@ def log_in():
 
 @app.route("/login", methods=["POST"])
 def login():
-    """Gets login info, verifies it, & either redirects to the forums or gives an error message"""
+    """Gets login info, verifies it, & either redirects to the forums or 
+    gives an error message (Tested)"""
 
     #Sets variable equal to the login form inputs
     email_input = request.form['email_input']
@@ -193,7 +196,7 @@ def login():
 
 @app.route("/logout")
 def logout():
-    """Logs user out and delets them from the session"""
+    """Logs user out and deletes them from the session (Tested)"""
 
     del session['current_user']
 
@@ -203,7 +206,7 @@ def logout():
 
 @app.route("/forums")
 def go_forums():
-    """Renders the central forum page"""
+    """Renders the central forum page (Tested)"""
 
     #Defining the central forums (within app context) to be rendered
     cam = Forum.query.filter_by(forum_id=1).one()
@@ -215,6 +218,7 @@ def go_forums():
     sugar = Forum.query.filter_by(forum_id=7).one()
     other = Forum.query.filter_by(forum_id=8).one()
 
+    #Creates lists for all of the children forums of the main 8 forums
     cam_query = Forum.query.filter_by(parent_forum_id=1).all()
     dom_query = Forum.query.filter_by(parent_forum_id=2).all()
     escort_query = Forum.query.filter_by(parent_forum_id=3).all()
@@ -224,8 +228,12 @@ def go_forums():
     sugar_query = Forum.query.filter_by(parent_forum_id=7).all()
     other_query = Forum.query.filter_by(parent_forum_id=8).all()
 
+    """Creates a list of dictionaries, each of which has all 8 forum_ids as keys with corresponding 
+    children forums (or a blank string if there are no more children of a parent forum) which
+    can then be iterated through"""
     all_forums = []
-    while cam_query + dom_query + escort_query + porn_query + dance_query + phone_query + sugar_query + other_query != []:
+    while (cam_query + dom_query + escort_query + porn_query +
+           dance_query + phone_query + sugar_query + other_query) != []:
         row = {}
         if cam_query == []:
             row[1] = {"forum_id": "", "forum_name": ""}
@@ -273,7 +281,9 @@ def go_forums():
     #Checks to see if the user is logged in. If so, renders forums
     if 'current_user' in session.keys():
         return render_template("forum_menu.html", cam=cam, dom=dom, escort=escort,
-                               porn=porn, dance=dance, phone=phone, other=other, sugar=sugar, all_forums=all_forums)
+                               porn=porn, dance=dance, phone=phone, other=other, sugar=sugar,
+                               all_forums=all_forums)
+    
     #Otherwise it redirects to the login page
     else:
         flash("Please login before entering the forums.")
@@ -282,7 +292,7 @@ def go_forums():
 
 @app.route("/forums/parent/<forum_id>/<page_num>", methods=["POST"])
 def add_post(forum_id, page_num=1):
-    """Uses POST request to create a new post within a forum"""
+    """Uses POST request to create a new post within a forum (Tested)"""
 
     #Defining the central forums (within app context) to be rendered
     cam = Forum.query.filter_by(forum_id=1).one()
@@ -308,8 +318,8 @@ def add_post(forum_id, page_num=1):
             flags.append(item.post_id)
 
     #Adds the new post to the database
-    new_post = Post(parent_post_id=0, user_id=user.user_id, username=user.username, forum_id=forum_id,
-                    content=post_content, p_datetime=datetime.now(),
+    new_post = Post(parent_post_id=0, user_id=user.user_id, username=user.username,
+                    forum_id=forum_id, content=post_content, p_datetime=datetime.now(),
                     date_posted=(str(datetime.now())[:16]))
 
     #Doublechecks that the user isn't creating a duplicate post
@@ -318,16 +328,13 @@ def add_post(forum_id, page_num=1):
         db.session.add(new_post)
         db.session.commit()
 
-    #Queries the post and forun data and renders everything back to the same forum page
-    posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0).order_by(asc(Post.post_id)).all()
-    child_posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
-    forum = Forum.query.filter_by(forum_id=forum_id).one()
+    #Redirects everything back to the same forum page
     return redirect("/forums/order_by_date/" + str(forum_id) + "/" + str(page_num))
 
 
 @app.route("/forums/child/<post_id>", methods=["POST"])
 def add_child_post(post_id, page_num=1):
-    """Uses POST request to create a new post within a forum"""
+    """Uses POST request to create a new child (response) post within a forum (Tested)"""
 
     #Defining the central forums (within app context) to be rendered
     cam = Forum.query.filter_by(forum_id=1).one()
@@ -352,47 +359,46 @@ def add_child_post(post_id, page_num=1):
             print item.post_id
             flags.append(item.post_id)
 
-    #Adds the new post to the database
+    #Queries the data for the parent post
     parent_post = Post.query.filter_by(post_id=post_id).one()
 
-    new_post = Post(user_id=user.user_id, username=user.username, forum_id=parent_post.forum_id, parent_post_id=post_id,
-                    content=post_content, p_datetime=datetime.now(), date_posted=(str(datetime.now())[:16]))
+    #Adds the new post to the database
+    new_post = Post(user_id=user.user_id, username=user.username, forum_id=parent_post.forum_id,
+                    parent_post_id=post_id, content=post_content, p_datetime=datetime.now(),
+                    date_posted=(str(datetime.now())[:16]))
 
     #Doublechecks that the user isn't creating a duplicate post
     if Post.query.filter(Post.content == post_content, Post.username == user.username).all() == []:
         db.session.add(new_post)
         db.session.commit()
 
-    #Queries the post and forum data and renders everything back to the same forum page
-    posts = Post.query.filter(Post.forum_id == parent_post.forum_id, Post.parent_post_id == 0).order_by(asc(Post.post_id)).all()
-    child_posts = Post.query.filter(Post.forum_id == parent_post.forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
-    print child_posts
-    forum = Forum.query.filter_by(forum_id=parent_post.forum_id).one()
+    #Redirects everything back to the same forum page
     return  redirect("/forums/order_by_date/" + str(parent_post.forum_id) + "/" + str(page_num))
 
 
 @app.route("/forums/edit/<post_id>", methods=["POST"])
 def edit_post(post_id):
-    """Uses POST request to create a new post within a forum"""
+    """Uses POST request edit an already-existing dicsussion post (Tested)"""
 
 
-    #Gets the new posts content
+    #Gets the post's new content
     post_content = request.form['child_content']
-    print post_content
-    #Updates post content
 
+    #Updates post content
     (db.session.query(Post).filter_by(post_id=post_id).update(
-            {'content': post_content, 'edit_datetime': datetime.now()}))
+        {'content': post_content, 'edit_datetime': datetime.now()}))
     db.session.commit()
 
+    #Queries the parent post to double-check the forum_id
     parent_post = Post.query.filter_by(post_id=post_id).one()
-    
+
+    #Redirects everything back to the same forum page
     return redirect('/forums/order_by_date/' + str(parent_post.forum_id) + "/1")
 
 
 @app.route("/forums/delete/<post_id>", methods=["POST"])
 def delete_post(post_id):
-    """Uses POST request to create a new post within a forum"""
+    """Uses POST request to create a new post within a forum (Tested)"""
 
     #Gets the new posts content
     post_content = str(request.form['delete_check'])
@@ -402,19 +408,22 @@ def delete_post(post_id):
     if post_content == "Yes":
         print "Should be working!"
         (db.session.query(Post).filter_by(post_id=post_id).update(
-                {'content': 'This post has been deleted by its poster.', 'edit_datetime': datetime.now(), 'deleted': True}))
+            {'content': 'This post has been deleted by its poster.',
+             'edit_datetime': datetime.now(), 'deleted': True}))
         db.session.commit()
 
+    #Queries the parent post to double-check the forum_id
     parent_post = Post.query.filter_by(post_id=post_id).one()
-    print parent_post
-    
+
+    #Redirects everything back to the same forum page
     return redirect('/forums/order_by_date/' + str(parent_post.forum_id) + "/1")
 
 
 
 @app.route("/forums/like/<post_id>", methods=["GET"])
 def add_like(post_id):
-    """When the user "likes" a post, it adds it to the dbase and updates page with new like info"""
+    """When the user "likes" a post, it adds it to the dbase and updates page with new
+     like info (Tested)"""
 
     #Queries from all of the dbase tables that need to be updated and/or rendered
     user_id = User.query.filter_by(email=session['current_user']).one().user_id

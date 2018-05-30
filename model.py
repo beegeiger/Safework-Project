@@ -239,8 +239,8 @@ def example_data():
 	u3 = User(password=bcrypt.hashpw("Testing", bcrypt.gensalt()), username="Testing", fname="Dev", lname="Tester", email="Testing@gmail.com", description="Former Sugar baby", created_at=datetime.now(), edited_at=datetime.now())
 	
 	#Example Posts
-	p1 = Post(user_id=1, forum_id=1, username="LaceyKittey", content="Testing 123", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=4, dislike_num=10)
-	p2 = Post(user_id=1, forum_id=3, username="HappyDoc", content="PlumpyDopey", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=30, dislike_num=1)
+	p1 = Post(user_id=1, forum_id=1, username="LaceyKittey", content="Testing 123", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=0, dislike_num=0)
+	p2 = Post(user_id=1, forum_id=3, username="HappyDoc", content="PlumpyDopey", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=1, dislike_num=0)
 
 	#Example Police
 	po1 = Police(police_dept_id=1, name="San Franciso Police Department", city="San Francisco", state="CA")
@@ -256,7 +256,6 @@ def example_data():
 	
 	#Example Likes
 	l1 = Like(user_id=1, post_id=2, like_dislike="like")
-	l2 = Like(user_id=2, post_id=1, like_dislike="dislike")
 
 	#Example Flags
 	fl1 = Flag(user_id=3, post_id=1, flag_type="trolling")
@@ -270,7 +269,7 @@ def example_data():
 	db.session.commit()
 	db.session.add_all([i1, i2])
 	db.session.commit()
-	db.session.add_all([l1, l2])
+	db.session.add_all([l1])
 	db.session.commit()
 	db.session.add_all([fl1, fl2])
 	db.session.commit()
