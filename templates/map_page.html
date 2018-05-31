@@ -7,7 +7,7 @@
 <!--     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&library=places" async defer></script> -->
 
 	
-    <script src="/static/img/incident_map.js" async defer></script>
+ 
     <style type="text/css">
         html, body { height: 100%; margin: 0; padding: 0; }
         #map { height: 100%; }
@@ -42,8 +42,13 @@
 
 {% endblock %}
 {% block content %}
-
+<div id="floating-panel">
+<!--       <input onclick="addSince2000();" type=button value="Since 2000">
+      <input onclick="addSince2010();" type=button value="Since 2010"> -->
+      <input onclick="addSince2017();" type=button value="Since 2017">
+    
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+  </div>
 <!-- 	<div id="floating-panel">
       <button onclick="toggleHeatmap()">Toggle Heatmap</button>
       <button onclick="changeGradient()">Change gradient</button>
@@ -51,17 +56,8 @@
       <button onclick="changeOpacity()">Change opacity</button>
     </div> -->
 	<div id="map"></div>
-<script type="text/javascript">
-  $(document).ready(function(){
-            $( "#since_2017" ).click(function(){
-                $(":contains('marker_since_2017')").show();
-                $(":contains('marker_since_2010')").hide();
-                $(":contains('marker_since_2000')").hide();
-                console.log("2017 Button Working");
-            });
-        });
-</script>
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&libraries=visualization,places&callback=initMap"
          async defer></script>
-
+   <script src="/static/img/incident_map_test.js" async defer></script>
 {% endblock %}
