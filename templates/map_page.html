@@ -12,27 +12,20 @@
         html, body { height: 100%; margin: 0; padding: 0; }
         #map { height: 100%; }
     	#floating-panel {
-        position: absolute;
-        top: 10px;
-        left: 25%;
-        z-index: 5;
         background-color: #fff;
         padding: 5px;
         border: 1px solid #999;
         text-align: center;
         font-family: 'Roboto','sans-serif';
-        line-height: 30px;
         padding-left: 10px;
       }
-      #floating-panel {
-        background-color: #fff;
-        border: 1px solid #999;
-        left: 25%;
-        padding: 5px;
-        position: absolute;
-        top: 10px;
-        z-index: 5;
+      #slide_cont {
+        width: 70%;
       }
+      #year_slider {
+        width: 80%;
+      }
+
     
 
 
@@ -45,19 +38,43 @@
 <div id="floating-panel">
 <!--       <input onclick="addSince2000();" type=button value="Since 2000">
       <input onclick="addSince2010();" type=button value="Since 2010"> -->
-      <input onclick="addSince2017();" type=button value="Since 2017">
+<!--       <input onclick="addSince2017();" type=button value="Since 2017"> -->
     
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
   </div>
-<!-- 	<div id="floating-panel">
-      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
-      <button onclick="changeGradient()">Change gradient</button>
-      <button onclick="changeRadius()">Change radius</button>
-      <button onclick="changeOpacity()">Change opacity</button>
-    </div> -->
+	<div id="floating-panel" width=70%>
+      <input onclick="addSince2000();" type=button value="Since 2000">
+      <input onclick="addSince2010();" type=button value="Since 2010">
+      <input onclick="addSince2017();" type=button value="Since 2017">
+      <div id="slide_cont" class="slidecontainer">
+        <datalist id="ticks">
+          <option>2000</option>
+          <option>2001</option>
+          <option>2002</option>
+          <option>2003</option>
+          <option>2004</option>
+          <option>2005</option>
+          <option>2006</option>
+          <option>2007</option>
+          <option>2008</option>
+          <option>2009</option>
+          <option>2010</option>
+          <option>2011</option>
+          <option>2012</option>
+          <option>2013</option>
+          <option>2014</option>
+          <option>2015</option>
+          <option>2016</option>
+          <option>2017</option>
+          <option>2018</option>
+        </datalist>
+        <input onclick="useSlider();"  type=button value="Use Slider">
+        <input type="range" id=year_slider min="2000" max="2018" step="1" value="slider_year" class="slider" id="yearRange">
+      </div>
+    </div>
 	<div id="map"></div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&libraries=visualization,places&callback=initMap"
          async defer></script>
-   <script src="/static/img/incident_map_test.js" async defer></script>
+   <script src="/static/img/incident_map.js" async defer></script>
 {% endblock %}
