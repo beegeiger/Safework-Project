@@ -340,8 +340,7 @@ function getPoints(map, infoWindow = infoWindow) {
     $.get('/incidents.json', function(incidents) {
         // debugger;
     let incident, marker, html;
-        let markerArray = [];
-        let year_class = "";
+        let markers = [];
     for (let key in incidents) {
         incident = incidents[key];
         incident.year = parseInt(incident.year);
@@ -407,10 +406,10 @@ function getPoints(map, infoWindow = infoWindow) {
         marker = new google.maps.Marker({
             position : {lat: incident.latitude, lng: incident.longitude},
             map : map,
-            title : 'Incident Type:' + incident.description + " " + year_class,
+            title : 'Incident Type:' + incident.description,
             icon : icon,
         });
-        markerArray.push(marker);
+        markers.push(marker);
         window.incident = incident;
         html = (
           '<div class="' + incident.year + '" >' +
