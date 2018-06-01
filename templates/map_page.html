@@ -43,9 +43,9 @@
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
   </div>
 	<div id="floating-panel" width=70%>
-      <input onclick="addSince2000();" type=button value="Since 2000">
-      <input onclick="addSince2010();" type=button value="Since 2010">
-      <input onclick="addSince2017();" type=button value="Since 2017">
+      <input type=button id="since2000" value="since2000">
+      <input  type=button id="since2010" value="since2010">
+      <input  type=button id="since2017" value="since2017">
       <div id="slide_cont" class="slidecontainer">
         <datalist id="ticks">
           <option>2000</option>
@@ -68,8 +68,8 @@
           <option>2017</option>
           <option>2018</option>
         </datalist>
-        <input onclick="useSlider();"  type=button value="Use Slider">
-        <input type="range" id=year_slider min="2000" max="2018" step="1" value="slider_year" class="slider" id="yearRange">
+        <input  id="slide but"  type=button value="Use Slider">
+        <input  type="range" id=year_slider min="2000" max="2018" step="1"  class="slider" id="yearRange">
       </div>
     </div>
 	<div id="map"></div>
