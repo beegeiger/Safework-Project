@@ -33,7 +33,7 @@ var markers
 var allMarkers = {}
 var Mar = []
 var happy = [1,2,3]
-var markArr
+var markArr = []
 
 function initMap() {
     map = get_map();
@@ -294,13 +294,13 @@ var opacity = 1.0
 
 $(document).ready(function(){
   $( "#since2000" ).click(function(){
-      changeMarkerGroup(class2000);
+      changeMarkerGroup(empty);
       console.log("2000 Button is working");
   });
 });
 $(document).ready(function(){
   $( "#since2010" ).click(function(){
-      deleteMarkerGroup(class2010);
+      deleteMarkerGroup();
       console.log("2010 Button is working");
   });
 });
@@ -310,28 +310,34 @@ $(document).ready(function(){
       console.log("2017 Button is working");
   });
 });
-
+ var empty = []
 
 var incident
 var incidents
 var markersArray = []
+var mark
 
-
-function deleteMarkerGroup(group) {
-  console.log(markersArray)
-  for (var i = 0; i < markersArray.length; i++ ) {
-    markersArray[i].setMap(null);
-    markersArray[i].length = 0;
+function deleteMarkerGroup() {
+  console.log(markArr)
+  for (var i = 0; i < markArr.length; i++ ) {
+    // markArr[i].setMap(null);
+    // markArr[i].setMap(map);
   }
 }
 
 function changeMarkerGroup(group) {
-  markersArray = group;
-  markersArray.length = group.length;
+  markArr = group;
+  markArr.length = group.length;
   for (var j = 0 ; j < group.length; j++) {
-    markersArray[j].setMap(map)
+    marker = markArr[j];
+    mark = new google.maps.Marker({
+        position : marker.position,
+        map : marker.map,
+        title : marker.title2,
+        icon : marker.icon,
+    });
   }
-  console.log(markersArray)
+  console.log(markArr)
 
 }
 
@@ -407,14 +413,22 @@ function getPoints() {
         // console.log(incident.latitude, incident.longitude)
         incident.latitude = parseFloat(incident.latitude);
         incident.longitude = parseFloat(incident.longitude);
-        marker = new google.maps.Marker({
+        marker = {
             position : {lat: incident.latitude, lng: incident.longitude},
             map : map,
-            title : 'Incident Type:' + incident.description,
+            title2 : 'Incident Type:' + incident.description,
             icon : icon,
-            year: incident.year
-        });
-        bindInfo(marker, html, infoWindow);
+            year: incident.year,
+            description: incident.description,
+            incident_id: incident.incident_id,
+            address: incident.address,
+            city: incident.city,
+            state: incident.state,
+            date: incident.date,
+            time: incident.time,
+            rec_number: incident.rec_number
+        };
+        // bindInfo(marker, html, infoWindow);
         markArr.push(marker);
         // window.incident = incident;
         html = (

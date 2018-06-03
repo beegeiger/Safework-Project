@@ -427,7 +427,6 @@ function getPoints(map, infowindow) {
         incident.longitude = parseFloat(incident.longitude);
         marker = new google.maps.Marker({
             position : {lat: incident.latitude, lng: incident.longitude},
-            map : map,
             title : 'Incident Type:' + incident.description,
             icon : icon,
         });
