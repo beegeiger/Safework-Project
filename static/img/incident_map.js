@@ -30,11 +30,15 @@ let sf_cent = {lat: 37.772121, lng: -122.420850};
 var map
 var infoWindow
 var markers
-
+var allMarkers = []
+var Mar = []
+var happy = [1,2,3]
+console.log(happy)
 function initMap() {
     map = get_map();
     get_infoWindow();
-    // getPoints("2010");
+    getPoints("2010");
+    console.log(allMarkers)
 }
 
 function get_infoWindow() {
@@ -282,7 +286,7 @@ function get_map() {
     map.setMapTypeId('styled_map');
     return map;
 }
-var markers =[]
+
 var image = '/static/img/Marker1.gif'
 var num1 = 40
 var num2 = 50
@@ -296,35 +300,30 @@ $(document).ready(function(){
 });
 $(document).ready(function(){
   $( "#since2010" ).click(function(){
-      getPoints("2010");
+      markers = getPoints("2010");
+      setMapOnAll(map, markers);
       console.log("2010 Button is working");
   });
 });
 $(document).ready(function(){
   $( "#since2017" ).click(function(){
+      removeMarkers();
       getPoints("2017");
       console.log("2017 Button is working");
   });
 });
 
-function setMapOnAll(map, markers) {
-        for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(map);
-        }
-      }
 
-function deleteMarkers() {
-    setMapOnAll(null);
-    markers = [];
-}
+var incident
+var incidents
 
 function getPoints(yearClass) {
     $.get('/incidents.json', function(incidents) {
         // debugger;
-
     let incident, marker, html;
-    infoWindow = get_infoWindow();
-    markers = [];
+        let markerArray = [];
+        let year_class = "";
+
     for (let key in incidents) {
         incident = incidents[key];
         incident.year = parseInt(incident.year);
@@ -385,7 +384,7 @@ function getPoints(yearClass) {
         url: image,
         scaledSize: new google.maps.Size(num1, num2),
         opacity: opacity
-    }   
+    }    
         // console.log(incident.latitude, incident.longitude)
         incident.latitude = parseFloat(incident.latitude);
         incident.longitude = parseFloat(incident.longitude);
@@ -394,9 +393,11 @@ function getPoints(yearClass) {
             map : map,
             title : 'Incident Type:' + incident.description,
             icon : icon,
+            year: incident.year
         });
-        markers.push(marker);
-        window.incident = incident;
+        bindInfo(marker, html, infoWindow);
+        markerArray.push(marker);
+        // window.incident = incident;
         html = (
           '<div class="' + incident.year + '" >' +
                 '<p><b>'+ incident.description +'</b></p>' +
@@ -408,14 +409,28 @@ function getPoints(yearClass) {
                 '<p><b>Time: </b>' + incident.time + '</p>' +
                 '<p><b>Police Record Number: </b>' + incident.rec_number + '</p>' +
               '</div>');
-        bindInfo(marker, html, infoWindow);
-        setMapOnAll(map, markers);
         };
+        console.log(markerArray)
+        console.log(markerArray[1].year)        
+        return markers
+        
     });
 }
 
 
+function removeMarkers(){
+    console.log("Should be clearing markers")
+    for(incident=0; incident<markers.length; incident++){
+        markers[i].setMap(null);
+    }
+}
 
+// Sets the map on all markers in the array.
+function setMapOnAll(map, markers) {
+  for (incident = 0; incident < markers.length; incident++) {
+    markers[incident].setMap(map);
+  }
+}
 
 function bindInfo(marker, html, infoWindow) {
     google.maps.event.addListener(marker, 'click', function () {

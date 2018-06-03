@@ -49,10 +49,12 @@ def get_points():
 
     #Initializes empty dictionary which is then filled with the marker data
     incidents = {}
+    ind = 0
     for inc in Incident.query.all():
+        ind += 1
         lat = float(inc.latitude)
         lng = float(inc.longitude)
-        incidents[inc.police_rec_num] = {
+        incidents[ind] = {
             "latitude": lat,
             "longitude": lng,
             "address": inc.address,
@@ -68,6 +70,7 @@ def get_points():
 
     #The marker dictionary is jsonified and sent to the google maps API through JavaScript
     return jsonify(incidents)
+
 
 
 @app.route("/register", methods=["GET"])
