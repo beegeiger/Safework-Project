@@ -34,7 +34,7 @@ var markers
 function initMap() {
     map = get_map();
     get_infoWindow();
-    getPoints("2010");
+    // getPoints("2010");
 }
 
 function get_infoWindow() {
@@ -282,7 +282,7 @@ function get_map() {
     map.setMapTypeId('styled_map');
     return map;
 }
-
+var markers =[]
 var image = '/static/img/Marker1.gif'
 var num1 = 40
 var num2 = 50
@@ -307,12 +307,21 @@ $(document).ready(function(){
   });
 });
 
+function setMapOnAll(map, markers) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+      }
 
-
+function deleteMarkers() {
+    setMapOnAll(null);
+    markers = [];
+}
 
 function getPoints(yearClass) {
     $.get('/incidents.json', function(incidents) {
         // debugger;
+
     let incident, marker, html;
     infoWindow = get_infoWindow();
     markers = [];
@@ -400,6 +409,7 @@ function getPoints(yearClass) {
                 '<p><b>Police Record Number: </b>' + incident.rec_number + '</p>' +
               '</div>');
         bindInfo(marker, html, infoWindow);
+        setMapOnAll(map, markers);
         };
     });
 }
