@@ -294,14 +294,14 @@ var num2 = 50
 var opacity = 1.0
 
 $(document).ready(function(){
-  $( "#since2000" ).click(function(){
+  $( "#since2000" ).click(function(){  
       deleteMarkerGroup();
       changeMarkerGroup(class2000);
       console.log("2000 Button is working");
   });
 });
 $(document).ready(function(){
-  $( "#since2010" ).click(function(){
+  $( "#since2010" ).click(function(){ 
       deleteMarkerGroup();
       changeMarkerGroup(class2010);
       console.log("2010 Button is working");
@@ -317,54 +317,58 @@ $(document).ready(function(){
 var year_class = []
 var slide_val
 var yearClass 
-$(document).ready(function(){
-  $( "#year_slider" ).click(function(){
-    slide_val = $( "#year_slider" ).val();
-    console.log(slide_val)  
-    if (slide_val == 2000){
-      yearClass = year2000;
-    } else if (slide_val == 2001){
-      yearClass = year2001;
-    } else if (slide_val == 2002){
-      yearClass = year2002;
-    } else if (slide_val == 2003){
-      yearClass = year2003;
-    } else if (slide_val == 2004){
-      yearClass = year2004;
-    } else if (slide_val == 2005){
-      yearClass = year2005;
-    } else if (slide_val == 2006){
-      yearClass = year2006;
-    } else if (slide_val == 2007){
-      yearClass = year2007;
-    } else if (slide_val == 2008){
-      yearClass = year2008;
-    } else if (slide_val == 2009){
-      yearClass = year2009;
-    } else if (slide_val == 2010){
-      yearClass = year2010;
-    } else if (slide_val == 2011){
-      yearClass = year2011;
-    } else if (slide_val == 2012){
-      yearClass = year2012;
-    } else if (slide_val == 2013){
-      yearClass = year2013;
-    } else if (slide_val == 2014){
-      yearClass = year2014;
-    } else if (slide_val == 2015){
-      yearClass = year2015;
-    } else if (slide_val == 2016){
-      yearClass = year2016;
-    } else if (slide_val == 2017){
-      yearClass = year2017;
-    } else if (slide_val == 2018){
-      yearClass = year2018;
-    }; 
-    deleteMarkerGroup();
-    changeMarkerGroup(yearClass);
-    console.log("Slider is working");
-  });
-});
+// $(document).ready(function(){
+//   $( "#year_slider" ).click(function(){
+//     slide_val = $( "#year_slider" ).val();
+//     console.log(slide_val)  
+//     if ($( "#PointscheckBox" ).checked){  
+//       if (slide_val == 2000){
+//         yearClass = year2000;
+//       } else if (slide_val == 2001){
+//         yearClass = year2001;
+//       } else if (slide_val == 2002){
+//         yearClass = year2002;
+//       } else if (slide_val == 2003){
+//         yearClass = year2003;
+//       } else if (slide_val == 2004){
+//         yearClass = year2004;
+//       } else if (slide_val == 2005){
+//         yearClass = year2005;
+//       } else if (slide_val == 2006){
+//         yearClass = year2006;
+//       } else if (slide_val == 2007){
+//         yearClass = year2007;
+//       } else if (slide_val == 2008){
+//         yearClass = year2008;
+//       } else if (slide_val == 2009){
+//         yearClass = year2009;
+//       } else if (slide_val == 2010){
+//         yearClass = year2010;
+//       } else if (slide_val == 2011){
+//         yearClass = year2011;
+//       } else if (slide_val == 2012){
+//         yearClass = year2012;
+//       } else if (slide_val == 2013){
+//         yearClass = year2013;
+//       } else if (slide_val == 2014){
+//         yearClass = year2014;
+//       } else if (slide_val == 2015){
+//         yearClass = year2015;
+//       } else if (slide_val == 2016){
+//         yearClass = year2016;
+//       } else if (slide_val == 2017){
+//         yearClass = year2017;
+//       } else if (slide_val == 2018){
+//         yearClass = year2018;
+//       }; 
+//     deleteMarkerGroup();
+//     changeMarkerGroup(yearClass);
+//     console.log("Slider is working");
+//   }
+//   // } if ($( "#HeatmapcheckBox" ).checked){
+//   // }  
+//   });
+// });
 
 
 
@@ -394,8 +398,6 @@ function changeMarkerGroup(group) {
   }
 
 }
-
-
 
 
 function getPoints() {
@@ -471,12 +473,8 @@ function getPoints() {
             position : {lat: incident.latitude, lng: incident.longitude},
             title : 'Incident Type:' + incident.description,
             icon : icon,
-            year: incident.year,
-            lat: incident.lat,
-            long: incident.long
+            year: incident.year
         });
-        marker.lat = incident.latitude
-        marker.long = incident.longitude
         // bindInfo(marker, html, infoWindow);
         markArr.push(marker);
         // window.incident = incident;
@@ -493,10 +491,8 @@ function getPoints() {
               '</div>');
         };
         // console.log(markArr)
-
-        console.log(markArr[1].year)
-        console.log(markArr[1].lat)        
-        makeMarkerGroups(markArr); 
+        console.log(markArr[1].year)        
+        // makeMarkerGroups(markArr); 
     });
 }
 
@@ -569,182 +565,180 @@ var class2000heat = []
 var class2010heat = []
 var class2017heat = []
 
-var marker
 
+
+var marker
+var location
 function makeMarkerGroups(markArr) {
   // console.log(markArr)
   console.log(markArr[1].year)
   for (var h=0; h < markArr.length; h++) {
       marker = markArr[h];
+      location = new google.maps.LatLng(marker.lat, marker.long)
       // console.log(marker)
       if (marker.year == 2000) {
       year2000.push(marker);
       class2000.push(marker);
-      year2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2000heat.push(location);
+      class2000heat.push(location);
     } else if (marker.year == 2001) {
       year2001.push(marker);
       class2000.push(marker);
-      year2001heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2001heat.push(location);
+      class2000heat.push(location);
     } else if (marker.year == 2002) {
       year2002.push(marker);
       class2000.push(marker);
-      year2002heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2002heat.push(location);
+      class2000heat.push(location);
     } else if (marker.year == 2003) {
       year2003.push(marker);
       class2000.push(marker);
-      year2003heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2003heat.push(location);
+      class2000heat.push(location);
     } else if (marker.year == 2004) {
       year2004.push(marker);
       class2000.push(marker);
-      year2004heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2004heat.push(location);
+      class2000heat.push(location);
     } else if (marker.year == 2005) {
       year2005.push(marker);
       class2000.push(marker);
-      year2005heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2005heat.push(location);
+      class2000heat.push(location);
     } else if (marker.year == 2006) {
       year2006.push(marker);
       class2000.push(marker);
-      year2006heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2006heat.push(location);
+      class2000heat.push(location);
     } else if (marker.year == 2007) {
       year2007.push(marker);
       class2000.push(marker);
-      year2007heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2007heat.push(location);
+      class2000heat.push(location);
     } else if (marker.year == 2008) {
       year2008.push(marker);
       class2000.push(marker);
-      year2008heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2008heat.push(location);
+      class2000heat.push(location);
     } else if (marker.year == 2009) {
       year2009.push(marker);
       class2000.push(marker);
-      year2009heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2009heat.push(location);
+      class2000heat.push(location);
     } else if (marker.year == 2010) {
       year2010.push(marker);
       class2000.push(marker);
       class2010.push(marker);
-      year2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2010heat.push(location);
+      class2000heat.push(location);
+      class2010heat.push(location);
     } else if (marker.year == 2011) {
       year2011.push(marker);
       class2000.push(marker);
       class2010.push(marker);
-      year2011heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2011heat.push(location);
+      class2000heat.push(location);
+      class2010heat.push(location);
     } else if(marker.year == 2012) {
       year2012.push(marker);
       class2000.push(marker);
       class2010.push(marker);
-      year2012heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2012heat.push(location);
+      class2000heat.push(location);
+      class2010heat.push(location);
     } else if (marker.year == 2013) {
       year2013.push(marker);
       class2000.push(marker);
       class2010.push(marker);
-      year2013heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2013heat.push(location);
+      class2000heat.push(location);
+      class2010heat.push(location);
     } else if (marker.year == 2014) {
       year2014.push(marker);
-      class2000.push(marker);
+      class2040.push(marker);
       class2010.push(marker);
-      year2014heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2014heat.push(location);
+      class2000heat.push(location);
+      class2010heat.push(location);
     } else if (marker.year == 2015) {
       year2015.push(marker);
       class2000.push(marker);
-      class2010.push(marker);
-      year2015heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2050.push(marker);
+      year2015heat.push(location);
+      class2000heat.push(location);
+      class2010heat.push(location);
     } else if (marker.year == 2016) {
       year2016.push(marker);
       class2000.push(marker);
       class2010.push(marker);
-      year2016heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2016heat.push(location);
+      class2000heat.push(location);
+      class2010heat.push(location);
     } else if(marker.year == 2017) {
       year2017.push(marker);
       class2000.push(marker);
       class2010.push(marker);
       class2017.push(marker);
-      year2017heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2017heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      year2017heat.push(location);
+      class2000heat.push(location);
+      class2010heat.push(location);
+      class2017heat.push(location);
     } else if(marker.year == 2018) {
       console.log("2018 should be working!")
       year2018.push(marker);
       class2000.push(marker);
       class2010.push(marker);
-      class2017.push(marker);
-      // console.log(marker.year)
-      // console.log(marker.lat)
-      // console.log(typeof marker.lat)
-      year2018heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
-      class2017heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2087.push(marker);
+      year2018heat.push(location);
+      class2000heat.push(location);
+      class2010heat.push(location);
+      class2017heat.push(location);
 
     };
 
   }
   console.log("Should be calling changeMarkerGroup")  
-  // changeMarkerGroup(class2010);
-  makeHeatMap(year2014heat); 
+  // changeMarkerGroup(class2010); 
 }
 
-var heatmap
+// var heatmap
 
-function makeHeatMap(data) {
-  heatmap = new google.maps.visualization.HeatmapLayer({
-  data: data,
-  map: map})
-  console.log("makeHeatMap Called")
-}
+// function makeHeatMap(data) {
+//   heatmap = new google.maps.visualization.HeatmapLayer({
+//   data: data,
+//   map: map})
+// }
 
 
-function toggleHeatmap() {
-  heatmap.setMap(heatmap.getMap() ? null : map);
-}
+// function toggleHeatmap() {
+//   heatmap.setMap(heatmap.getMap() ? null : map);
+// }
 
-function changeGradient() {
-  var gradient = [
-    'rgba(0, 255, 255, 0)',
-    'rgba(0, 255, 255, 1)',
-    'rgba(0, 191, 255, 1)',
-    'rgba(0, 127, 255, 1)',
-    'rgba(0, 63, 255, 1)',
-    'rgba(0, 0, 255, 1)',
-    'rgba(0, 0, 223, 1)',
-    'rgba(0, 0, 191, 1)',
-    'rgba(0, 0, 159, 1)',
-    'rgba(0, 0, 127, 1)',
-    'rgba(63, 0, 91, 1)',
-    'rgba(127, 0, 63, 1)',
-    'rgba(191, 0, 31, 1)',
-    'rgba(255, 0, 0, 1)'
-  ]
-  heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
-}
+// function changeGradient() {
+//   var gradient = [
+//     'rgba(0, 255, 255, 0)',
+//     'rgba(0, 255, 255, 1)',
+//     'rgba(0, 191, 255, 1)',
+//     'rgba(0, 127, 255, 1)',
+//     'rgba(0, 63, 255, 1)',
+//     'rgba(0, 0, 255, 1)',
+//     'rgba(0, 0, 223, 1)',
+//     'rgba(0, 0, 191, 1)',
+//     'rgba(0, 0, 159, 1)',
+//     'rgba(0, 0, 127, 1)',
+//     'rgba(63, 0, 91, 1)',
+//     'rgba(127, 0, 63, 1)',
+//     'rgba(191, 0, 31, 1)',
+//     'rgba(255, 0, 0, 1)'
+//   ]
+//   heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+// }
 
-function changeRadius() {
-  heatmap.set('radius', heatmap.get('radius') ? null : 20);
-}
+// function changeRadius() {
+//   heatmap.set('radius', heatmap.get('radius') ? null : 20);
+// }
 
-function changeOpacity() {
-  heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
-}
+// function changeOpacity() {
+//   heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+// }
