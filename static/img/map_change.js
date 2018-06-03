@@ -1,5 +1,5 @@
 function deleteMarkers() {
-        setMapOnAll(null);
+        markers.setMap(null);
       }
 // $('#all-selectors').change(function () {
 //   console.log("Something is happening!")
@@ -181,7 +181,7 @@ function initLoadGroupMarkers(years) {
     bindInfo(marker, map, html, infoWindow = infoWindow);
     markers.push(marker);
 }
-    layer = new google.maps.Data({
+    marker_layer = new google.maps.Data({
     data: markers,
     });
 });

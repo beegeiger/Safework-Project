@@ -27,9 +27,23 @@ let sf_cent = {lat: 37.772121, lng: -122.420850};
 
 
 //////////////////////////////////////////////
+var map
+var infoWindow
+var markers
+
 function initMap() {
-    let styledMapType = new google.maps.StyledMapType(
-                [
+    map = get_map();
+    get_infoWindow();
+    getPoints("2010");
+}
+
+function get_infoWindow() {
+  return infoWindow = new google.maps.InfoWindow({});
+}
+
+function get_map() {
+  let styledMapType = new google.maps.StyledMapType(
+      [
         {
           "featureType": "administrative",
           "elementType": "labels.text",
@@ -260,140 +274,103 @@ function initMap() {
         }
       ],
         {name: 'Styled Map'});
-    let map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 37.772121, lng: -122.420850},
         zoom: 13
     });
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
-
-    let infoWindow = new google.maps.InfoWindow({});
-    getPoints(map, infoWindow = infoWindow);
-// Create the search box and link it to the UI element.
-    var input = document.getElementById('pac-input');
-    var searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-    // Bias the SearchBox results towards current map's viewport.
-    map.addListener('bounds_changed', function() {
-      searchBox.setBounds(map.getBounds());
-    });
-
-    var markers = [];
-    // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
-    searchBox.addListener('places_changed', function() {
-      var places = searchBox.getPlaces();
-
-      if (places.length == 0) {
-        return;
-      }
-
-      // Clear out the old markers.
-      markers.forEach(function(marker) {
-        marker.setMap(null);
-      });
-      markers = [];
-
-      // For each place, get the icon, name and location.
-      var bounds = new google.maps.LatLngBounds();
-      places.forEach(function(place) {
-        if (!place.geometry) {
-          console.log("Returned place contains no geometry");
-          return;
-        }
-        var icon = {
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25)
-        };
-
-        // Create a marker for each place.
-        markers.push(new google.maps.Marker({
-          map: map,
-          icon: icon,
-          title: place.name + incident.year,
-          position: place.geometry.location,
-          visible: true
-        }));
-
-        if (place.geometry.viewport) {
-          // Only geocodes have viewport.
-          bounds.union(place.geometry.viewport);
-        } else {
-          bounds.extend(place.geometry.location);
-        }
-      });
-      map.fitBounds(bounds);
-    });
+    return map;
 }
 
-let image = '/static/img/Marker1.gif'
-let num1 = 40
-let num2 = 50
-let opacity = 1.0
+var image = '/static/img/Marker1.gif'
+var num1 = 40
+var num2 = 50
+var opacity = 1.0
+
+$(document).ready(function(){
+  $( "#since2000" ).click(function(){
+      getPoints("2000");
+      console.log("2000 Button is working");
+  });
+});
+$(document).ready(function(){
+  $( "#since2010" ).click(function(){
+      getPoints("2010");
+      console.log("2010 Button is working");
+  });
+});
+$(document).ready(function(){
+  $( "#since2017" ).click(function(){
+      getPoints("2017");
+      console.log("2017 Button is working");
+  });
+});
 
 
-function getPoints(map, infoWindow = infoWindow) {
+
+
+function getPoints(yearClass) {
     $.get('/incidents.json', function(incidents) {
         // debugger;
     let incident, marker, html;
-        let markers = [];
+    infoWindow = get_infoWindow();
+    markers = [];
     for (let key in incidents) {
         incident = incidents[key];
         incident.year = parseInt(incident.year);
-        if (incident.year > 2017) {
+        if (incident.year >= 2017 && yearClass == "2017") {
             image = '/static/img/Marker1.gif';
             num1 = 45;
             num2 = 60;
             opacity = 1.0;
-        } else if (incident.year > 2016) {
+        } else if (incident.year > 2016 && yearClass != "2017") {
             image = '/static/img/Marker2.gif';
             num1 = 43;
             num2 = 57;
             opacity = 0.95;
-        } else if (incident.year > 2015) {
+        } else if (incident.year > 2015 && yearClass != "2017") {
             image = '/static/img/Marker3.gif';
             num1 = 40;
             num2 = 53;
             opacity = 0.9;
-        } else if (incident.year > 2014) {
+        } else if (incident.year > 2014 && yearClass != "2017") {
             image = '/static/img/Marker4.gif';
             num1 = 37;
             num2 = 50;
             opacity = 0.85;
-        } else if (incident.year > 2012) {
+        } else if (incident.year > 2012 && yearClass != "2017") {
             image = '/static/img/Marker5.gif';
             num1 = 33;
             num2 = 45;
             opacity = 0.8;
-        } else if (incident.year > 2010) {
+        } else if (incident.year > 2010 && yearClass != "2017") {
             image = '/static/img/Marker6.gif';
             num1 = 30;
             num2 = 40;
             opacity = 0.7;
-        } else if (incident.year > 2008) {
+        } else if (incident.year > 2008 && yearClass == "2000") {
             image = '/static/img/Marker7.gif';
             num1 = 26;
             num2 = 35;
             opacity = 0.6;
-        } else if (incident.year > 2005) {
+        } else if (incident.year > 2005 && yearClass == "2000") {
             image = '/static/img/Marker8.gif';
             num1 = 22;
             num2 = 30;
             opacity = 0.5;
-        } else if (incident.year > 2002) {
+        } else if (incident.year > 2002 && yearClass == "2000") {
             image = '/static/img/Marker9.gif';
             num1 = 18;
             num2 = 25;
             opacity = 0.4;
-        } else {
+        } else if (yearClass == "2000") {
             image = '/static/img/Marker10.gif';
             num1 = 15;
             num2 = 20;
             opacity = 0.3;
+        } else {
+            incident = []
         };
         let icon = {
         url: image,
@@ -422,7 +399,7 @@ function getPoints(map, infoWindow = infoWindow) {
                 '<p><b>Time: </b>' + incident.time + '</p>' +
                 '<p><b>Police Record Number: </b>' + incident.rec_number + '</p>' +
               '</div>');
-        bindInfo(marker, map, html, infoWindow = infoWindow);
+        bindInfo(marker, html, infoWindow);
         };
     });
 }
@@ -430,11 +407,11 @@ function getPoints(map, infoWindow = infoWindow) {
 
 
 
-function bindInfo(marker, map, html, infoWindow) {
+function bindInfo(marker, html, infoWindow) {
     google.maps.event.addListener(marker, 'click', function () {
         infoWindow.close();
         infoWindow.setContent(html);
-        infoWindow.open(map, marker);
+        infoWindow.open(marker);
         });
 }
 
