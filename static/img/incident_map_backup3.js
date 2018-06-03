@@ -471,7 +471,9 @@ function getPoints() {
             position : {lat: incident.latitude, lng: incident.longitude},
             title : 'Incident Type:' + incident.description,
             icon : icon,
-            year: incident.year
+            year: incident.year,
+            lat: incident.lat,
+            long: incident.long
         });
         // bindInfo(marker, html, infoWindow);
         markArr.push(marker);
@@ -540,6 +542,28 @@ var class2000 = []
 var class2010 = []
 var class2017 = []
 
+var year2000heat = []
+var year2001heat = []
+var year2002heat = []
+var year2003heat = []
+var year2004heat = []
+var year2005heat = []
+var year2006heat = []
+var year2007heat = []
+var year2008heat = []
+var year2009heat = []
+var year2010heat = []
+var year2011heat = []
+var year2012heat = []
+var year2013heat = []
+var year2014heat = []
+var year2015heat = []
+var year2016heat = []
+var year2017heat = []
+var year2018heat = []
+var class2000heat = []
+var class2010heat = []
+var class2017heat = []
 
 var marker
 
@@ -552,71 +576,122 @@ function makeMarkerGroups(markArr) {
       if (marker.year == 2000) {
       year2000.push(marker);
       class2000.push(marker);
+      year2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2001) {
       year2001.push(marker);
       class2000.push(marker);
+      year2001heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2002) {
       year2002.push(marker);
       class2000.push(marker);
+      year2002heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2003) {
       year2003.push(marker);
       class2000.push(marker);
+      year2003heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2004) {
       year2004.push(marker);
       class2000.push(marker);
+      year2004heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2005) {
       year2005.push(marker);
       class2000.push(marker);
+      year2005heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2006) {
       year2006.push(marker);
       class2000.push(marker);
+      year2006heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2007) {
       year2007.push(marker);
       class2000.push(marker);
+      year2007heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2008) {
       year2008.push(marker);
       class2000.push(marker);
+      year2008heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2009) {
       year2009.push(marker);
       class2000.push(marker);
+      year2009heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2010) {
       year2010.push(marker);
       class2000.push(marker);
+      class2010.push(marker);
+      year2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2011) {
       year2011.push(marker);
       class2000.push(marker);
       class2010.push(marker);
-    } else if (marker.year == 2012) {
+      year2011heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
+    } else if(marker.year == 2012) {
       year2012.push(marker);
       class2000.push(marker);
       class2010.push(marker);
+      year2012heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2013) {
       year2013.push(marker);
       class2000.push(marker);
       class2010.push(marker);
+      year2013heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2014) {
       year2014.push(marker);
       class2000.push(marker);
       class2010.push(marker);
+      year2014heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2015) {
       year2015.push(marker);
       class2000.push(marker);
       class2010.push(marker);
+      year2015heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
     } else if (marker.year == 2016) {
       year2016.push(marker);
       class2000.push(marker);
       class2010.push(marker);
-    } else if (marker.year == 2017) {
+      year2016heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
+    } else if(marker.year == 2017) {
       year2017.push(marker);
       class2000.push(marker);
       class2010.push(marker);
       class2017.push(marker);
-    } else if (marker.year == 2018) {
+      year2017heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2017heat.push(new google.maps.LatLng(marker.lat, marker.long));
+    } else if(marker.year == 2018) {
       console.log("2018 should be working!")
       year2018.push(marker);
       class2000.push(marker);
       class2010.push(marker);
       class2017.push(marker);
+      year2018heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2000heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2010heat.push(new google.maps.LatLng(marker.lat, marker.long));
+      class2017heat.push(new google.maps.LatLng(marker.lat, marker.long));
+
     };
 
   }
