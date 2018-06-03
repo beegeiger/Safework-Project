@@ -30,15 +30,15 @@ let sf_cent = {lat: 37.772121, lng: -122.420850};
 var map
 var infoWindow
 var markers
-var allMarkers = []
+var allMarkers = {}
 var Mar = []
 var happy = [1,2,3]
-console.log(happy)
+var markArr
+
 function initMap() {
     map = get_map();
     get_infoWindow();
-    getPoints("2010");
-    console.log(allMarkers)
+    getPoints();
 }
 
 function get_infoWindow() {
@@ -294,21 +294,19 @@ var opacity = 1.0
 
 $(document).ready(function(){
   $( "#since2000" ).click(function(){
-      getPoints("2000");
+      changeMarkerGroup(class2000);
       console.log("2000 Button is working");
   });
 });
 $(document).ready(function(){
   $( "#since2010" ).click(function(){
-      markers = getPoints("2010");
-      setMapOnAll(map, markers);
+      deleteMarkerGroup(class2010);
       console.log("2010 Button is working");
   });
 });
 $(document).ready(function(){
   $( "#since2017" ).click(function(){
-      removeMarkers();
-      getPoints("2017");
+      changeMarkerGroup(class2017);
       console.log("2017 Button is working");
   });
 });
@@ -316,69 +314,90 @@ $(document).ready(function(){
 
 var incident
 var incidents
+var markersArray = []
 
-function getPoints(yearClass) {
+
+function deleteMarkerGroup(group) {
+  console.log(markersArray)
+  for (var i = 0; i < markersArray.length; i++ ) {
+    markersArray[i].setMap(null);
+    markersArray[i].length = 0;
+  }
+}
+
+function changeMarkerGroup(group) {
+  markersArray = group;
+  markersArray.length = group.length;
+  for (var j = 0 ; j < group.length; j++) {
+    markersArray[j].setMap(map)
+  }
+  console.log(markersArray)
+
+}
+
+
+
+
+function getPoints() {
     $.get('/incidents.json', function(incidents) {
         // debugger;
     let incident, marker, html;
-        let markerArray = [];
+        let markArr = [];
         let year_class = "";
 
     for (let key in incidents) {
         incident = incidents[key];
         incident.year = parseInt(incident.year);
-        if (incident.year >= 2017 && yearClass == "2017") {
+        if (incident.year >= 2017) {
             image = '/static/img/Marker1.gif';
             num1 = 45;
             num2 = 60;
             opacity = 1.0;
-        } else if (incident.year > 2016 && yearClass != "2017") {
+        } else if (incident.year > 2016) {
             image = '/static/img/Marker2.gif';
             num1 = 43;
             num2 = 57;
             opacity = 0.95;
-        } else if (incident.year > 2015 && yearClass != "2017") {
+        } else if (incident.year > 2015) {
             image = '/static/img/Marker3.gif';
             num1 = 40;
             num2 = 53;
             opacity = 0.9;
-        } else if (incident.year > 2014 && yearClass != "2017") {
+        } else if (incident.year > 2014) {
             image = '/static/img/Marker4.gif';
             num1 = 37;
             num2 = 50;
             opacity = 0.85;
-        } else if (incident.year > 2012 && yearClass != "2017") {
+        } else if (incident.year > 2012) {
             image = '/static/img/Marker5.gif';
             num1 = 33;
             num2 = 45;
             opacity = 0.8;
-        } else if (incident.year > 2010 && yearClass != "2017") {
+        } else if (incident.year > 2010) {
             image = '/static/img/Marker6.gif';
             num1 = 30;
             num2 = 40;
             opacity = 0.7;
-        } else if (incident.year > 2008 && yearClass == "2000") {
+        } else if (incident.year > 2008) {
             image = '/static/img/Marker7.gif';
             num1 = 26;
             num2 = 35;
             opacity = 0.6;
-        } else if (incident.year > 2005 && yearClass == "2000") {
+        } else if (incident.year > 2005) {
             image = '/static/img/Marker8.gif';
             num1 = 22;
             num2 = 30;
             opacity = 0.5;
-        } else if (incident.year > 2002 && yearClass == "2000") {
+        } else if (incident.year > 2002) {
             image = '/static/img/Marker9.gif';
             num1 = 18;
             num2 = 25;
             opacity = 0.4;
-        } else if (yearClass == "2000") {
+        } else {
             image = '/static/img/Marker10.gif';
             num1 = 15;
             num2 = 20;
             opacity = 0.3;
-        } else {
-            incident = []
         };
         let icon = {
         url: image,
@@ -396,7 +415,7 @@ function getPoints(yearClass) {
             year: incident.year
         });
         bindInfo(marker, html, infoWindow);
-        markerArray.push(marker);
+        markArr.push(marker);
         // window.incident = incident;
         html = (
           '<div class="' + incident.year + '" >' +
@@ -410,10 +429,9 @@ function getPoints(yearClass) {
                 '<p><b>Police Record Number: </b>' + incident.rec_number + '</p>' +
               '</div>');
         };
-        console.log(markerArray)
-        console.log(markerArray[1].year)        
-        return markers
-        
+        console.log(markArr)
+        console.log(markArr[1].year)        
+        makeMarkerGroups(markArr); 
     });
 }
 
@@ -440,35 +458,106 @@ function bindInfo(marker, html, infoWindow) {
         });
 }
 
+var year2000 = []
+var year2001 = []
+var year2002 = []
+var year2003 = []
+var year2004 = []
+var year2005 = []
+var year2006 = []
+var year2007 = []
+var year2008 = []
+var year2009 = []
+var year2010 = []
+var year2011 = []
+var year2012 = []
+var year2013 = []
+var year2014 = []
+var year2015 = []
+var year2016 = []
+var year2017 = []
+var year2018 = []
+var class2000 = []
+var class2010 = []
+var class2017 = []
 
 
-// google.maps.event.addDomListener(window, 'load', initMap);
+var marker
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // function addMarker() {
-    //     let icon = {
-    //         url: 'https://openclipart.org/image/2400px/svg_to_png/206317/Map-Warning-Icon.png',
-    //         scaledSize: new google.maps.Size(25, 38),
-    //     }
-    //     let marker = new google.maps.Marker({
-    //         position: sf_cent,
-    //         map: map,
-    //         title: 'Hover text',
-    //         icon: icon
-    //     });
-    //     return marker;
+function makeMarkerGroups(markArr) {
+  console.log(markArr)
+  console.log(markArr[1].year)
+  for (var h=0; h < markArr.length; h++) {
+      marker = markArr[h];
+      // console.log(marker)
+      if (marker.year == 2000) {
+      year2000.push(marker);
+      class2000.push(marker);
+    } else if (marker.year == 2001) {
+      year2001.push(marker);
+      class2000.push(marker);
+    } else if (marker.year == 2002) {
+      year2002.push(marker);
+      class2000.push(marker);
+    } else if (marker.year == 2003) {
+      year2003.push(marker);
+      class2000.push(marker);
+    } else if (marker.year == 2004) {
+      year2004.push(marker);
+      class2000.push(marker);
+    } else if (marker.year == 2005) {
+      year2005.push(marker);
+      class2000.push(marker);
+    } else if (marker.year == 2006) {
+      year2006.push(marker);
+      class2000.push(marker);
+    } else if (marker.year == 2007) {
+      year2007.push(marker);
+      class2000.push(marker);
+    } else if (marker.year == 2008) {
+      year2008.push(marker);
+      class2000.push(marker);
+    } else if (marker.year == 2009) {
+      year2009.push(marker);
+      class2000.push(marker);
+    } else if (marker.year == 2010) {
+      year2010.push(marker);
+      class2000.push(marker);
+    } else if (marker.year == 2011) {
+      year2011.push(marker);
+      class2000.push(marker);
+      class2010.push(marker);
+    } else if (marker.year == 2012) {
+      year2012.push(marker);
+      class2000.push(marker);
+      class2010.push(marker);
+    } else if (marker.year == 2013) {
+      year2013.push(marker);
+      class2000.push(marker);
+      class2010.push(marker);
+    } else if (marker.year == 2014) {
+      year2014.push(marker);
+      class2000.push(marker);
+      class2010.push(marker);
+    } else if (marker.year == 2015) {
+      year2015.push(marker);
+      class2000.push(marker);
+      class2010.push(marker);
+    } else if (marker.year == 2016) {
+      year2016.push(marker);
+      class2000.push(marker);
+      class2010.push(marker);
+    } else if (marker.year == 2017) {
+      year2017.push(marker);
+      class2000.push(marker);
+      class2010.push(marker);
+      class2017.push(marker);
+    } else if (marker.year == 2018) {
+      console.log("2018 should be working!")
+      year2018.push(marker);
+      class2000.push(marker);
+      class2010.push(marker);
+      class2017.push(marker);
+    }; 
+  }
+}
