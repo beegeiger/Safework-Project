@@ -295,74 +295,152 @@ var opacity = 1.0
 
 $(document).ready(function(){
   $( "#since2000" ).click(function(){
-      deleteMarkerGroup();
-      changeMarkerGroup(class2000);
+      if ($('#PointscheckBox').is(":checked")) {
+        deleteMarkerGroup();
+        changeMarkerGroup(class2000);
+      }
+      if ($('#HeatmapcheckBox').is(":checked")) {
+        if (heatmap) {
+          toggleHeatmap();
+        }
+        makeHeatMap(class2000heat);
+      }
       console.log("2000 Button is working");
   });
 });
 $(document).ready(function(){
   $( "#since2010" ).click(function(){
-      deleteMarkerGroup();
-      changeMarkerGroup(class2010);
+      if ($('#PointscheckBox').is(":checked")) {
+        deleteMarkerGroup();
+        changeMarkerGroup(class2010);
+      }
+      if ($('#HeatmapcheckBox').is(":checked")) {
+        if (heatmap) {
+          toggleHeatmap();
+        }
+        makeHeatMap(class2010heat);
+      }
       console.log("2010 Button is working");
   });
 });
 $(document).ready(function(){
   $( "#since2017" ).click(function(){
-      deleteMarkerGroup();
-      changeMarkerGroup(class2017);
+      if ($('#PointscheckBox').is(":checked")) {
+        deleteMarkerGroup();
+        changeMarkerGroup(class2017);
+      }
+      if ($('#HeatmapcheckBox').is(":checked")) {
+        if (heatmap) {
+          toggleHeatmap();
+        }
+        makeHeatMap(class2017heat);
+      }
       console.log("2017 Button is working");
   });
 });
+
+
+
+
+
 var year_class = []
 var slide_val
-var yearClass 
+var yearClass
+var yearheat
 $(document).ready(function(){
   $( "#year_slider" ).click(function(){
     slide_val = $( "#year_slider" ).val();
     console.log(slide_val)  
-    if (slide_val == 2000){
-      yearClass = year2000;
-    } else if (slide_val == 2001){
-      yearClass = year2001;
-    } else if (slide_val == 2002){
-      yearClass = year2002;
-    } else if (slide_val == 2003){
-      yearClass = year2003;
-    } else if (slide_val == 2004){
-      yearClass = year2004;
-    } else if (slide_val == 2005){
-      yearClass = year2005;
-    } else if (slide_val == 2006){
-      yearClass = year2006;
-    } else if (slide_val == 2007){
-      yearClass = year2007;
-    } else if (slide_val == 2008){
-      yearClass = year2008;
-    } else if (slide_val == 2009){
-      yearClass = year2009;
-    } else if (slide_val == 2010){
-      yearClass = year2010;
-    } else if (slide_val == 2011){
-      yearClass = year2011;
-    } else if (slide_val == 2012){
-      yearClass = year2012;
-    } else if (slide_val == 2013){
-      yearClass = year2013;
-    } else if (slide_val == 2014){
-      yearClass = year2014;
-    } else if (slide_val == 2015){
-      yearClass = year2015;
-    } else if (slide_val == 2016){
-      yearClass = year2016;
-    } else if (slide_val == 2017){
-      yearClass = year2017;
-    } else if (slide_val == 2018){
-      yearClass = year2018;
-    }; 
+    console.log($('#PointscheckBox').is(":checked"))
+    if ($('#PointscheckBox').is(":checked")) {  
+      if (slide_val == 2000){
+        yearClass = year2000;
+      } else if (slide_val == 2001){
+        yearClass = year2001;
+      } else if (slide_val == 2002){
+        yearClass = year2002;
+      } else if (slide_val == 2003){
+        yearClass = year2003;
+      } else if (slide_val == 2004){
+        yearClass = year2004;
+      } else if (slide_val == 2005){
+        yearClass = year2005;
+      } else if (slide_val == 2006){
+        yearClass = year2006;
+      } else if (slide_val == 2007){
+        yearClass = year2007;
+      } else if (slide_val == 2008){
+        yearClass = year2008;
+      } else if (slide_val == 2009){
+        yearClass = year2009;
+      } else if (slide_val == 2010){
+        yearClass = year2010;
+      } else if (slide_val == 2011){
+        yearClass = year2011;
+      } else if (slide_val == 2012){
+        yearClass = year2012;
+      } else if (slide_val == 2013){
+        yearClass = year2013;
+      } else if (slide_val == 2014){
+        yearClass = year2014;
+      } else if (slide_val == 2015){
+        yearClass = year2015;
+      } else if (slide_val == 2016){
+        yearClass = year2016;
+      } else if (slide_val == 2017){
+        yearClass = year2017;
+      } else if (slide_val == 2018){
+        yearClass = year2018;
+      };
     deleteMarkerGroup();
     changeMarkerGroup(yearClass);
     console.log("Slider is working");
+    };
+    if ($('#HeatmapcheckBox').is(":checked")) {  
+      if (slide_val == 2000){
+        yearheat = year2000heat;
+      } else if (slide_val == 2001){
+        yearheat = year2001heat;
+      } else if (slide_val == 2002){
+        yearheat = year2002heat;
+      } else if (slide_val == 2003){
+        yearheat = year2003heat;
+      } else if (slide_val == 2004){
+        yearheat = year2004heat;
+      } else if (slide_val == 2005){
+        yearheat = year2005heat;
+      } else if (slide_val == 2006){
+        yearheat = year2006heat;
+      } else if (slide_val == 2007){
+        yearheat = year2007heat;
+      } else if (slide_val == 2008){
+        yearheat = year2008heat;
+      } else if (slide_val == 2009){
+        yearheat = year2009heat;
+      } else if (slide_val == 2010){
+        yearheat = year2010heat;
+      } else if (slide_val == 2011){
+        yearheat = year2011heat;
+      } else if (slide_val == 2012){
+        yearheat = year2012heat;
+      } else if (slide_val == 2013){
+        yearheat = year2013heat;
+      } else if (slide_val == 2014){
+        yearheat = year2014heat;
+      } else if (slide_val == 2015){
+        yearheat = year2015heat;
+      } else if (slide_val == 2016){
+        yearheat = year2016heat;
+      } else if (slide_val == 2017){
+        yearheat = year2017heat;
+      } else if (slide_val == 2018){
+        yearheat = year2018heat;
+      };
+    if (heatmap) {
+       toggleHeatmap();
+    }
+    makeHeatMap(class2010heat);
+    }; 
   });
 });
 
@@ -704,7 +782,7 @@ function makeMarkerGroups(markArr) {
   }
   console.log("Should be calling changeMarkerGroup")  
   // changeMarkerGroup(class2010);
-  makeHeatMap(year2014heat); 
+  // makeHeatMap(year2014heat); 
 }
 
 var heatmap
@@ -723,28 +801,28 @@ function toggleHeatmap() {
 
 function changeGradient() {
   var gradient = [
-    'rgba(0, 255, 255, 0)',
-    'rgba(0, 255, 255, 1)',
-    'rgba(0, 191, 255, 1)',
-    'rgba(0, 127, 255, 1)',
-    'rgba(0, 63, 255, 1)',
-    'rgba(0, 0, 255, 1)',
-    'rgba(0, 0, 223, 1)',
-    'rgba(0, 0, 191, 1)',
-    'rgba(0, 0, 159, 1)',
-    'rgba(0, 0, 127, 1)',
-    'rgba(63, 0, 91, 1)',
-    'rgba(127, 0, 63, 1)',
-    'rgba(191, 0, 31, 1)',
-    'rgba(255, 0, 0, 1)'
+  "rgba(102, 255, 0, 0)",
+  "rgba(147, 255, 0, 1)",
+  "rgba(193, 255, 0, 1)",
+  "rgba(244, 227, 0, 1)",
+  "rgba(249, 198, 0, 1)",
+  "rgba(255, 170, 0, 1)",
+  "rgba(255, 113, 0, 1)",  
+  "rgba(255, 113, 0, 1)",
+  "rgba(255, 57, 0, 1)",
+  "rgba(255, 57, 0, 1)",
+  "rgba(255, 0, 0, 1)",
+  "rgba(255, 0, 0, 1)",
+  "rgba(255, 0, 0, 1)",
+  "rgba(255, 0, 0, 1)"
   ]
   heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
 }
 
 function changeRadius() {
-  heatmap.set('radius', heatmap.get('radius') ? null : 20);
+  heatmap.set('radius', heatmap.get('radius') ? null : 50);
 }
 
 function changeOpacity() {
-  heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+  heatmap.set('opacity', heatmap.get('opacity') ? null : 1);
 }
