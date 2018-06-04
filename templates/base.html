@@ -2,18 +2,44 @@
 <html>
     <head>
         <title>{% block title %} {% endblock %}</title>
+       <link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
         
-        
-        <a href="/">SafeWork Homepage</a> &nbsp &nbsp
-        <a href="/map">Map</a> &nbsp &nbsp
-        <a href="/register">Register</a>  &nbsp &nbsp
-        {% if 'current_user' not in session %}<a href="/login">Login</a>  &nbsp &nbsp {% endif %}
-        <a href="/forums">Discussion Forums</a>  &nbsp &nbsp
-        <a href="/report">Report an Arrest or Bad Client</a>  &nbsp &nbsp
-        <a href="/resources">Additional Resources</a>  &nbsp &nbsp
-        {% if 'current_user' in session %} <a href="/profile">Your Profile</a>&nbsp &nbsp<a href="/logout">Logout</a> {% endif %}
-
+        <div class="container-fluid">
+        <div class="container d-flex flex-column flex-md-row justify-content-between">
+        <a class="py-2 d-none d-md-inline-block" href="/">SafeWork Homepage</a> &nbsp &nbsp
+        <a class="py-2 d-none d-md-inline-block" href="/map">Map</a> &nbsp &nbsp
+        <a class="py-2 d-none d-md-inline-block" href="/register">Register</a>  &nbsp &nbsp
+        {% if 'current_user' not in session %}<a class="py-2 d-none d-md-inline-block" href="/login">Login</a>  &nbsp &nbsp {% endif %}
+        <a class="py-2 d-none d-md-inline-block" href="/forums">Discussion Forums</a>  &nbsp &nbsp
+        <a class="py-2 d-none d-md-inline-block" href="/report">Report an Arrest or Bad Client</a>  &nbsp &nbsp
+        <a class="py-2 d-none d-md-inline-block" href="/resources">Additional Resources</a>  &nbsp &nbsp
+        {% if 'current_user' in session %} <a class="py-2 d-none d-md-inline-block" href="/profile">Your Profile</a>&nbsp &nbsp<a href="/logout">Logout</a> {% endif %}
+        </div>
+        </div>
         {% block head %} {% endblock %}
+    <style>
+        body {
+        background-image: url("static/img/19165212755_3f2034c598edited.jpg");
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-position: center;
+        background-attachment: fixed;
+    }
+    h1, h2, h3, h4, h5, h6 {
+    color: red;
+    font-family: 'Bitter', serif;
+    font-weight: bold;
+    }
+    body{
+    color: white;
+    font-family: 'Roboto', sans-serif;    
+    }
+    a {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    }
+    </style>
     </head>
 
     <body>
@@ -35,6 +61,8 @@
         {% endwith %}
     </ul>
     {% block content %} {% endblock %}
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     </body>
 </html>
