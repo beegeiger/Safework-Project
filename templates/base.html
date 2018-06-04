@@ -5,16 +5,38 @@
        <link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
         
-        <div class="container-fluid">
         <div class="container d-flex flex-column flex-md-row justify-content-between">
-        <a class="py-2 d-none d-md-inline-block" href="/">SafeWork Homepage</a> &nbsp &nbsp
-        <a class="py-2 d-none d-md-inline-block" href="/map">Map</a> &nbsp &nbsp
-        <a class="py-2 d-none d-md-inline-block" href="/register">Register</a>  &nbsp &nbsp
-        {% if 'current_user' not in session %}<a class="py-2 d-none d-md-inline-block" href="/login">Login</a>  &nbsp &nbsp {% endif %}
-        <a class="py-2 d-none d-md-inline-block" href="/forums">Discussion Forums</a>  &nbsp &nbsp
-        <a class="py-2 d-none d-md-inline-block" href="/report">Report an Arrest or Bad Client</a>  &nbsp &nbsp
-        <a class="py-2 d-none d-md-inline-block" href="/resources">Additional Resources</a>  &nbsp &nbsp
-        {% if 'current_user' in session %} <a class="py-2 d-none d-md-inline-block" href="/profile">Your Profile</a>&nbsp &nbsp<a href="/logout">Logout</a> {% endif %}
+        <div class="container d-flex flex-column flex-md-row justify-content-between">
+        <div class="col-lg-10 col-lg-offset-3 text-center" >
+        
+        {%- if request.path != "/" %}<a class="py-2 d-none d-md-inline-block" href="/">SafeWork Homepage</a> &nbsp &nbsp {% endif %}
+        <button type="button" class="btn btn-danger" onclick="location.href='/map';">Map</button> &nbsp &nbsp 
+        <div class="btn-group">
+        <button type="button" class="btn btn-danger" onclick="location.href='/resources';">Resources</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/forums">Discussion Forums</a>  &nbsp &nbsp
+            <a class="dropdown-item" href="/report">Make A Report</a>  &nbsp &nbsp
+        </div> &nbsp &nbsp
+        </div>
+        {% if 'current_user' not in session %}
+        <div class="btn-group">
+        <button type="button" class="btn btn-danger"  onclick="location.href='/login';">Login</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu">
+        <a class="dropdown-item" href="/register">Register</a>  &nbsp &nbsp
+        </div>
+        </div>
+        {% endif %}
+
+        {% if 'current_user' in session %}<a class="py-2 d-none d-md-inline-block" href="/logout">Logout</a> {% endif %}
+        {% if 'current_user' in session %} <a class="py-2 d-none d-md-inline-block" href="/profile">Your Profile</a>&nbsp &nbsp{% endif %}
+        </div>
+        </div>
         </div>
         </div>
         {% block head %} {% endblock %}
@@ -23,7 +45,7 @@
         background-image: url("static/img/19165212755_3f2034c598edited.jpg");
         background-repeat: no-repeat;
         background-size: 100%;
-        background-position: center;
+        background-position: right top;
         background-attachment: fixed;
     }
     h1, h2, h3, h4, h5, h6 {
