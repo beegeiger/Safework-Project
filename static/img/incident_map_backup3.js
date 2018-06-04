@@ -341,6 +341,28 @@ $(document).ready(function(){
 
 
 
+$(document).ready(function(){
+  $( "#PointscheckBox" ).click(function(){
+      if ($('#PointscheckBox').is(":checked")) {
+          changeMarkerGroup(class2010);
+      } else {
+          deleteMarkerGroup();
+      }
+  });
+});
+
+
+$(document).ready(function(){
+  $( "#HeatmapcheckBox" ).click(function(){
+      if ($('#HeatmapcheckBox').is(":checked")) {
+          makeHeatMap(class2010heat);
+          styleHeatMap();
+      } else {
+          toggleHeatmap();
+      }
+  });
+});
+
 
 
 var year_class = []
@@ -439,11 +461,11 @@ $(document).ready(function(){
     if (heatmap) {
        toggleHeatmap();
     }
-    makeHeatMap(class2010heat);
+    makeHeatMap(yearheat);
+    styleHeatMap()
     }; 
   });
 });
-
 
 
 
@@ -464,16 +486,27 @@ function deleteMarkerGroup() {
   markArr.length = 0;
 }
 function changeMarkerGroup(group) {
+  var infowindow = new google.maps.InfoWindow({
+        });
   console.log("cMS was called")
   markArr = group;
   markArr.length = group.length;
   for (var j = 0 ; j < group.length; j++) {
-    markArr[j].setMap(map)
+   
+   markArr[j].setMap(map);
+   bindInfo(markArr[j], markArr[j].html, infowindow);    
   }
 
 }
 
 
+function bindInfo(marker, html, infowindow) {
+    google.maps.event.addListener(marker, 'click', function () {
+        infowindow.close();
+        infowindow.setContent(html)
+        infowindow.open(map, marker);
+        });
+}
 
 
 function getPoints() {
@@ -541,7 +574,7 @@ function getPoints() {
         url: image,
         scaledSize: new google.maps.Size(num1, num2),
         opacity: opacity
-    }    
+        }    
         // console.log(incident.latitude, incident.longitude)
         incident.latitude = parseFloat(incident.latitude);
         incident.longitude = parseFloat(incident.longitude);
@@ -556,9 +589,9 @@ function getPoints() {
         marker.lat = incident.latitude
         marker.long = incident.longitude
         // bindInfo(marker, html, infoWindow);
-        markArr.push(marker);
+        
         // window.incident = incident;
-        html = (
+        marker.html = ((
           '<div class="' + incident.year + '" >' +
                 '<p><b>'+ incident.description +'</b></p>' +
                 '<p><b>'+ incident.incident_id +'</b></p>' +
@@ -568,14 +601,13 @@ function getPoints() {
                 '<p><b>Date: </b>' + incident.date + '</p>' +
                 '<p><b>Time: </b>' + incident.time + '</p>' +
                 '<p><b>Police Record Number: </b>' + incident.rec_number + '</p>' +
-              '</div>');
+              '</div>'));
+        markArr.push(marker);
         };
-        // console.log(markArr)
-
         console.log(markArr[1].year)
         console.log(markArr[1].lat)        
         makeMarkerGroups(markArr); 
-    });
+  });
 }
 
 
@@ -593,13 +625,10 @@ function setMapOnAll(map, markers) {
   }
 }
 
-function bindInfo(marker, html, infoWindow) {
-    google.maps.event.addListener(marker, 'click', function () {
-        infoWindow.close();
-        infoWindow.setContent(html);
-        infoWindow.open(marker);
-        });
-}
+
+
+
+
 
 var year2000 = []
 var year2001 = []
@@ -654,7 +683,6 @@ function makeMarkerGroups(markArr) {
   console.log(markArr[1].year)
   for (var h=0; h < markArr.length; h++) {
       marker = markArr[h];
-      // console.log(marker)
       if (marker.year == 2000) {
       year2000.push(marker);
       class2000.push(marker);
@@ -781,8 +809,9 @@ function makeMarkerGroups(markArr) {
 
   }
   console.log("Should be calling changeMarkerGroup")  
-  // changeMarkerGroup(class2010);
-  // makeHeatMap(year2014heat); 
+  changeMarkerGroup(class2010);
+  makeHeatMap(class2010heat);
+  styleHeatMap(); 
 }
 
 var heatmap
@@ -792,6 +821,12 @@ function makeHeatMap(data) {
   data: data,
   map: map})
   console.log("makeHeatMap Called")
+}
+
+function styleHeatMap(){
+  changeGradient();
+  changeRadius();
+  changeOpacity();
 }
 
 

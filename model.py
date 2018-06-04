@@ -80,11 +80,13 @@ class User(db.Model):
 	edited_at = db.Column(db.DateTime, nullable=True)
 	user_type_main = db.Column(db.String(256), nullable=True)
 	user_type_secondary = db.Column(db.String(256), nullable=True)
+	tagline = db.Column(db.String(100), nullable=True)
+	location = db.Column(db.String(50), nullable=True)
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<user_id={} password={} username={} fname={} lname={} email={} description={} picture={} created_at={} edited_at={} user_type_main={} user_type_secondary={}>".format(
-			self.user_id, self.password, self.username, self.fname, self.lname, self.email, self.description, self.picture, self.created_at, self.edited_at, self.user_type_main, self.user_type_secondary)
+		return "<user_id={} password={} username={} fname={} lname={} email={} description={} picture={} created_at={} edited_at={} user_type_main={} user_type_secondary={}> tagline={} location={}".format(
+			self.user_id, self.password, self.username, self.fname, self.lname, self.email, self.description, self.picture, self.created_at, self.edited_at, self.user_type_main, self.user_type_secondary, self.tagline, self.location)
 
 
 class Incident(db.Model):

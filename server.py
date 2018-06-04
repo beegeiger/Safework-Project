@@ -104,6 +104,8 @@ def register_process():
     email_input = request.form['email_input']
     pw_input = request.form['password'].encode('utf-8')
     username = request.form['username']
+    tagline = request.form['tagline']
+    location = request.form['location']
     hashed_word = bcrypt.hashpw(pw_input, bcrypt.gensalt())
     user_type = request.form['user_type']
     second_type = request.form['2nd']
