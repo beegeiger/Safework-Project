@@ -99,7 +99,8 @@ def register_process():
     fname = ""
     lname = ""
     about_me = ""
-
+    tagline = ""
+    location = ""
     #Sets variables equal to the form values
     email_input = request.form['email_input']
     pw_input = request.form['password'].encode('utf-8')
@@ -148,7 +149,7 @@ def register_process():
     else:
         new_user = User(email=email_input, password=hashed_word, username=username, fname=fname,
                         lname=lname, description=about_me, user_type_main=user_type,
-                        user_type_secondary=second_type)
+                        user_type_secondary=second_type, tagline=tagline, location=location)
         db.session.add(new_user)
         db.session.commit()
         if user_type == "other":
@@ -647,7 +648,7 @@ def user_profile():
     user = User.query.filter_by(email=session['current_user']).one()
 
     return render_template("user_page.html", email=user.email, username=user.username,
-                           fname=user.fname, lname=user.lname, about_me=user.description)
+                           fname=user.fname, lname=user.lname, about_me=user.description, tagline=user.tagline, location=user.location)
 
 
 
@@ -672,6 +673,8 @@ def edit_profile():
     new_password = request.form['new_password']
     username = request.form['username']
     fname = request.form['fname']
+    tagline = request.form['tagline']
+    location = request.form['location']
     lname = request.form['lname']
     about_me = request.form['about_me']
     user = User.query.filter_by(email=session['current_user']).one()
@@ -690,7 +693,12 @@ def edit_profile():
     else:
         flash('Your e-mail or password was incorrect! Please try again or Register.')
         return render_template("edit_profile.html", email=user.email, username=user.username,
-                               fname=user.fname, lname=user.lname, about_me=user.description)
+                               fname=user.fname, tagline=user.tagline, location=user.location, lname=user.lname, about_me=user.description)
+
+
+@app.route("/resources")
+def resources():
+    return render_template("resources.html")
 
 #####################################################
 

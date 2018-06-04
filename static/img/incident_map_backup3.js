@@ -45,7 +45,7 @@ function initMap() {
 function get_infoWindow() {
   return infoWindow = new google.maps.InfoWindow({});
 }
-
+var searchBox
 function get_map() {
   let styledMapType = new google.maps.StyledMapType(
       [
@@ -285,8 +285,45 @@ function get_map() {
     });
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
+    var input = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    searchBox.addListener('keypress', function(e) {
+          var key = e.which || e.keyCode;
+          if (key === 13) {
+          map.getBounds(searchBox.setBounds()); 
+          }
+    map.addListener('bounds_changed', function() {
+      searchBox.setBounds(map.getBounds());
+    });
+//     // initAutocomplete();
+    
+});
     return map;
 }
+
+var input
+var searchBox
+// function initAutocomplete() {
+//         // Create the search box and link it to the UI element.
+//         input = document.getElementById('pac-input');
+//         searchBox = new google.maps.places.SearchBox(input);
+//         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+//         searchBox.addListener('places_changed', function() {
+//         var places = searchBox.getPlaces();
+
+//         if (places.length == 0) {
+//           return;
+//         }
+//         searchBox.addListener('keypress', function(e) {
+//           var key = e.which || e.keyCode;
+//           if (key === 13) {
+//           map.getBounds(searchBox.setBounds(input)); 
+//           }
+//     });
+//   });
+// }
 
 var image = '/static/img/Marker1.gif'
 var num1 = 40

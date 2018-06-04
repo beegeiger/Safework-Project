@@ -35,7 +35,8 @@
 			<br><textarea rows="3" cols="50" name="child_content">{{ post.content }}</textarea><br>
 			<br><input type=submit value="Submit Edit">
 			</form>
-			<div id="parent_content{{ post.post_id }}" align="left"><b>{{ post.username }}:</b> {{ post.content }}</div>
+			<div id="parent_content{{ post.post_id }}" align="left"><b>{{ post.username }}:</b> {{ post.content }}<br>
+			{{ user.tagline }}, {{ user.location }}</div>
 
 			<p style="text-align:left;"><a href="/forums/like/{{ post.post_id }}">Like</a>({{ post.like_num }})/<a href="/forums/dislike/{{ post.post_id }}">Dislike</a>({{ post.dislike_num }}) 
 				<span style="float:center;"><button id="parent_reply_but{{ post.post_id }}" style="display:inline">Reply to Post</button></span>
@@ -76,7 +77,8 @@
 				<br><textarea rows="3" cols="50" name="child_content">{{ c_post.content }}</textarea><br>
 				<br><input type=submit value="Submit Edit">
 				</form>
-				<div class="child_content{{ c_post.post_id }}" id="child_content{{ c_post.post_id }}" align="left"><b>{{ c_post.username }}:</b> {{ c_post.content }}</div>
+				<div class="child_content{{ c_post.post_id }}" id="child_content{{ c_post.post_id }}" align="left"><b>{{ c_post.username }}:</b> {{ c_post.content }}<br>
+				{{ user.tagline }}, {{ user.location }}</div>
 
 				<p style="text-align:left;"><a href="/forums/like/{{ c_post.post_id }}">Like</a>({{ c_post.like_num }})/<a href="/forums/dislike/{{ c_post.post_id }}">Dislike</a>({{ c_post.dislike_num }}) 
 					<span style="float:right;"> Posted: {{ c_post.date_posted }}</span></p>
@@ -158,7 +160,7 @@ console.log( {{ child_count }} )
 	</script>
 {% endfor %}
 <div>
-<form action="/forums/parent/{{ forum.forum_id }}" method="POST"><br>
+<form action="/forums/parent/{{ forum.forum_id }}/{{ current_page }}" method="POST"><br>
 <b>New Post:</b>
 <br><textarea rows="6" cols="50" name="content"></textarea><br>
 <br><input type=submit>
