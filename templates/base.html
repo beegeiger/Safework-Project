@@ -9,12 +9,12 @@
         
         {% block head %} {% endblock %}
     <style>
-        body {
-        background-image: url("static/img/19165212755_3f2034c598edited.jpg");
-        background-repeat: no-repeat;
-        background-size: 100%;
-        background-position: right top;
-        background-attachment: fixed;
+    body {
+    background: url("static/img/5.jpg") no-repeat center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
     }
     h1, h2, h3, h4, h5, h6 {
     color: red;
@@ -29,6 +29,9 @@
     color: white;
     font-family: 'Roboto', sans-serif;
     }
+    .btn-danger {
+        background-color: red;
+    }
     </style>
     </head>
 
@@ -38,11 +41,11 @@
         <div class="col-lg-10 col-lg-offset-3 text-center" >
         
         {%- if request.path != "/" %}<button type="button" class="btn btn-danger" onclick="location.href='/';">SafeWork Homepage</button> &nbsp &nbsp {% endif %}
-        <button type="button" class="btn btn-danger" onclick="location.href='/map';">Map</button> &nbsp &nbsp 
+        <button type="button" class="btn btn-danger" onclick="location.href='/map';" color: red;>Map</button> &nbsp &nbsp 
         <div class="btn-group">
-        <button type="button" class="btn btn-danger" onclick="location.href='/resources';">Resources</button>
+        <button type="button" class="btn btn-danger" onclick="location.href='/resources';" color: red;>Resources</button>
         <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="sr-only">Toggle Dropdown</span>
+        <span class="sr-only" color: red;>Toggle Dropdown</span>
         </button>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="/forums">Discussion Forums</a>  &nbsp &nbsp
@@ -51,8 +54,8 @@
         </div>
         {% if 'current_user' not in session %}
         <div class="btn-group">
-        <button type="button" class="btn btn-danger"  onclick="location.href='/login';">Login</button>
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn btn-danger color: red;"  onclick="location.href='/login';">Login</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split color: red;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="sr-only">Toggle Dropdown</span>
         </button>
         <div class="dropdown-menu">
@@ -63,8 +66,8 @@
 
         {% if 'current_user' in session %}
         <div class="btn-group">
-        <button type="button" class="btn btn-danger"  onclick="location.href='/profile';">Your Profile</button>
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn btn-danger"  onclick="location.href='/profile';" color: red;>Your Profile</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" color: red;>
         <span class="sr-only">Toggle Dropdown</span>
         </button>
         <div class="dropdown-menu">
