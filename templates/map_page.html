@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Map Page{% endblock %}
 {% block head %}
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/css/bootstrap-slider.min.css" rel="stylesheet" type="text/css">
 <!--     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&callback=initMap" async defer></script> -->
 <!--     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&library=places" async defer></script> -->
 
@@ -24,14 +24,14 @@
       #year_slider {
         width: 80%;
       }
-
     
 
 
 
 
     </style>
-
+    <style type="text/css" src="/static/img/dist/css/bootstrap-slider.css"></style>
+   <script src="/static/img/dist/bootstrap-slider.js"></script>
 {% endblock %}
 {% block content %}
 <div id="floating-panel">
@@ -44,8 +44,10 @@
 	<div id="floating-panel" width=70%>
       <input  type=button id="since2000" value="since2000">
       <input  type=button id="since2010" value="since2010">
-      <input  type=button id="since2017" value="since2017">
+      <input  type=button id="since2017" value="since2017"><br>
       <div id="slide_cont" class="slidecontainer">
+        <input type="range" id=year_slider min="2000" max="2018" step="1"  class="slider" id="yearRange" list="ticks">
+        <div height="50%">
         <datalist id="ticks">
           <option>2000</option>
           <option>2001</option>
@@ -66,17 +68,18 @@
           <option>2016</option>
           <option>2017</option>
           <option>2018</option>
-        </datalist>
-        <input  id="slide but"  type=button value="Use Slider">
-        <input  type="range" id=year_slider min="2000" max="2018" step="1"  class="slider" id="yearRange"><br>
+        </datalist><br>
+        <input id="slider-tick-label" type="text" data-slider-ticks="[0, 15, 30, 45, 60,75]" data-slider-ticks-snap-bounds="15" data-slider-ticks-labels='["�0", "�15", "�30", "�45", "�60", "�75"]'/>
+      </div>
+        <br>
         <input id="PointscheckBox" type="checkbox" checked> Show Points
         <input id="HeatmapcheckBox" type="checkbox" checked> Show Heatmap
       </div>
     </div>
 	<div id="map"></div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
    <script src="/static/img/incident_map_backup3.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg&libraries=visualization,places&callback=initMap"
          async defer></script>
@@ -113,6 +116,8 @@
   //         console.log("2017 Button is working");
   //     });
   // }); 
+$("#slider-tick-label").slider({
 
+});
    </script>
 {% endblock %}

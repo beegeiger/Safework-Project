@@ -4,41 +4,9 @@
         <title>{% block title %} {% endblock %}</title>
        <link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         
-        <div class="container d-flex flex-column flex-md-row justify-content-between">
-        <div class="container d-flex flex-column flex-md-row justify-content-between">
-        <div class="col-lg-10 col-lg-offset-3 text-center" >
         
-        {%- if request.path != "/" %}<a class="py-2 d-none d-md-inline-block" href="/">SafeWork Homepage</a> &nbsp &nbsp {% endif %}
-        <button type="button" class="btn btn-danger" onclick="location.href='/map';">Map</button> &nbsp &nbsp 
-        <div class="btn-group">
-        <button type="button" class="btn btn-danger" onclick="location.href='/resources';">Resources</button>
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="/forums">Discussion Forums</a>  &nbsp &nbsp
-            <a class="dropdown-item" href="/report">Make A Report</a>  &nbsp &nbsp
-        </div> &nbsp &nbsp
-        </div>
-        {% if 'current_user' not in session %}
-        <div class="btn-group">
-        <button type="button" class="btn btn-danger"  onclick="location.href='/login';">Login</button>
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <div class="dropdown-menu">
-        <a class="dropdown-item" href="/register">Register</a>  &nbsp &nbsp
-        </div>
-        </div>
-        {% endif %}
-
-        {% if 'current_user' in session %}<a class="py-2 d-none d-md-inline-block" href="/logout">Logout</a> {% endif %}
-        {% if 'current_user' in session %} <a class="py-2 d-none d-md-inline-block" href="/profile">Your Profile</a>&nbsp &nbsp{% endif %}
-        </div>
-        </div>
-        </div>
-        </div>
         {% block head %} {% endblock %}
     <style>
         body {
@@ -65,6 +33,49 @@
     </head>
 
     <body>
+    <div class="container d-flex flex-column flex-md-row justify-content-between">
+        <div class="container d-flex flex-column flex-md-row justify-content-between">
+        <div class="col-lg-10 col-lg-offset-3 text-center" >
+        
+        {%- if request.path != "/" %}<button type="button" class="btn btn-danger" onclick="location.href='/';">SafeWork Homepage</button> &nbsp &nbsp {% endif %}
+        <button type="button" class="btn btn-danger" onclick="location.href='/map';">Map</button> &nbsp &nbsp 
+        <div class="btn-group">
+        <button type="button" class="btn btn-danger" onclick="location.href='/resources';">Resources</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/forums">Discussion Forums</a>  &nbsp &nbsp
+            <a class="dropdown-item" href="/report">Make A Report</a>  &nbsp &nbsp
+        </div> &nbsp &nbsp
+        </div>
+        {% if 'current_user' not in session %}
+        <div class="btn-group">
+        <button type="button" class="btn btn-danger"  onclick="location.href='/login';">Login</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu">
+        <a class="dropdown-item" href="/register">Register</a>
+        </div>
+        </div>
+        {% endif %}
+
+        {% if 'current_user' in session %}
+        <div class="btn-group">
+        <button type="button" class="btn btn-danger"  onclick="location.href='/profile';">Your Profile</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu">
+        <a  class="dropdown-item" href="/logout">Logout</a>
+        </div>
+        </div>
+        {% endif %}
+        </div>
+        </div>
+        </div>
+        </div>
 <!--         <div>
     	    {% if 'current_user' in session %}
     		    <a href="/logout">Logout</a>
@@ -83,7 +94,7 @@
         {% endwith %}
     </ul>
     {% block content %} {% endblock %}
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     </body>

@@ -26,7 +26,12 @@
 	th.forums {width:12.5%;}
 </style>
 
-<h2>Discussion Forums</h2>
+
+{% endblock %}
+{% block content %}
+
+
+{% block forum %}<h2>Discussion Forums</h2>
  <table style="width:100%">
 	<tr>
 		<th class="forums"><a href="/forums/order_by_date/1/1">{{ cam.forum_name }}</a></th>
@@ -40,12 +45,7 @@
 	</tr>
 {% block forum_menu %}
 {% endblock %}
- </table>
-{% endblock %}
-{% block content %}
-
-
-{% block forum %} {% endblock %}
+ </table> {% endblock %}
 
 
 {% endblock %}
