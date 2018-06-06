@@ -11,24 +11,132 @@
         html, body { height: 100%; margin: 0; padding: 0; }
         #map { height: 100%; }
     	#floating-panel {
-        background-color: #fff;
+        background-color: black;
         padding: 5px;
         border: 1px solid #999;
         text-align: center;
         font-family: 'Roboto','sans-serif';
-        padding-left: 10px;
-      }
-      #slide_cont {
-        width: 70%;
       }
       #year_slider {
-        width: 80%;
+        width: 100%;
+
       }
     
+.rangeWrap {
+  width: 65%;
+  text-align: center;
+  margin:0 0 0 16%;
+}
+.rangeWrap input {
+  width: 100%;
+  margin: 0;
+}
+.rangeWrap .ticks {
+  display: flex;
+  justify-content: space-between;
+  height: 20px;
+  margin: -1.5em 5px 2px 6px;
+  font: 16px Arial;
+  counter-reset: count 1999;
+}
+.rangeWrap .ticks > div {
+  height: 100%;
+  width: 2px;
+  background: silver;
+  counter-increment: count 1;
+}
+.rangeWrap .ticks > div:nth-child(2n - 1) {
+  height: 100%;
+
+}
+.rangeWrap .ticks > div:nth-child(2n - 1)::before {
+  display: block;
+  content: counter(count,decimal);
+  transform: translate(-50%, 100%);
+  margin:5px 0 0 0;
+  text-align: center;
+  width: 50px;
+}
+.ticks3 {
+  padding-right: 10px;
+  padding-left: -5px
+}
+#class_slider {
+        width: 100%;
+        margin-left: 2%;
+      }
+
+/*.ticks2{
+  margin-top: 20px;
+}
+   */ 
+.rangeWrap2 {
+  width: 25%;
+
+  margin:0 0 0 36%;
+}
+.rangeWrap2 input {
+  width: 100%;
+  margin: 0;
+}
+.rangeWrap2 .ticks2 {
+  display: flex;
+  justify-content: space-between;
+  height: 20px;
+  margin: 0em 20px 30px 0px;
+  font: 16px Arial;
+
+  counter-reset: count 1999;
+}
+.rangeWrap2 .ticks2 > div {
+  height: 100%;
+  width: 5px;
+  padding-right: 60px
+  background: silver;
+
+  counter-increment: count 1;
+}
+.rangeWrap2 .ticks2 > div:nth-child(2n - 1) {
+  height: 100%;
+  width: 5px:;
+
+}
+.rangeWrap2 .ticks2 > div:nth-child(2n - 1)::before {
+  display: block;
+  transform: translate(-50%, 100%);
+  width: 10px;
+}
 
 
+.slider2 {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;   
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
 
+.slider2::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%; 
+    background: red;
+    cursor: pointer;
+}
 
+.slider2::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: red;
+    cursor: pointer;
+}
     </style>
     <style type="text/css" src="/static/img/dist/css/bootstrap-slider.css"></style>
    <script src="/static/img/dist/bootstrap-slider.js"></script>
@@ -42,13 +150,47 @@
 	<span><input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <!-- <button id="searchButton" type="button">Submit!</button> --></span>
   </div>
-	<div id="floating-panel" width=70%>
-      <input  type=button id="since2000" value="since2000">
-      <input  type=button id="since2010" value="since2010">
-      <input  type=button id="since2017" value="since2017"><br>
-      <div id="slide_cont" class="slidecontainer">
-        <input type="range" id=year_slider min="2000" max="2018" step="1"  class="slider" id="yearRange" list="ticks">
-        <div height="50%">
+	<div id="floating-panel" width=100%>
+      <br><br>
+        <div class='rangeWrap'>
+          <input type="range" id=year_slider min="2000" max="2018" step="1"  class="slider" id="yearRange" list="ticks">
+          <div class='ticks'>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div><br><br>
+  <div class='rangeWrap2'>
+            <input type="range" id="class_slider" min="1" max="3" step="1"  class="slider2" list="ticks2">
+            <datalist id="ticks2">
+          <option>2000</option>
+          <option>2001</option>
+        </datalist>
+            <div class='ticks2'>
+              <div margin-top:"40px" div class='ticks3'>2000-   Today   </div>
+              <div div class='ticks3'>2010-  Today   </div>
+              <div div class='ticks3'>2017-   Today   </div>
+            </div>
+          </div>
+
+
+        <!-- <div height="50%">
         <datalist id="ticks">
           <option>2000</option>
           <option>2001</option>
@@ -71,11 +213,10 @@
           <option>2018</option>
         </datalist><br>
         <input id="slider-tick-label" type="text" data-slider-ticks="[0, 15, 30, 45, 60,75]" data-slider-ticks-snap-bounds="15" data-slider-ticks-labels='["�0", "�15", "�30", "�45", "�60", "�75"]'/>
-      </div>
-        <br>
+      </div> -->
+        <br><br><br><br>
         <input id="PointscheckBox" type="checkbox" checked> Show Points
         <input id="HeatmapcheckBox" type="checkbox" checked> Show Heatmap
-      </div>
     </div>
 	<div id="map"></div>
 

@@ -541,6 +541,39 @@ $(document).ready(function(){
   });
 });
 
+$(document).ready(function(){
+  $( "#class_slider" ).click(function(){
+    slide_val = $( "#class_slider" ).val();
+    console.log(slide_val)  
+    console.log($('#PointscheckBox').is(":checked"))
+    if ($('#PointscheckBox').is(":checked")) {  
+      if (slide_val == 1){
+        yearClass = class2000;
+      } else if (slide_val == 2){
+        yearClass = class2010;
+      } else if (slide_val == 3){
+        yearClass = class2017;
+      };
+    deleteMarkerGroup();
+    changeMarkerGroup(yearClass);
+    console.log("Slider is working");
+    };
+    if ($('#HeatmapcheckBox').is(":checked")) {  
+      if (slide_val == 1){
+        yearheat = class2000heat;
+      } else if (slide_val == 2){
+        yearheat = class2010heat;
+      } else if (slide_val == 3){
+        yearheat = class2017heat;
+      };
+    if (heatmap) {
+       toggleHeatmap();
+    }
+    makeHeatMap(yearheat);
+    styleHeatMap()
+    }; 
+  });
+});
 
 
 
