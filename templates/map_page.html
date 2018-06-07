@@ -8,13 +8,14 @@
 	
  
     <style type="text/css">
-        html, body { height: 100%; margin: 0; padding: 0; }
+        html, body { height: 100%;}
         #map { height: 100%; }
     	#floating-panel {
         background-color: black;
-        padding: 5px;
         border: 1px solid #999;
         text-align: center;
+        vertical-align: text-top;
+        height: 20%;
         font-family: 'Roboto','sans-serif';
       }
       #year_slider {
@@ -22,16 +23,17 @@
 
       }
     
-.rangeWrap {
+.rangeWrap1 {
   width: 65%;
   text-align: center;
-  margin:0 0 0 16%;
+  margin-left: 16%;
+  margin-top: -30px;
 }
-.rangeWrap input {
+.rangeWrap1 input {
   width: 100%;
-  margin: 0;
+  padding-top: -20%;
 }
-.rangeWrap .ticks {
+.rangeWrap1 .ticks {
   display: flex;
   justify-content: space-between;
   height: 20px;
@@ -39,17 +41,17 @@
   font: 16px Arial;
   counter-reset: count 1999;
 }
-.rangeWrap .ticks > div {
+.rangeWrap1 .ticks > div {
   height: 100%;
   width: 2px;
   background: silver;
   counter-increment: count 1;
 }
-.rangeWrap .ticks > div:nth-child(2n - 1) {
+.rangeWrap1 .ticks > div:nth-child(2n - 1) {
   height: 100%;
 
 }
-.rangeWrap .ticks > div:nth-child(2n - 1)::before {
+.rangeWrap1 .ticks > div:nth-child(2n - 1)::before {
   display: block;
   content: counter(count,decimal);
   transform: translate(-50%, 100%);
@@ -64,6 +66,7 @@
 #class_slider {
         width: 100%;
         margin-left: 2%;
+        margin-top: -30px;
       }
 
 /*.ticks2{
@@ -72,18 +75,17 @@
    */ 
 .rangeWrap2 {
   width: 25%;
-
-  margin:0 0 0 36%;
+  padding-top: -30px;
+  margin:0 -50% 0 36%;
 }
 .rangeWrap2 input {
   width: 100%;
-  margin: 0;
 }
 .rangeWrap2 .ticks2 {
   display: flex;
   justify-content: space-between;
   height: 20px;
-  margin: 0em 20px 30px 0px;
+  
   font: 16px Arial;
 
   counter-reset: count 1999;
@@ -107,7 +109,9 @@
   width: 10px;
 }
 
-
+.ticks2{
+  margin: 0em 20px 30px 0px;
+}
 .slider2 {
     -webkit-appearance: none;
     width: 100%;
@@ -142,17 +146,10 @@
    <script src="/static/img/dist/bootstrap-slider.js"></script>
 {% endblock %}
 {% block content %}
-<div id="floating-panel">
-<!--       <input onclick="addSince2000();" type=button value="Since 2000">
-      <input onclick="addSince2010();" type=button value="Since 2010"> -->
-<!--       <input onclick="addSince2017();" type=button value="Since 2017"> -->
-    
-	<span><input id="pac-input" class="controls" type="text" placeholder="Search Box">
-    <!-- <button id="searchButton" type="button">Submit!</button> --></span>
-  </div>
+
 	<div id="floating-panel" width=100%>
       <br><br>
-        <div class='rangeWrap'>
+        <div class='rangeWrap1'>
           <input type="range" id=year_slider min="2000" max="2018" step="1"  class="slider" id="yearRange" list="ticks">
           <div class='ticks'>
             <div></div>
@@ -176,7 +173,7 @@
             <div></div>
           </div>
         </div><br><br>
-  <div class='rangeWrap2'>
+  <div class='rangeWrap2' >
             <input type="range" id="class_slider" min="1" max="3" step="1"  class="slider2" list="ticks2">
             <datalist id="ticks2">
           <option>2000</option>
@@ -216,7 +213,8 @@
       </div> -->
         <br><br><br><br>
         <input id="PointscheckBox" type="checkbox" checked> Show Points
-        <input id="HeatmapcheckBox" type="checkbox" checked> Show Heatmap
+        <input id="HeatmapcheckBox" type="checkbox" checked> Show Heatmap <br><br><span><input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <!-- <button id="searchButton" type="button">Submit!</button> --></span>
     </div>
 	<div id="map"></div>
 

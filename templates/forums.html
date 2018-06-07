@@ -6,7 +6,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <style>
 	div.post {outline-style: solid;}
-	div.child_post {outline-style:solid; width:84%; margin-left: 16%;}
+	div.child_post {outline-style:solid; width:84%; margin-top:1%; margin-left: 16%;}
 	div.child_post_hidden1 {outline-style:solid; width:84%; margin-left: 16%; display: none;}
 	div.child_post_hidden2 {outline-style:solid; width:84%; margin-left: 16%; display: none;}
 	div.child_post_hidden3 {outline-style:solid; width:84%; margin-left: 16%; display: none;}
@@ -24,6 +24,9 @@
 	display: none;
 	}
 
+	div.text_div{
+		margin: 2% 2% 2% 2%;
+	}
 	th.forums {width:12.5%;}
 </style>
 
@@ -33,16 +36,16 @@
 
 
 <h2>Discussion Forums</h2>
- <table style="width:100%">
+ <table style="width:80%">
 	<tr>
-		<th class="forums"><a href="/forums/order_by_date/1/1">{{ cam.forum_name }}</a></th>
-		<th class="forums"><a href="/forums/order_by_date/2/1">{{ dom.forum_name }}</a></th>
-		<th class="forums"><a href="/forums/order_by_date/3/1">{{ escort.forum_name }}</a></th>
-		<th class="forums"><a href="/forums/order_by_date/4/1">{{ porn.forum_name }}</a></th>
-		<th class="forums"><a href="/forums/order_by_date/5/1">{{ dance.forum_name }}</a></th>
-		<th class="forums"><a href="/forums/order_by_date/6/1">{{ phone.forum_name }}</a></th>
-		<th class="forums"><a href="/forums/order_by_date/7/1">{{ sugar.forum_name }}</a></th>
-		<th class="forums"><a href="/forums/order_by_date/8/1">{{ other.forum_name }}</a></th>
+		<th class="forums" border="2px solid red"><a href="/forums/order_by_date/1/1"><b>{{ cam.forum_name }}</b></a></th>
+		<th class="forums" border="2px solid red"><a href="/forums/order_by_date/2/1"><b>{{ dom.forum_name }}</b></a></th>
+		<th class="forums" border="2px solid red"><a href="/forums/order_by_date/3/1"><b>{{ escort.forum_name }}</b></a></th>
+		<th class="forums" border="2px solid red"><a href="/forums/order_by_date/4/1"><b>{{ porn.forum_name }}</b></a></th>
+		<th class="forums" border="2px solid red"><a href="/forums/order_by_date/5/1"><b>{{ dance.forum_name }}</b></a></th>
+		<th class="forums" border="2px solid red"><a href="/forums/order_by_date/6/1"><b>{{ phone.forum_name }}</b></a></th>
+		<th class="forums" border="2px solid red"><a href="/forums/order_by_date/7/1"><b>{{ sugar.forum_name }}</b></a></th>
+		<th class="forums" border="2px solid red"><a href="/forums/order_by_date/8/1"><b>{{ other.forum_name }}</b></a></th>
 	</tr>
 {% block forum_menu %}
 {% endblock %}

@@ -16,7 +16,7 @@
 				<div class="row">
 
 					<div class="col-8" id="parent_content{{ post.post_id }}" align="left">
-						<div padding="10 10 10 10">
+						<div class="text_div">
 						<form class="hidden" action="/forums/edit/{{ post.post_id }}" id="parent_edit_form{{ post.post_id }}" method="POST">
 							<b>Edit your post:</b>
 							<textarea rows="3" cols="50" name="child_content">{{ post.content }}</textarea>
@@ -38,6 +38,7 @@
 
 
 						{% if post.post_id not in flags and post.user_id != user.user_id %}
+						<div class="text_div">
 						<button class="but_class" id="flag_but{{ post.post_id }}">Flag/Report Post For Removal</button>
 						<div class="hidden" id="Flag_Form{{ post.post_id }}">
 							<p id="Flag_Form" class="small">Why should this post be removed?
@@ -51,6 +52,7 @@
 									<input class="small" type="submit" id="Flag_Post_but" value="Flag Post">
 								</form>
 							</p>
+						</div>
 						</div>
 						{% elif post.user_id != user.user_id %} <p> "You have flagged this post for removal!" </p> 
 						{% elif post.deleted == False %}
@@ -78,13 +80,15 @@
 				<div class="row">
 
 				<div class="col-8">
-					<div>
+					<div class="text_div">
 						<a href="/forums/like/{{ post.post_id }}">Like</a>({{ post.like_num }})/<a href="/forums/dislike/{{ post.post_id }}">Dislike</a>({{ post.dislike_num }}) 
-							<button id="parent_reply_but{{ post.post_id }}" style="display:inline">Reply to Post</button>
+							&nbsp &nbsp <button id="parent_reply_but{{ post.post_id }}" style="display:inline">Reply to Post</button>
 					</div>
 				</div>
 				<div class="col-4" align="right">
+					<div class="text_div">
 					Posted: {{ post.date_posted }}
+				</div>
 				</div>
 				</div>
 			</div>
@@ -97,11 +101,15 @@
 			<div class="container-fluid">	
 					<div {% if child_count != [1] and child_count != [2] %} class="child_post_hidden{{ postloop.index }}" {% else %} class="child_post" {% endif %} id="child_post{{ c_post.post_id }}">
 						<div class="row">
-							<div class="col-8"  id="child_content{{ c_post.post_id }}" align="left"><b>{{ c_post.username }}:</b> {{ c_post.content }}
+
+							<div class="col-8"  id="child_content{{ c_post.post_id }}" align="left">
+								<div class="text_div"><b>{{ c_post.username }}:</b> {{ c_post.content }}
 								<!-- {{ user.tagline }}, {{ user.location }} -->
+							</div>
 							</div>
 							<div class="col-4" align="right" id="child_div{{ c_post.post_id }}">
 								{% if c_post.post_id not in flags and c_post.user_id != user.user_id %}
+								
 								<button class="child_but_class" id="child_but{{ c_post.post_id }}">Flag/Report Post
 								</button>
 								<div class="hidden" id="child_Flag_Form{{ c_post.post_id }}"  class="small">
@@ -194,14 +202,17 @@ console.log( {{ child_count }} )
 		{% endif %}
 	{% endfor %}
 	{% if child_count[0] > 2 %}
-
-	<button id="show_comments{{ post.post_id }}">Show more comments</button>{% endif %}
+	<div class="text_div" align="right">
+	<button id="show_comments{{ post.post_id }}">Show more comments</button>
+	</div> {% endif %}
 	<div class="hidden" id="child_reply{{ post.post_id }}">
+		<div class="text_div" align="right">
 		<form action="/forums/child/{{ post.post_id }}" method="POST">
-		<b>Reply to Post by {{ post.username }}:</b>
-		<textarea rows="6" cols="50" name="child_content"></textarea>
+		<b>Reply to Post by {{ post.username }}:</b><br>
+		<textarea rows="6" cols="50" name="child_content"></textarea><br>
 		<input type=submit>
 		</form>
+		</div>
 	</div>
 	<script>
 
@@ -251,11 +262,13 @@ console.log( {{ child_count }} )
 	</script>
 {% endfor %}
 <div>
+<div class="text_div">
 <form action="/forums/parent/{{ forum.forum_id }}/{{ current_page }}" method="POST">
-<b>New Post:</b>
-<textarea rows="6" cols="50" name="content"></textarea>
+<b>New Post:</b><br>
+<textarea rows="6" cols="50" name="content"></textarea><br>
 <input type=submit>
 </form>
+</div>
 </div>
 {% if post_index > 1 %}
 <div class="pagination">
