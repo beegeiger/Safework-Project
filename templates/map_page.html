@@ -8,14 +8,12 @@
 	
  
     <style type="text/css">
-        html, body { height: 100%;}
+        html, body { height: 100%; margin: 0; padding: 0; }
         #map { height: 100%; }
     	#floating-panel {
-        background-color: black;
-        border: 1px solid #999;
+        padding: 5px;
         text-align: center;
-        vertical-align: text-top;
-        height: 20%;
+        height: 15%;
         font-family: 'Roboto','sans-serif';
       }
       #year_slider {
@@ -23,17 +21,16 @@
 
       }
     
-.rangeWrap1 {
+.rangeWrap {
   width: 65%;
   text-align: center;
-  margin-left: 16%;
-  margin-top: -30px;
+  margin:0 0 0 16%;
 }
-.rangeWrap1 input {
+.rangeWrap input {
   width: 100%;
-  padding-top: -20%;
+  margin: 0;
 }
-.rangeWrap1 .ticks {
+.rangeWrap .ticks {
   display: flex;
   justify-content: space-between;
   height: 20px;
@@ -41,17 +38,17 @@
   font: 16px Arial;
   counter-reset: count 1999;
 }
-.rangeWrap1 .ticks > div {
+.rangeWrap .ticks > div {
   height: 100%;
   width: 2px;
   background: silver;
   counter-increment: count 1;
 }
-.rangeWrap1 .ticks > div:nth-child(2n - 1) {
+.rangeWrap .ticks > div:nth-child(2n - 1) {
   height: 100%;
 
 }
-.rangeWrap1 .ticks > div:nth-child(2n - 1)::before {
+.rangeWrap .ticks > div:nth-child(2n - 1)::before {
   display: block;
   content: counter(count,decimal);
   transform: translate(-50%, 100%);
@@ -66,7 +63,6 @@
 #class_slider {
         width: 100%;
         margin-left: 2%;
-        margin-top: -30px;
       }
 
 /*.ticks2{
@@ -75,17 +71,18 @@
    */ 
 .rangeWrap2 {
   width: 25%;
-  padding-top: -30px;
-  margin:0 -50% 0 36%;
+
+  margin:0 0 0 36%;
 }
 .rangeWrap2 input {
   width: 100%;
+  margin: 0;
 }
 .rangeWrap2 .ticks2 {
   display: flex;
   justify-content: space-between;
   height: 20px;
-  
+  margin: 0em 20px 30px 0px;
   font: 16px Arial;
 
   counter-reset: count 1999;
@@ -109,9 +106,7 @@
   width: 10px;
 }
 
-.ticks2{
-  margin: 0em 20px 30px 0px;
-}
+
 .slider2 {
     -webkit-appearance: none;
     width: 100%;
@@ -134,6 +129,12 @@
     cursor: pointer;
 }
 
+.map {
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+}
+
 .slider2::-moz-range-thumb {
     width: 25px;
     height: 25px;
@@ -146,10 +147,17 @@
    <script src="/static/img/dist/bootstrap-slider.js"></script>
 {% endblock %}
 {% block content %}
-
+<!-- <div id="floating-panel"> -->
+<!--       <input onclick="addSince2000();" type=button value="Since 2000">
+      <input onclick="addSince2010();" type=button value="Since 2010"> -->
+<!--       <input onclick="addSince2017();" type=button value="Since 2017"> -->
+    
+	
+    <!-- <button id="searchButton" type="button">Submit!</button> -->
+<!--   </div> -->
 	<div id="floating-panel" width=100%>
       <br><br>
-        <div class='rangeWrap1'>
+        <div class='rangeWrap' style="position:relative; top:-35%;">
           <input type="range" id=year_slider min="2000" max="2018" step="1"  class="slider" id="yearRange" list="ticks">
           <div class='ticks'>
             <div></div>
@@ -173,7 +181,12 @@
             <div></div>
           </div>
         </div><br><br>
-  <div class='rangeWrap2' >
+  <div class="map_options" style="position:relative; left:-30%;top:-40%;">
+    <input id="PointscheckBox" type="checkbox" checked> Show Points
+        <input id="HeatmapcheckBox" type="checkbox" checked> Show Heatmap<br>
+        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+  </div>      
+  <div class='rangeWrap2' style="position:relative; top:-60%;">
             <input type="range" id="class_slider" min="1" max="3" step="1"  class="slider2" list="ticks2">
             <datalist id="ticks2">
           <option>2000</option>
@@ -212,11 +225,9 @@
         <input id="slider-tick-label" type="text" data-slider-ticks="[0, 15, 30, 45, 60,75]" data-slider-ticks-snap-bounds="15" data-slider-ticks-labels='["�0", "�15", "�30", "�45", "�60", "�75"]'/>
       </div> -->
         <br><br><br><br>
-        <input id="PointscheckBox" type="checkbox" checked> Show Points
-        <input id="HeatmapcheckBox" type="checkbox" checked> Show Heatmap <br><br><span><input id="pac-input" class="controls" type="text" placeholder="Search Box">
-    <!-- <button id="searchButton" type="button">Submit!</button> --></span>
+        
     </div>
-	<div id="map"></div>
+	<div class="map" id="map" style="width: 100%;"></div>
 
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
