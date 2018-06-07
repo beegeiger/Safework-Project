@@ -3,8 +3,8 @@
 <h1>{{ forum.forum_name }}</h1>
 {{ forum.forum_desc }} 
 <div align="right" display="inline-block">Order By: 
-	<button class="sorting" id="Date" value="Date Posted" type="button" action="/forums/order_by_date/{{ forum.forum_id }}/{{ current_page }}" height="15px" width="80px">Date Posted</button>
-	<button type="button" class="sorting" id="Pop" value="Post Popularity" action="/forums/order_by_pop/{{ forum.forum_id }}">Post Popularity</button>
+	<button class="sorting" id="Date" value="Date Posted" type="button" onclick="location.href='/forums/order_by_date/{{ forum.forum_id }}/{{ current_page }}'" height="15px" width="80px">Date Posted</button>
+	<button type="button" class="sorting" id="Pop" value="Post Popularity" onclick="location.href='/forums/order_by_pop/{{ forum.forum_id }}/{{ current_page }};'">Post Popularity</button>
 </div> 
 
 {% for post in posts[((10 * current_page) - 10): (10 * current_page)] %}

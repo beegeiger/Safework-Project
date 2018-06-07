@@ -566,16 +566,15 @@ def pop_order(forum_id, page_num=1):
     phone = Forum.query.filter_by(forum_id=6).one()
     sugar = Forum.query.filter_by(forum_id=7).one()
     other = Forum.query.filter_by(forum_id=8).one()
-    post_index=int(math.ceil((len(posts)/float(10))))
-    print post_index
-    print type(post_index)
+    
+
     #Queries from all of the dbase tables that need to be updated and/or rendered
     posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0, Post.deleted == False).order_by(desc(Post.like_num)).all()
     child_posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id != 0).order_by(desc(Post.like_num)).all()
     user = User.query.filter_by(email=session['current_user']).one()
     flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
     forum = Forum.query.filter_by(forum_id=forum_id).one()
-
+    post_index=int(math.ceil((len(posts)/float(10))))
     print type(posts)
     #Defines empty flag list to be filled with user's flags
     flags = []
@@ -586,9 +585,9 @@ def pop_order(forum_id, page_num=1):
             flags.append(item.post_id)
 
     #Renders Page
-    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
+    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, user=user,
                            porn=porn, dance=dance, phone=phone, posts=posts, 
-                           child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar, post_index=post_index, current_page=page_num)
+                           child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar, post_index=post_index, current_page=1)
 
 
 @app.route("/report", methods=["GET"])
