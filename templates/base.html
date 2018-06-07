@@ -10,7 +10,7 @@
         {% block head %} {% endblock %}
     <style>
     body {
-    background: url("static/img/5.jpg") no-repeat center fixed;
+    background: url("/static/img/5.jpg") no-repeat center fixed;
       -webkit-background-size: cover;
       -moz-background-size: cover;
       -o-background-size: cover;
@@ -21,12 +21,30 @@
     font-family: 'Bitter', serif;
     font-weight: bold;
     }
-    body{
-    color: white;
-    font-family: 'Roboto', sans-serif;    
+    p {
+        margin:0 0 0 0;
     }
+    body{
+    font-family: 'Roboto', sans-serif;
+    color: white;    
+    }
+
+    .sorting {
+        background-color: red;
+        color: white;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+
+    .forum_text {
+        color: white;
+        background-color: transparent;
+    }
+
     a {
-    color: white;
     font-family: 'Roboto', sans-serif;
     }
     .btn-danger {

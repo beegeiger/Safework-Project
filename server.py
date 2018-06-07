@@ -530,8 +530,9 @@ def date_order(forum_id, page_num=1):
     other = Forum.query.filter_by(forum_id=8).one()
 
     #Queries from all of the dbase tables that need to be updated and/or rendered
-    posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0).order_by(asc(Post.post_id)).all()
+    posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0, Post.deleted == False).order_by(asc(Post.post_id)).all()
     child_posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
+    users = Post.query.all()
     user = User.query.filter_by(email=session['current_user']).one()
     flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
     forum = Forum.query.filter_by(forum_id=forum_id).one()
@@ -547,7 +548,7 @@ def date_order(forum_id, page_num=1):
             flags.append(item.post_id)
 
     #Renders Page
-    return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort,
+    return render_template("forum_page.html", users=users, forum=forum, cam=cam, dom=dom, escort=escort,
                            porn=porn, dance=dance, phone=phone, posts=posts, user=user,
                            child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar, post_index=post_index, current_page=int(page_num))
 
@@ -569,7 +570,7 @@ def pop_order(forum_id, page_num=1):
     print post_index
     print type(post_index)
     #Queries from all of the dbase tables that need to be updated and/or rendered
-    posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0).order_by(desc(Post.like_num)).all()
+    posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0, Post.deleted == False).order_by(desc(Post.like_num)).all()
     child_posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id != 0).order_by(desc(Post.like_num)).all()
     user = User.query.filter_by(email=session['current_user']).one()
     flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
