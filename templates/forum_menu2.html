@@ -1,0 +1,17 @@
+{% extends 'forums.html' %}
+{% block forum_menu %}
+
+
+{% for row in all_forums %}
+	<tr class="forums_head">
+		<th class="forums_head"><p font-weight="bold"><a href="/forums/order_by_date/{{ row[1]['forum_id'] }}/1">{{ row[1]['forum_name'] }}</a></p></th>
+		<th class="forums_head"><p font-weight="bold"><a href="/forums/order_by_date/{{ row[2]['forum_id'] }}/1">{{ row[2]['forum_name'] }}</a></p> </th>
+		<th class="forums_head"><p font-weight="bold"><a href="/forums/order_by_date/{{ row[3]['forum_id'] }}/1">{{ row[3]['forum_name'] }}</a></p> </th>
+		<th class="forums_head"><p font-weight="bold"><a href="/forums/order_by_date/{{ row[4]['forum_id'] }}/1">{{ row[4]['forum_name'] }}</a></p> </th>
+		<th class="forums_head"><p font-weight="bold"><a href="/forums/order_by_date/{{ row[5]['forum_id'] }}/1">{{ row[5]['forum_name'] }}</a></p> </th>
+		<th class="forums_head"><p font-weight="bold"><a href="/forums/order_by_date/{{ row[6]['forum_id'] }}/1">{{ row[6]['forum_name'] }}</a></p></th>
+		<th class="forums_head"><p font-weight="bold"><a href="/forums/order_by_date/{{ row[7]['forum_id'] }}/1">{{ row[7]['forum_name'] }}</a></p> </th>
+		<th class="forums_head"><p font-weight="bold"><a href="/forums/order_by_date/{{ row[8]['forum_id'] }}/1">{{ row[8]['forum_name'] }}</a></p></th>
+	</tr>
+{% endfor %}
+{% endblock %}
