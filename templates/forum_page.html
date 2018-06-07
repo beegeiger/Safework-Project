@@ -1,6 +1,7 @@
 {% extends 'forums.html' %}
 {% block forum %} 
-<h1>{{ forum.forum_name }}</h1>
+<br>
+<h3 style="text-align: left;">{{ forum.forum_name }}</h3>
 {{ forum.forum_desc }} 
 <div align="right" display="inline-block">Order By: 
 	<button class="sorting" id="Date" value="Date Posted" type="button" onclick="location.href='/forums/order_by_date/{{ forum.forum_id }}/{{ current_page }}'" height="15px" width="80px">Date Posted</button>
@@ -14,18 +15,25 @@
 			<div class="post" id="post{{ post.post_id }}" color="white" padding-left="10px">
 
 				<div class="row">
-
 					<div class="col-8" id="parent_content{{ post.post_id }}" align="left">
-						<div class="text_div">
-						<form class="hidden" action="/forums/edit/{{ post.post_id }}" id="parent_edit_form{{ post.post_id }}" method="POST">
-							<b>Edit your post:</b>
-							<textarea rows="3" cols="50" name="child_content">{{ post.content }}</textarea>
+					<div class="text_div">
+					<form class="hidden"  action="/forums/edit/{{ post.post_id }}" id="parent_edit_form{{ post.post_id }}" method="POST">
+							<b style="vertical-align: top;">Edit your post:</b>
+							<textarea rows="3" cols="50" name="child_content">{{ post.content }}
+							</textarea>
 							<input type=submit value="Submit Edit">
 						</form>
+						
+					
+						
+						
 						
 							<b>{{ post.username }}:</b> {{ post.content }}
 				<!-- 			{{ user.tagline }}, {{ user.location }} -->
 						</div>
+
+
+						
 					</div>
 
 
@@ -64,6 +72,7 @@
 							<input type="radio" name="delete_check" value="Yes" required>Yes
 							<input type="submit" id="delete_sub{{ post.post_id }}" value="Delete Post"></form>
 						</form>
+
 					</div>
 
 
@@ -134,11 +143,13 @@
 										</form>
 									</p>
 								</div>
+								<div class="text_div">
 								<form class="hidden" action="/forums/edit/{{ c_post.post_id }}" id="child_edit_form{{ c_post.post_id }}" method="POST">
-								<b>Edit your post:</b>
+								<b  style="vertical-align: top;">Edit your post:</b>
 								<textarea rows="3" cols="50" name="child_content">{{ c_post.content }}</textarea>
 								<input type=submit value="Submit Edit">
 								</form>
+							</div>
 							</div>
 							
 							<div class="row">
@@ -237,8 +248,8 @@ console.log( {{ child_count }} )
 	        $( "#parent_delete{{ post.post_id }}" ).hide();
 	        $( "#parent_edit{{ post.post_id }}" ).hide();
 	        $( "#parent_content{{ post.post_id }}" ).hide();
-	        $( "#parent_edit_form{{ post.post_id }}" ).show();
-	        console.log("Delete Button is working");
+	        $( "#parent_edit_form{{ post.post_id }}" ).removeClass( "hidden" ).addClass( "shown" );
+	        console.log("Edit Button is working");
 	    });
 	});
 
@@ -262,10 +273,10 @@ console.log( {{ child_count }} )
 	</script>
 {% endfor %}
 <div>
-<div class="text_div">
+<div class="text_div" style="text-align: right;">
 <form action="/forums/parent/{{ forum.forum_id }}/{{ current_page }}" method="POST">
 <b>New Post:</b><br>
-<textarea rows="6" cols="50" name="content"></textarea><br>
+<textarea rows="6" cols="50" name="content" style="background: rgba(255, 255, 255, 0.7);"></textarea><br>
 <input type=submit>
 </form>
 </div>

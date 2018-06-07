@@ -312,7 +312,7 @@ function get_map() {
 
 function initAutocomplete() {
     var searchBox = new google.maps.places.SearchBox(document.getElementById('pac-input'));
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('pac-input'));
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('pac-input'));
     google.maps.event.addListener(searchBox, 'places_changed', function() {
      searchBox.set('map', null);
 
@@ -341,7 +341,7 @@ function initAutocomplete() {
      }
      map.fitBounds(bounds);
      searchBox.set('map', map);
-     map.setZoom(Math.min(map.getZoom(),12));
+     map.setZoom(Math.min(map.getZoom(),16));
 
    });
 

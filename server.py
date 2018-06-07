@@ -234,61 +234,65 @@ def go_forums():
     sugar_query = Forum.query.filter_by(parent_forum_id=7).all()
     other_query = Forum.query.filter_by(parent_forum_id=8).all()
 
-    """Creates a list of dictionaries, each of which has all 8 forum_ids as keys with corresponding 
-    children forums (or a blank string if there are no more children of a parent forum) which
-    can then be iterated through"""
-    all_forums = []
-    while (cam_query + dom_query + escort_query + porn_query +
-           dance_query + phone_query + sugar_query + other_query) != []:
-        row = {}
-        if cam_query == []:
-            row[1] = {"forum_id": "", "forum_name": ""}
-        else:
-            q_object = cam_query.pop(0)
-            row[1] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
-        if dom_query == []:
-            row[2] = {"forum_id": "", "forum_name": ""}
-        else:
-            q_object = dom_query.pop(0)
-            row[2] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
-        if escort_query == []:
-            row[3] = {"forum_id": "", "forum_name": ""}
-        else:
-            q_object = escort_query.pop(0)
-            row[3] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
-        if porn_query == []:
-            row[4] = {"forum_id": "", "forum_name": ""}
-        else:
-            q_object = porn_query.pop(0)
-            row[4] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
-        if dance_query == []:
-            row[5] = {"forum_id": "", "forum_name": ""}
-        else:
-            q_object = dance_query.pop(0)
-            row[5] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
-        if phone_query == []:
-            row[6] = {"forum_id": "", "forum_name": ""}
-        else:
-            q_object = phone_query.pop(0)
-            row[6] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
-        if sugar_query == []:
-            row[7] = {"forum_id": "", "forum_name": ""}
-        else:
-            q_object = sugar_query.pop(0)
-            row[7] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
-        if other_query == []:
-            row[8] = {"forum_id": "", "forum_name": ""}
-        else:
-            q_object = other_query.pop(0)
-            row[8] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
-        all_forums.append(row)
+    # group_forums = Forum.query.group_by(Forum.parent_forum_id).all()
+
+    # """Creates a list of dictionaries, each of which has all 8 forum_ids as keys with corresponding 
+    # children forums (or a blank string if there are no more children of a parent forum) which
+    # can then be iterated through"""
+    # all_forums = []
+    # while (cam_query + dom_query + escort_query + porn_query +
+    #        dance_query + phone_query + sugar_query + other_query) != []:
+    #     row = {}
+    #     if cam_query == []:
+    #         row[1] = {"forum_id": "", "forum_name": ""}
+    #     else:
+    #         q_object = cam_query.pop(0)
+    #         row[1] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
+    #     if dom_query == []:
+    #         row[2] = {"forum_id": "", "forum_name": ""}
+    #     else:
+    #         q_object = dom_query.pop(0)
+    #         row[2] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
+    #     if escort_query == []:
+    #         row[3] = {"forum_id": "", "forum_name": ""}
+    #     else:
+    #         q_object = escort_query.pop(0)
+    #         row[3] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
+    #     if porn_query == []:
+    #         row[4] = {"forum_id": "", "forum_name": ""}
+    #     else:
+    #         q_object = porn_query.pop(0)
+    #         row[4] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
+    #     if dance_query == []:
+    #         row[5] = {"forum_id": "", "forum_name": ""}
+    #     else:
+    #         q_object = dance_query.pop(0)
+    #         row[5] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
+    #     if phone_query == []:
+    #         row[6] = {"forum_id": "", "forum_name": ""}
+    #     else:
+    #         q_object = phone_query.pop(0)
+    #         row[6] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
+    #     if sugar_query == []:
+    #         row[7] = {"forum_id": "", "forum_name": ""}
+    #     else:
+    #         q_object = sugar_query.pop(0)
+    #         row[7] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
+    #     if other_query == []:
+    #         row[8] = {"forum_id": "", "forum_name": ""}
+    #     else:
+    #         q_object = other_query.pop(0)
+    #         row[8] = {"forum_id": q_object.forum_id, "forum_name": q_object.forum_name}
+    #     all_forums.append(row)
 
 
     #Checks to see if the user is logged in. If so, renders forums
     if 'current_user' in session.keys():
         return render_template("forum_menu.html", cam=cam, dom=dom, escort=escort,
                                porn=porn, dance=dance, phone=phone, other=other, sugar=sugar,
-                               all_forums=all_forums)
+                               cam_query=cam_query, dom_query=dom_query, escort_query=escort_query,
+                               porn_query=porn_query, dance_query=dance_query, phone_query=phone_query,
+                               sugar_query=sugar_query, other_query=other_query)
     
     #Otherwise it redirects to the login page
     else:
@@ -310,6 +314,16 @@ def add_post(forum_id, page_num=1):
     sugar = Forum.query.filter_by(forum_id=7).one()
     other = Forum.query.filter_by(forum_id=8).one()
 
+    #Creates lists for all of the children forums of the main 8 forums
+    cam_query = Forum.query.filter_by(parent_forum_id=1).all()
+    dom_query = Forum.query.filter_by(parent_forum_id=2).all()
+    escort_query = Forum.query.filter_by(parent_forum_id=3).all()
+    porn_query = Forum.query.filter_by(parent_forum_id=4).all()
+    dance_query = Forum.query.filter_by(parent_forum_id=5).all()
+    phone_query = Forum.query.filter_by(parent_forum_id=6).all()
+    sugar_query = Forum.query.filter_by(parent_forum_id=7).all()
+    other_query = Forum.query.filter_by(parent_forum_id=8).all()
+
     #Gets the new posts content
     post_content = request.form['content']
 
@@ -326,7 +340,10 @@ def add_post(forum_id, page_num=1):
     #Adds the new post to the database
     new_post = Post(parent_post_id=0, user_id=user.user_id, username=user.username,
                     forum_id=forum_id, content=post_content, p_datetime=datetime.now(),
-                    date_posted=(str(datetime.now())[:16]))
+                    date_posted=(str(datetime.now())[:16]),
+                               cam_query=cam_query, dom_query=dom_query, escort_query=escort_query,
+                               porn_query=porn_query, dance_query=dance_query, phone_query=phone_query,
+                               sugar_query=sugar_query, other_query=other_query)
 
     #Doublechecks that the user isn't creating a duplicate post
     if Post.query.filter(Post.content == new_post.content,
@@ -352,6 +369,16 @@ def add_child_post(post_id, page_num=1):
     sugar = Forum.query.filter_by(forum_id=7).one()
     other = Forum.query.filter_by(forum_id=8).one()
 
+    #Creates lists for all of the children forums of the main 8 forums
+    cam_query = Forum.query.filter_by(parent_forum_id=1).all()
+    dom_query = Forum.query.filter_by(parent_forum_id=2).all()
+    escort_query = Forum.query.filter_by(parent_forum_id=3).all()
+    porn_query = Forum.query.filter_by(parent_forum_id=4).all()
+    dance_query = Forum.query.filter_by(parent_forum_id=5).all()
+    phone_query = Forum.query.filter_by(parent_forum_id=6).all()
+    sugar_query = Forum.query.filter_by(parent_forum_id=7).all()
+    other_query = Forum.query.filter_by(parent_forum_id=8).all()
+
     #Gets the new posts content
     post_content = request.form['child_content']
 
@@ -371,7 +398,10 @@ def add_child_post(post_id, page_num=1):
     #Adds the new post to the database
     new_post = Post(user_id=user.user_id, username=user.username, forum_id=parent_post.forum_id,
                     parent_post_id=post_id, content=post_content, p_datetime=datetime.now(),
-                    date_posted=(str(datetime.now())[:16]))
+                    date_posted=(str(datetime.now())[:16]),
+                               cam_query=cam_query, dom_query=dom_query, escort_query=escort_query,
+                               porn_query=porn_query, dance_query=dance_query, phone_query=phone_query,
+                               sugar_query=sugar_query, other_query=other_query)
 
     #Doublechecks that the user isn't creating a duplicate post
     if Post.query.filter(Post.content == post_content, Post.username == user.username).all() == []:
@@ -529,6 +559,16 @@ def date_order(forum_id, page_num=1):
     sugar = Forum.query.filter_by(forum_id=7).one()
     other = Forum.query.filter_by(forum_id=8).one()
 
+    #Creates lists for all of the children forums of the main 8 forums
+    cam_query = Forum.query.filter_by(parent_forum_id=1).all()
+    dom_query = Forum.query.filter_by(parent_forum_id=2).all()
+    escort_query = Forum.query.filter_by(parent_forum_id=3).all()
+    porn_query = Forum.query.filter_by(parent_forum_id=4).all()
+    dance_query = Forum.query.filter_by(parent_forum_id=5).all()
+    phone_query = Forum.query.filter_by(parent_forum_id=6).all()
+    sugar_query = Forum.query.filter_by(parent_forum_id=7).all()
+    other_query = Forum.query.filter_by(parent_forum_id=8).all()
+
     #Queries from all of the dbase tables that need to be updated and/or rendered
     posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0, Post.deleted == False).order_by(asc(Post.post_id)).all()
     child_posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id != 0).order_by(asc(Post.post_id)).all()
@@ -550,7 +590,10 @@ def date_order(forum_id, page_num=1):
     #Renders Page
     return render_template("forum_page.html", users=users, forum=forum, cam=cam, dom=dom, escort=escort,
                            porn=porn, dance=dance, phone=phone, posts=posts, user=user,
-                           child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar, post_index=post_index, current_page=int(page_num))
+                           child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar, post_index=post_index, current_page=int(page_num),
+                               cam_query=cam_query, dom_query=dom_query, escort_query=escort_query,
+                               porn_query=porn_query, dance_query=dance_query, phone_query=phone_query,
+                               sugar_query=sugar_query, other_query=other_query)
 
 
 @app.route("/forums/order_by_pop/<forum_id>/<page_num>")
@@ -567,6 +610,15 @@ def pop_order(forum_id, page_num=1):
     sugar = Forum.query.filter_by(forum_id=7).one()
     other = Forum.query.filter_by(forum_id=8).one()
     
+    #Creates lists for all of the children forums of the main 8 forums
+    cam_query = Forum.query.filter_by(parent_forum_id=1).all()
+    dom_query = Forum.query.filter_by(parent_forum_id=2).all()
+    escort_query = Forum.query.filter_by(parent_forum_id=3).all()
+    porn_query = Forum.query.filter_by(parent_forum_id=4).all()
+    dance_query = Forum.query.filter_by(parent_forum_id=5).all()
+    phone_query = Forum.query.filter_by(parent_forum_id=6).all()
+    sugar_query = Forum.query.filter_by(parent_forum_id=7).all()
+    other_query = Forum.query.filter_by(parent_forum_id=8).all()
 
     #Queries from all of the dbase tables that need to be updated and/or rendered
     posts = Post.query.filter(Post.forum_id == forum_id, Post.parent_post_id == 0, Post.deleted == False).order_by(desc(Post.like_num)).all()
@@ -587,7 +639,10 @@ def pop_order(forum_id, page_num=1):
     #Renders Page
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, user=user,
                            porn=porn, dance=dance, phone=phone, posts=posts, 
-                           child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar, post_index=post_index, current_page=1)
+                           child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar, post_index=post_index, current_page=1,
+                               cam_query=cam_query, dom_query=dom_query, escort_query=escort_query,
+                               porn_query=porn_query, dance_query=dance_query, phone_query=phone_query,
+                               sugar_query=sugar_query, other_query=other_query)
 
 
 @app.route("/report", methods=["GET"])

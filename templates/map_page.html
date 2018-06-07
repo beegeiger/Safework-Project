@@ -129,6 +129,16 @@
     cursor: pointer;
 }
 
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%; 
+    background: red;
+    cursor: pointer;
+}
+
 .map {
   margin-left: 0;
   margin-right: 0;
@@ -142,6 +152,16 @@
     background: red;
     cursor: pointer;
 }
+
+  input.gsc-input {
+    border-color: #004220;
+  width:10px;  
+  }
+  input.gsc-search-button {
+    border-color: #004220;
+    background-color: #004220;
+  width:10px;
+  }
     </style>
     <style type="text/css" src="/static/img/dist/css/bootstrap-slider.css"></style>
    <script src="/static/img/dist/bootstrap-slider.js"></script>
@@ -184,7 +204,7 @@
   <div class="map_options" style="position:relative; left:-30%;top:-40%;">
     <input id="PointscheckBox" type="checkbox" checked> Show Points
         <input id="HeatmapcheckBox" type="checkbox" checked> Show Heatmap<br>
-        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+        <input id="pac-input" class="controls" type="text" placeholder="Search Box" style="margin: 10px 0 50px 10px; width: 18%; height: 28px;">
   </div>      
   <div class='rangeWrap2' style="position:relative; top:-60%;">
             <input type="range" id="class_slider" min="1" max="3" step="1"  class="slider2" list="ticks2">
