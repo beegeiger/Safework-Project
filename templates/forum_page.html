@@ -11,12 +11,12 @@
 	{% set postloop = loop %}
 	<br>
 		<div class="container-fluid">
-			<div class="post" id="post{{ post.post_id }}" color="white">
+			<div class="post" id="post{{ post.post_id }}" color="white" padding-left="10px">
 
 				<div class="row">
 
-					<div class="col-8" id="parent_content{{ post.post_id }}" align="left" padding="0 0 0 0">
-
+					<div class="col-8" id="parent_content{{ post.post_id }}" align="left">
+						<div padding="10 10 10 10">
 						<form class="hidden" action="/forums/edit/{{ post.post_id }}" id="parent_edit_form{{ post.post_id }}" method="POST">
 							<b>Edit your post:</b>
 							<textarea rows="3" cols="50" name="child_content">{{ post.content }}</textarea>
@@ -25,6 +25,7 @@
 						
 							<b>{{ post.username }}:</b> {{ post.content }}
 				<!-- 			{{ user.tagline }}, {{ user.location }} -->
+						</div>
 					</div>
 
 
@@ -74,55 +75,79 @@
 
 
 
+				<div class="row">
 
-
-
-				<p style="text-align:left;"><a href="/forums/like/{{ post.post_id }}">Like</a>({{ post.like_num }})/<a href="/forums/dislike/{{ post.post_id }}">Dislike</a>({{ post.dislike_num }}) 
-					<span style="float:center;"><button id="parent_reply_but{{ post.post_id }}" style="display:inline">Reply to Post</button></span>
-					<span style="float:right;"> Posted: {{ post.date_posted }}</span>
-				</p>
+				<div class="col-8">
+					<div>
+						<a href="/forums/like/{{ post.post_id }}">Like</a>({{ post.like_num }})/<a href="/forums/dislike/{{ post.post_id }}">Dislike</a>({{ post.dislike_num }}) 
+							<button id="parent_reply_but{{ post.post_id }}" style="display:inline">Reply to Post</button>
+					</div>
+				</div>
+				<div class="col-4" align="right">
+					Posted: {{ post.date_posted }}
+				</div>
+				</div>
 			</div>
 		</div>
+	</div>
 			{% set child_count = [0] %}
 			{% for c_post in child_posts %}
 				{% if c_post.parent_post_id == post.post_id %}	
 					{% if child_count.append(child_count.pop() + 1) %}{% endif %}	
-					<div  {% if child_count != [1] and child_count != [2] %} class="child_post_hidden{{ postloop.index }}" {% else %} class="child_post" {% endif %} id="child_post{{ c_post.post_id }}">
-						<div align="right" id="child_div{{ c_post.post_id }}">
-						{% if c_post.post_id not in flags and c_post.user_id != user.user_id %}
-						<button class="child_but_class" id="child_but{{ c_post.post_id }}">Flag/Report Post For Removal</button>
-						<div class="hidden" id="child_Flag_Form{{ c_post.post_id }}">
-						<p id="child_Flag_Form" >Why should this post be removed?
-						<form id="child_Flagging_form" action="/forums/flag/{{ c_post.post_id }}" method="POST">
-						<input type="radio" name="flag_rad" value="abusive">Abusive
-						<input type="radio" name="flag_rad" value="trolling">Trolling
-						<input type="radio" name="flag_rad" value="off_topic">Off-Topic
-						<input type="radio" name="flag_rad" value="human_traf">Human-Trafficking
-						<input type="radio" name="flag_rad" value="pimping">Pimping
-						<input type="radio" name="flag_rad" value="other">Other
-						<input type="submit" id="Flag_Post_but" value="Flag Post"></form>
-						{% elif c_post.user_id != user.user_id %} <p> "You have flagged this post for removal!" </p>
-						{% elif c_post.deleted == False %}
-						<button class="child_edit_class{{ c_post.post_id }}" id="child_edit{{ c_post.post_id }}">Edit Reply</button>
-						<button class="child_delete_class{{ c_post.post_id }}" id="child_delete{{ c_post.post_id }}">Delete Reply</button>
-						{% endif %}
-						<form class="hidden" action="/forums/delete/{{ c_post.post_id }}" id="child_delete_form{{ c_post.post_id }}" method="POST">
-							Are you sure you want to delete this post?
-							<input type="radio" name="delete_check" value="Yes" required>Yes
-							<input type="submit" id="delete_sub{{ c_post.post_id }}" value="Delete Post"></form>
-						</form>
-						</p></div>
-						<form class="hidden" action="/forums/edit/{{ c_post.post_id }}" id="child_edit_form{{ c_post.post_id }}" method="POST">
-						<b>Edit your post:</b>
-						<textarea rows="3" cols="50" name="child_content">{{ c_post.content }}</textarea>
-						<input type=submit value="Submit Edit">
-						</form>
-						<div class="child_content{{ c_post.post_id }}" id="child_content{{ c_post.post_id }}" align="left"><b>{{ c_post.username }}:</b> {{ c_post.content }}
-						<!-- {{ user.tagline }}, {{ user.location }} --></div>
+			<div class="container-fluid">	
+					<div {% if child_count != [1] and child_count != [2] %} class="child_post_hidden{{ postloop.index }}" {% else %} class="child_post" {% endif %} id="child_post{{ c_post.post_id }}">
+						<div class="row">
+							<div class="col-8"  id="child_content{{ c_post.post_id }}" align="left"><b>{{ c_post.username }}:</b> {{ c_post.content }}
+								<!-- {{ user.tagline }}, {{ user.location }} -->
+							</div>
+							<div class="col-4" align="right" id="child_div{{ c_post.post_id }}">
+								{% if c_post.post_id not in flags and c_post.user_id != user.user_id %}
+								<button class="child_but_class" id="child_but{{ c_post.post_id }}">Flag/Report Post
+								</button>
+								<div class="hidden" id="child_Flag_Form{{ c_post.post_id }}"  class="small">
+									<p id="child_Flag_Form"  class="small">Why should this post be removed?
+										<form id="child_Flagging_form" action="/forums/flag/{{ c_post.post_id }}" method="POST"  class="small">
+										<input type="radio" name="flag_rad" value="abusive">Abusive
+										<input type="radio" name="flag_rad" value="trolling">Trolling
+										<input type="radio" name="flag_rad" value="off_topic">Off-Topic
+										<input type="radio" name="flag_rad" value="human_traf">Human-Trafficking
+										<input type="radio" name="flag_rad" value="pimping">Pimping
+										<input type="radio" name="flag_rad" value="other">Other
+										<input type="submit" id="Flag_Post_but" value="Flag Post"></form>
+										{% elif c_post.user_id != user.user_id %} <p> "You have flagged this post for removal!" </p>
+										{% elif c_post.deleted == False %}
+										<button class="child_edit_class{{ c_post.post_id }}" id="child_edit{{ c_post.post_id }}">Edit Reply</button>
+										<button class="child_delete_class{{ c_post.post_id }}" id="child_delete{{ c_post.post_id }}">Delete Reply</button>
+										{% endif %}
+										<form class="hidden" action="/forums/delete/{{ c_post.post_id }}" id="child_delete_form{{ c_post.post_id }}" method="POST">
+											Are you sure you want to delete this post?
+											<input type="radio" name="delete_check" value="Yes" required>Yes
+											<input type="submit" id="delete_sub{{ c_post.post_id }}" value="Delete Post">
+										</form>
+									</p>
+								</div>
+								<form class="hidden" action="/forums/edit/{{ c_post.post_id }}" id="child_edit_form{{ c_post.post_id }}" method="POST">
+								<b>Edit your post:</b>
+								<textarea rows="3" cols="50" name="child_content">{{ c_post.content }}</textarea>
+								<input type=submit value="Submit Edit">
+								</form>
+							</div>
+							
+							<div class="row">
+							</div>
+							<div class="row">
+							
+									<div>
+										<span>&nbsp &nbsp &nbsp &nbsp Posted: {{ c_post.date_posted }} &nbsp &nbsp
+									<a href="/forums/like/{{ c_post.post_id }}">Like</a>({{ c_post.like_num }})/<a href="/forums/dislike/{{ c_post.post_id }}">Dislike</a>({{ c_post.dislike_num }}) 
+										</span>
+									</div>
+								
 
-						<p style="text-align:left;"><a href="/forums/like/{{ c_post.post_id }}">Like</a>({{ c_post.like_num }})/<a href="/forums/dislike/{{ c_post.post_id }}">Dislike</a>({{ c_post.dislike_num }}) 
-							<span style="float:right;"> Posted: {{ c_post.date_posted }}</span></p>
+							</div>
 						</div>
+					</div>
+				</div>	
 			</div>
 			<script>
 console.log("Parent Loop =" + "{{ postloop.index }}" )
@@ -168,7 +193,9 @@ console.log( {{ child_count }} )
 
 		{% endif %}
 	{% endfor %}
-	{% if child_count[0] > 2 %}<button id="show_comments{{ post.post_id }}">Show more comments</button>{% endif %}
+	{% if child_count[0] > 2 %}
+
+	<button id="show_comments{{ post.post_id }}">Show more comments</button>{% endif %}
 	<div class="hidden" id="child_reply{{ post.post_id }}">
 		<form action="/forums/child/{{ post.post_id }}" method="POST">
 		<b>Reply to Post by {{ post.username }}:</b>
