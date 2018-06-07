@@ -9,50 +9,80 @@
 
 {% for post in posts[((10 * current_page) - 10): (10 * current_page)] %}
 	{% set postloop = loop %}
-
+	<br>
+		<div class="container-fluid">
 			<div class="post" id="post{{ post.post_id }}" color="white">
 
-				<div align="right" id="div{{ post.post_id }}" color="white">
-					{% if post.post_id not in flags and post.user_id != user.user_id %}
-					<button class="but_class" id="flag_but{{ post.post_id }}">Flag/Report Post For Removal</button>
-					<div class="hidden" id="Flag_Form{{ post.post_id }}">
-						<p id="Flag_Form" >Why should this post be removed?
-						<form id="Flagging_form" action="/forums/flag/{{ post.post_id }}" method="POST">
-						<input type="radio" name="flag_rad" value="abusive">Abusive
-						<input type="radio" name="flag_rad" value="trolling">Trolling
-						<input type="radio" name="flag_rad" value="off_topic">Off-Topic
-						<input type="radio" name="flag_rad" value="human_traf">Human-Trafficking
-						<input type="radio" name="flag_rad" value="pimping">Pimping
-						<input type="radio" name="flag_rad" value="other">Other
-						<input type="submit" id="Flag_Post_but" value="Flag Post">Flag</form>
-						</p>
+				<div class="row">
+
+					<div class="col-8" id="parent_content{{ post.post_id }}" align="left" padding="0 0 0 0">
+
+						<form class="hidden" action="/forums/edit/{{ post.post_id }}" id="parent_edit_form{{ post.post_id }}" method="POST">
+							<b>Edit your post:</b>
+							<textarea rows="3" cols="50" name="child_content">{{ post.content }}</textarea>
+							<input type=submit value="Submit Edit">
+						</form>
+						
+							<b>{{ post.username }}:</b> {{ post.content }}
+				<!-- 			{{ user.tagline }}, {{ user.location }} -->
 					</div>
-					{% elif post.user_id != user.user_id %} <p> "You have flagged this post for removal!" </p> 
-					{% elif post.deleted == False %}
-					<button class="edit_class{{ post.post_id }}" id="parent_edit{{ post.post_id }}">Edit Post</button>
-					<button class="delete_class{{ post.post_id }}" id="parent_delete{{ post.post_id }}">Delete Post</button>
-					{% endif %}
-					<form class="hidden" id="parent_delete_form{{ post.post_id }}" action="/forums/delete/{{ post.post_id }}" method="POST">
-						Are you sure you want to delete this post?
-						<input type="radio" name="delete_check" value="Yes" required>Yes
-						<input type="submit" id="delete_sub{{ post.post_id }}" value="Delete Post"></form>
-					</form>
+
+
+
+
+
+					<div  class="col-4"  align="right" id="div{{ post.post_id }}" color="white">
+						
+
+
+
+						{% if post.post_id not in flags and post.user_id != user.user_id %}
+						<button class="but_class" id="flag_but{{ post.post_id }}">Flag/Report Post For Removal</button>
+						<div class="hidden" id="Flag_Form{{ post.post_id }}">
+							<p id="Flag_Form" class="small">Why should this post be removed?
+								<form class="small" id="Flagging_form" action="/forums/flag/{{ post.post_id }}" method="POST">
+									<input class="small" type="radio" name="flag_rad" value="abusive">Abusive
+									<input class="small" type="radio" name="flag_rad" value="trolling">Trolling
+									<input class="small" type="radio" name="flag_rad" value="off_topic">Off-Topic
+									<input class="small" type="radio" name="flag_rad" value="human_traf">Human-Trafficking
+									<input class="small" type="radio" name="flag_rad" value="pimping">Pimping
+									<input class="small" type="radio" name="flag_rad" value="other">Other
+									<input class="small" type="submit" id="Flag_Post_but" value="Flag Post">
+								</form>
+							</p>
+						</div>
+						{% elif post.user_id != user.user_id %} <p> "You have flagged this post for removal!" </p> 
+						{% elif post.deleted == False %}
+						<button class="edit_class{{ post.post_id }}" id="parent_edit{{ post.post_id }}">Edit Post</button>
+						<button class="delete_class{{ post.post_id }}" id="parent_delete{{ post.post_id }}">Delete Post</button>
+						{% endif %}
+						<form class="hidden" id="parent_delete_form{{ post.post_id }}" action="/forums/delete/{{ post.post_id }}" method="POST">
+							Are you sure you want to delete this post?
+							<input type="radio" name="delete_check" value="Yes" required>Yes
+							<input type="submit" id="delete_sub{{ post.post_id }}" value="Delete Post"></form>
+						</form>
+					</div>
+
+
+
+
+
 
 				</div>
-				<form class="hidden" action="/forums/edit/{{ post.post_id }}" id="parent_edit_form{{ post.post_id }}" method="POST">
-				<b>Edit your post:</b>
-				<textarea rows="3" cols="50" name="child_content">{{ post.content }}</textarea>
-				<input type=submit value="Submit Edit">
-				</form>
-				<div id="parent_content{{ post.post_id }}" align="left">
-					<b>{{ post.username }}:</b> {{ post.content }}
-		<!-- 			{{ user.tagline }}, {{ user.location }} -->
-				</div>
+				
+
+
+
+
+
+
+
 				<p style="text-align:left;"><a href="/forums/like/{{ post.post_id }}">Like</a>({{ post.like_num }})/<a href="/forums/dislike/{{ post.post_id }}">Dislike</a>({{ post.dislike_num }}) 
 					<span style="float:center;"><button id="parent_reply_but{{ post.post_id }}" style="display:inline">Reply to Post</button></span>
 					<span style="float:right;"> Posted: {{ post.date_posted }}</span>
 				</p>
 			</div>
+		</div>
 			{% set child_count = [0] %}
 			{% for c_post in child_posts %}
 				{% if c_post.parent_post_id == post.post_id %}	
@@ -98,6 +128,22 @@
 console.log("Parent Loop =" + "{{ postloop.index }}" )
 console.log( {{ child_count }} )
 
+				// var c_flagBut{{ loop.index }} = document.querySelector('#child_but{{ loop.index }}');
+				// var c_subFlag{{ loop.index }} = document.querySelector('#child_Flag_Form{{ loop.index }}');
+				// function flag{{ loop.index }}(evt) {
+				// 	evt.preventDefault();
+				// 	$(c_flagBut{{ loop.index }}).hide();
+				// 	$(c_subFlag{{ loop.index }}).show();
+				// };
+
+				$(document).ready(function(){
+					$( "#child_but{{ c_post.post_id }}" ).click(function(){
+						$( "#child_but{{ c_post.post_id }}" ).hide();
+				        $( "#child_Flag_Form{{ c_post.post_id }}" ).show();
+				        console.log("Function is called")
+					});
+				});
+
 
 				$(document).ready(function(){
 				    $( "#child_edit{{ c_post.post_id }}" ).click(function(){
@@ -131,6 +177,14 @@ console.log( {{ child_count }} )
 		</form>
 	</div>
 	<script>
+
+	$(document).ready(function(){
+		$( "#flag_but{{ post.post_id }}" ).click(function(){
+			$( "#flag_but{{ post.post_id }}" ).hide();
+	        $( "#Flag_Form{{ post.post_id }}" ).show();
+	        console.log("Function is called")
+		});
+	});
 
 	$(document).ready(function(){
 	    $( "#show_comments{{ post.post_id }}" ).click(function(){
