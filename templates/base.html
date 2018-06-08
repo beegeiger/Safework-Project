@@ -88,9 +88,9 @@
     </head>
 
     <body>
-    <div class="container d-flex flex-column flex-xl-row justify-content-between" style="background: rgba(0, 0, 0, 0.8); width: 100%; margin:0 0 0 0; padding:0 0 0 0;">
+    <div class="container" style="background: rgba(0, 0, 0, 0.8); width: 105%; text-align: center; margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0; max-width: 100%">
         <div class="container d-flex flex-column flex-xl-row justify-content-between">
-        <div class="col-lg-12 text-center" >
+        <div class="col-lg-12 text-center">
         
         {%- if request.path != "/" %}<button type="button" class="btn btn-danger" onclick="location.href='/';">SafeWork Homepage</button>  {% endif %}
         {%- if request.path != "/map" %}
@@ -104,9 +104,9 @@
         <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="sr-only" color: red;>Toggle Dropdown</span>
         </button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="/forums">Discussion Forums</a>  
-            <a class="dropdown-item" href="/report">Make A Report</a> 
+        <div class="dropdown-menu" style="color: white; background: rgba(255, 0, 0, 0.8);">
+            <a class="dropdown-item" href="/forums" style="color: white; background: rgba(255, 0, 0, 0.8);">Discussion Forums</a>  
+            <a class="dropdown-item" href="/report" style="color: white; background: rgba(255, 0, 0, 0.8);">Make A Report</a> 
         </div> 
         </div>
 
@@ -115,8 +115,8 @@
         <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split color: red;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="sr-only">Toggle Dropdown</span>
         </button>
-        <div class="dropdown-menu">
-        <a class="dropdown-item" href="/register">Register</a>
+        <div class="dropdown-menu" style="color: white; background: rgba(255, 0, 0, 0.8);">
+        <a class="dropdown-item" href="/register" style="color: white;background: rgba(255, 0, 0, 0.8);">Register</a>
         </div>
         </div>
         {% endif %}
@@ -134,9 +134,9 @@
         <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" color: red;>
         <span class="sr-only">Toggle Dropdown</span>
         </button>
-        <div class="dropdown-menu">
-        <a class="dropdown-item" href="/report">Make A Report</a> 
-        <a  class="dropdown-item" href="/contact">Contact Us</a>
+        <div class="dropdown-menu" style="color: white; background: rgba(255, 0, 0, 0.8);">
+        <a class="dropdown-item" href="/report" style="color: white; background: rgba(255, 0, 0, 0.8);">Make A Report</a> 
+        <a  class="dropdown-item" href="/contact" style="color: white; background: rgba(255, 0, 0, 0.8);">Contact Us</a>
         </div>
         </div>
 
@@ -147,24 +147,16 @@
         <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" color: red;>
         <span class="sr-only">Toggle Dropdown</span>
         </button>
-        <div class="dropdown-menu">
-        <a  class="dropdown-item" href="/logout">Logout</a>
+        <div class="dropdown-menu" style="color: white; background: rgba(255, 0, 0, 0.8);">
+        <a  class="dropdown-item" href="/logout" style="color: white; background: rgba(255, 0, 0, 0.8);">Logout</a>
         </div>
         </div>
         {% endif %}
         </div>
         </div>
         </div>
-        </div>
-<!--         <div>
-    	    {% if 'current_user' in session %}
-    		    <a href="/logout">Logout</a>
-    	    {% endif %}
 
-    	    {% if 'current_user' not in session %}
-    		    <a href="/login">Login</a>
-    	    {% endif %}
-        </div> -->
+</div>
 
     <ul class=flashes>	
         {% with messages = get_flashed_messages() %}
