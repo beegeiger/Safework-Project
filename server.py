@@ -288,7 +288,7 @@ def go_forums():
 
     #Checks to see if the user is logged in. If so, renders forums
     if 'current_user' in session.keys():
-        return render_template("forum_menu.html", cam=cam, dom=dom, escort=escort,
+        return render_template("forums.html", cam=cam, dom=dom, escort=escort,
                                porn=porn, dance=dance, phone=phone, other=other, sugar=sugar,
                                cam_query=cam_query, dom_query=dom_query, escort_query=escort_query,
                                porn_query=porn_query, dance_query=dance_query, phone_query=phone_query,
