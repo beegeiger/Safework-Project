@@ -340,10 +340,7 @@ def add_post(forum_id, page_num=1):
     #Adds the new post to the database
     new_post = Post(parent_post_id=0, user_id=user.user_id, username=user.username,
                     forum_id=forum_id, content=post_content, p_datetime=datetime.now(),
-                    date_posted=(str(datetime.now())[:16]),
-                               cam_query=cam_query, dom_query=dom_query, escort_query=escort_query,
-                               porn_query=porn_query, dance_query=dance_query, phone_query=phone_query,
-                               sugar_query=sugar_query, other_query=other_query)
+                    date_posted=(str(datetime.now())[:16]))
 
     #Doublechecks that the user isn't creating a duplicate post
     if Post.query.filter(Post.content == new_post.content,
