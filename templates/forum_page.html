@@ -1,18 +1,18 @@
 {% extends 'forums.html' %}
 {% block forum %} 
 <br>
-<h3 style="text-align: left;">{{ forum.forum_name }}</h3>
-{{ forum.forum_desc }} 
+<h3 style="text-align: left; margin-right: 10%; margin-left: 10%;">{{ forum.forum_name }}</h3>
+<h4 style="text-align: left; margin-right: 10%; margin-left: 10%;">{{ forum.forum_desc }}</h4> 
 <div align="right" display="inline-block">Order By: 
-	<button class="sorting" id="Date" value="Date Posted" type="button" onclick="location.href='/forums/order_by_date/{{ forum.forum_id }}/{{ current_page }}'" height="15px" width="80px">Date Posted</button>
-	<button type="button" class="sorting" id="Pop" value="Post Popularity" onclick="location.href='/forums/order_by_pop/{{ forum.forum_id }}/{{ current_page }};'">Post Popularity</button>
+	<button class="sorting" id="Date" value="Date Posted" type="button" onclick="location.href='/forums/order_by_date/{{ forum.forum_id }}/{{ current_page }}'" height="15px" width="80px"  >Date Posted</button>
+	<button type="button" class="sorting" id="Pop" value="Post Popularity" onclick="location.href='/forums/order_by_pop/{{ forum.forum_id }}/{{ current_page }};'" style="margin-right: 10%;">Post Popularity</button>
 </div> 
 
 {% for post in posts[((10 * current_page) - 10): (10 * current_page)] %}
 	{% set postloop = loop %}
 	<br>
 		<div class="container-fluid">
-			<div class="post" id="post{{ post.post_id }}" color="white" padding-left="10px">
+			<div class="post" id="post{{ post.post_id }}" color="white" style="margin-right: 10%; margin-left: 10%;">
 
 				<div class="row">
 					<div class="col-8" id="parent_content{{ post.post_id }}" align="left">
@@ -108,8 +108,8 @@
 				{% if c_post.parent_post_id == post.post_id %}	
 					{% if child_count.append(child_count.pop() + 1) %}{% endif %}	
 			<div class="container-fluid">	
-					<div {% if child_count != [1] and child_count != [2] %} class="child_post_hidden{{ postloop.index }}" {% else %} class="child_post" {% endif %} id="child_post{{ c_post.post_id }}">
-						<div class="row">
+					<div {% if child_count != [1] and child_count != [2] %} class="child_post_hidden{{ postloop.index }}" {% else %} class="child_post" {% endif %} id="child_post{{ c_post.post_id }}" style="margin-right: 11%; margin-left: 20%;">
+						<div class="row" >
 
 							<div class="col-8"  id="child_content{{ c_post.post_id }}" align="left">
 								<div class="text_div"><b>{{ c_post.username }}:</b> {{ c_post.content }}
@@ -213,10 +213,10 @@ console.log( {{ child_count }} )
 		{% endif %}
 	{% endfor %}
 	{% if child_count[0] > 2 %}
-	<div class="text_div" align="right">
+	<div class="text_div" align="right" style="margin-right: 12%;">
 	<button id="show_comments{{ post.post_id }}">Show more comments</button>
 	</div> {% endif %}
-	<div class="hidden" id="child_reply{{ post.post_id }}">
+	<div class="hidden" id="child_reply{{ post.post_id }}"  style="margin-right: 12%;">
 		<div class="text_div" align="right">
 		<form action="/forums/child/{{ post.post_id }}" method="POST">
 		<b>Reply to Post by {{ post.username }}:</b><br>
@@ -273,7 +273,7 @@ console.log( {{ child_count }} )
 	</script>
 {% endfor %}
 <div>
-<div class="text_div" style="text-align: right;">
+<div class="text_div" style="text-align: right; margin-right: 12%;" >
 <form action="/forums/parent/{{ forum.forum_id }}/{{ current_page }}" method="POST">
 <b>New Post:</b><br>
 <textarea rows="6" cols="50" name="content" style="background: rgba(255, 255, 255, 0.7);"></textarea><br>
