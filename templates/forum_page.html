@@ -12,10 +12,20 @@
 	{% set postloop = loop %}
 	<br>
 		<div class="container-fluid">
-			<div class="post" id="post{{ post.post_id }}" color="white" style="margin-right: 10%; margin-left: 10%;">
+			<div class="post" id="post{{ post.post_id }}" color="white" style="margin-right: 8%; margin-left: 9%;">
 
 				<div class="row">
 					<div class="col-8" id="parent_content{{ post.post_id }}" align="left">
+						<div class="text_div">
+												
+					
+						
+						
+						
+							<b>{{ post.username }}:</b> {{ post.content }}
+				<!-- 			{{ user.tagline }}, {{ user.location }} -->
+						</div>
+					</div>
 					<div class="text_div">
 					<form class="hidden"  action="/forums/edit/{{ post.post_id }}" id="parent_edit_form{{ post.post_id }}" method="POST">
 							<b style="vertical-align: top;">Edit your post:</b>
@@ -23,24 +33,13 @@
 							</textarea>
 							<input type=submit value="Submit Edit">
 						</form>
-						
-					
-						
-						
-						
-							<b>{{ post.username }}:</b> {{ post.content }}
-				<!-- 			{{ user.tagline }}, {{ user.location }} -->
-					</div>
-
-
-						
 					</div>
 
 
 
 
 
-					<div  class="col-4"  align="right" id="div{{ post.post_id }}" color="white">
+					<div  class="col-4"  style="text-align:right; margin-right: -10%; padding-right: 6%;" id="div{{ post.post_id }}" color="white">
 						
 
 
@@ -149,7 +148,7 @@
 								<textarea rows="3" cols="50" name="child_content">{{ c_post.content }}</textarea>
 								<input type=submit value="Submit Edit">
 								</form>
-							</div>
+								</div>
 							</div>
 							
 							<div class="row">
@@ -248,7 +247,7 @@ console.log( {{ child_count }} )
 	        $( "#parent_delete{{ post.post_id }}" ).hide();
 	        $( "#parent_edit{{ post.post_id }}" ).hide();
 	        $( "#parent_content{{ post.post_id }}" ).hide();
-	        $( "#parent_edit_form{{ post.post_id }}" ).removeClass( "hidden" ).addClass( "shown" );
+	        $( "#parent_edit_form{{ post.post_id }}" ).show();
 	        console.log("Edit Button is working");
 	    });
 	});
