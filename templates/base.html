@@ -83,7 +83,9 @@
     .btn-danger {
         background-color: red;
     }
-
+    .myclass {
+        font-family: 'Open Sans', sans-serif;
+    }
     </style>
     </head>
 
@@ -95,13 +97,13 @@
         {%- if request.path != "/" %}<a href="/"><img style="height: 60px;" src="/static/img/SafeWork2.gif"></a> &nbsp &nbsp
         <!-- <button type="button" class="btn btn-danger" onclick="location.href='/';">SafeWork Homepage</button>  --> {% endif %}
         {%- if request.path != "/map" %}
-        <button type="button" class="btn btn-danger" onclick="location.href='/map';" color: red; style="width: 15%;">Map</button> {% endif %}
+        <button type="button" class="btn btn-danger myclass" onclick="location.href='/map';" style="width: 15%; font-family: 'Open Sans', sans-serif; font-weight: bold;">Map</button> {% endif %}
 
 
 
         {% if 'current_user' not in session %}
         <div class="btn-group">
-        <button type="button" class="btn btn-danger" onclick="location.href='/resources';" style="width: 110px;">Resources</button>
+        <button type="button" class="btn btn-danger" onclick="location.href='/resources';" style="width: 110px; font-family: 'Open Sans', sans-serif; font-weight: bold;">Resources</button>
         <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="sr-only" color: red;>Toggle Dropdown</span>
         </button>
@@ -112,7 +114,7 @@
         </div>
 
         <div class="btn-group">
-        <button type="button" class="btn btn-danger color: red;"  onclick="location.href='/login';" style="width: 110px;">Login</button>
+        <button type="button" class="btn btn-danger color: red;"  onclick="location.href='/login';" style="width: 110px; font-weight: bold;">Login</button>
         <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split color: red;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="sr-only">Toggle Dropdown</span>
         </button>
@@ -128,10 +130,10 @@
 
 
         {%- if request.path != "/forums" %}
-        <button type="button" class="btn btn-danger" onclick="location.href='/forums';" color: red; style="width: 20%;">Discussion Forums</button> {% endif %}
+        <button type="button" class="btn btn-danger" onclick="location.href='/forums';" color: red; style="width: 20%; font-weight: bold;">Discussion Forums</button> {% endif %}
 
         <div class="btn-group">
-        <button type="button" class="btn btn-danger"  onclick="location.href='/profile';" color: red;>Resources</button>
+        <button type="button" class="btn btn-danger"  onclick="location.href='/profile';" style="font-weight: bold;">Resources</button>
         <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" color: red;>
         <span class="sr-only">Toggle Dropdown</span>
         </button>
@@ -144,7 +146,7 @@
 
 
         <div class="btn-group">
-        <button type="button" class="btn btn-danger"  onclick="location.href='/profile';" color: red;>Your Profile</button>
+        <button type="button" class="btn btn-danger"  onclick="location.href='/profile';" style="font-weight: bold;">Your Profile</button>
         <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" color: red;>
         <span class="sr-only">Toggle Dropdown</span>
         </button>
