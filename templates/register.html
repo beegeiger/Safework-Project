@@ -12,6 +12,8 @@
 {% block content %}
 
 	<form action="/register" method="POST"><br>
+		(Don't use a real email address [just include an @ and a ',' at some point] or a password you'd use elsewhere. This is an early version of the site for demonstration. When we receive our SSL cert and can securely encrypt your connection, all accounts will be reset for security.)
+		<br>
 		<b>E-mail:</b> <input type=textbox name="email_input"  value="{{ email }}" required></input><br><br>
 		<b>Username:</b> <input type=textbox name="username" value="{{ username }}" required><br>
 		<b>Tagline:</b> (what is your experience?) <input type=textbox name="tagline" maxlength="100">
