@@ -55,11 +55,13 @@ class Post(db.Model):
 	date_posted = db.Column(db.String(64), nullable=True)
 	flag_num = db.Column(db.Integer, default=0)
 	deleted = db.Column(db.Boolean, default=False)
+	tagline = db.Column(db.String(100), nullable=True)
+	location = db.Column(db.String(50), nullable=True)
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<username={} post_id={} user_id={} forum_id={} parent_post_id={} content={} p_datetime={} edit_datetime={} like_num={} dislike_num={} date_posted={} flag_num={} deleted={}>".format(
-			self.username, self.post_id, self.user_id, self.forum_id, self.parent_post_id, self.content, self.p_datetime, self.edit_datetime, self.like_num, self.dislike_num, self.date_posted, self.flag_num, self.deleted)
+		return "<username={} post_id={} user_id={} forum_id={} parent_post_id={} content={} p_datetime={} edit_datetime={} like_num={} dislike_num={} date_posted={} flag_num={} deleted={} tagline={} location={}>".format(
+			self.username, self.post_id, self.user_id, self.forum_id, self.parent_post_id, self.content, self.p_datetime, self.edit_datetime, self.like_num, self.dislike_num, self.date_posted, self.flag_num, self.deleted, self.tagline, self.location)
 
 
 class User(db.Model):
@@ -85,7 +87,7 @@ class User(db.Model):
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<user_id={} password={} username={} fname={} lname={} email={} description={} picture={} created_at={} edited_at={} user_type_main={} user_type_secondary={}> tagline={} location={}".format(
+		return "<user_id={} password={} username={} fname={} lname={} email={} description={} picture={} created_at={} edited_at={} user_type_main={} user_type_secondary={}> tagline={} location={}>".format(
 			self.user_id, self.password, self.username, self.fname, self.lname, self.email, self.description, self.picture, self.created_at, self.edited_at, self.user_type_main, self.user_type_secondary, self.tagline, self.location)
 
 
