@@ -747,6 +747,9 @@ def edit_profile():
         return render_template("edit_profile.html", email=user.email, username=user.username,
                                fname=user.fname, tagline=user.tagline, location=user.location, lname=user.lname, about_me=user.description)
 
+@app.route("/contact")
+def contact_us():
+    return render_template("contact.html")
 
 @app.route("/resources")
 def resources():

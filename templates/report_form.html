@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}Incident Report Form{% endblock %}
 {% block head %}
-<h2>Incident Report Form</h2>
+
 {% endblock %}
 {% block content %}
-
+<div class="gen_div">
+<h2>Incident Report Form</h2>
+</div>
+<div class="gen_div">
 	<form action="/report" method="POST"><br>
 		<b>How would you describe the incident in 8 words or less?</b> <input type=textbox name="inc_type"></input><br><br>
 		<b>Address:</b> <input type=textbox name="address"><br><br>
@@ -25,6 +28,6 @@
 		<b>Any other details about what happened (and notes on any confidentiality/safety issues):</b><br><textarea rows="6" cols="50" name="other"></textarea><br>
 		<br><input type=submit></form>
 
-
+</div>
 
 {% endblock %}

@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}Your Profile{% endblock %}
 {% block head %}
-<h2>Your Profile</h2>
+
 {% endblock %}
 {% block content %}
+<div class="gen_div">
+<h1>Your Profile</h1>
+</div>
+<div class="gen_div">
 <b>Username:</b> {{ username }}<br>
 <b>E-mail:</b> {{ email }}<br>
 <b>Name:</b> {{ fname }} {{ lname }}<br>
@@ -13,5 +17,5 @@
 
 
 <a href="/edit_profile">Edit Profile</a>
-
+</div>
 {% endblock %}

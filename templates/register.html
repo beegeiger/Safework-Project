@@ -10,9 +10,8 @@
 </style>
 {% endblock %}
 {% block content %}
-
+<div class="gen_div">
 	<form action="/register" method="POST"><br>
-		(Don't use a real email address [just include an @ and a ',' at some point] or a password you'd use elsewhere. This is an early version of the site for demonstration. When we receive our SSL cert and can securely encrypt your connection, all accounts will be reset for security.)
 		<br>
 		<b>E-mail:</b> <input type=textbox name="email_input"  value="{{ email }}" required></input><br><br>
 		<b>Username:</b> <input type=textbox name="username" value="{{ username }}" required><br>
@@ -67,8 +66,8 @@
 		<br><br><b>Tell us a bit about yourself:</b><br>
 		<textarea rows="6" cols="50" name="about_me">{{ about_me }}</textarea><br>
 		<br><input type=submit></form>
+</div>
 
-<button class="test_but" id="test_but">Test</button>
 <script type="text/javascript">
 
 	let current = $('#current1');
