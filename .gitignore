@@ -5,3 +5,4 @@ secrets-env
 secrets_env.py
 secrets_env
 client_secret.json
+*.pyc
