@@ -1,9 +1,16 @@
 # The SafeWork Project
 
 The SafeWork Project is a sex worker support web app designed to help provide sex workers resources in an increasingly difficult and dangerous environment.
+Currently located at safeworkproject.org
 
 ## Getting Started
-(Runs on Ubuntu/Linux running at least Python 2.7)
+
+### Prerequisites
+
+-Running a Linux System (Developed and Tested on Ubuntu 16.04)
+-System can run Python 2.7+
+
+### Installing
 
 -Clone/Download the repo from https://github.com/beegeiger/Safework-Project
 -Create a virtual environment ($virtualenv env) and activate it ($source env/bin/activate)
@@ -20,31 +27,6 @@ The SafeWork Project is a sex worker support web app designed to help provide se
 -Run server.py ($python server.py)
 -The app should be running on your local system!
 
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
