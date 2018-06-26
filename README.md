@@ -1,6 +1,7 @@
 # The SafeWork Project
 
 The SafeWork Project is a sex worker support web app designed to help provide sex workers resources in an increasingly difficult and dangerous environment.
+
 Currently located at safeworkproject.org
 
 ## Getting Started
@@ -8,23 +9,36 @@ Currently located at safeworkproject.org
 ### Prerequisites
 
 -Running a Linux System (Developed and Tested on Ubuntu 16.04)
+
 -System can run Python 2.7+
 
 ### Installing
 
 -Clone/Download the repo from https://github.com/beegeiger/Safework-Project
+
 -Create a virtual environment ($virtualenv env) and activate it ($source env/bin/activate)
+
 -Install requirements ($pip install -r requirements.txt)
+
 -Create psql database called "safework" ($createdb safework)
 -Seed Database:
+
 	-Make sure the entire line in server.py that begins with "from model import..." is commented out
+
 	-Make sure that the line in model.py "from server import app" is NOT commented out
+
 	-Run model.py ($python model.py)
+
 	-In seed.py, make sure the function calls are not commented out (and as of 6/25/18, the "add_incident_data" function call should be "add_incident_data([3, 4, 5, 6, 7, 8, 9, 10, 11])")
+
 	-Run seed.py (python seed.py)
+
 	-Comment back out the line in model.py "from server import app"
+
 	-Uncomment the entire line in server.py that begins with "from model import..."
+
 -Run server.py ($python server.py)
+
 -The app should be running on your local system!
 
 
