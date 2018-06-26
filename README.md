@@ -28,35 +28,17 @@ Currently located at safeworkproject.org
 -The app should be running on your local system!
 
 
-## Running the tests
+## Testing
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+Tests for the SafeWork Project can be found in tests.py. Right now, only a relatively small portion of the app is tested and adding tests is a top priority!
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+The app is currently live at safeworkproject.org and is running on an AWS lightsail server using nginx as a proxy server to only make connections through https.
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Flask](http://flask.pocoo.org/) - The web framework used
 
 ## Contributing
 
@@ -64,20 +46,14 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/beegeiger/Safework-Project/tags). 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Dorothy Bee Geiger** - *Initial work* - [SafeWork Project](https://github.com/beegeiger/Safework-Project)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+See also the list of [contributors](https://github.com/beegeiger/Safework-Project/contributors) who participated in this project.
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* Hackbright Academy for Teaching Dorothy Bee the Basics to create this app.
