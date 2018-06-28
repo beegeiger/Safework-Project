@@ -197,6 +197,14 @@ class FlaskTestsLoggedIn(unittest.TestCase):
                                    follow_redirects=True)
         self.assertIn('<a href="/forums/like/3">Like</a>(1)', result.data)
 
+    def test_dislike_post(self):
+        self.client.post('/forums/parent/1/1',
+                                  data={"content": "Test Post Content for Testing9876543"},
+                                  follow_redirects=True)
+        result = self.client.get('/forums/dislike/3',
+                                   follow_redirects=True)
+        self.assertIn('<a href="/forums/dislike/3">Dislike</a>(1)', result.data)
+
     def test_logout(self):
         result = self.client.get('/logout',
                                   follow_redirects=True)
