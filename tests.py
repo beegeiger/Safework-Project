@@ -187,6 +187,11 @@ class FlaskTestsLoggedIn(unittest.TestCase):
                                    follow_redirects=True)
         self.assertIn('<a href="/forums/like/3">Like</a>(1)', result.data)
 
+    def test_logout(self):
+        result = self.client.get('/logout',
+                                  follow_redirects=True)
+        self.assertIn('Bye! You have been succesfully logged out!', result.data)
+
     def tearDown(self):
         """Do at end of every test."""
         db.session.close()

@@ -153,13 +153,13 @@ def register_process():
         db.session.add(new_user)
         db.session.commit()
         #Code isn't working:
-        if user_type == "other":
-            flash("""While you may enter the discussion forums if you are not a sex worker,
-                   keep in mind that this website is not intended for you. Do your best to respect
-                   the sex workers on this site as well as their experiences and thoughts. Also,
-                   please note that pimps and human traffickers are NOT welcome on this site. This
-                   site is intended for consensual sex workers working on their own
-                   volition ONLY.""")
+        # if user_type == "other":
+        #     flash("""While you may enter the discussion forums if you are not a sex worker,
+        #            keep in mind that this website is not intended for you. Do your best to respect
+        #            the sex workers on this site as well as their experiences and thoughts. Also,
+        #            please note that pimps and human traffickers are NOT welcome on this site. This
+        #            site is intended for consensual sex workers working on their own
+        #            volition ONLY.""")
     return redirect('/login')
 
 
