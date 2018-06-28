@@ -18,7 +18,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (update, asc, desc)
 from model import Forum, Post, User, Incident, Police, Source, Like, Flag, connect_to_db, db
 import requests
-from secrets_env import CLIENT_ID
+# from secrets_env import CLIENT_ID
 
 
 app = Flask(__name__)
@@ -153,13 +153,13 @@ def register_process():
         db.session.add(new_user)
         db.session.commit()
         #Code isn't working:
-        # if user_type == "other":
-        #     flash("""While you may enter the discussion forums if you are not a sex worker,
-        #            keep in mind that this website is not intended for you. Do your best to respect
-        #            the sex workers on this site as well as their experiences and thoughts. Also,
-        #            please note that pimps and human traffickers are NOT welcome on this site. This
-        #            site is intended for consensual sex workers working on their own
-        #            volition ONLY.""")
+        if user_type == "other":
+            flash("""While you may enter the discussion forums if you are not a sex worker,
+                   keep in mind that this website is not intended for you. Do your best to respect
+                   the sex workers on this site as well as their experiences and thoughts. Also,
+                   please note that pimps and human traffickers are NOT welcome on this site. This
+                   site is intended for consensual sex workers working on their own
+                   volition ONLY.""")
     return redirect('/login')
 
 
@@ -171,7 +171,7 @@ def log_in():
     if 'current_user' in session.keys():
         return redirect("/")
     else:
-        return render_template("login.html", client_id=CLIENT_ID)
+        return render_template("login.html")
 
 
 @app.route("/login", methods=["POST"])
@@ -334,8 +334,7 @@ def add_post(forum_id, page_num=1):
     flags = []
     if len(flag_query) > 0:
         for item in flag_query:
-            print item
-            print item.post_id
+
             flags.append(item.post_id)
 
     #Adds the new post to the database
@@ -386,8 +385,6 @@ def add_child_post(post_id, page_num=1):
     flags = []
     if len(flag_query) > 0:
         for item in flag_query:
-            print item
-            print item.post_id
             flags.append(item.post_id)
 
     #Queries the data for the parent post
@@ -396,10 +393,7 @@ def add_child_post(post_id, page_num=1):
     #Adds the new post to the database
     new_post = Post(user_id=user.user_id, username=user.username, forum_id=parent_post.forum_id,
                     parent_post_id=post_id, content=post_content, p_datetime=datetime.now(),
-                    date_posted=(str(datetime.now())[:16]),
-                               cam_query=cam_query, dom_query=dom_query, escort_query=escort_query,
-                               porn_query=porn_query, dance_query=dance_query, phone_query=phone_query,
-                               sugar_query=sugar_query, other_query=other_query)
+                    date_posted=(str(datetime.now())[:16]))
 
     #Doublechecks that the user isn't creating a duplicate post
     if Post.query.filter(Post.content == post_content, Post.username == user.username).all() == []:
@@ -436,11 +430,8 @@ def delete_post(post_id):
 
     #Gets the new posts content
     post_content = str(request.form['delete_check'])
-    print post_content
-    print type(post_content)
     #Updates post content
     if post_content == "Yes":
-        print "Should be working!"
         (db.session.query(Post).filter_by(post_id=post_id).update(
             {'content': 'This post has been deleted by its poster.',
              'edit_datetime': datetime.now(), 'deleted': True}))
@@ -575,14 +566,11 @@ def date_order(forum_id, page_num=1):
     flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
     forum = Forum.query.filter_by(forum_id=forum_id).one()
     post_index=int(math.ceil((len(posts)/float(10))))
-    print post_index
-    print type(post_index)
+
     #Defines empty flag list to be filled with user's flags
     flags = []
     if len(flag_query) > 0:
         for item in flag_query:
-            print item
-            print item.post_id
             flags.append(item.post_id)
 
     #Renders Page
@@ -625,13 +613,10 @@ def pop_order(forum_id, page_num=1):
     flag_query = Flag.query.filter(Flag.user_id == User.user_id).all()
     forum = Forum.query.filter_by(forum_id=forum_id).one()
     post_index=int(math.ceil((len(posts)/float(10))))
-    print type(posts)
     #Defines empty flag list to be filled with user's flags
     flags = []
     if len(flag_query) > 0:
         for item in flag_query:
-            print item
-            print item.post_id
             flags.append(item.post_id)
 
     #Renders Page
