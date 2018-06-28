@@ -51,6 +51,16 @@ class safeworkIntegrationTestCase(unittest.TestCase):
         result = self.client.get('/login')
         self.assertIn("Don't have an account?", result.data)
 
+    def test_resources_page(self):
+        result = self.client.get('/resources')
+        self.assertIn("St. James Infirmiry", result.data)
+
+    def test_contact_page(self):
+        result = self.client.get('/contact')
+        self.assertIn("E-mail safeworkapp@gmail.com with any comments!", result.data)
+
+
+
 
 ######################################################
 
