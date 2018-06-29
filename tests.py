@@ -205,6 +205,15 @@ class FlaskTestsLoggedIn(unittest.TestCase):
                                    follow_redirects=True)
         self.assertIn('<a href="/forums/dislike/3">Dislike</a>(1)', result.data)
 
+    def test_flag_post(self):
+        self.client.post('/forums/parent/1/1',
+                                  data={"content": "Test Post Content for Testing9876543"},
+                                  follow_redirects=True)
+        result = self.client.post('/forums/flag/3',
+                                    data={'flag_rad': 'trolling'},
+                                   follow_redirects=True)
+        self.assertIn('Your report has been submitted!', result.data)
+
     def test_logout(self):
         result = self.client.get('/logout',
                                   follow_redirects=True)
