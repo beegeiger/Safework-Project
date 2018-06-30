@@ -567,6 +567,10 @@ def date_order(forum_id, page_num=1):
     forum = Forum.query.filter_by(forum_id=forum_id).one()
     post_index=int(math.ceil((len(posts)/float(10))))
 
+    print posts
+    if posts:
+        print posts[0].forum_id
+
     #Defines empty flag list to be filled with user's flags
     flags = []
     if len(flag_query) > 0:
