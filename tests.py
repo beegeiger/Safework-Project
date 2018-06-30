@@ -214,6 +214,24 @@ class FlaskTestsLoggedIn(unittest.TestCase):
                                    follow_redirects=True)
         self.assertIn('Your report has been submitted!', result.data)
 
+    def test_date_order(self):
+        """Tests that the page load, but doesn't test the actual post order (yet)"""
+        self.client.post('/forums/parent/1/1',
+                                  data={"content": "Test Post Content for Testing12412424"},
+                                  follow_redirects=True)
+        result = self.client.get('/forums/order_by_date/1/1',
+                                   follow_redirects=True)
+        self.assertIn("Test Post Content for Testing12412424", result.data)
+
+    def test_pop_order(self):
+        """Tests that the page load, but doesn't test the actual post order (yet)"""
+        self.client.post('/forums/parent/1/1',
+                                  data={"content": "Test Post Content for Testing090980987"},
+                                  follow_redirects=True)
+        result = self.client.get('/forums/order_by_pop/1/1',
+                                   follow_redirects=True)
+        self.assertIn("Test Post Content for Testing090980987", result.data)
+
     def test_logout(self):
         result = self.client.get('/logout',
                                   follow_redirects=True)
