@@ -25,3 +25,7 @@
 - If you make any changes/improvements to the site, please also include testing for it (now located in tests.py). If for some reason you can't add testing, please comment on the issue and your pull request so others know what tests need to be added. If you do add tests, please also add a small comment saying so.
 
 - If you see something untested that isn't included in an issue, please feel free to add an issue, make a comment, or make a pull request with the updated tests.
+
+### Documentation
+
+- Everything in the app should have clear documentation. Dorothy Bee is working on that for the existing code, so do your best to add documentation for any new/changed code that you write! If you have any questions or need help, comment in the issue!
