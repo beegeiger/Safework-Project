@@ -21,6 +21,7 @@ Currently located at safeworkproject.org
 -Install requirements ($pip install -r requirements.txt)
 
 -Create psql database called "safework" ($createdb safework)
+
 -Seed Database:
 
 	-Make sure the entire line in server.py that begins with "from model import..." is commented out
