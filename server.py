@@ -480,7 +480,7 @@ def add_like(post_id):
 
 @app.route("/forums/dislike/<post_id>", methods=["GET"])
 def add_dislike(post_id):
-    """When the user "dislikes" a post, it adds it to the dbase & updates page with new like info"""
+    """When the user "dislikes" a post, it adds it to the dbase & updates page with new like info (Tested)"""
 
     #Queries from all of the dbase tables that need to be updated and/or rendered
     user_id = User.query.filter_by(email=session['current_user']).one().user_id
@@ -510,7 +510,7 @@ def add_dislike(post_id):
 
 @app.route("/forums/flag/<post_id>", methods=["POST"])
 def flag_post(post_id):
-    """When a user submitts a flag for removal, adds it to the dbase and refreshes page"""
+    """When a user submitts a flag for removal, adds it to the dbase and refreshes page  (Tested)"""
 
     #Queries from all of the dbase tables that need to be updated and/or rendered
     user_id = User.query.filter_by(email=session['current_user']).one().user_id
@@ -536,7 +536,7 @@ def flag_post(post_id):
 
 @app.route("/forums/order_by_date/<forum_id>/<page_num>")
 def date_order(forum_id, page_num=1):
-    """Renders forum page with posts ordered by date"""
+    """Renders forum page with posts ordered by date  (Tested, but not the actual order)"""
 
     #Defining the central forums (within app context) to be rendered
     cam = Forum.query.filter_by(forum_id=1).one()
@@ -588,7 +588,7 @@ def date_order(forum_id, page_num=1):
 
 @app.route("/forums/order_by_pop/<forum_id>/<page_num>")
 def pop_order(forum_id, page_num=1):
-    """Renders forum page with posts ordered by popularity"""
+    """Renders forum page with posts ordered by popularity (Tested, but not the actual order)"""
 
     #Defining the central forums (within app context) to be rendered
     cam = Forum.query.filter_by(forum_id=1).one()
@@ -738,10 +738,12 @@ def edit_profile():
                                fname=user.fname, tagline=user.tagline, location=user.location, lname=user.lname, about_me=user.description)
 
 @app.route("/contact")
+    """Renders the contact page (Tested)"""
 def contact_us():
     return render_template("contact.html")
 
 @app.route("/resources")
+    """Renders the resources page (Tested)"""
 def resources():
     return render_template("resources.html")
 
