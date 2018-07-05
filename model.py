@@ -65,7 +65,7 @@ class Post(db.Model):
 
 
 class User(db.Model):
-	"""Discussion Post in SafeWork App"""
+	"""User Table in SafeWork App"""
 
 	__tablename__ = "users"
 
@@ -92,7 +92,7 @@ class User(db.Model):
 
 
 class Incident(db.Model):
-	"""Discussion Post in SafeWork App"""
+	"""Incidents table in SafeWork App"""
 
 	__tablename__ = "incidents"
 
@@ -122,7 +122,7 @@ class Incident(db.Model):
 
 
 class Cop(db.Model):
-	"""Cops reported in SafeWork App"""
+	"""Cop Table in SafeWork App"""
 
 	__tablename__ = "cops"
 	cop_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
@@ -139,7 +139,7 @@ class Cop(db.Model):
 			self.cop_id, self.police_dept_id, self.user_id, self.cop_name, self.cop_badge, self.cop_desc, self.cop_pic)
 
 class Police(db.Model):
-	"""Discussion Forum in SafeWork App"""
+	"""Police Department table in SafeWork App"""
 
 	__tablename__ = "police"
 
@@ -155,7 +155,7 @@ class Police(db.Model):
 
 
 class Source(db.Model):
-	"""Discussion Forum in SafeWork App"""
+	"""Data sources table in SafeWork App"""
 
 	__tablename__ = "sources"
 
@@ -172,7 +172,7 @@ class Source(db.Model):
 			self.source_id, self.s_name, self.s_description, self.url, self.s_type)
 
 class Like(db.Model):
-	"""Discussion Forum in SafeWork App"""
+	"""Post Likes table in SafeWork App"""
 
 	__tablename__ = "likes"
 
@@ -186,7 +186,7 @@ class Like(db.Model):
 			self.like_id, self.user_id, self.post_id, self.like_dislike)
 
 class Flag(db.Model):
-	"""Discussion Forum in SafeWork App"""
+	"""Post Dislikes table in SafeWork App"""
 
 	__tablename__ = "flags"
 
