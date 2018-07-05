@@ -57,7 +57,7 @@ The app is currently live at safeworkproject.org and is running on an AWS lights
 
 ## Contributing
 
-Please read [contributing.md](https://github.com/beegeiger/Safework-Project/blob/master/contributing.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [contributing.md](https://github.com/beegeiger/Safework-Project/blob/master/docs/contributing.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
