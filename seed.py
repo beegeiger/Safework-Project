@@ -61,7 +61,7 @@ parameters = [{"category": "PROSTITUTION"}]
 # , "dayofweek": "Monday"}, {"category": "PROSTITUTION", "dayofweek": "Tuesday"}, {"category": "PROSTITUTION", "dayofweek": "Wednesday"}, {"category": "PROSTITUTION", "dayofweek": "Thursday"}, {"category": "PROSTITUTION", "dayofweek": "Friday"}, {"category": "PROSTITUTION", "dayofweek": "Saturday"}, {"category": "PROSTITUTION", "dayofweek": "Sunday"}]
 
 
-def add_incident_data(source_nums):
+def add_incident_data_start(source_nums):
 	"""Takes a list of source_ids to collect data from"""
 	with app.app_context():
 		for s_num in source_nums:
@@ -198,9 +198,26 @@ def add_incident_data(source_nums):
 					db.session.commit()
 				
 
-add_incident_data([3, 4, 5, 6, 7, 8, 9, 10, 11])
+add_incident_data_start([3, 4, 5, 6, 7, 8, 9, 10, 11])
 
-
+def add_incident_data(source_nums):
+	"""Basic Template for adding Incident Source API's. MUST be customized by source."""
+	with app.app_context():
+		sour = Source.query.filter_by(source_id=s_num).one()
+		incident_info = requests.get(sour.url).json()
+			city = 0
+			for row in incident_info:
+				year = int(row["incident_datetime"][0:4])
+				if Incident.query.filter(Incident.police_rec_num == row["cmplnt_num"]).all() == [] and "latitude" in row:
+					if year >= 2000:
+						city += 1
+						print "City " + str(city)
+						print row
+						#This needs to be customized for the given source being added	
+						incident = Incident(police_dept_id=9, source_id=s_num, inc_type="API", latitude=row["latitude"], longitude=row["longitude"], address=row["boro_nm"], city="New York", state="CA", date=row["cmplnt_fr_dt"], year=year, time=(str(row["cmplnt_fr_tm"])), description=row["pd_desc"], police_rec_num=row["cmplnt_num"])
+						db.session.add(incident)
+						print incident.incident_id
+					db.session.commit()
 
 
 
