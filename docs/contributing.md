@@ -29,3 +29,7 @@
 ### Documentation
 
 - Everything in the app should have clear documentation. Dorothy Bee is working on that for the existing code, so do your best to add documentation for any new/changed code that you write! If you have any questions or need help, comment in the issue!
+
+## Adding Data to the Arrest Incident Map
+
+- Check out [seeding_new_cities.md](https://github.com/beegeiger/Safework-Project/blob/master/docs/seeding_new_cities.md) for directions on adding support for new cities to the map.
