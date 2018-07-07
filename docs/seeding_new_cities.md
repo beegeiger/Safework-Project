@@ -74,7 +74,9 @@
 	- For your new API, first add a Police Department record to the Database. For Example:
 
 		Police9 = Police(police_dept_id=9, name="New York Police Department", city="New York", state="NY")
+		
 		db.session.add(Police9)
+		
 		db.session.commit
 
 		- Make sure you add a new unique police_dept_id number and then actually add and commit it to the session. Note that a single city may actually have multiple law enforcement agencies publishing in multiple API's, which is why the police dept is separated from the source record.
@@ -82,8 +84,12 @@
 	- Then add a Source Record (referencing the appropriate police_dept_id number) to the dbase. For example:
 
 		source11 = Source(source_id=11, s_name="socrata", police_dept_id=9, s_description="NYPD Socrata API Historic Data", url="https://data.cityofnewyork.us/resource/9s4h-37hy.json?$where=pd_desc%20like%20%27%25PROST%25%27&$limit=50000", s_type="gov api")
+		
 		db.session.add(source11)
+		
 		db.session.commit
 
 ### Actually Adding the Incident Data
 - Look at the table for Incidents in the model.py file to see the fields applicable...Most, like the city and datetime are pretty self-explanatory. Make sure you find the police report ID (THEIR unique field for each incident) so you can add that to the police_rec_num field for the incident.
+
+- Look at the function "add_incident_data" and use it as a template for seeding the new city. You can either make a standalone function or add it as another "elif" to the add_incident_data_start function. Eventually, this should be all be uniform, but formatting the seed file is a relatively low priority.
