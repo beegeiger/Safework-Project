@@ -201,7 +201,7 @@ def add_incident_data_start(source_nums):
 add_incident_data_start([3, 4, 5, 6, 7, 8, 9, 10, 11])
 
 def add_incident_data(source_nums):
-	"""Basic Template for adding Incident Source API's. MUST be customized by source."""
+	"""Example Basic Template for adding Incident Source API's. MUST be customized by source."""
 	with app.app_context():
 		sour = Source.query.filter_by(source_id=s_num).one()
 		incident_info = requests.get(sour.url).json()

@@ -626,10 +626,11 @@ def pop_order(forum_id, page_num=1):
     #Renders Page
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, user=user,
                            porn=porn, dance=dance, phone=phone, posts=posts, 
-                           child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar, post_index=post_index, current_page=1,
-                               cam_query=cam_query, dom_query=dom_query, escort_query=escort_query,
-                               porn_query=porn_query, dance_query=dance_query, phone_query=phone_query,
-                               sugar_query=sugar_query, other_query=other_query)
+                           child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar,
+                           post_index=post_index, current_page=1,
+                           cam_query=cam_query, dom_query=dom_query, escort_query=escort_query,
+                           porn_query=porn_query, dance_query=dance_query, phone_query=phone_query,
+                           sugar_query=sugar_query, other_query=other_query)
 
 
 @app.route("/report", methods=["GET"])
@@ -735,7 +736,8 @@ def edit_profile():
     else:
         flash('Your e-mail or password was incorrect! Please try again or Register.')
         return render_template("edit_profile.html", email=user.email, username=user.username,
-                               fname=user.fname, tagline=user.tagline, location=user.location, lname=user.lname, about_me=user.description)
+                               fname=user.fname, tagline=user.tagline, location=user.location,
+                               lname=user.lname, about_me=user.description)
 
 @app.route("/contact")
     """Renders the contact page (Tested)"""
