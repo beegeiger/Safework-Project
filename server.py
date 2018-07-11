@@ -6,7 +6,7 @@ import flask
 import bcrypt
 import bcrypt
 import math
-# import config
+import config
 import json
 import datetime
 from datetime import datetime
