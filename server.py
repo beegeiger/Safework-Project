@@ -6,7 +6,7 @@ import flask
 import bcrypt
 import bcrypt
 import math
-import config
+# import config
 import json
 import datetime
 from datetime import datetime
@@ -16,7 +16,7 @@ from flask import (Flask, render_template, redirect, request, flash,
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (update, asc, desc)
-from model import Forum, Post, User, Incident, Police, Source, Like, Flag, connect_to_db, db
+# from model import Forum, Post, User, Incident, Police, Source, Like, Flag, connect_to_db, db
 import requests
 # from secrets_env import CLIENT_ID
 
@@ -740,12 +740,10 @@ def edit_profile():
                                lname=user.lname, about_me=user.description)
 
 @app.route("/contact")
-    """Renders the contact page (Tested)"""
 def contact_us():
     return render_template("contact.html")
 
 @app.route("/resources")
-    """Renders the resources page (Tested)"""
 def resources():
     return render_template("resources.html")
 
