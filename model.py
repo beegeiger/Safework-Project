@@ -294,6 +294,4 @@ if __name__ == "__main__":
 
 	
 	connect_to_db(app, 'postgresql:///safework')
-	print "Connected to DB." 
-
-
+	print "Connected to DB."
