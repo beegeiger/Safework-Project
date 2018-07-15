@@ -11,7 +11,7 @@
         {% block head %} {% endblock %}
     <style>
     body {
-    background: url("/static/img/103.jpg") no-repeat;
+    background: url("/static/img/8.gif") no-repeat;
       background-color: black;
       -webkit-background-size: cover;
       -moz-background-size: cover;
@@ -100,6 +100,11 @@
         font-family: 'Chela One', cursive;
         font-size: 20px;
     }
+    .alert-error {
+        background: #FF1122;
+        color: #fff;
+        margin-right: 30px;
+    }
     </style>
     </head>
 
@@ -179,7 +184,7 @@
     <ul class=flashes>	
         {% with messages = get_flashed_messages() %}
             {% for message in messages %}
-                <div class="alert alert-warning flash-class">{{ message }}</div>
+                <div class="alert alert-error flash-class">{{ message }}</div>
             {% endfor %}
         {% endwith %}
     </ul>
