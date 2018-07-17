@@ -4,27 +4,24 @@
 
 {% endblock %}
 {% block content %}
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<div class="container">
-		<form action="/login" method="POST" class="form-signin"><br>
-			<h2><i class="fa fa-sign-in" aria-hidden="true"></i> Log In</h2><br>
-			<input type=textbox name="email_input" id="email_input" placeholder="Email Id" size="30" required></input><br>
-			<input type="password" name="pw_input" id="pw_input" placeholder="Password" size="30" required></input><br>
+
+<div class="container-fluid">
+ <div class="row">
+    <div class="col-xs-10-offset-1 col-sm-9-offset-1 col-md-6-offset-3 col-lg-3-offset-4" style="margin-left: 10%;">
+
+	<h2>Log In</h2>
+		
+
+		<form action="/login" method="POST"><br>
+			E-mail: <input type=textbox name="email_input" id="email_input" required></input><br>
+			Password: <input type="password" name="pw_input" id="pw_input" required></input><br>
 			<input type="checkbox" onclick="myFunction()">Show Password<br>
-			<br><button class="btn btn-lg btn-primary btn-block" id="signin" type="submit">Sign in</button>
-			<br>&nbsp Don't have an account? &nbsp &nbsp <a href="/register"> Register Here!</a>
-		</form>
+			<br><input type=submit>
+
+		</form><br> Don't have an account? &nbsp &nbsp <a href="/register"> Register Here!</a>
+		</div>
+	</div>
 </div>
-<style>
-	.form-signin {
-		position: relative;
-		height: auto;
-		padding: 15px;
-		font-size: 16px;
-		max-width: 330px;
-		margin: 0 auto;
-	}
-</style>
 
 <script>
 	function myFunction() {
