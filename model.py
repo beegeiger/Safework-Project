@@ -199,11 +199,11 @@ class Flag(db.Model):
 		"""Provide helpful representation when printed."""
 		return "<flag_id={} user_id={} post_id={} flag_type={}>".format(
 			self.flag_id, self.user_id, self.post_id, self.flag_type)
-
+ 
 class Contact(db.Model):
 	"""SafeWalk Contacts"""
 
-		__tablename__ = "contacts"
+	__tablename__ = "contacts"
 
 	contact_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
@@ -217,6 +217,24 @@ class Contact(db.Model):
 		"""Provide helpful representation when printed."""
 		return "<contact_id={} user_id={} name={} email={} phone={} c_type={} c_message={}>".format(
 			self.contact_id, self.user_id, self.name, self.email, self.phone, self.c_type, self.c_message)
+
+class AlertSet(db.model):
+	"""SafeWalk AlertSet"""
+
+	__tablename__ = "alertsets"
+
+	alert_set_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	a_name = db.Column(db.String(96))
+	a_desc = db.Column(db.String(200), nullable=True)
+	start_time = db.Column(db.DateTime)
+	timezone = db.Column(db.String(48), nullable=True)
+	notes = db.Column(db.String(2056), nullable=True)
+
+	def __repr__(self):
+		"""Provide helpful representation when printed."""
+		return "<alert_set_id={} user_id={} a_name={} a_desc={} start_time={} timezone={} notes={}>".format(
+			self.alert_set_id, self.user_id, self.a_name, self.a_desc, self.start_time, self.timezone, self.notes)
 
 ################################################################################
 
