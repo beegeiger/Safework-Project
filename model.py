@@ -200,6 +200,23 @@ class Flag(db.Model):
 		return "<flag_id={} user_id={} post_id={} flag_type={}>".format(
 			self.flag_id, self.user_id, self.post_id, self.flag_type)
 
+class Contact(db.Model):
+	"""SafeWalk Contacts"""
+
+		__tablename__ = "contacts"
+
+	contact_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	name = db.Column(db.String(96))
+	email = db.Column(db.String(200), nullable=True)
+	phone = db.Column(db.Integer, nullable=True)
+	c_type = db.Column(db.String(48), nullable=True)
+	c_message = db.Column(db.String(1028), nullable=True)
+
+	def __repr__(self):
+		"""Provide helpful representation when printed."""
+		return "<contact_id={} user_id={} name={} email={} phone={} c_type={} c_message={}>".format(
+			self.contact_id, self.user_id, self.name, self.email, self.phone, self.c_type, self.c_message)
 
 ################################################################################
 

@@ -747,6 +747,14 @@ def contact_us():
 def resources():
     return render_template("resources.html")
 
+@app.route("/sw_main")
+def sw_main():
+    return render_template("safewalk_main.html")
+
+@app.route("/sw_setup")
+def sw_setup():
+    return render_template("safewalk_setup.html")
+
 #####################################################
 
 if __name__ == "__main__":
