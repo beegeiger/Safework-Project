@@ -180,6 +180,7 @@ class Like(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 	post_id = db.Column(db.Integer, db.ForeignKey('posts.post_id'))
 	like_dislike = db.Column(db.String(24))
+
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
 		return "<like_id={} user_id={} post_id={} like_dislike={}>".format(
@@ -235,6 +236,26 @@ class AlertSet(db.model):
 		"""Provide helpful representation when printed."""
 		return "<alert_set_id={} user_id={} a_name={} a_desc={} start_time={} timezone={} notes={}>".format(
 			self.alert_set_id, self.user_id, self.a_name, self.a_desc, self.start_time, self.timezone, self.notes)
+
+class Alert(db.model):
+	"""SafeWalk AlertSet"""
+
+	__tablename__ = "alerts"
+
+	alert_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	alert_set_id = db.Column(db.Integer, db.ForeignKey('alertsets.alert_set_id'))
+	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	contact_id = db.Column(db.Integer, db.ForeignKey('contacts.contact_id'))
+	active = db.Column(db.Boolean, default=False)
+	sent = db.Column(db.Boolean, default=False)
+	time = db.Column(db.Time)
+	start_time = db.Column(db.DateTime, nullable=True)
+	message = db.Column(db.String(1028), nullable=True)
+
+	def __repr__(self):
+		"""Provide helpful representation when printed."""
+		return "<alert_id={} alert_set_id={} user_id={} contact_id={} active={} sent={} time={} start_time={} message={}>".format(
+			self.alert_id, self.alert_set_id, self.user_id, self.contact_id, self.active, self.sent, self.time, self.start_time, self.message)
 
 ################################################################################
 
