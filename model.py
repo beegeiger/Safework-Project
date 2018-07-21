@@ -220,7 +220,7 @@ class Contact(db.Model):
 		return "<contact_id={} user_id={} name={} email={} phone={} c_type={} c_message={}>".format(
 			self.contact_id, self.user_id, self.name, self.email, self.phone, self.c_type, self.c_message)
 
-class AlertSet(db.model):
+class AlertSet(db.Model):
 	"""SafeWalk AlertSet"""
 
 	__tablename__ = "alertsets"
@@ -238,7 +238,7 @@ class AlertSet(db.model):
 		return "<alert_set_id={} user_id={} a_name={} a_desc={} start_time={} timezone={} notes={}>".format(
 			self.alert_set_id, self.user_id, self.a_name, self.a_desc, self.start_time, self.timezone, self.notes)
 
-class Alert(db.model):
+class Alert(db.Model):
 	"""SafeWalk AlertSet"""
 
 	__tablename__ = "alerts"
@@ -260,7 +260,7 @@ class Alert(db.model):
 		return "<alert_id={} alert_set_id={} user_id={} contact_id1={} contact_id2={} contact_id3={} active={} sent={} time={} start_time={} message={}>".format(
 			self.alert_id, self.alert_set_id, self.user_id, self.contact_id1, self.contact_id2, self.contact_id3, self.active, self.sent, self.time, self.start_time, self.message)
 
-class CheckIn(db.model):
+class CheckIn(db.Model):
 	"""SafeWalk Check-Ins"""
 
 	__tablename__ = "checkins"
@@ -278,14 +278,14 @@ class CheckIn(db.model):
 		return "<check_in_id={} user_id={} notes={} address={} datetime={} lat={} lon={}>".format(
 			self.check_in_id, self.user_id, self.notes, self.address, self.datetime, self.lat, self.lon)
 
-class ReqCheck(db.model):
+class ReqCheck(db.Model):
 	"""Required SafeWalk Check-Ins"""
 
 	__tablename__ = "reqchecks"
 
 	req_check_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-	check_in_id = db.Column(db.Integer, db.ForeignKey('checkins.check_in_id') nullable=True)
+	check_in_id = db.Column(db.Integer, db.ForeignKey('checkins.check_in_id'), nullable=True)
 	alert_id = db.Column(db.Integer, db.ForeignKey('alerts.alert_id'))
 	alert_set_id = db.Column(db.Integer, db.ForeignKey('alertsets.alert_set_id'))
 	datetime = db.Column(db.DateTime)
