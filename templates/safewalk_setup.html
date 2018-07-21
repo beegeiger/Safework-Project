@@ -1,9 +1,20 @@
 {% extends 'base.html' %}
-{% block title %}{% endblock %}
+{% block title %}Alert Set{% endblock %}
 {% block head %}
 
 {% endblock %}
 {% block content %}
-
-
+<div class="gen_div">
+<form action="/alertset" method="POST">
+	<b>What would you like to name this alert set?:</b> <input type=textbox name="set_name" required></input><br>
+	<b>Where are you going and/or what are you doing that you might need this alert?</b><br>
+	<textarea rows="6" cols="50" name="desc"></textarea><br>
+	<b>Do you want your alert set to require recurring check-ins (by a certain time interval) or pre-set check-ins with scheduled pre-set times?</b> Recurring check-ins are best if you aren't sure of your schedule when you go out to work (like with most who work the street). Pre-set check-ins are best if you have a known schedule and/or date with a client. In that case, you can require check-ins shortly after arriving, when the date should end, and/or some period after that (in case you aren't sure of the end time).
+	<input type="radio" name="alert_type" value="recurring" required>
+	<input type="radio" name="alert_type" value="preset" required>
+	<h5>Recurring Alert Set</h5>
+	<b>How often would you like to require checking in with the app? (in minutes):</b><br>
+	<input type="number" name="interval" placeholder="90" min="15" max="1500">
+</form>
+</div>
 {% endblock %}
