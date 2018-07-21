@@ -4,6 +4,23 @@
 
 {% endblock %}
 {% block content %}
+<div class="gen_div">
+<h1>Contacts</h1>
+</div>
 
+<form action="/contacts" method="POST">
+	<b>Contact Name:</b> <input type=textbox name="name"></input><br>
+	<b>Phone Number:</b><input type="tel" name="phone"><br>
+	<b>Email Address:</b><input type="email" name="email"><br>
+	<b>Contact Type:</b>
+	<select name="c_type">
+		<option value="family">Family</option>
+		<option value="friend">Friend</option>
+		<option value="work">Co-Worker</option>
+		<option value="other">Other</option>
+	</select><br>
+	<b>Custom Message For Contact</b>(Optional)<b>:</b><br>
+	<textarea rows="6" cols="50" name="message"></textarea><br>
+</form>
 
 {% endblock %}

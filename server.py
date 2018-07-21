@@ -748,12 +748,16 @@ def resources():
     return render_template("resources.html")
 
 @app.route("/sw_main")
-def sw_main():
+def safewalk_main():
     return render_template("safewalk_main.html")
 
 @app.route("/sw_setup")
-def sw_setup():
+def safewalk_setup():
     return render_template("safewalk_setup.html")
+
+@app.route("/contacts")
+def contact_page():
+    return render_template("contacts.html")
 
 #####################################################
 
