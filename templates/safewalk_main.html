@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
-{% block title %}{% endblock %}
+{% block title %}SafeWalk{% endblock %}
 {% block head %}
 
 {% endblock %}
 {% block content %}
-
+<h1>SafeWalk Safety Alert Sets</h1>
+<form method="GET" action="/sw_setup">
+    <button type="submit">Add New Alert Set</button>
+</form>
 
 {% endblock %}

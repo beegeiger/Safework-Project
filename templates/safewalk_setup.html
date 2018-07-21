@@ -23,15 +23,15 @@
 
 	<h5>Scheduled Alert Set</h5>
 	<b>What is your timezone?:</b>
-	<select name="DropDownTimezone" id="DropDownTimezone">
+	<select name="timezone" id="DropDownTimezone">
 		<option value="-12.0">(GMT -12:00) Eniwetok, Kwajalein</option>
 		<option value="-11.0">(GMT -11:00) Midway Island, Samoa</option>
 		<option value="-10.0">(GMT -10:00) Hawaii</option>
 		<option value="-9.0">(GMT -9:00) Alaska</option>
-		<option value="-8.0">(GMT -8:00) Pacific Time (US &amp; Canada)</option>
-		<option value="-7.0">(GMT -7:00) Mountain Time (US &amp; Canada)</option>
-		<option value="-6.0">(GMT -6:00) Central Time (US &amp; Canada), Mexico City</option>
-		<option value="-5.0">(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima</option>
+		<option value="-8.0">(GMT -8:00) Pacific Time (US &amp; Canada), California</option>
+		<option value="-7.0">(GMT -7:00) Mountain Time (US &amp; Canada), Colorado</option>
+		<option value="-6.0">(GMT -6:00) Central Time (US &amp; Canada), Mexico City; Louisiana</option>
+		<option value="-5.0">(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima; New York</option>
 		<option value="-4.0">(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz</option>
 		<option value="-3.5">(GMT -3:30) Newfoundland</option>
 		<option value="-3.0">(GMT -3:00) Brazil, Buenos Aires, Georgetown</option>
@@ -60,6 +60,8 @@
 	<b>What Date/Time should a check-in be required?</b> <input type="datetime-local" name="check-time"><br>
 	(You'll receive texts reminding you to check in 30 and 15 minutes before your required check-ins)<br>
 	Which contact(s) would you like to be alerted if you miss this check-in? (select up to 3)<br>
+	<b>Special message to contacts if this specific check-in is missed:</b> 
+	<input type=textbox name="check_mess"></input><br>
 </form>
 <br>
 <form method="GET" action="/contacts">
