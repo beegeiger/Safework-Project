@@ -84,11 +84,12 @@ class User(db.Model):
 	user_type_secondary = db.Column(db.String(256), nullable=True)
 	tagline = db.Column(db.String(100), nullable=True)
 	location = db.Column(db.String(50), nullable=True)
+	user_type = db.Column(db.String(50), default="regular")
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<user_id={} password={} username={} fname={} lname={} email={} description={} picture={} created_at={} edited_at={} user_type_main={} user_type_secondary={}> tagline={} location={}>".format(
-			self.user_id, self.password, self.username, self.fname, self.lname, self.email, self.description, self.picture, self.created_at, self.edited_at, self.user_type_main, self.user_type_secondary, self.tagline, self.location)
+		return "<user_id={} password={} username={} fname={} lname={} email={} description={} picture={} created_at={} edited_at={} user_type_main={} user_type_secondary={}> tagline={} location={} user_type={}>".format(
+			self.user_id, self.password, self.username, self.fname, self.lname, self.email, self.description, self.picture, self.created_at, self.edited_at, self.user_type_main, self.user_type_secondary, self.tagline, self.location, self.user_type)
 
 
 class Incident(db.Model):
@@ -247,6 +248,7 @@ class Alert(db.model):
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 	contact_id1 = db.Column(db.Integer, db.ForeignKey('contacts.contact_id'))
 	contact_id2 = db.Column(db.Integer, db.ForeignKey('contacts.contact_id'), nullable=True)
+	contact_id3 = db.Column(db.Integer, db.ForeignKey('contacts.contact_id'), nullable=True)
 	active = db.Column(db.Boolean, default=False)
 	sent = db.Column(db.Boolean, default=False)
 	time = db.Column(db.Time)
@@ -255,8 +257,8 @@ class Alert(db.model):
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<alert_id={} alert_set_id={} user_id={} contact_id={} active={} sent={} time={} start_time={} message={}>".format(
-			self.alert_id, self.alert_set_id, self.user_id, self.contact_id, self.active, self.sent, self.time, self.start_time, self.message)
+		return "<alert_id={} alert_set_id={} user_id={} contact_id1={} contact_id2={} contact_id3={} active={} sent={} time={} start_time={} message={}>".format(
+			self.alert_id, self.alert_set_id, self.user_id, self.contact_id1, self.contact_id2, self.contact_id3, self.active, self.sent, self.time, self.start_time, self.message)
 
 class CheckIn(db.model):
 	"""SafeWalk Check-Ins"""
