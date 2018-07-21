@@ -257,6 +257,24 @@ class Alert(db.model):
 		return "<alert_id={} alert_set_id={} user_id={} contact_id={} active={} sent={} time={} start_time={} message={}>".format(
 			self.alert_id, self.alert_set_id, self.user_id, self.contact_id, self.active, self.sent, self.time, self.start_time, self.message)
 
+class CheckIn(db.model):
+	"""SafeWalk Check-Ins"""
+
+	__tablename__ = "checkins"
+
+	check_in_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	notes = db.Column(db.String(2056), nullable=True)
+	address = db.Column(db.String(512), nullable=True)
+	datetime = db.Column(db.DateTime)
+	lat = db.Column(db.String(256), nullable=True)
+	lon = db.Column(db.String(256), nullable=True)
+
+	def __repr__(self):
+		"""Provide helpful representation when printed."""
+		return "<check_in_id={} user_id={} notes={} address={} datetime={} lat={} lon={}>".format(
+			self.check_in_id, self.user_id, self.notes, self.address, self.datetime, self.lat, self.lon)
+
 ################################################################################
 
 def example_data():
