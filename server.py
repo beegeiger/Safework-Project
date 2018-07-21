@@ -756,7 +756,7 @@ def safewalk_setup():
     return render_template("safewalk_setup.html")
 
 @app.route("/contacts")
-def contact_page():
+def user_contacts():
     return render_template("contacts.html")
 
 #####################################################
