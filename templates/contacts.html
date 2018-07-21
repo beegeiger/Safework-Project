@@ -8,6 +8,15 @@
 <h1>Your Contacts</h1>
 </div>
 
+{% for contact in contacts %}
+{% set contactloop = loop %}
+<h5>Contact {{ contactloop.index }}</h5>
+Name: {{ contact.name }}<br>
+Phone: {{ contact.phone }}<br>
+Type: {{ contact.type }}<br>
+Message {{ contact.message }}<br><br>
+{% endfor %}
+
 <form action="/contacts" method="POST">
 	<b>Contact Name:</b> <input type=textbox name="name"></input><br>
 	<b>Phone Number:</b><input type="tel" name="phone"><br>

@@ -772,7 +772,7 @@ def user_contacts():
     new_contact = Contact(user_id=user.user_id, name=name, email=email, phone=phone, c_type=c_type, c_message=message)
     db.session.add(new_contact)
     db.session.commit()
-    return redirect("contacts.html")
+    return redirect("/contacts")
 
 #####################################################
 
