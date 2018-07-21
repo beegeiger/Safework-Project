@@ -245,7 +245,8 @@ class Alert(db.model):
 	alert_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	alert_set_id = db.Column(db.Integer, db.ForeignKey('alertsets.alert_set_id'))
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-	contact_id = db.Column(db.Integer, db.ForeignKey('contacts.contact_id'))
+	contact_id1 = db.Column(db.Integer, db.ForeignKey('contacts.contact_id'))
+	contact_id2 = db.Column(db.Integer, db.ForeignKey('contacts.contact_id'), nullable=True)
 	active = db.Column(db.Boolean, default=False)
 	sent = db.Column(db.Boolean, default=False)
 	time = db.Column(db.Time)
@@ -274,6 +275,25 @@ class CheckIn(db.model):
 		"""Provide helpful representation when printed."""
 		return "<check_in_id={} user_id={} notes={} address={} datetime={} lat={} lon={}>".format(
 			self.check_in_id, self.user_id, self.notes, self.address, self.datetime, self.lat, self.lon)
+
+class ReqCheck(db.model):
+	"""Required SafeWalk Check-Ins"""
+
+	__tablename__ = "reqchecks"
+
+	req_check_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	check_in_id = db.Column(db.Integer, db.ForeignKey('checkins.check_in_id') nullable=True)
+	alert_id = db.Column(db.Integer, db.ForeignKey('alerts.alert_id'))
+	alert_set_id = db.Column(db.Integer, db.ForeignKey('alertsets.alert_set_id'))
+	datetime = db.Column(db.DateTime)
+	checked = db.Column(db.Boolean, nullable=True)
+
+
+	def __repr__(self):
+		"""Provide helpful representation when printed."""
+		return "<req_check_id={} user_id={} check_in_id={} alert_id={} alert_set_id={} datetime={} checked={}>".format(
+			self.req_check_id, self.user_id, self.check_in_id, self.alert_id, self.alert_set_id, self.datetime, self.checked)
 
 ################################################################################
 
