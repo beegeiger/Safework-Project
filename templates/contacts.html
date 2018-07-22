@@ -15,6 +15,9 @@ Name: {{ contact.name }}<br>
 Phone: {{ contact.phone }}<br>
 Type: {{ contact.c_type }}<br>
 Message {{ contact.c_message }}<br><br>
+<form action="/del_contact/{{ contact.contact_id }}">
+	<button type="submit">Delete Contact</button>
+</form>
 {% endfor %}
 
 <form action="/contacts" method="POST">
