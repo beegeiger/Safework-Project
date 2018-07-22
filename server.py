@@ -783,6 +783,20 @@ def delete_contact(contact_num):
     db.session.commit()
     return redirect("/contacts")
 
+@app.route("/edit_contact/<contact_num>")
+def edit_contact(contact_num):
+    name = request.form['name']
+    phone = request.form['phone']
+    email = request.form['email']
+    c_type = request.form['c_type']
+    message = request.form['message']
+    contact = Contact.query.filter_by(contact_id=contact_num).one()
+    (db.session.query(Contact).filter_by(contact_id=contact_num).update(
+    {'name':name, 'email':email, 'phone':phone, 'c_type':c_type, 'c_message':message}))
+    db.session.commit()
+    return redirect("/contacts")
+
+
 #####################################################
 
 if __name__ == "__main__":
