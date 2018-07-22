@@ -768,7 +768,7 @@ def add_contact():
     name = request.form['name']
     phone = request.form['phone']
     email = request.form['email']
-    c_type = request.form['type']
+    c_type = request.form['c_type']
     message = request.form['message']
     user = User.query.filter_by(email=session['current_user']).one()
     new_contact = Contact(user_id=user.user_id, name=name, email=email, phone=phone, c_type=c_type, c_message=message)

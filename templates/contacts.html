@@ -13,8 +13,8 @@
 <h5>Contact {{ contactloop.index }}</h5>
 Name: {{ contact.name }}<br>
 Phone: {{ contact.phone }}<br>
-Type: {{ contact.type }}<br>
-Message {{ contact.message }}<br><br>
+Type: {{ contact.c_type }}<br>
+Message {{ contact.c_message }}<br><br>
 {% endfor %}
 
 <form action="/contacts" method="POST">
