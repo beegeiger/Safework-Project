@@ -211,7 +211,7 @@ class Contact(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 	name = db.Column(db.String(96))
 	email = db.Column(db.String(200), nullable=True)
-	phone = db.Column(db.Integer, nullable=True)
+	phone = db.Column(db.String(48), nullable=True)
 	c_type = db.Column(db.String(48), nullable=True)
 	c_message = db.Column(db.String(1028), nullable=True)
 
