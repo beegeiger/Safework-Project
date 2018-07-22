@@ -758,11 +758,13 @@ def safewalk_setup():
 @app.route("/contacts")
 def user_contacts():
     user = User.query.filter_by(email=session['current_user']).one()
+    print user
     contacts = Contact.query.filter_by(user_id=user.user_id).all()
+    print contacts
     return render_template("contacts.html", contacts=contacts)
 
 @app.route("/contacts", methods=["POST"])
-def user_contacts():
+def add_contact():
     name = request.form['name']
     phone = request.form['phone']
     email = request.form['email']
@@ -779,4 +781,4 @@ def user_contacts():
 if __name__ == "__main__":
     connect_to_db(app, 'postgresql:///safework')
     print "Connected to DB."
-    app.run()
+    app.run(debug=True)
