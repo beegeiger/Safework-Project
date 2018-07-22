@@ -776,6 +776,13 @@ def add_contact():
     db.session.commit()
     return redirect("/contacts")
 
+@app.route("/del_contact/<contact_num>")
+def delete_contact(contact_num):
+    contact = Contact.query.filter_by(contact_id=contact_num).one()
+    db.session.delete(contact)
+    db.session.commit()
+    return redirect("/contacts")
+
 #####################################################
 
 if __name__ == "__main__":
