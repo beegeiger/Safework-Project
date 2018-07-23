@@ -10,20 +10,20 @@
 
 {% for contact in contacts %}
 {% set contactloop = loop %}
+<div id="contact_div{{ contactloop.index }}">
 <h5>Contact {{ contactloop.index }}</h5>
 Name: {{ contact.name }}<br>
 Phone: {{ contact.phone }}<br>
 Type: {{ contact.c_type }}<br>
 Message {{ contact.c_message }}<br><br>
-<form action="/del_contact/{{ contact.contact_id }}">
-	<button type="submit">Delete Contact</button>
-</form>
-<form>
-	<button type="submit" id="edit_button{{ contactloop.index }}">Edit Contact</button>
-</form>
 
-<form action="/edit_contact/{{ contact.contact_id }}" method="POST">
-	<b>Contact Name:</b> <input type=textbox name="name">{{ contact.name }}</input><br>
+<a href="/del_contact/{{ contact.contact_id }}" id="del_button{{ contactloop.index }}">Delete Contact</a>
+<a href="" id="edit_button{{ contactloop.index }}">Edit Contact</a>
+
+
+</div>
+<form action="/edit_contact/{{ contact.contact_id }}" method="POST" id="edit_form{{ contactloop.index }}" class="hidden">
+	<b>Contact Name:</b> <input type=textbox name="name" value='{{ contact.name }}'></input><br>
 	<b>Phone Number:</b><input type="tel" name="phone" value="{{ contact.phone }}"><br>
 	<b>Email Address:</b><input type="email" name="email"><br>
 	<b>Contact Type:</b>
@@ -39,6 +39,16 @@ Message {{ contact.c_message }}<br><br>
 
 	<button type="submit">Submit Changes</button>
 </form>
+
+<script>
+	$(document).ready(function(){
+	    $( "#edit_button{{ contactloop.index }}" ).click(function(){
+	        $( "#contact_div{{ contactloop.index }}" ).hide();
+	        $( "#edit_form{{ contactloop.index }}" ).show();
+	        console.log("Reply Button is working");
+	    });
+	});
+</script>
 {% endfor %}
 
 <form action="/contacts" method="POST">
