@@ -758,9 +758,7 @@ def safewalk_setup():
 @app.route("/contacts")
 def user_contacts():
     user = User.query.filter_by(email=session['current_user']).one()
-    print user
-    contacts = Contact.query.filter_by(user_id=user.user_id).all()
-    print contacts
+    contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
     return render_template("contacts.html", contacts=contacts)
 
 @app.route("/contacts", methods=["POST"])
@@ -783,7 +781,7 @@ def delete_contact(contact_num):
     db.session.commit()
     return redirect("/contacts")
 
-@app.route("/edit_contact/<contact_num>")
+@app.route("/edit_contact/<contact_num>", methods=["POST"])
 def edit_contact(contact_num):
     name = request.form['name']
     phone = request.form['phone']
@@ -791,7 +789,7 @@ def edit_contact(contact_num):
     c_type = request.form['c_type']
     message = request.form['message']
     contact = Contact.query.filter_by(contact_id=contact_num).one()
-    (db.session.query(Contact).filter_by(contact_id=contact_num).update(
+    ((db.session.query(Contact).filter_by(contact_id=contact_num)).update(
     {'name':name, 'email':email, 'phone':phone, 'c_type':c_type, 'c_message':message}))
     db.session.commit()
     return redirect("/contacts")
