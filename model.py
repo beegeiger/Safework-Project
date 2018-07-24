@@ -251,7 +251,8 @@ class Alert(db.Model):
 	contact_id3 = db.Column(db.Integer, db.ForeignKey('contacts.contact_id'), nullable=True)
 	active = db.Column(db.Boolean, default=False)
 	sent = db.Column(db.Boolean, default=False)
-	time = db.Column(db.Time)
+	time = db.Column(db.Time, nullable=True)
+	interval = db.Column(db.Integer, nullable=True)
 	start_time = db.Column(db.DateTime, nullable=True)
 	message = db.Column(db.String(1028), nullable=True)
 
