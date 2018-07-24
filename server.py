@@ -796,6 +796,20 @@ def edit_contact(contact_num):
     db.session.commit()
     return redirect("/contacts")
 
+@app.route("/alertset", methods=["POST"])
+def add_alertset():
+    name = request.form['set_name']
+    desc = request.form['descri']
+    alert_type = request.form['alert_type']
+    if alert_type == "recurring":
+        interval = request.form['interval']
+        contacts = request.form.getlist('contact')
+        print contacts
+    # contact = Contact.query.filter_by(contact_id=contact_num).one()
+    # ((db.session.query(Contact).filter_by(contact_id=contact_num)).update(
+    # {'name':name, 'email':email, 'phone':phone, 'c_type':c_type, 'c_message':message}))
+    # db.session.commit()
+    return redirect("/sw_setup")
 
 #####################################################
 
