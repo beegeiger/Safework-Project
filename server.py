@@ -753,7 +753,9 @@ def safewalk_main():
 
 @app.route("/sw_setup")
 def safewalk_setup():
-    return render_template("safewalk_setup.html")
+    user = User.query.filter_by(email=session['current_user']).one()
+    contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
+    return render_template("safewalk_setup.html", contacts=contacts)
 
 @app.route("/contacts")
 def user_contacts():
