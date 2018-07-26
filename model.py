@@ -229,9 +229,10 @@ class AlertSet(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 	a_name = db.Column(db.String(96))
 	a_desc = db.Column(db.String(200), nullable=True)
-	start_time = db.Column(db.DateTime)
+	start_time = db.Column(db.DateTime, nullable=True)
 	timezone = db.Column(db.String(48), nullable=True)
 	notes = db.Column(db.String(2056), nullable=True)
+	interval = db.Column(db.Integer, nullable=True)
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
