@@ -751,11 +751,18 @@ def resources():
 def safewalk_main():
     return render_template("safewalk_main.html")
 
-@app.route("/sw_setup")
-def safewalk_setup():
+@app.route("/rec_alerts")
+def recurring_alerts():
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
     return render_template("recurring_alerts.html", contacts=contacts)
+
+@app.route("/sched_alerts")
+def scheduled_alerts():
+    user = User.query.filter_by(email=session['current_user']).one()
+    contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
+    return render_template("scheduled_alerts.html", contacts=contacts)
+
 
 @app.route("/contacts")
 def user_contacts():
