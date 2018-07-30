@@ -844,11 +844,12 @@ def add_sched_alertset():
     db.session.add(new_alert_set)
     db.session.commit()
     alert_set = AlertSet.query.filter(AlertSet.user_id==user.user_id and AlertSet.a_name==name).first()
-    return redirect("/sched_alert/" + str(alert_set.alert_set_id))
+    return redirect("/edit_schedset/" + str(alert_set.alert_set_id))
 
-@app.route("/edit_schedset")
+@app.route("/edit_schedset/<alert_set_id>")
 def edit_schedset_page():
-    return render_template("edit_sched_alerts.html")
+    alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
+    return render_template("edit_sched_alerts.html", alert_set=alert_set)
 
 # @app.route("/add_schedset", methods=["POST"])
 # def add_sched_alertset():
