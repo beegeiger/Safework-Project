@@ -229,15 +229,16 @@ class AlertSet(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 	a_name = db.Column(db.String(96))
 	a_desc = db.Column(db.String(200), nullable=True)
-	start_time = db.Column(db.DateTime, nullable=True)
+	start_time = db.Column(db.Time, nullable=True)
+	date = db.Column(db.Date, nullable=True)
 	timezone = db.Column(db.String(48), nullable=True)
 	notes = db.Column(db.String(2056), nullable=True)
 	interval = db.Column(db.Integer, nullable=True)
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<alert_set_id={} user_id={} a_name={} a_desc={} start_time={} timezone={} notes={}>".format(
-			self.alert_set_id, self.user_id, self.a_name, self.a_desc, self.start_time, self.timezone, self.notes)
+		return "<alert_set_id={} user_id={} a_name={} a_desc={} start_time={} date={} timezone={} notes={}>".format(
+			self.alert_set_id, self.user_id, self.a_name, self.a_desc, self.start_time, self.date, self.timezone, self.notes)
 
 class Alert(db.Model):
 	"""SafeWalk AlertSet"""
@@ -253,14 +254,15 @@ class Alert(db.Model):
 	active = db.Column(db.Boolean, default=False)
 	sent = db.Column(db.Boolean, default=False)
 	time = db.Column(db.Time, nullable=True)
+	date = db.Column(db.Date, nullable=True)
 	interval = db.Column(db.Integer, nullable=True)
 	start_time = db.Column(db.DateTime, nullable=True)
 	message = db.Column(db.String(1028), nullable=True)
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<alert_id={} alert_set_id={} user_id={} contact_id1={} contact_id2={} contact_id3={} active={} sent={} time={} start_time={} message={}>".format(
-			self.alert_id, self.alert_set_id, self.user_id, self.contact_id1, self.contact_id2, self.contact_id3, self.active, self.sent, self.time, self.start_time, self.message)
+		return "<alert_id={} alert_set_id={} user_id={} contact_id1={} contact_id2={} contact_id3={} active={} sent={} time={} date={} start_time={} message={}>".format(
+			self.alert_id, self.alert_set_id, self.user_id, self.contact_id1, self.contact_id2, self.contact_id3, self.active, self.sent, self.time, self.date, self.start_time, self.message)
 
 class CheckIn(db.Model):
 	"""SafeWalk Check-Ins"""
@@ -271,14 +273,15 @@ class CheckIn(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 	notes = db.Column(db.String(2056), nullable=True)
 	address = db.Column(db.String(512), nullable=True)
-	datetime = db.Column(db.DateTime)
+	time = db.Column(db.Time, nullable=True)
+	date = db.Column(db.Date, nullable=True)
 	lat = db.Column(db.String(256), nullable=True)
 	lon = db.Column(db.String(256), nullable=True)
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<check_in_id={} user_id={} notes={} address={} datetime={} lat={} lon={}>".format(
-			self.check_in_id, self.user_id, self.notes, self.address, self.datetime, self.lat, self.lon)
+		return "<check_in_id={} user_id={} notes={} address={} time={} date={} lat={} lon={}>".format(
+			self.check_in_id, self.user_id, self.notes, self.address, self.time, self.date, self.lat, self.lon)
 
 class ReqCheck(db.Model):
 	"""Required SafeWalk Check-Ins"""
@@ -290,14 +293,15 @@ class ReqCheck(db.Model):
 	check_in_id = db.Column(db.Integer, db.ForeignKey('checkins.check_in_id'), nullable=True)
 	alert_id = db.Column(db.Integer, db.ForeignKey('alerts.alert_id'))
 	alert_set_id = db.Column(db.Integer, db.ForeignKey('alertsets.alert_set_id'))
-	datetime = db.Column(db.DateTime)
+	time = db.Column(db.Time, nullable=True)
+	date = db.Column(db.Date, nullable=True)
 	checked = db.Column(db.Boolean, nullable=True)
 
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<req_check_id={} user_id={} check_in_id={} alert_id={} alert_set_id={} datetime={} checked={}>".format(
-			self.req_check_id, self.user_id, self.check_in_id, self.alert_id, self.alert_set_id, self.datetime, self.checked)
+		return "<req_check_id={} user_id={} check_in_id={} alert_id={} alert_set_id={} time={} date={} checked={}>".format(
+			self.req_check_id, self.user_id, self.check_in_id, self.alert_id, self.alert_set_id, self.time, self.date, self.checked)
 
 ################################################################################
 
