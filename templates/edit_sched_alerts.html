@@ -4,16 +4,23 @@
 
 {% endblock %}
 {% block content %}
-<h1>Alert: 
+<div class="gen_div" id="title_div">
+<h1>Alert: {{ alert_set.a_name }}</h1>
+<h2>Alert Description: {{ alert_set.a_desc }}</h2>
+<button type="button" id="title_but">Edit Name/Description</button>
+</div>
 
-<h1 style="text-align: center;">New Scheduled Alert Set</h1>
+
 <div class="gen_div">
-<form action="/add_schedset" method="POST">
-	<b>What would you like to name this alert set?:</b> <input type=textbox name="set_name" required></input><br>
+<form action="/edit_set" method="POST" id="set_form" class="hidden">
+	<b>What would you like to name this alert set?:</b> <input type=textbox name="set_name" value="{{ alert_set.a_name }}"></input><br>
 	<b>Where are you going and/or what are you doing that you might need this alert?</b><br>
-	<textarea rows="2" cols="50" name="descri"></textarea><br>
-	<button type="submit">Create Alert Set</button>
+	<textarea rows="2" cols="50" name="descri" value="{{ alert_set.a_desc }}"></textarea><br>
+	<button type="submit">Save Alert Set</button>
 </form>
+
+
+
 <!-- 	<b>Do you want your alert set to require recurring check-ins (by a certain time interval) or pre-set check-ins with scheduled pre-set times?</b> Recurring check-ins are best if you aren't sure of your schedule when you go out to work (like with most who work the street). Pre-set check-ins are best if you have a known schedule and/or date with a client. In that case, you can require check-ins shortly after arriving, when the date should end, and/or some period after that (in case you aren't sure of the end time).<br> -->
 
 <!-- <div id="scheduled">
@@ -73,5 +80,13 @@
 <br>
 
 </div> --> -->
-
+<script>
+	$(document).ready(function(){
+	    $( "#title_but" ).click(function(){
+	        $( "#title_div" ).hide();
+	        $( "#set_form" ).show();
+	        console.log("Title Button is working");
+	    });
+	});
+</script>
 {% endblock %}
