@@ -832,30 +832,53 @@ def add_sched_alertset():
     name = request.form['set_name']
     desc = request.form['descri']
     timezone = request.form['timezone']
-    print timezone
-    contacts = request.form.getlist('contact')
-    date_time = request.args.get('check_time')
-    print type(date_time)
-    print date_time
-    print datetime.now()
-    # user = User.query.filter_by(email=session['current_user']).one()
-    # new_alert_set = AlertSet(user_id=user.user_id, a_name=name, a_desc=desc, interval=interval)
-    # db.session.add(new_alert_set)
-    # db.session.commit()
-    # alert_set = AlertSet.query.filter(AlertSet.user_id==user.user_id and AlertSet.a_name==name).first()
-    # contact1 = int(contacts[0])
-    # contact2 = None
-    # contact3 = None
-    # if len(contacts) > 1:
-    #     contact2 = int(contacts[1])
-    # if len(contacts) > 2:
-    #     contact3 = int(contacts[2])    
-    # new_alert = Alert(alert_set_id=alert_set.alert_set_id, user_id=user.user_id, contact_id1=contact1,
-    #                   contact_id2=contact2, contact_id3=contact3, interval=interval, message=desc)
-    # db.session.add(new_alert)
-    # db.session.commit()
-    return redirect("/sched_alerts")
 
+    contacts = request.form.getlist('contact')
+    date = request.form['date']
+    if not date:
+        date = None
+    time = request.form['time']
+
+    user = User.query.filter_by(email=session['current_user']).one()
+    new_alert_set = AlertSet(user_id=user.user_id, a_name=name, a_desc=desc, date=date, timezone=timezone)
+    db.session.add(new_alert_set)
+    db.session.commit()
+    alert_set = AlertSet.query.filter(AlertSet.user_id==user.user_id and AlertSet.a_name==name).first()
+    return redirect("/sched_alert/" + str(alert_set.alert_set_id))
+
+@app.route("/edit_schedset")
+def edit_schedset_page():
+    return render_template("edit_sched_alerts.html")
+
+# @app.route("/add_schedset", methods=["POST"])
+# def add_sched_alertset():
+#     name = request.form['set_name']
+#     desc = request.form['descri']
+#     timezone = request.form['timezone']
+
+#     contacts = request.form.getlist('contact')
+#     date = request.form['date']
+#     if not date:
+#         date = None
+#     time = request.form['time']
+
+#     user = User.query.filter_by(email=session['current_user']).one()
+#     new_alert_set = AlertSet(user_id=user.user_id, a_name=name, a_desc=desc, date=date, timezone=timezone)
+#     db.session.add(new_alert_set)
+#     db.session.commit()
+#     alert_set = AlertSet.query.filter(AlertSet.user_id==user.user_id and AlertSet.a_name==name).first()
+#     contact1 = int(contacts[0])
+#     contact2 = None
+#     contact3 = None
+#     if len(contacts) > 1:
+#         contact2 = int(contacts[1])
+#     if len(contacts) > 2:
+#         contact3 = int(contacts[2])    
+#     new_alert = Alert(alert_set_id=alert_set.alert_set_id, user_id=user.user_id, contact_id1=contact1,
+#                       contact_id2=contact2, contact_id3=contact3, interval=interval, message=desc)
+#     db.session.add(new_alert)
+#     db.session.commit()
+#     return redirect("/sched_alerts")
 #####################################################
 
 if __name__ == "__main__":
