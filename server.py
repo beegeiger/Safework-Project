@@ -832,24 +832,20 @@ def add_sched_alertset():
     name = request.form['set_name']
     desc = request.form['descri']
     timezone = request.form['timezone']
-
-    contacts = request.form.getlist('contact')
-    date = request.form['date']
-    if not date:
-        date = None
-    time = request.form['time']
-
     user = User.query.filter_by(email=session['current_user']).one()
-    new_alert_set = AlertSet(user_id=user.user_id, a_name=name, a_desc=desc, date=date, timezone=timezone)
+    new_alert_set = AlertSet(user_id=user.user_id, a_name=name, a_desc=desc, timezone=timezone)
     db.session.add(new_alert_set)
     db.session.commit()
+
     alert_set = AlertSet.query.filter(AlertSet.user_id==user.user_id and AlertSet.a_name==name).first()
     return redirect("/edit_schedset/" + str(alert_set.alert_set_id))
 
 @app.route("/edit_schedset/<alert_set_id>")
-def edit_schedset_page():
+def edit_schedset_page(alert_set_id):
+    user = User.query.filter_by(email=session['current_user']).one()
     alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
-    return render_template("edit_sched_alerts.html", alert_set=alert_set)
+    contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
+    return render_template("edit_sched_alerts.html", alert_set=alert_set, contacts=contacts)
 
 # @app.route("/add_schedset", methods=["POST"])
 # def add_sched_alertset():
