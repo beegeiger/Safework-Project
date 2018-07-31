@@ -103,6 +103,8 @@ def register_process():
     location = ""
     #Sets variables equal to the form values
     email_input = request.form['email_input']
+    email2 = request.form['email_input2']
+    phone = request.form['phone']
     pw_input = request.form['password'].encode('utf-8')
     username = request.form['username']
     tagline = request.form['tagline']
@@ -110,6 +112,7 @@ def register_process():
     hashed_word = bcrypt.hashpw(pw_input, bcrypt.gensalt())
     user_type = request.form['user_type']
     second_type = request.form['2nd']
+    timezone = request.form['timezone']
 
     """Checks to make sure values exist in the optional fields
                 before setting the variables equal to the form values"""
@@ -149,7 +152,8 @@ def register_process():
     else:
         new_user = User(email=email_input, password=hashed_word, username=username, fname=fname,
                         lname=lname, description=about_me, user_type_main=user_type,
-                        user_type_secondary=second_type, tagline=tagline, location=location)
+                        user_type_secondary=second_type, tagline=tagline, location=location,
+                        email2=email2, phone=phone, timezone=timezone)
         db.session.add(new_user)
         db.session.commit()
         #Code isn't working:
@@ -702,7 +706,7 @@ def edit_page():
     user = User.query.filter_by(email=session['current_user']).one()
 
     return render_template("edit_profile.html", email=user.email, username=user.username,
-                           fname=user.fname, lname=user.lname, about_me=user.description)
+                           fname=user.fname, lname=user.lname, about_me=user.description, user=user)
 
 
 
@@ -720,6 +724,9 @@ def edit_profile():
     location = request.form['location']
     lname = request.form['lname']
     about_me = request.form['about_me']
+    email2 = request.form['email_input2']
+    phone = request.form['phone']
+    timezone = request.form['timezone']
     user = User.query.filter_by(email=session['current_user']).one()
 
     #Checks that the password matches the user's password. If so, updates the user's info
@@ -727,7 +734,8 @@ def edit_profile():
         (db.session.query(User).filter(
             User.email == session['current_user'], User.password == pw_input).update(
                 {'fname': fname, 'lname': lname, 'email': email_input, 'password': new_password,
-                 'username': username, 'description': about_me}))
+                 'username': username, 'description': about_me, 'email2': email2, 'phone': phone,
+                 'timezone': timezone}))
         db.session.commit()
         flash('Your Profile was Updated!')
         return redirect("/profile")
@@ -735,9 +743,7 @@ def edit_profile():
     #Otherwise, it flashes a message and redirects to the login page
     else:
         flash('Your e-mail or password was incorrect! Please try again or Register.')
-        return render_template("edit_profile.html", email=user.email, username=user.username,
-                               fname=user.fname, tagline=user.tagline, location=user.location,
-                               lname=user.lname, about_me=user.description)
+        return redirect("/edit_profile")
 
 @app.route("/contact")
 def contact_us():
