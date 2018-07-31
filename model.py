@@ -75,6 +75,7 @@ class User(db.Model):
 	fname = db.Column(db.String(64), nullable=True)
 	lname = db.Column(db.String(64), nullable=True)
 	email = db.Column(db.String(256))
+	email2 = db.Column(db.String(256), nullable=True)
 	description = db.Column(db.String(512), nullable=True)
 	#Image Attachment Documentation at http://sqlalchemy-imageattach.readthedocs.io/en/1.1.0/
 	picture = db.Column(db.String(256), nullable=True)
@@ -85,6 +86,8 @@ class User(db.Model):
 	tagline = db.Column(db.String(100), nullable=True)
 	location = db.Column(db.String(50), nullable=True)
 	user_type = db.Column(db.String(50), default="regular")
+	timezone = db.Column(db.String(48))
+	phone = db.Column(db.String(28), nullable=True)
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
@@ -231,7 +234,6 @@ class AlertSet(db.Model):
 	a_desc = db.Column(db.String(200), nullable=True)
 	start_time = db.Column(db.Time, nullable=True)
 	date = db.Column(db.Date, nullable=True)
-	timezone = db.Column(db.String(48), nullable=True)
 	notes = db.Column(db.String(2056), nullable=True)
 	interval = db.Column(db.Integer, nullable=True)
 
