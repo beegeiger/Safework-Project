@@ -837,12 +837,10 @@ def add_rec_alertset():
 def add_sched_alertset():
     name = request.form['set_name']
     desc = request.form['descri']
-    timezone = request.form['timezone']
     user = User.query.filter_by(email=session['current_user']).one()
-    new_alert_set = AlertSet(user_id=user.user_id, a_name=name, a_desc=desc, timezone=timezone)
+    new_alert_set = AlertSet(user_id=user.user_id, a_name=name, a_desc=desc)
     db.session.add(new_alert_set)
     db.session.commit()
-
     alert_set = AlertSet.query.filter(AlertSet.user_id==user.user_id and AlertSet.a_name==name).first()
     return redirect("/edit_schedset/" + str(alert_set.alert_set_id))
 
