@@ -819,7 +819,7 @@ def add_rec_alertset():
     new_alert_set = AlertSet(user_id=user.user_id, a_name=name, a_desc=desc, interval=interval)
     db.session.add(new_alert_set)
     db.session.commit()
-    alert_set = AlertSet.query.filter(AlertSet.user_id==user.user_id and AlertSet.a_name==name).first()
+    alert_set = AlertSet.query.filter(AlertSet.user_id == user.user_id, AlertSet.a_name == name).first()
     contact1 = int(contacts[0])
     contact2 = None
     contact3 = None
@@ -841,15 +841,16 @@ def add_sched_alertset():
     new_alert_set = AlertSet(user_id=user.user_id, a_name=name, a_desc=desc)
     db.session.add(new_alert_set)
     db.session.commit()
-    alert_set = AlertSet.query.filter(AlertSet.user_id==user.user_id and AlertSet.a_name==name).first()
+    alert_set = AlertSet.query.filter(AlertSet.user_id == user.user_id, AlertSet.a_name == name).first()
     return redirect("/edit_schedset/" + str(alert_set.alert_set_id))
 
 @app.route("/edit_schedset/<alert_set_id>")
 def edit_schedset_page(alert_set_id):
     user = User.query.filter_by(email=session['current_user']).one()
     alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
+    alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
-    return render_template("edit_sched_alerts.html", alert_set=alert_set, contacts=contacts)
+    return render_template("edit_sched_alerts.html", alert_set=alert_set, contacts=contacts, alerts=alerts)
 
 # @app.route("/add_schedset", methods=["POST"])
 # def add_sched_alertset():

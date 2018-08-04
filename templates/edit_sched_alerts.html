@@ -5,28 +5,55 @@
 {% endblock %}
 {% block content %}
 <div class="gen_div" id="title_div">
-<h1>Alert: {{ alert_set.a_name }}</h1>
-<h2>Alert Description: {{ alert_set.a_desc }}</h2>
+<h1>Alert Set: {{ alert_set.a_name }}</h1>
+<h2>Alert Set Description: {{ alert_set.a_desc }}</h2>
 <button type="button" id="title_but">Edit Name/Description</button>
 </div>
 
 
 <div class="gen_div">
-<form action="/edit_set" method="POST" id="set_form" class="hidden">
+<form action="/edit_set/{{ alert_set.alert_set_id }}" method="POST" id="set_form" class="hidden">
 	<b>What would you like to name this alert set?:</b> <input type=textbox name="set_name" value="{{ alert_set.a_name }}"></input><br>
 	<b>Where are you going and/or what are you doing that you might need this alert?</b><br>
 	<textarea rows="2" cols="50" name="descri" value="{{ alert_set.a_desc }}"></textarea><br>
 	<button type="submit">Save Alert Set</button>
 </form><br><br>
 
+{% for alert in alerts %}
+{% set alertloop = loop %}
+<h5>Alert {{ alertloop.index }}</h5>
+{% if alert.date %}
+Date: {{ alert.date }}<br>
+{% endif %}
+Time: {{ alert.time }}<br>
+Contacts:
+{% for contact in contacts %}
+{% if contact.contact_id==alert.contact_id1 %}
+{{ contact.name }} &nbsp &nbsp &nbsp
+{% endif %}
+{% if contact.contact_id==alert.contact_id2 %}
+{{ contact.name }} &nbsp &nbsp &nbsp
+{% endif %}
+{% if contact.contact_id==alert.contact_id1 %}
+{{ contact.name }} &nbsp &nbsp &nbsp
+{% endif %}
+{% endfor %}
+<br>
+Message: {{ alert.message }}<br><br><br>
+{% endfor %}
 
 
 
+
+
+
+
+<form action="/add_alert/{{ alert_set.alert_set_id }}" method="POST" id="set_form">
 	<h5>New Scheduled Alert</h5>
 	If you would like to only have this alert only available on a certain date, enter the date: <input type="date" name="date"><br>
 	<!-- <b>What Date/Time should a check-in be required?</b> <input type="datetime-local" name="check_time"><br> -->
 	What time would you like the app to send an alert if you don't check-in by that time: <input type="time" name="time"><br>
-	(You'll receive texts reminding you to check in 30 and 15 minutes before your required check-ins)<br><br>
+	(You'll receive texts reminding you to check in 15 minutes before your required check-ins)<br><br>
 	Which contact(s) would you like to be alerted if you miss this check-in? (select up to 3)<br>
 		{% for contact in contacts %}
 	{% set contactloop = loop %}
