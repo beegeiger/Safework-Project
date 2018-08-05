@@ -9,13 +9,20 @@
 
 <h2>Recurring Alerts*</h2>
 {% for set in alert_sets %}
-
+{% if set.interval %}
+<h5>{{ set.a_name }}</h5>
+{% endif %}
 {% endfor %}
 <form method="GET" action="/rec_alerts">
     <button type="submit">Add New Recurring Alert Set</button>
 </form><br><br><br>
 
 <h2>Pre-set/Scheduled Alerts*</h2>
+{% for set in alert_sets %}
+{% if not set.interval %}
+<h5>{{ set.a_name }}</h5>
+{% endif %}
+{% endfor %}
 <form method="GET" action="/sched_alerts">
     <button type="submit">Add New Scheduled Alert Set</button>
 </form>
