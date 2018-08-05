@@ -833,7 +833,16 @@ def add_rec_alertset():
                       contact_id2=contact2, contact_id3=contact3, interval=interval, message=desc)
     db.session.add(new_alert)
     db.session.commit()
-    return redirect("/rec_alerts")
+    alert_set = AlertSet.query.filter(AlertSet.user_id == user.user_id, AlertSet.a_name == name).first()
+    return redirect("/edit_recset/" + str(alert_set.alert_set_id))
+
+@app.route("/edit_recset/<alert_set_id>")
+def edit_recset_page(alert_set_id):
+    user = User.query.filter_by(email=session['current_user']).one()
+    alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
+    contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
+    alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
+    return render_template("edit_recurring_alerts.html", alert_set=alert_set, contacts=contacts, alert=alert)
 
 @app.route("/add_schedset", methods=["POST"])
 def add_sched_alertset():

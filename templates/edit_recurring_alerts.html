@@ -4,22 +4,22 @@
 
 {% endblock %}
 {% block content %}
-<h1 style="text-align: center;">Create New Recurring Alert Set</h1>
+<h1 style="text-align: center;">Edit Recurring Alert Set</h1>
 <div class="gen_div">
 <form action="/add_recset" method="POST">
-	<b>What would you like to name this alert set?:</b> <input type=textbox name="set_name" required></input><br>
+	<b>What would you like to name this alert set?:</b> <input type=textbox name="set_name" value="{{ alert_set.a_name }}" required></input><br>
 	<b>Where are you going and/or what are you doing that you might need this alert?</b><br>
-	<textarea rows="2" cols="50" name="descri"></textarea><br>
+	<textarea rows="2" cols="50" name="descri" value="{{ alert_set.a_desc }}"></textarea><br>
 	
 <div id="recurring">
 	<b>How often would you like to require checking in with the app? (in minutes):</b> 
-	<input type="number" name="interval" placeholder="120" min="15" max="1500" required><br> 
+	<input type="number" name="interval" value="{{ alert_set.interval }}" min="15" max="1500" required><br> 
 	(You'll receive texts reminding you to check in 30 and 15 minutes before your required check-ins)<br>
 	
 	Which contact(s) would you like to be alerted if you miss a check-in? (select up to 3)<br>
 	{% for contact in contacts %}
 	{% set contactloop = loop %}
-	<input type="checkbox" name="contact" value="{{ contact.contact_id }}">{{ contact.name }} &nbsp &nbsp
+	<input type="checkbox" name="contact" value="{{ contact.contact_id }}" {% if contact.contact_id == alert.contact_id1 or contact.contact_id == alert.contact_id2 or contact.contact_id == alert.contact_id3%}checked{% endif %}>{{ contact.name }} &nbsp &nbsp
 	{% endfor %}<br>
 	<a href="/contacts">Add/Edit/View Your Contacts</a>
 </div>

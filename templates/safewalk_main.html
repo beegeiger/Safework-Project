@@ -11,7 +11,24 @@
 <h2>Recurring Alerts*</h2>
 {% for set in alert_sets %}
 {% if set.interval %}
-<h5>{{ set.a_name }}</h5>
+<h5>{{ set.a_name }} 
+	<input id="toggle{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
+</h5>
+<script>
+	$(document).ready(function(){
+	    $( "#toggle{{ set.alert_set_id }}" ).change(function(event){
+	        if(this.checked) {
+	        	$.get("/activate/{{ set.alert_set_id }}");
+	        	console.log("Toggle Button On is working");
+	        }
+	       	else {
+	       		$.get("/deactivate/{{ set.alert_set_id }}");
+	        	console.log("Toggle Button Off is working");
+	        }
+	    });
+	    
+	});
+</script>
 {% endif %}
 {% endfor %}
 <form method="GET" action="/rec_alerts">
@@ -21,7 +38,7 @@
 <h2>Pre-set/Scheduled Alerts*</h2>
 {% for set in alert_sets %}
 {% if not set.interval %}
-<h5>{{ set.a_name }} &nbsp &nbsp 
+<h5><a href="/edit_schedset/{{ set.alert_set_id }}">{{ set.a_name }}</a> &nbsp &nbsp 
 	<input id="toggle{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
 </h5>
 <script>
