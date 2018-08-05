@@ -874,8 +874,12 @@ def add_sched_alert(alert_set_id):
     db.session.commit()
     return redirect("/edit_schedset/" + str(alert_set_id))
 
-
-
+@app.route("/activate/<alert_set_id>")
+def activate_alertset(alert_set_id):
+    ((db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id)).update(
+    {'name':name, 'email':email, 'phone':phone, 'c_type':c_type, 'c_message':message}))
+    db.session.commit()
+    return "Alert Set Activated"
 
 # @app.route("/add_schedset", methods=["POST"])
 # def add_sched_alertset():

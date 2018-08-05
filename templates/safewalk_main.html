@@ -26,14 +26,17 @@
 </h5>
 <script>
 	$(document).ready(function(){
-	    $( "#toggle{{ set.alert_set_id }}" ).change(function(){
+	    $( "#toggle{{ set.alert_set_id }}" ).change(function(event){
 	        if(this.checked) {
+	        	$.get("/active/{{ set.alert_set_id }}");
 	        	console.log("Toggle Button On is working");
 	        }
 	       	else {
+	       		$.get("/inactive/{{ set.alert_set_id }}");
 	        	console.log("Toggle Button Off is working");
 	        }
 	    });
+	    
 	});
 </script>
 {% endif %}
