@@ -5,12 +5,22 @@
 {% endblock %}
 {% block content %}
 <h1>SafeWalk Safety Alert Sets</h1>
-	<b>Adding an Alert Set: Do you want your alert set to require recurring check-ins (by a certain time interval) or pre-set check-ins with scheduled pre-set times?</b> Recurring check-ins are best if you aren't sure of your schedule when you go out to work (like with most who work the street). Pre-set check-ins are best if you have a known schedule and/or date with a client. In that case, you can require check-ins shortly after arriving, when the date should end, and/or some period after that (in case you aren't sure of the end time).<br>
+
+
+<h2>Recurring Alerts*</h2>
+{% for set in alert_sets %}
+
+{% endfor %}
 <form method="GET" action="/rec_alerts">
     <button type="submit">Add New Recurring Alert Set</button>
-</form>
+</form><br><br><br>
+
+<h2>Pre-set/Scheduled Alerts*</h2>
 <form method="GET" action="/sched_alerts">
     <button type="submit">Add New Scheduled Alert Set</button>
 </form>
+
+<br><br><br>
+	<b>*Adding an Alert Set: Do you want your alert set to require recurring check-ins (by a certain time interval) or pre-set check-ins with scheduled pre-set times?</b> Recurring check-ins are best if you aren't sure of your schedule when you go out to work (like with most who work the street). Pre-set check-ins are best if you have a known schedule and/or date with a client. In that case, you can require check-ins shortly after arriving, when the date should end, and/or some period after that (in case you aren't sure of the end time).<br>
 
 {% endblock %}
