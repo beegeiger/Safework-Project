@@ -22,17 +22,17 @@
 {% for set in alert_sets %}
 {% if not set.interval %}
 <h5>{{ set.a_name }} &nbsp &nbsp 
-	<input id="toggle{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive">
+	<input id="toggle{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
 </h5>
 <script>
 	$(document).ready(function(){
 	    $( "#toggle{{ set.alert_set_id }}" ).change(function(event){
 	        if(this.checked) {
-	        	$.get("/active/{{ set.alert_set_id }}");
+	        	$.get("/activate/{{ set.alert_set_id }}");
 	        	console.log("Toggle Button On is working");
 	        }
 	       	else {
-	       		$.get("/inactive/{{ set.alert_set_id }}");
+	       		$.get("/deactivate/{{ set.alert_set_id }}");
 	        	console.log("Toggle Button Off is working");
 	        }
 	    });
