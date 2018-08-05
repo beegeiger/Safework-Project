@@ -844,6 +844,26 @@ def edit_recset_page(alert_set_id):
     alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
     return render_template("edit_recurring_alerts.html", alert_set=alert_set, contacts=contacts, alert=alert)
 
+@app.route("/save_recset/<alert_set_id>", methods=["POST"])
+def save_recset(alert_set_id):
+    name = request.form['set_name']
+    desc = request.form['descri']
+    interval = request.form['interval']
+    contacts = request.form.getlist('contact')
+    (db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id)).update(
+    {'a_name': name, 'a_desc': desc, 'interval': interval})
+    contact1 = int(contacts[0])
+    contact2 = None
+    contact3 = None
+    if len(contacts) > 1:
+        contact2 = int(contacts[1])
+    if len(contacts) > 2:
+        contact3 = int(contacts[2])
+    (db.session.query(Alert).filter_by(alert_set_id=alert_set_id)).update(
+    {'message': desc, 'interval': interval, 'contact_id1': contact1, 'contact_id2': contact2, 'contact_id3': contact3})
+    db.session.commit()
+    return redirect("/sw_main")
+
 @app.route("/add_schedset", methods=["POST"])
 def add_sched_alertset():
     name = request.form['set_name']

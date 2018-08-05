@@ -6,7 +6,7 @@
 {% block content %}
 <h1 style="text-align: center;">Edit Recurring Alert Set</h1>
 <div class="gen_div">
-<form action="/add_recset" method="POST">
+<form action="/save_recset/{{ alert_set.alert_set_id }}" method="POST">
 	<b>What would you like to name this alert set?:</b> <input type=textbox name="set_name" value="{{ alert_set.a_name }}" required></input><br>
 	<b>Where are you going and/or what are you doing that you might need this alert?</b><br>
 	<textarea rows="2" cols="50" name="descri" value="{{ alert_set.a_desc }}"></textarea><br>
