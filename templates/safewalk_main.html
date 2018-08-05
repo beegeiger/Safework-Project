@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}SafeWalk{% endblock %}
 {% block head %}
-
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 {% endblock %}
 {% block content %}
 <h1>SafeWalk Safety Alert Sets</h1>
@@ -20,7 +21,21 @@
 <h2>Pre-set/Scheduled Alerts*</h2>
 {% for set in alert_sets %}
 {% if not set.interval %}
-<h5>{{ set.a_name }}</h5>
+<h5>{{ set.a_name }} &nbsp &nbsp 
+	<input id="toggle{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive">
+</h5>
+<script>
+	$(document).ready(function(){
+	    $( "#toggle{{ set.alert_set_id }}" ).change(function(){
+	        if(this.checked) {
+	        	console.log("Toggle Button On is working");
+	        }
+	       	else {
+	        	console.log("Toggle Button Off is working");
+	        }
+	    });
+	});
+</script>
 {% endif %}
 {% endfor %}
 <form method="GET" action="/sched_alerts">
@@ -30,4 +45,12 @@
 <br><br><br>
 	<b>*Adding an Alert Set: Do you want your alert set to require recurring check-ins (by a certain time interval) or pre-set check-ins with scheduled pre-set times?</b> Recurring check-ins are best if you aren't sure of your schedule when you go out to work (like with most who work the street). Pre-set check-ins are best if you have a known schedule and/or date with a client. In that case, you can require check-ins shortly after arriving, when the date should end, and/or some period after that (in case you aren't sure of the end time).<br>
 
+
+<script>
+	$(document).ready(function(){
+	    $( "#title_but" ).click(function(){
+	        console.log("Toggle Button is working");
+	    });
+	});
+</script>
 {% endblock %}
