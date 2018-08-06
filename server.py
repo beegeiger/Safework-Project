@@ -903,25 +903,31 @@ def add_sched_alert(alert_set_id):
     db.session.commit()
     return redirect("/edit_schedset/" + str(alert_set_id))
 
-# @app.route("/activate/<alert_set_id>")
-# def activate_alertset(alert_set_id):
-#     alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
-#     time = datetime.now().time()
-#     date = (datetime.date.today())
-#     if alert_set.date == None:
-#         alert_set.update({'date': date})
-#     if alert_set.interval == None:
-#         alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
-#         for alert in alerts:
-#             alert.update({'active': True, 'start_time': time})
-#             if alert.date == None:
-#                 alert.update({'date': date})
-#     else:
-#         alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
-#         alert.update({'active': True, 'start_time': time, 'time'})
-#     alert_set.update({'active': True, 'start_time': time})
-#     db.session.commit()
-#     return "Alert Set Activated"
+@app.route("/activate/<alert_set_id>")
+def activate_alertset(alert_set_id):
+    alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
+    time = datetime.now().time()
+    date = (datetime.date.today())
+    if alert_set.date == None:
+        alert_set.update({'date': date})
+    if alert_set.interval == None:
+        alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
+        for alert in alerts:
+            alert.update({'active': True, 'start_time': time})
+            if alert.date == None:
+                dtime = datetime.combine(date, alert.time)
+                alert.update({'date': date, 'datetime': dtime})
+            else:
+                dtime = datetime.combine(alert.date, alert.time)
+                alert.update({'datetime': dtime})
+    else:
+        dtime = datetime.combine(date, time)
+        dtime_int = dtime + datetime.timedelta(minutes=alert_set.interval)
+        alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
+        alert.update({'active': True, 'start_time': time, 'start_time': time, 'datetime': dtime_int})
+    alert_set.update({'active': True, 'start_time': time})
+    db.session.commit()
+    return "Alert Set Activated"
 
 @app.route("/deactivate/<alert_set_id>")
 def deactivate_alertset(alert_set_id):
