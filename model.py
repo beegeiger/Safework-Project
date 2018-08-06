@@ -259,9 +259,9 @@ class Alert(db.Model):
 	time = db.Column(db.Time, nullable=True)
 	date = db.Column(db.Date, nullable=True)
 	interval = db.Column(db.Integer, nullable=True)
-	start_time = db.Column(db.DateTime, nullable=True)
+	start_time = db.Column(db.Time, nullable=True)
 	message = db.Column(db.String(1028), nullable=True)
-	datetime = db.Column(db.DateTime(), nullable=True)
+	datetime = db.Column(db.DateTime, nullable=True)
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""

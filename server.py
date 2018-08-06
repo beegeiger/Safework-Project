@@ -905,6 +905,7 @@ def add_sched_alert(alert_set_id):
 
 @app.route("/activate/<alert_set_id>")
 def activate_alertset(alert_set_id):
+    print alert_set_id
     alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
@@ -913,18 +914,18 @@ def activate_alertset(alert_set_id):
     if alert_set.interval == None:
         alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
         for alert in alerts:
-            alert.update({'active': True, 'start_time': time})
+            db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'active': True, 'start_time': time})
             if alert.date == None:
                 dtime = datetime.combine(date, alert.time)
-                alert.update({'date': date, 'datetime': dtime})
+                db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'date': date, 'datetime': dtime})
             else:
-                dtime = datetime.combine(alert.date, alert.time)
-                alert.update({'datetime': dtime})
+                dtime = datetime.datetime.combine(alert.date, alert.time)
+                db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'datetime': dtime})
     else:
-        dtime = datetime.combine(date, time)
+        dtime = datetime.datetime.combine(date, time)
         dtime_int = dtime + datetime.timedelta(minutes=alert_set.interval)
         alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
-        alert.update({'active': True, 'start_time': time, 'start_time': time, 'datetime': dtime_int})
+        db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'active': True, 'start_time': time, 'start_time': time, 'datetime': dtime_int})
     db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'active': True, 'start_time': time})
     db.session.commit()
     return "Alert Set Activated"
@@ -933,6 +934,10 @@ def activate_alertset(alert_set_id):
 def deactivate_alertset(alert_set_id):
     (db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id)).update(
     {'active': False})
+    alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
+    for alert in alerts:
+        db.session.query(Alert).filter_by(alert_id=alert.alert_id).update(
+        {'active': False})
     db.session.commit()
     return "Alert Set Deactivated"
 
