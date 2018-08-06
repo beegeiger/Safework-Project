@@ -907,10 +907,18 @@ def add_sched_alert(alert_set_id):
 def activate_alertset(alert_set_id):
     alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
     time = datetime.now().time()
+    date = (datetime.date.today())
     if alert_set.date == None:
-        date = (datetime.date.today())
         alert_set.update({'date': date})
-
+    if alert_set.interval == None:
+        alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
+        for alert in alerts:
+            alert.update({'active': True, 'start_time': time})
+            if alert.date == None:
+                alert.update({'date': date})
+    else:
+        alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
+        alert.update({'active': True, 'start_time': time, 'time'})
     alert_set.update({'active': True, 'start_time': time})
     db.session.commit()
     return "Alert Set Activated"
