@@ -9,7 +9,7 @@ import math
 
 import json
 import datetime
-from datetime import datetime
+
 from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, flash,
                    session, jsonify)
@@ -906,10 +906,10 @@ def add_sched_alert(alert_set_id):
 @app.route("/activate/<alert_set_id>")
 def activate_alertset(alert_set_id):
     alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
-    time = datetime.now().time()
-    date = (datetime.date.today())
+    time = datetime.datetime.now().time()
+    date = (datetime.datetime.today())
     if alert_set.date == None:
-        alert_set.update({'date': date})
+        db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'date': date})
     if alert_set.interval == None:
         alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
         for alert in alerts:
@@ -925,7 +925,7 @@ def activate_alertset(alert_set_id):
         dtime_int = dtime + datetime.timedelta(minutes=alert_set.interval)
         alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
         alert.update({'active': True, 'start_time': time, 'start_time': time, 'datetime': dtime_int})
-    alert_set.update({'active': True, 'start_time': time})
+    db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'active': True, 'start_time': time})
     db.session.commit()
     return "Alert Set Activated"
 
