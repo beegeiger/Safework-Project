@@ -234,14 +234,15 @@ class AlertSet(db.Model):
 	a_desc = db.Column(db.String(200), nullable=True)
 	start_time = db.Column(db.Time, nullable=True)
 	date = db.Column(db.Date, nullable=True)
+	end_date = db.Column(db.Date, nullable=True)
 	notes = db.Column(db.String(2056), nullable=True)
 	interval = db.Column(db.Integer, nullable=True)
 	active = db.Column(db.Boolean, default=False)
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<alert_set_id={} user_id={} a_name={} a_desc={} start_time={} date={} timezone={} notes={} active={}>".format(
-			self.alert_set_id, self.user_id, self.a_name, self.a_desc, self.start_time, self.date, self.timezone, self.notes, self.active)
+		return "<alert_set_id={} user_id={} a_name={} a_desc={} start_time={} date={} end_date={} timezone={} notes={} active={}>".format(
+			self.alert_set_id, self.user_id, self.a_name, self.a_desc, self.start_time, self.date, self.end_date, self.timezone, self.notes, self.active)
 
 class Alert(db.Model):
 	"""SafeWalk AlertSet"""

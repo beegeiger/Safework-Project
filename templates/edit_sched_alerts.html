@@ -7,7 +7,13 @@
 <div class="gen_div" id="title_div">
 <h1>Alert Set: {{ alert_set.a_name }}</h1>
 <h2>Alert Set Description: {{ alert_set.a_desc }}</h2>
-<button type="button" id="title_but">Edit Name/Description</button>
+{% if alert_set.date %}
+<h3>Start Date: {{ alert_set.date }}</h3>
+{% endif %}
+{% if alert_set.end_date %}
+<h3>End Date: {{ alert_set.end_date }}</h3>
+{% endif %}
+<button type="button" id="title_but">Edit Name/Description/Dates</button>
 </div>
 
 
@@ -15,7 +21,10 @@
 <form action="/edit_set/{{ alert_set.alert_set_id }}" method="POST" id="set_form" class="hidden">
 	<b>What would you like to name this alert set?:</b> <input type=textbox name="set_name" value="{{ alert_set.a_name }}"></input><br>
 	<b>Where are you going and/or what are you doing that you might need this alert?</b><br>
-	<textarea rows="2" cols="50" name="descri" value="{{ alert_set.a_desc }}"></textarea><br>
+	<textarea rows="2" cols="50" name="descri">{{ alert_set.a_desc }}</textarea><br>
+	<br>
+	What Date would you like this alert set to first be available? (optional)<input type="date" name="date" value="{{ alert_set.date }}"><br>
+	What is the last date you would like this alert set to be available? (optional)<input type="date" name="end_date" value="{{ alert_set.end_date }}"><br><br>
 	<button type="submit">Save Alert Set</button>
 </form><br><br>
 
@@ -50,7 +59,7 @@ Message: {{ alert.message }}<br><br><br>
 
 <form action="/add_alert/{{ alert_set.alert_set_id }}" method="POST" id="set_form">
 	<h5>New Scheduled Alert</h5>
-	If you would like to only have this alert only available on a certain date, enter the date: <input type="date" name="date"><br>
+	
 	<!-- <b>What Date/Time should a check-in be required?</b> <input type="datetime-local" name="check_time"><br> -->
 	What time would you like the app to send an alert if you don't check-in by that time: <input type="time" name="time"><br>
 	(You'll receive texts reminding you to check in 15 minutes before your required check-ins)<br><br>

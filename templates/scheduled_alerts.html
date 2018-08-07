@@ -9,7 +9,11 @@
 <form action="/add_schedset" method="POST">
 	<b>What would you like to name this alert set?:</b> <input type=textbox name="set_name" required></input><br>
 	<b>Where are you going and/or what are you doing that you might need this alert?</b><br>
-	<textarea rows="2" cols="50" name="descri"></textarea><br><br>
+	<textarea rows="2" cols="50" name="descri"></textarea>
+	<br>
+	What Date would you like this alert set to first be available? (optional)<input type="date" name="date"><br>
+	What is the last date you would like this alert set to be available? (optional)<input type="date" name="end_date">
+	<br><br>
 	<button type="submit">Create Alert Set</button>
 	<br>
 	<a href="/sw_main">Go Back to the Main SafeWalk <br> Alerts Page</a>
