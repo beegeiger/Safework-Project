@@ -16,7 +16,7 @@ from flask import (Flask, render_template, redirect, request, flash,
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (update, asc, desc)
-from model import Forum, Post, User, Incident, Police, Source, Like, Flag, Contact, AlertSet, Alert, CheckIn, ReqCheck, connect_to_db, db
+# from model import Forum, Post, User, Incident, Police, Source, Like, Flag, Contact, AlertSet, Alert, CheckIn, ReqCheck, connect_to_db, db
 import requests
 # from secrets_env import CLIENT_ID
 
@@ -928,7 +928,12 @@ def activate_alertset(alert_set_id):
         for alert in alerts:
             db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'active': True, 'start_time': time})
             if alert.date == None:
-                dtime = datetime.combine(date, alert.time)
+                print time
+                print alert.time
+                print alert.time / 2
+                print alert.time + 30
+                print type(alert.time)
+                dtime = datetime.datetime.combine(date, alert.time)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'date': date, 'datetime': dtime})
             else:
                 dtime = datetime.datetime.combine(alert.date, alert.time)

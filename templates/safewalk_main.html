@@ -13,6 +13,13 @@
 {% if set.interval %}
 <h5>{{ set.a_name }} 
 	<input id="toggle{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
+
+	{% if set.active == True %}
+	{% for alert in alerts %}
+	{% if alert.alert_set_id == set.alert_set_id %}
+	{% endif %}
+	{% endfor %}
+	{% endif %}
 </h5>
 <script>
 	$(document).ready(function(){
