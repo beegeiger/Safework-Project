@@ -6,3 +6,5 @@ secrets_env.py
 secrets_env
 client_secret.json
 *.pyc
+send-mail.py
+send-sms.py
