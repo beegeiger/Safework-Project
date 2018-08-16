@@ -966,19 +966,37 @@ def deactivate_alertset(alert_set_id):
 
 @app.route("/incoming_mail", methods=["POST"])  
 def mailin():  
-    user = User.query.filter_by(email=session['current_user']).one()
+    
     # access some of the email parsed values:
     sender = request.form['From']
+    send_email = request.form['sender']
     subject = request.form['subject']
     text = request.form['body-plain']
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
     datetime = datetime.datetime.now()
-    new_check = CheckIn(user_id=user.user_id, notes=text, time=time, date=date, datetime=datetime)
-    
+    user = User.query.filter_by(email=strp(send_email)).all()
+    if len(user) >= 1:        
+        new_check = CheckIn(user_id=user.user_id, notes=text, time=time, date=date, datetime=datetime)
+        db.session.add(new_check)
+        db.session.commit()
 
-    return "Email Message Received"
+    return print "Email Message Received"
 
+@app.route('/incoming_sms', methods=['POST'])
+def smsin():
+    number = request.form['From']
+    message_body = request.form['Body']
+    time = datetime.datetime.now().time()
+    date = (datetime.datetime.today())
+    datetime = datetime.datetime.now()
+    user = User.query.filter_by(phone=str(number)).all()
+    if len(user) >= 1:        
+        new_check = CheckIn(user_id=user.user_id, notes=message_body, time=time, date=date, datetime=datetime)
+        db.session.add(new_check)
+        db.session.commit()
+
+    return print "SMS Received"
 
 #####################################################
 
