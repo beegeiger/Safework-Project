@@ -6,7 +6,7 @@ import flask
 import bcrypt
 import bcrypt
 import math
-
+import time
 import json
 import datetime
 
@@ -30,6 +30,12 @@ app.secret_key = "ABC"
 app.jinja_env.undefined = StrictUndefined
 
 ####################################################################
+
+with app.app_context():
+    while 1 == 1:
+        time.sleep(60)
+
+
 
 @app.route("/")
 def go_home():
@@ -960,21 +966,18 @@ def deactivate_alertset(alert_set_id):
 
 @app.route("/incoming_mail", methods=["POST"])  
 def mailin():  
-    print "There is incoming Mail"
-
+    user = User.query.filter_by(email=session['current_user']).one()
     # access some of the email parsed values:
     sender = request.form['From']
-    request.form['To']
-    request.form['subject']
-
-    # stripped text does not include the original (quoted) message, only what
-    # a user has typed:
-    request.form['stripped-text']
-    request.form['stripped-signature']
+    subject = request.form['subject']
     text = request.form['body-plain']
-    print sender
-    print text
-    return "Ok"
+    time = datetime.datetime.now().time()
+    date = (datetime.datetime.today())
+    datetime = datetime.datetime.now()
+    new_check = CheckIn(user_id=user.user_id, notes=text, time=time, date=date, datetime=datetime)
+    
+
+    return "Email Message Received"
 
 
 #####################################################

@@ -280,13 +280,14 @@ class CheckIn(db.Model):
 	address = db.Column(db.String(512), nullable=True)
 	time = db.Column(db.Time, nullable=True)
 	date = db.Column(db.Date, nullable=True)
+	datetime = db.Column(db.DateTime, nullable=True)
 	lat = db.Column(db.String(256), nullable=True)
 	lon = db.Column(db.String(256), nullable=True)
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<check_in_id={} user_id={} notes={} address={} time={} date={} lat={} lon={}>".format(
-			self.check_in_id, self.user_id, self.notes, self.address, self.time, self.date, self.lat, self.lon)
+		return "<check_in_id={} user_id={} notes={} address={} time={} date={} datetime={} lat={} lon={}>".format(
+			self.check_in_id, self.user_id, self.notes, self.address, self.time, self.date, self.datetime, self.lat, self.lon)
 
 class ReqCheck(db.Model):
 	"""Required SafeWalk Check-Ins"""
