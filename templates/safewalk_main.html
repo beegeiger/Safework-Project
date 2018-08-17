@@ -20,6 +20,7 @@
 	{% if set.active == True %}
 	{% for alert in alerts %}
 	{% if alert.alert_set_id == set.alert_set_id %}
+	&nbsp &nbsp {{ alert.datetime }}
 	{% endif %}
 	{% endfor %}
 	{% endif %}
