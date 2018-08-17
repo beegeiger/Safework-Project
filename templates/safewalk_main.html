@@ -18,11 +18,7 @@
 	<input id="toggle{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
 
 	{% if set.active == True %}
-	{% for alert in alerts %}
-	{% if alert.alert_set_id == set.alert_set_id %}
-	&nbsp &nbsp {{ alert.datetime }}
-	{% endif %}
-	{% endfor %}
+	{{ set.next_alarm }}
 	{% endif %}
 </h5>
 <script>
@@ -89,6 +85,9 @@
 
 	  function displayTime() {
 	    var currentTime = new Date();
+		var year = currentTime.getYear()
+	    var month = currentTime.getMonth()
+	    var day = currentTime.getDate()
 	    var hours = currentTime.getUTCHours();
 	    var minutes = currentTime.getMinutes();
 	    var seconds = currentTime.getSeconds();
@@ -118,7 +117,7 @@
 
 	    // Then we set the text inside the clock div 
 	    // to the hours, minutes, and seconds of the current time
-	    clockDiv.innerText = hours + ":" + minutes + ":" + seconds + " " + meridiem;
+	    clockDiv.innerText =  hours + ":" + minutes + ":" + seconds + " " + meridiem + "    " + month + "/" + day + "/" + year;
 	  }
 
 	  // This runs the displayTime function the first time
