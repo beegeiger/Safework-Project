@@ -31,9 +31,9 @@ app.jinja_env.undefined = StrictUndefined
 
 ####################################################################
 
-with app.app_context():
-    while 1 == 1:
-        time.sleep(60)
+# with app.app_context():
+#     while 1 == 1:
+#         time.sleep(60)
 
 
 
@@ -872,8 +872,12 @@ def save_recset(alert_set_id):
 
 @app.route("/add_schedset", methods=["POST"])
 def add_sched_alertset():
-    date = request.form['date']
-    end_date = request.form['end_date']
+    date = None
+    end_date = None
+    if len(request.form['date']) > 2:
+        date = request.form['date']
+    if len(request.form['end_date']) > 2:
+        end_date = request.form['end_date']
     name = request.form['set_name']
     desc = request.form['descri']
     user = User.query.filter_by(email=session['current_user']).one()
@@ -882,6 +886,7 @@ def add_sched_alertset():
     db.session.commit()
     alert_set = AlertSet.query.filter(AlertSet.user_id == user.user_id, AlertSet.a_name == name).first()
     return redirect("/edit_schedset/" + str(alert_set.alert_set_id))
+    # return redirect("/sw_main")
 
 @app.route("/edit_schedset/<alert_set_id>")
 def edit_schedset_page(alert_set_id):
@@ -980,8 +985,9 @@ def mailin():
         new_check = CheckIn(user_id=user.user_id, notes=text, time=time, date=date, datetime=datetime)
         db.session.add(new_check)
         db.session.commit()
-
-    return print "Email Message Received"
+    print send_email
+    print "Email Message Received"
+    return "Email Message Received"
 
 @app.route('/incoming_sms', methods=['POST'])
 def smsin():
@@ -995,8 +1001,9 @@ def smsin():
         new_check = CheckIn(user_id=user.user_id, notes=message_body, time=time, date=date, datetime=datetime)
         db.session.add(new_check)
         db.session.commit()
-
-    return print "SMS Received"
+    print number
+    print "SMS Received"
+    return "SMS Received"
 
 #####################################################
 
