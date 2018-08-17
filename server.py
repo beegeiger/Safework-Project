@@ -773,6 +773,7 @@ def safewalk_main():
         if aset_alerts:
             aset_alerts.sort()
             a_set.next_alarm = aset_alerts[0]
+            a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %Y/%m/%d")
 
     return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
 

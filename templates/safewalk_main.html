@@ -18,7 +18,60 @@
 	<input id="toggle{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
 
 	{% if set.active == True %}
-	{{ set.next_alarm }}
+	{{ set.next_alarm_dis }}
+	<div id='countdown{{ set.alert_set_id }}'></div>
+	<script type="text/javascript">
+	$(document).ready( function() {
+
+	  function displayTime() {
+	    var currentTime = new Date();
+		var year = currentTime.getYear() + 1900
+	    var month = currentTime.getMonth()
+	    var day = currentTime.getDate()
+	    var hours = currentTime.getUTCHours();
+	    var minutes = currentTime.getMinutes();
+	    var seconds = currentTime.getSeconds();
+	    var meridiem = "AM";
+	    hours = hours + {{ timezone }}
+	    if (hours < 1) {
+	    	hours = 25 + hours
+	    }
+	    if (hours > 12) {
+		    hours = hours - 12;
+		    meridiem = "PM";
+		}
+
+		// 0 AM and 0 PM should read as 12
+		if (hours === 0) {
+		    hours = 12;    
+		}
+
+	    if (seconds < 10) {
+	    // Add the "0" digit to the front
+	    // so 9 becomes "09"
+	    seconds = "0" + seconds;
+		}
+
+		if (minutes < 10) {
+	    // Add the "0" digit to the front
+	    // so 9 becomes "09"
+	    minutes = "0" + minutes;
+		}
+
+	    // This gets a "handle" to the clock div in our HTML
+	    var clockDiv = document.getElementById('countdown{{ set.alert_set_id }}');
+
+	    // Then we set the text inside the clock div 
+	    // to the hours, minutes, and seconds of the current time
+	    clockDiv.innerText =  hours + ":" + minutes + ":" + seconds + " " + meridiem + ",    " + month + "/" + day + "/" + year;
+	  }
+
+	  // This runs the displayTime function the first time
+	  displayTime();
+	  setInterval(displayTime, 1000);
+
+	});
+</script>
 	{% endif %}
 </h5>
 <script>
@@ -85,7 +138,7 @@
 
 	  function displayTime() {
 	    var currentTime = new Date();
-		var year = currentTime.getYear()
+		var year = currentTime.getYear() + 1900
 	    var month = currentTime.getMonth()
 	    var day = currentTime.getDate()
 	    var hours = currentTime.getUTCHours();
@@ -112,12 +165,18 @@
 	    seconds = "0" + seconds;
 		}
 
+		if (minutes < 10) {
+	    // Add the "0" digit to the front
+	    // so 9 becomes "09"
+	    minutes = "0" + minutes;
+		}
+
 	    // This gets a "handle" to the clock div in our HTML
 	    var clockDiv = document.getElementById('clock');
 
 	    // Then we set the text inside the clock div 
 	    // to the hours, minutes, and seconds of the current time
-	    clockDiv.innerText =  hours + ":" + minutes + ":" + seconds + " " + meridiem + "    " + month + "/" + day + "/" + year;
+	    clockDiv.innerText =  hours + ":" + minutes + ":" + seconds + " " + meridiem + ",    " + month + "/" + day + "/" + year;
 	  }
 
 	  // This runs the displayTime function the first time
