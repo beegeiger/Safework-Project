@@ -763,7 +763,8 @@ def resources():
 def safewalk_main():
     user = User.query.filter_by(email=session['current_user']).one()
     alert_sets = AlertSet.query.filter_by(user_id=user.user_id).all()
-    return render_template("safewalk_main.html", alert_sets=alert_sets)
+    alerts = Alert.query.filter_by(user_id=user.user_id).all()
+    return render_template("safewalk_main.html", alert_sets=alert_sets, alerts=alerts, timezone=user.timezone)
 
 @app.route("/rec_alerts")
 def recurring_alerts():
