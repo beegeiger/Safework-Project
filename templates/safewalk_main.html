@@ -19,32 +19,18 @@
 
 	{% if set.active == True %}
 	{{ set.next_alarm_dis }}
+	{{ set.countdown }}
 	<div id='countdown{{ set.alert_set_id }}'></div>
 	<script type="text/javascript">
 	$(document).ready( function() {
 
-	  function displayTime() {
-	    var currentTime = new Date();
-		var year = currentTime.getYear() + 1900
-	    var month = currentTime.getMonth()
-	    var day = currentTime.getDate()
-	    var hours = currentTime.getUTCHours();
-	    var minutes = currentTime.getMinutes();
-	    var seconds = currentTime.getSeconds();
-	    var meridiem = "AM";
-	    hours = hours + {{ timezone }}
-	    if (hours < 1) {
-	    	hours = 25 + hours
-	    }
-	    if (hours > 12) {
-		    hours = hours - 12;
-		    meridiem = "PM";
-		}
+	  function count{{ set.alert_set_id }}() {
+	    var days = {{ set.days }};
+	    var hours = {{ set.hours }};
+	    var minutes = {{ set.minutes }};
 
-		// 0 AM and 0 PM should read as 12
-		if (hours === 0) {
-		    hours = 12;    
-		}
+	    var seconds = {{ set.seconds }};
+
 
 	    if (seconds < 10) {
 	    // Add the "0" digit to the front
@@ -59,20 +45,20 @@
 		}
 
 	    // This gets a "handle" to the clock div in our HTML
-	    var clockDiv = document.getElementById('countdown{{ set.alert_set_id }}');
+	    var countDiv = document.getElementById('countdown{{ set.alert_set_id }}');
 
 	    // Then we set the text inside the clock div 
 	    // to the hours, minutes, and seconds of the current time
-	    clockDiv.innerText =  hours + ":" + minutes + ":" + seconds + " " + meridiem + ",    " + month + "/" + day + "/" + year;
+	    countDiv.innerText = days + " days and " + hours + ":" + minutes + ":" + seconds;
 	  }
 
 	  // This runs the displayTime function the first time
-	  displayTime();
-	  setInterval(displayTime, 1000);
+	  count{{ set.alert_set_id }}();
+	  setInterval(count{{ set.alert_set_id }}, 1000);
 
 	});
 </script>
-	{% endif %}
+{% endif %}
 </h5>
 <script>
 	$(document).ready(function(){

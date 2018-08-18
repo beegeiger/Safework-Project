@@ -771,9 +771,22 @@ def safewalk_main():
             if a_set.alert_set_id == alert.alert_set_id:
                 aset_alerts.append(alert.datetime)
         if aset_alerts:
+            now = datetime.datetime.now()
             aset_alerts.sort()
             a_set.next_alarm = aset_alerts[0]
             a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %Y/%m/%d")
+            d1 = abs(now - aset_alerts[0])
+            d2 = float(d1.total_seconds())
+            days = math.floor(d2 / 86400)
+            hours = math.floor((d2 - (days * 86400)) / 3600)
+            minutes = math.floor((d2 - (days * 86400) - (hours * 3600)) / 60)
+            seconds = math.floor(d2 - (days * 86400) - (hours * 3600) - (minutes * 60))
+            print minutes
+            a_set.countdown = datetime.time(int(hours), int(minutes), int(seconds))
+            a_set.days = int(days)
+            a_set.hours = int(hours)
+            a_set.minutes = int(minutes)
+            a_set.seconds = int(seconds)
 
     return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
 
