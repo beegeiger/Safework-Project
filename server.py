@@ -787,6 +787,7 @@ def safewalk_main():
             a_set.hours = int(hours)
             a_set.minutes = int(minutes)
             a_set.seconds = int(seconds)
+            a_set.total =int(d2)
 
     return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
 
