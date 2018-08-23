@@ -14,13 +14,15 @@
 <h2>Recurring Alerts*</h2>
 {% for set in alert_sets %}
 {% if set.interval %}
-<h5>{{ set.a_name }} 
-	<input id="toggle{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
-
+<div class="alert_display">{{ set.a_name }} &nbsp &nbsp
+	<div class="alert_inner"> <input id="toggle{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
+	&nbsp &nbsp
 	{% if set.active == True %}
 	{{ set.next_alarm_dis }}
 	{{ set.countdown }}
-	<div id='countdown{{ set.alert_set_id }}'></div>
+	</div>
+	&nbsp &nbsp &nbsp &nbsp
+	<div class="alert_inner" id='countdown{{ set.alert_set_id }}'></div>
 	<script type="text/javascript">
 	$(document).ready( function() {
 
@@ -59,7 +61,7 @@
 	});
 </script>
 {% endif %}
-</h5>
+</div>
 <script>
 	$(document).ready(function(){
 	    $( "#toggle{{ set.alert_set_id }}" ).change(function(event){
