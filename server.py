@@ -962,21 +962,27 @@ def activate_alertset(alert_set_id):
     if alert_set.date == None:
         db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'date': date})
     if alert_set.interval == None:
+        print "step 1"
         alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
         for alert in alerts:
+            print "step 2"
             db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'active': True, 'start_time': time})
             if alert.date == None:
+                print "step3a"
                 print time
                 print alert.time
                 print alert.time / 2
                 print alert.time + 30
                 print type(alert.time)
                 dtime = datetime.datetime.combine(date, alert.time)
+                print dtime
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'date': date, 'datetime': dtime})
             else:
+                print "step 3b"
                 dtime = datetime.datetime.combine(alert.date, alert.time)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'datetime': dtime})
     else:
+        print "Rec Activated"
         dtime = datetime.datetime.combine(date, time)
         dtime_int = dtime + datetime.timedelta(minutes=alert_set.interval)
         alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
