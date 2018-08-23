@@ -761,6 +761,8 @@ def resources():
 
 @app.route("/sw_main")
 def safewalk_main():
+    time = datetime.datetime.now().time()
+    date = (datetime.datetime.today())
     user = User.query.filter_by(email=session['current_user']).one()
     alert_sets = AlertSet.query.filter_by(user_id=user.user_id).all()
     al_sets = []
@@ -768,9 +770,12 @@ def safewalk_main():
     for a_set in alert_sets:
         aset_alerts = []
         for alert in alerts:
-            if a_set.alert_set_id == alert.alert_set_id:
+            if a_set.alert_set_id == alert.alert_set_id and a_set.interval:
                 aset_alerts.append(alert.datetime)
-        if aset_alerts:
+            elif a_set.alert_set_id == alert.alert_set_id:
+                dtime = datetime.datetime.combine(date, alert.time)
+                
+        if len(aset_alerts) >= 1:
             now = datetime.datetime.now()
             aset_alerts.sort()
             a_set.next_alarm = aset_alerts[0]

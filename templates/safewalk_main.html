@@ -97,14 +97,70 @@
 
 <h2>Pre-set/Scheduled Alerts*</h2>
 {% for set in alert_sets %}
-{% if not set.interval %}
+{% if set.interval %}
+{% if a_set.total %}
 <div class="alert_display">
-	<a href="/edit_recset/{{ set.alert_set_id }}">{{ set.a_name }}</a> &nbsp &nbsp
+	<a href="/edit_schedset/{{ set.alert_set_id }}">{{ set.a_name }}</a> &nbsp &nbsp
 	<div class="alert_inner"> <input id="toggle{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
 	&nbsp &nbsp
-	
+	{% if set.active == True %}
+	{{ set.next_alarm_dis }}
+
+	</div>
+	&nbsp &nbsp &nbsp &nbsp
+
+	<div class="alert_inner" id='countdown{{ set.alert_set_id }}'></div>
+	<script type="text/javascript">
+	var t{{ set.alert_set_id }} = ({{ set.total }} * 1000)
+
+	$(document).ready( function() {
+
+	  function count{{ set.alert_set_id }}(change = 0) {
+	  	  t{{ set.alert_set_id }} = (t{{ set.alert_set_id }} - 1000);
+	      var t = t{{ set.alert_set_id }};
+		  var seconds = Math.floor( (t/1000) % 60 );
+		  var minutes = Math.floor( (t/1000/60) % 60 );
+		  var hours = Math.floor( (t/(1000*60*60)) % 24 );
+		  var days = Math.floor( t/(1000*60*60*24) );
+
+
+	    if (seconds < 10) {
+	    // Add the "0" digit to the front
+	    // so 9 becomes "09"
+	    seconds = "0" + seconds;
+		}
+
+		if (minutes < 10) {
+	    // Add the "0" digit to the front
+	    // so 9 becomes "09"
+	    minutes = "0" + minutes;
+	    
+		}
+
+	    // This gets a "handle" to the clock div in our HTML
+	    var countDiv = document.getElementById('countdown{{ set.alert_set_id }}');
+
+	    // Then we set the text inside the clock div 
+	    // to the hours, minutes, and seconds of the current time
+	    countDiv.innerText = days + " days and " + hours + ":" + minutes + ":" + seconds + " Remaining";
+	  
+	    return {
+	    	'changes': change + 1 
+	    };
+	  }
+
+	  // This runs the displayTime function the first time
+	  var changing = count{{ set.alert_set_id }}().changes;
+
+	  count{{ set.alert_set_id }}(changing);  
+	  setInterval(count{{ set.alert_set_id }}, 1000);
+
+	});
+
+</script>
 </div>
-</div>
+{% endif %}
+
 <script>
 	$(document).ready(function(){
 	    $( "#toggle{{ set.alert_set_id }}" ).change(function(event){
@@ -120,6 +176,7 @@
 	    
 	});
 </script>
+{% endif %}
 {% endif %}
 {% endfor %}
 
