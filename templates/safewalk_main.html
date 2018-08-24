@@ -15,12 +15,13 @@
 {% if set.interval %}
 <div class="alert_display">
 	<a href="/edit_recset/{{ set.alert_set_id }}">{{ set.a_name }}</a> &nbsp &nbsp
-	<div class="alert_inner"> <input id="toggle{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
+	<div class="alert_inner"> <input id="toggle_rec{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
 	&nbsp &nbsp
+	</div>
 	{% if set.active == True %}
 	{{ set.next_alarm_dis }}
 
-	</div>
+	
 	&nbsp &nbsp &nbsp &nbsp
 
 	<div class="alert_inner" id='countdown{{ set.alert_set_id }}'></div>
@@ -76,7 +77,7 @@
 </div>
 <script>
 	$(document).ready(function(){
-	    $( "#toggle{{ set.alert_set_id }}" ).change(function(event){
+	    $( "#toggle_rec{{ set.alert_set_id }}" ).change(function(event){
 	        if(this.checked) {
 	        	$.get("/activate/{{ set.alert_set_id }}");
 	        	console.log("Toggle Button On is working");
@@ -97,16 +98,17 @@
 
 <h2>Pre-set/Scheduled Alerts*</h2>
 {% for set in alert_sets %}
-{% if set.interval %}
-{% if a_set.total %}
+{% if not set.interval %}
+{% if set.total != 0 %}
 <div class="alert_display">
 	<a href="/edit_schedset/{{ set.alert_set_id }}">{{ set.a_name }}</a> &nbsp &nbsp
-	<div class="alert_inner"> <input id="toggle{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
+	<div class="alert_inner"> <input id="toggle_sched{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
 	&nbsp &nbsp
+	</div>
 	{% if set.active == True %}
 	{{ set.next_alarm_dis }}
 
-	</div>
+	
 	&nbsp &nbsp &nbsp &nbsp
 
 	<div class="alert_inner" id='countdown{{ set.alert_set_id }}'></div>
@@ -158,12 +160,12 @@
 	});
 
 </script>
-</div>
-{% endif %}
 
+{% endif %}
+</div>
 <script>
 	$(document).ready(function(){
-	    $( "#toggle{{ set.alert_set_id }}" ).change(function(event){
+	    $( "#toggle_sched{{ set.alert_set_id }}" ).change(function(event){
 	        if(this.checked) {
 	        	$.get("/activate/{{ set.alert_set_id }}");
 	        	console.log("Toggle Button On is working");

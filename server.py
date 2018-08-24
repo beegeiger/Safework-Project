@@ -763,46 +763,42 @@ def resources():
 def safewalk_main():
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
+    now = datetime.datetime.now()
     user = User.query.filter_by(email=session['current_user']).one()
     alert_sets = AlertSet.query.filter_by(user_id=user.user_id).all()
     al_sets = []
     aset_alerts = []
     alerts = Alert.query.filter_by(user_id=user.user_id).all()
     for a_set in alert_sets:
+        a_set.total = 0
         for alert in alerts:
             if a_set.alert_set_id == alert.alert_set_id and a_set.interval:
                 aset_alerts.append(alert.datetime)
             elif a_set.alert_set_id == alert.alert_set_id:
                 dtime = datetime.datetime.now()
-                if datetime.datetime.now().time() >= alert.time:
+                if time >= alert.time:
                     tomorrow = date + datetime.timedelta(days=1)
                     dtime = datetime.datetime.combine(tomorrow, alert.time)
                 else:    
                     dtime = datetime.datetime.combine(date, alert.time)
-                if len(aset_alerts) == 0:
-                    aset_alerts.append(dtime)
-                elif dtime < aset_alerts[0]:
-                    aset_alerts.insert(0, dtime) 
-                else:
-                    aset_alerts.append(dtime)
-    if len(aset_alerts) >= 1:
-        now = datetime.datetime.now()
-        aset_alerts.sort()
-        a_set.next_alarm = aset_alerts[0]
-        a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %Y/%m/%d")
-        d1 = abs(now - aset_alerts[0])
-        d2 = float(d1.total_seconds())
-        days = math.floor(d2 / 86400)
-        hours = math.floor((d2 - (days * 86400)) / 3600)
-        minutes = math.floor((d2 - (days * 86400) - (hours * 3600)) / 60)
-        seconds = math.floor(d2 - (days * 86400) - (hours * 3600) - (minutes * 60))
-        print minutes
-        a_set.countdown = datetime.time(int(hours), int(minutes), int(seconds))
-        a_set.days = int(days)
-        a_set.hours = int(hours)
-        a_set.minutes = int(minutes)
-        a_set.seconds = int(seconds)
-        a_set.total =int(d2)
+                aset_alerts.append(dtime)
+        if len(aset_alerts) >= 1:     
+            aset_alerts.sort()
+            a_set.next_alarm = aset_alerts[0]
+            a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %Y/%m/%d")
+            d1 = abs(now - aset_alerts[0])
+            d2 = float(d1.total_seconds())
+            days = math.floor(d2 / 86400)
+            hours = math.floor((d2 - (days * 86400)) / 3600)
+            minutes = math.floor((d2 - (days * 86400) - (hours * 3600)) / 60)
+            seconds = math.floor(d2 - (days * 86400) - (hours * 3600) - (minutes * 60))
+            print minutes
+            a_set.countdown = datetime.time(int(hours), int(minutes), int(seconds))
+            a_set.days = int(days)
+            a_set.hours = int(hours)
+            a_set.minutes = int(minutes)
+            a_set.seconds = int(seconds)
+            a_set.total =int(d2)
 
     return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
 
@@ -986,8 +982,6 @@ def activate_alertset(alert_set_id):
                 print "step3a"
                 print time
                 print alert.time
-                print alert.time / 2
-                print alert.time + 30
                 print type(alert.time)
                 dtime = datetime.datetime.combine(date, alert.time)
                 print dtime
@@ -997,6 +991,7 @@ def activate_alertset(alert_set_id):
                 dtime = datetime.datetime.combine(alert.date, alert.time)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'datetime': dtime})
     else:
+        print "Interval = " + str(alert_set.interval)
         print "Rec Activated"
         dtime = datetime.datetime.combine(date, time)
         dtime_int = dtime + datetime.timedelta(minutes=alert_set.interval)
