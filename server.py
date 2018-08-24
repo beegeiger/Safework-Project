@@ -767,9 +767,9 @@ def safewalk_main():
     user = User.query.filter_by(email=session['current_user']).one()
     alert_sets = AlertSet.query.filter_by(user_id=user.user_id).all()
     al_sets = []
-    aset_alerts = []
     alerts = Alert.query.filter_by(user_id=user.user_id).all()
     for a_set in alert_sets:
+        aset_alerts = []
         a_set.total = 0
         for alert in alerts:
             if a_set.alert_set_id == alert.alert_set_id and a_set.interval:
@@ -799,6 +799,7 @@ def safewalk_main():
             a_set.minutes = int(minutes)
             a_set.seconds = int(seconds)
             a_set.total =int(d2)
+            print a_set.total
 
     return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
 

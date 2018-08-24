@@ -99,13 +99,14 @@
 <h2>Pre-set/Scheduled Alerts*</h2>
 {% for set in alert_sets %}
 {% if not set.interval %}
-{% if set.total != 0 %}
+
 <div class="alert_display">
 	<a href="/edit_schedset/{{ set.alert_set_id }}">{{ set.a_name }}</a> &nbsp &nbsp
 	<div class="alert_inner"> <input id="toggle_sched{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
 	&nbsp &nbsp
 	</div>
 	{% if set.active == True %}
+	{% if set.total != 0 %}
 	{{ set.next_alarm_dis }}
 
 	
@@ -162,6 +163,7 @@
 </script>
 
 {% endif %}
+{% endif %}
 </div>
 <script>
 	$(document).ready(function(){
@@ -178,7 +180,7 @@
 	    
 	});
 </script>
-{% endif %}
+
 {% endif %}
 {% endfor %}
 
