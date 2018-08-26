@@ -9,7 +9,7 @@ import math
 import time
 import json
 import datetime
-
+import secrets
 from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, flash,
                    session, jsonify)
@@ -31,6 +31,10 @@ app.jinja_env.undefined = StrictUndefined
 
 ####################################################################
 
+
+
+
+
 with app.app_context():
     while 1 == 1:
         time.sleep(60)
@@ -39,6 +43,8 @@ with app.app_context():
             difference = alert.datetime - datetime.datetime.now()
             if difference <= timedelta(minutes=1) and difference > timedelta(seconds=0):
                 checks = 0
+                events = {}
+                all_alerts = Alert.query.filter_by(alert_set_id=alert.alert_set_id).all()
                 user = User.query.filter_by(user_id=alert.user_id).one()
                 alert_set = AlertSet.query.filter_by(alert_set_id=alert.alert_set_id).one()
                 check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
@@ -47,6 +53,15 @@ with app.app_context():
                     if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
                         checks += 1
                 if checks == 0:
+                    body_text = "Safety Alert send by " + user.fname + " " + user.lname + 
+                    " through the SafeWork Project SafeWalk Alert system, found at safeworkproject.org \n \n" +
+                    "The user has included the following messages when they made this alert and checked in \n \n" +
+                    alert_set.message
+                for a_a in all_alerts:
+                    if len(a_a.message) > 2:
+                        events[a_a.datetime] = a_a
+                for chks in check_ins:
+                    events[chks.datetime] = chks
 
 
 
