@@ -31,9 +31,23 @@ app.jinja_env.undefined = StrictUndefined
 
 ####################################################################
 
-# with app.app_context():
-#     while 1 == 1:
-#         time.sleep(60)
+with app.app_context():
+    while 1 == 1:
+        time.sleep(60)
+        alerts = Alert.query.filter_by(active=True).all()
+        for alert in alerts:
+            difference = alert.datetime - datetime.datetime.now()
+            if difference <= timedelta(minutes=1) and difference > timedelta(seconds=0):
+                checks = 0
+                user = User.query.filter_by(user_id=alert.user_id).one()
+                alert_set = AlertSet.query.filter_by(alert_set_id=alert.alert_set_id).one()
+                check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
+                for ch in check_ins:
+                    dif = datetime.datetime.now() - alert.datetime
+                    if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
+                        checks += 1
+                if checks == 0:
+
 
 
 

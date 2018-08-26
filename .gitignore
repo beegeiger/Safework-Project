@@ -8,3 +8,5 @@ client_secret.json
 *.pyc
 send-mail.py
 send-sms.py
+send_mail.py
+send_sms.py
