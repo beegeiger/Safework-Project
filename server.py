@@ -33,12 +33,11 @@ app.jinja_env.undefined = StrictUndefined
 
 def create_alert(alert_id):
     alert = Alert.query.filter_by(alert_id=alert_id).one()
-    events = {}
-    
+    events = {}    
     user = User.query.filter_by(user_id=alert.user_id).one()
     alert_set = AlertSet.query.filter_by(alert_set_id=alert.alert_set_id).one()
-    all_alerts = Alert.query.filter(alert.alert_set_id == alert.alert_set_id, alert.datetime > alert_set.datetime, alert.datetime).all()
-    message_body = """Safety Alert sent by {} {} through the SafeWork Project SafeWalk Alert system, 
+    all_alerts = Alert.query.filter(alert.alert_set_id == alert.alert_set_id, alert.datetime > alert_set.start_datetime, alert.datetime <= datetime.datetime.now()).all()
+    message_body = """This is a Safety Alert sent by {} {} through the SafeWork Project SafeWalk Alert system, 
             found at safeworkproject.org \n \n The user has included the following 
             messages when they made this alert and checked in \n \n {}""".format(user.fname,user.lname, alert_set.message)
     for a_a in all_alerts:
@@ -47,12 +46,34 @@ def create_alert(alert_id):
     for chks in check_ins:
         events[chks.datetime] = chks
     for key in sorted(events.iterkeys()):
-        if events[key].alert_set_id:
-            message_body 
+        if events[key].alert_set_id and events[key].checked_in == True:
+            message_body += "An alarm was scheduled for {} which {} checked-in for.".format(key, user.fname)
+            if events[key].message:
+                message_body += "The Alarm included the following notes: {} \n \n".format(events[key].message)
+            else:
+                message_body += "\n \n" 
+        elif events[key].alert_set_id:
+            message_body += "An alarm was scheduled for {} which {} MISSED the checked-in for.".format(key, user.fname)
+            if events[key].message:
+                message_body += "The Alarm included the following notes: {} \n \n".format(events[key].message)
+            else:
+                message_body += "\n \n" 
         else:
+            message_body += "{} checked in with the app at {} and included the following message: {}".format(user.fname, key, events[key].notes)
+    if alert.contact_id3:
+        message_body += """Two other contacts have been sent this alert. If you know who it might be,
+                        consider reaching out and co-ordinating your effort to help {}.""".format(user.fname)
+    elif alert.contact_id2:
+        message_body += """One other contact has been sent this alert. If you know who it might be,
+                        consider reaching out and co-ordinating your effort to help {}.""".format(user.fname)
+    else:
+        message_body += """You were the only person sent this alert, so if anything can be done
+                        to help {}, it is up to you! Good luck!!!""".format(user.fname)
     return message_body
 
-
+def send_alert(alert_id, message_body):
+    
+    return
 
 with app.app_context():
     while 1 == 1:
@@ -68,7 +89,7 @@ with app.app_context():
                     if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
                         checks += 1
                 if checks == 0:
-                    create_alert(alert_id)
+                    message_body = create_alert(alert_id)
                 
 
 
