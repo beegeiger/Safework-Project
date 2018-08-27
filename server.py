@@ -16,18 +16,25 @@ from flask import (Flask, render_template, redirect, request, flash,
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (update, asc, desc)
-from model import Forum, Post, User, Incident, Police, Source, Like, Flag, Contact, AlertSet, Alert, CheckIn, ReqCheck, connect_to_db, db
+from model import Forum, Post, User, Incident, Police, Source, Like, Flag, Contact, AlertSet, Alert, CheckIn, ReqCheck, connect_to_db, db, app
 import requests
 # from secrets_env import CLIENT_ID
 
+from twisted.internet import task
+from twisted.internet import reactor
+from multiprocessing import Pool
+import trollius
 
-app = Flask(__name__)
+
+db.init_app(app)
 
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "ABC"
 
 # Causes error messages for undefined variables in jinja
 app.jinja_env.undefined = StrictUndefined
+
+
 
 ####################################################################
 
@@ -76,36 +83,43 @@ def create_alert(alert_id):
 def send_alert(alert_id, message_body):
     alert = Alert.query.filter_by(alert_id=alert_id).one()
     user = User.query.filter_by(user_id=alert.user_id).one()
-    if user.email:
+    if user.email2:
+        send_email(user.email2, message_body)
+    elif user.email:
         send_email(user.email, message_body)
     if user.phone:
         send_message(user.phone, message_body)
     return "Messages Sent"
 
-with app.app_context():
-    while 1 == 1:
-        time.sleep(60)
-        alerts = Alert.query.filter_by(active=True).all()
-        for alert in alerts:
-            difference = alert.datetime - datetime.datetime.now()
-            if difference <= timedelta(minutes=1) and difference > timedelta(seconds=0):
-                checks = 0
-                check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
-                for ch in check_ins:
-                    dif = datetime.datetime.now() - alert.datetime
-                    if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
-                        checks += 1
-                if checks == 0:
-                    message_body = create_alert(alert.alert_id)
-                    send_alert(alert.alert_id, message_body)
-                
-
+@trollius.coroutine
+def check_alerts():
+    with app.app_context():
+        while 1==1:
+            print "Checking for Alerts Now: " + str(datetime.datetime.now())
+            time.sleep(60)
+            alerts = Alert.query.filter_by(active=True).all()
+            print alerts
+            if len(alerts) > 0:
+                for alert in alerts:
+                    difference = alert.datetime - datetime.datetime.now()
+                    if difference <= datetime.timedelta(minutes=1) and difference > datetime.timedelta(seconds=0):
+                        checks = 0
+                        check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
+                        for ch in check_ins:
+                            dif = datetime.datetime.now() - alert.datetime
+                            if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
+                                checks += 1
+                        if checks == 0:
+                            message_body = create_alert(alert.alert_id)
+                            send_alert(alert.alert_id, message_body)
+    return
 
 
 
 @app.route("/")
 def go_home():
     """Renders the safework homepage. (Tested)"""
+    
     return render_template("homepage.html")
 
 
@@ -839,6 +853,7 @@ def safewalk_main():
         a_set.total = 0
         for alert in alerts:
             if a_set.alert_set_id == alert.alert_set_id and a_set.interval:
+                alert.datetime = now + datetime.timedelta(minutes=a_set.interval)
                 aset_alerts.append(alert.datetime)
             elif a_set.alert_set_id == alert.alert_set_id:
                 dtime = datetime.datetime.now()
@@ -1116,9 +1131,17 @@ def smsin():
     print "SMS Received"
     return "SMS Received"
 
+check_alerts()
+
 #####################################################
 
 if __name__ == "__main__":
+    
+    print "should be working"
     connect_to_db(app, 'postgresql:///safework')
+    
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     print "Connected to DB."
     app.run(host='0.0.0.0')
+    
+
