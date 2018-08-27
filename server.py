@@ -36,7 +36,7 @@ def create_alert(alert_id):
     events = {}    
     user = User.query.filter_by(user_id=alert.user_id).one()
     alert_set = AlertSet.query.filter_by(alert_set_id=alert.alert_set_id).one()
-    all_alerts = Alert.query.filter(alert.alert_set_id == alert.alert_set_id, alert.datetime > alert_set.start_datetime, alert.datetime <= datetime.datetime.now()).all()
+    all_alerts = Alert.query.filter(alert.alert_set_id == alert.alert_set_id, alert.datetime > alert_set.start_datetime).all()
     message_body = """This is a Safety Alert sent by {} {} through the SafeWork Project SafeWalk Alert system, 
             found at safeworkproject.org \n \n The user has included the following 
             messages when they made this alert and checked in \n \n {}""".format(user.fname, user.lname, alert_set.message)
@@ -52,6 +52,8 @@ def create_alert(alert_id):
                 message_body += "The Alarm included the following notes: {} \n \n".format(events[key].message)
             else:
                 message_body += "\n \n" 
+        elif alert.datetime >= datetime.datetime.now() and events[key].message:
+             message_body += "A future alarm is scheduled for {} and includes the notes: {}.".format(alert.datetime, events[key].message)
         elif events[key].alert_set_id:
             message_body += "An alarm was scheduled for {} which {} MISSED the checked-in for.".format(key, user.fname)
             if events[key].message:
