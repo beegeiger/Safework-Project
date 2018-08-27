@@ -39,7 +39,7 @@ def create_alert(alert_id):
     all_alerts = Alert.query.filter(alert.alert_set_id == alert.alert_set_id, alert.datetime > alert_set.start_datetime, alert.datetime <= datetime.datetime.now()).all()
     message_body = """This is a Safety Alert sent by {} {} through the SafeWork Project SafeWalk Alert system, 
             found at safeworkproject.org \n \n The user has included the following 
-            messages when they made this alert and checked in \n \n {}""".format(user.fname,user.lname, alert_set.message)
+            messages when they made this alert and checked in \n \n {}""".format(user.fname, user.lname, alert_set.message)
     for a_a in all_alerts:
         if len(a_a.message) > 2:
             events[a_a.datetime] = a_a
@@ -72,7 +72,7 @@ def create_alert(alert_id):
     return message_body
 
 def send_alert(alert_id, message_body):
-    
+
     return
 
 with app.app_context():
@@ -89,7 +89,8 @@ with app.app_context():
                     if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
                         checks += 1
                 if checks == 0:
-                    message_body = create_alert(alert_id)
+                    message_body = create_alert(alert.alert_id)
+                    send_alert(alert.alert_id, message_body)
                 
 
 
