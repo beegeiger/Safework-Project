@@ -1,7 +1,7 @@
 """SafeWork Server"""
 
 from __future__ import absolute_import
-
+from send_alerts import send_message, send_email
 import flask
 import bcrypt
 import bcrypt
@@ -72,8 +72,13 @@ def create_alert(alert_id):
     return message_body
 
 def send_alert(alert_id, message_body):
-
-    return
+    alert = Alert.query.filter_by(alert_id=alert_id).one()
+    user = User.query.filter_by(user_id=alert.user_id).one()
+    if user.email:
+        send_email(user.email, message_body)
+    if user.phone:
+        send_message(user.phone, message_body)
+    return "Messages Sent"
 
 with app.app_context():
     while 1 == 1:
