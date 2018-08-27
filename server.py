@@ -34,18 +34,23 @@ app.jinja_env.undefined = StrictUndefined
 def create_alert(alert_id):
     alert = Alert.query.filter_by(alert_id=alert_id).one()
     events = {}
-    all_alerts = Alert.query.filter_by(alert_set_id=alert.alert_set_id).all()
+    
     user = User.query.filter_by(user_id=alert.user_id).one()
     alert_set = AlertSet.query.filter_by(alert_set_id=alert.alert_set_id).one()
+    all_alerts = Alert.query.filter(alert.alert_set_id == alert.alert_set_id, alert.datetime > alert_set.datetime, alert.datetime).all()
+    message_body = """Safety Alert sent by {} {} through the SafeWork Project SafeWalk Alert system, 
+            found at safeworkproject.org \n \n The user has included the following 
+            messages when they made this alert and checked in \n \n {}""".format(user.fname,user.lname, alert_set.message)
     for a_a in all_alerts:
         if len(a_a.message) > 2:
             events[a_a.datetime] = a_a
     for chks in check_ins:
         events[chks.datetime] = chks
-    return """Safety Alert sent by {} {} through the SafeWork Project SafeWalk Alert system, 
-            found at safeworkproject.org \n \n The user has included the following 
-            messages when they made this alert and checked in \n \n {}""".format(user.fname,user.lname, alert_set.message)
-
+    for key in sorted(events.iterkeys()):
+        if events[key].alert_set_id:
+            message_body 
+        else:
+    return message_body
 
 
 
@@ -1003,8 +1008,9 @@ def activate_alertset(alert_set_id):
     alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
+    dt = datetime.datetime.now()
     if alert_set.date == None:
-        db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'date': date})
+        db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'date': date, 'start_datetime': dt})
     if alert_set.interval == None:
         print "step 1"
         alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
@@ -1030,7 +1036,7 @@ def activate_alertset(alert_set_id):
         dtime_int = dtime + datetime.timedelta(minutes=alert_set.interval)
         alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
         db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'active': True, 'start_time': time, 'start_time': time, 'datetime': dtime_int})
-    db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'active': True, 'start_time': time})
+    db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'active': True, 'start_time': time, 'start_datetime': dt})
     db.session.commit()
     return "Alert Set Activated"
 
