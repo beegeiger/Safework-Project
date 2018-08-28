@@ -19,11 +19,7 @@ from sqlalchemy import (update, asc, desc)
 from model import Forum, Post, User, Incident, Police, Source, Like, Flag, Contact, AlertSet, Alert, CheckIn, ReqCheck, connect_to_db, db, app
 import requests
 # from secrets_env import CLIENT_ID
-
-from twisted.internet import task
-from twisted.internet import reactor
-from multiprocessing import Pool
-import trollius
+import asyncio
 
 
 db.init_app(app)
@@ -96,7 +92,7 @@ async def check_alerts():
     with app.app_context():
         while True:
             print("Checking for Alerts Now: " + str(datetime.datetime.now()))
-            time.sleep(60)
+            await asyncio.sleep(60)
             alerts = Alert.query.filter_by(active=True).all()
             print(alerts)
             if len(alerts) > 0:
@@ -114,7 +110,8 @@ async def check_alerts():
                             send_alert(alert.alert_id, message_body)
     return
 
-
+loop = asyncio.get_event_loop()
+asyncio.ensure_future(check_alerts())
 
 @app.route("/")
 def go_home():

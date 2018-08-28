@@ -9,5 +9,5 @@ Jinja2==2.10
 psycopg2==2.7.1
 requests==2.18.4
 SQLAlchemy==1.1.7
-Flask-Mail
-bandwidth-sdk
+
+bandwidth-sdk==3.0.1
