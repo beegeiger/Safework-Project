@@ -91,28 +91,27 @@ def send_alert(alert_id, message_body):
         send_message(user.phone, message_body)
     return "Messages Sent"
 
-@trollius.coroutine
-def check_alerts():
-    with app.app_context():
-        while 1==1:
-            print "Checking for Alerts Now: " + str(datetime.datetime.now())
-            time.sleep(60)
-            alerts = Alert.query.filter_by(active=True).all()
-            print alerts
-            if len(alerts) > 0:
-                for alert in alerts:
-                    difference = alert.datetime - datetime.datetime.now()
-                    if difference <= datetime.timedelta(minutes=1) and difference > datetime.timedelta(seconds=0):
-                        checks = 0
-                        check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
-                        for ch in check_ins:
-                            dif = datetime.datetime.now() - alert.datetime
-                            if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
-                                checks += 1
-                        if checks == 0:
-                            message_body = create_alert(alert.alert_id)
-                            send_alert(alert.alert_id, message_body)
-    return
+
+# def check_alerts():
+#     @trolius.coroutine
+#     with app.app_context():
+#             print "Checking for Alerts Now: " + str(datetime.datetime.now())
+#             alerts = Alert.query.filter_by(active=True).all()
+#             print alerts
+#             if len(alerts) > 0:
+#                 for alert in alerts:
+#                     difference = alert.datetime - datetime.datetime.now()
+#                     if difference <= datetime.timedelta(minutes=1) and difference > datetime.timedelta(seconds=0):
+#                         checks = 0
+#                         check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
+#                         for ch in check_ins:
+#                             dif = datetime.datetime.now() - alert.datetime
+#                             if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
+#                                 checks += 1
+#                         if checks == 0:
+#                             message_body = create_alert(alert.alert_id)
+#                             send_alert(alert.alert_id, message_body)
+#     return
 
 
 
