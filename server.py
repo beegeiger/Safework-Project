@@ -9,6 +9,7 @@ import math
 import time
 import json
 import datetime
+import threading
 import secrets
 from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, flash,
@@ -41,8 +42,9 @@ def create_alert(alert_id):
     alert_set = AlertSet.query.filter_by(alert_set_id=alert.alert_set_id).one()
     all_alerts = Alert.query.filter(alert.alert_set_id == alert.alert_set_id, alert.datetime > alert_set.start_datetime).all()
     message_body = """This is a Safety Alert sent by {} {} through the SafeWork Project SafeWalk Alert system, 
-            found at safeworkproject.org \n \n The user has included the following 
-            messages when they made this alert and checked in \n \n {}""".format(user.fname, user.lname, alert_set.message)
+            found at safeworkproject.org \n \n""".format(user.fname, user.lname)
+    if alert_set.message:
+        message_body += """The user has included the following messages when they made this alert and checked in \n \n {}""".format(alert_set.message)
     for a_a in all_alerts:
         if len(a_a.message) > 2:
             events[a_a.datetime] = a_a
@@ -88,30 +90,57 @@ def send_alert(alert_id, message_body):
     return "Messages Sent"
 
 
-async def check_alerts():
+def check_alerts():
     with app.app_context():
-        while True:
-            print("Checking for Alerts Now: " + str(datetime.datetime.now()))
-            await asyncio.sleep(60)
-            alerts = Alert.query.filter_by(active=True).all()
-            print(alerts)
-            if len(alerts) > 0:
-                for alert in alerts:
-                    difference = alert.datetime - datetime.datetime.now()
-                    if difference <= datetime.timedelta(minutes=1) and difference > datetime.timedelta(seconds=0):
-                        checks = 0
-                        check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
-                        for ch in check_ins:
-                            dif = datetime.datetime.now() - alert.datetime
-                            if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
-                                checks += 1
-                        if checks == 0:
-                            message_body = create_alert(alert.alert_id)
-                            send_alert(alert.alert_id, message_body)
+        print("Checking for Alerts Now: " + str(datetime.datetime.now()))
+        alerts = Alert.query.filter_by(active=True).all()
+        print(alerts)
+        if len(alerts) > 0:
+            for alert in alerts:
+                difference = alert.datetime - datetime.datetime.now()
+                if difference <= datetime.timedelta(minutes=1) and difference > datetime.timedelta(seconds=0):
+                    checks = 0
+                    check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
+                    for ch in check_ins:
+                        dif = datetime.datetime.now() - alert.datetime
+                        if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
+                            checks += 1
+                    if checks == 0:
+                        print('A CHECK-IN WAS MISSED AND AN ALERT IS BEING SENT NOW!')
+                        message_body = create_alert(alert.alert_id)
+                        send_alert(alert.alert_id, message_body)
     return
 
-loop = asyncio.get_event_loop()
-asyncio.ensure_future(check_alerts())
+#below is modified code from https://networklore.com/start-task-with-flask/
+@app.before_first_request
+def activate_job():
+    def run_job():
+        while True:
+            check_alerts()
+            time.sleep(60)
+
+    thread = threading.Thread(target=run_job)
+    thread.start()
+
+def start_runner():
+    def start_loop():
+        not_started = True
+        while not_started:
+            print('In start loop')
+            try:
+                r = requests.get('http://127.0.0.1:5000/')
+                if r.status_code == 200:
+                    print('Server started, quiting start_loop')
+                    not_started = False
+                print(r.status_code)
+            except:
+                print('Server not yet started')
+            time.sleep(2)
+    print('Started runner')
+    thread = threading.Thread(target=start_loop)
+    thread.start()
+
+
 
 @app.route("/")
 def go_home():
@@ -850,7 +879,6 @@ def safewalk_main():
         a_set.total = 0
         for alert in alerts:
             if a_set.alert_set_id == alert.alert_set_id and a_set.interval:
-                alert.datetime = now + datetime.timedelta(minutes=a_set.interval)
                 aset_alerts.append(alert.datetime)
             elif a_set.alert_set_id == alert.alert_set_id:
                 dtime = datetime.datetime.now()
@@ -862,6 +890,8 @@ def safewalk_main():
                 aset_alerts.append(dtime)
         if len(aset_alerts) >= 1:     
             aset_alerts.sort()
+            print('aset_alerts:')
+            print(aset_alerts[0])
             a_set.next_alarm = aset_alerts[0]
             a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %Y/%m/%d")
             d1 = abs(now - aset_alerts[0])
@@ -1132,10 +1162,9 @@ def smsin():
 #####################################################
 
 if __name__ == "__main__":
-    
+    start_runner()
     print("should be working")
     connect_to_db(app, 'postgresql:///safework')
-    
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     print("Connected to DB.")
     app.run(host='0.0.0.0')
