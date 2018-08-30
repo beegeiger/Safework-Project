@@ -84,10 +84,13 @@ def send_alert(alert_id, message_body):
     user = User.query.filter_by(user_id=alert.user_id).one()
     if user.email2:
         send_email(user.email2, message_body)
+        print('Sending to email2')
     elif user.email:
         send_email(user.email, message_body)
+        print('Sending to email1')
     if user.phone:
         send_message(user.phone, message_body)
+        print('Sending to phone')
     return "Messages Sent"
 
 
@@ -95,7 +98,7 @@ def check_alerts():
     with app.app_context():
         print("Checking for Alerts Now: " + str(datetime.datetime.now()))
         alerts = Alert.query.filter_by(active=True).all()
-        print(alerts)
+        # print(alerts)
         if len(alerts) > 0:
             for alert in alerts:
                 difference = alert.datetime - datetime.datetime.now()
@@ -1133,10 +1136,10 @@ def mailin():
     text = request.form['body-plain']
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
-    datetime = datetime.datetime.now()
-    user = User.query.filter_by(email=strp(send_email)).all()
+    datetim = datetime.datetime.now()
+    user = User.query.filter_by(email=str.strip(send_email)).all()
     if len(user) >= 1:        
-        new_check = CheckIn(user_id=user.user_id, notes=text, time=time, date=date, datetime=datetime)
+        new_check = CheckIn(user_id=user.user_id, notes=text, time=time, date=date, datetime=datetim)
         db.session.add(new_check)
         db.session.commit()
     print(send_email)
@@ -1149,10 +1152,10 @@ def smsin():
     message_body = request.form['Body']
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
-    datetime = datetime.datetime.now()
-    user = User.query.filter_by(phone=str(number)).all()
+    datetim = datetime.datetime.now()
+    user = User.query.filter_by(phone=str.strip(number)).all()
     if len(user) >= 1:        
-        new_check = CheckIn(user_id=user.user_id, notes=message_body, time=time, date=date, datetime=datetime)
+        new_check = CheckIn(user_id=user.user_id, notes=message_body, time=time, date=date, datetime=datetim)
         db.session.add(new_check)
         db.session.commit()
     print(number)
