@@ -41,9 +41,10 @@ def create_alert(alert_id):
     user = User.query.filter_by(user_id=alert.user_id).one()
     alert_set = AlertSet.query.filter_by(alert_set_id=alert.alert_set_id).one()
     all_alerts = Alert.query.filter(alert.alert_set_id == alert.alert_set_id, alert.datetime > alert_set.start_datetime).all()
+    check_ins = CheckIn.query.filter_by(user_id=user.user_id).all()
     message_body = """This is a Safety Alert sent by {} {} through the SafeWork Project SafeWalk Alert system, 
             found at safeworkproject.org \n \n""".format(user.fname, user.lname)
-    if alert_set.message:
+    if alert_set.notes:
         message_body += """The user has included the following messages when they made this alert and checked in \n \n {}""".format(alert_set.message)
     for a_a in all_alerts:
         if len(a_a.message) > 2:
