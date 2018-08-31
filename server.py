@@ -1126,6 +1126,12 @@ def deactivate_alertset(alert_set_id):
     db.session.commit()
     return "Alert Set Deactivated"
 
+@app.route("/check_ins")
+def checkin_page():
+    user = User.query.filter_by(email=session['current_user']).one()
+    check_ins = CheckIn.query.filter_by(user_id=user.user_id).all()
+    return render_template("checkins_page.html", check_ins=check_ins)
+
 @app.route("/incoming_mail", methods=["POST"])  
 def mailin():  
     
