@@ -1148,17 +1148,21 @@ def mailin():
 
 @app.route('/incoming_sms', methods=['POST'])
 def smsin():
-    number = request.form['From']
-    message_body = request.form['Body']
+    dat = request.data
+    data = json.loads(dat.decode(encoding="utf-8", errors="strict"))
+    message_body = data['text']
+    phone = data['from']
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
     datetim = datetime.datetime.now()
-    user = User.query.filter_by(phone=str.strip(number)).all()
+    user = User.query.filter_by(phone=str(phone[-10:])).all()
+    u_id = user[0].user_id
     if len(user) >= 1:        
-        new_check = CheckIn(user_id=user.user_id, notes=message_body, time=time, date=date, datetime=datetim)
+        new_check = CheckIn(user_id=u_id, notes=message_body, time=time, date=date, datetime=datetim)
         db.session.add(new_check)
         db.session.commit()
-    print(number)
+    print(phone[-10:])
+    print(user)
     print("SMS Received")
     return "SMS Received"
 
