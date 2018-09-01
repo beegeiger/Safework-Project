@@ -1132,6 +1132,18 @@ def checkin_page():
     check_ins = CheckIn.query.filter_by(user_id=user.user_id).all()
     return render_template("checkins_page.html", check_ins=check_ins)
 
+@app.route("/add_check_in", methods=["POST"])
+def add_new_checkin():
+    text = request.form['check_text']
+    user = User.query.filter_by(email=session['current_user']).one()
+    time = datetime.datetime.now().time()
+    date = (datetime.datetime.today())
+    datetim = datetime.datetime.now()
+    new_check = CheckIn(user_id=user.user_id, notes=text, time=time, date=date, datetime=datetim)
+    db.session.add(new_check)
+    db.session.commit()
+    return redirect("/check_ins")
+
 @app.route("/incoming_mail", methods=["POST"])  
 def mailin():  
     
