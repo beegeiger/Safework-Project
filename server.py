@@ -102,17 +102,22 @@ def check_alerts():
         if len(alerts) > 0:
             for alert in alerts:
                 difference = alert.datetime - datetime.datetime.now()
-                if difference <= datetime.timedelta(minutes=1) and difference > datetime.timedelta(seconds=0):
-                    checks = 0
-                    check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
-                    for ch in check_ins:
-                        dif = datetime.datetime.now() - alert.datetime
-                        if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
-                            checks += 1
-                    if checks == 0:
-                        print('A CHECK-IN WAS MISSED AND AN ALERT IS BEING SENT NOW!')
-                        message_body = create_alert(alert.alert_id)
-                        send_alert(alert.alert_id, message_body)
+                checks = 0
+                check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
+                for ch in check_ins:
+                    dif = datetime.datetime.now() - alert.datetime
+                    if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
+                        checks += 1
+                if difference <= datetime.timedelta(minutes=1) and difference > datetime.timedelta(seconds=0) and checks == 0:
+                    print('A CHECK-IN WAS MISSED AND AN ALERT IS BEING SENT NOW!')
+                    message_body = create_alert(alert.alert_id)
+                    send_alert(alert.alert_id, message_body)
+                elif difference <= datetime.timedelta(minutes=15) and difference > datetime.timedelta(minutes=14) and checks == 0:
+                    print('A CHECK-IN REMINDER IS BEING SENT NOW!')
+                    message_body = """Reminder! You have a Check-In Scheduled in 15 minutes. If you don't check-in
+                    by responding to this text, emailing 'safe@safeworkproject.org', or checking in on the site at
+                    'www.safeworkproject.org/check_ins', your pre-set alerts will be sent to your contact(s)!"""
+                    send_alert(alert.alert_id, message_body)
     return
 
 #below is modified code from https://networklore.com/start-task-with-flask/
