@@ -106,7 +106,7 @@ def check_alerts():
                 check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
                 for ch in check_ins:
                     dif = datetime.datetime.now() - alert.datetime
-                    if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
+                    if dif <= datetime.timedelta(hours=1) and difference > datetime.timedelta(seconds=0):
                         checks += 1
                 if difference <= datetime.timedelta(minutes=1) and difference > datetime.timedelta(seconds=0) and checks == 0:
                     print('A CHECK-IN WAS MISSED AND AN ALERT IS BEING SENT NOW!')
@@ -903,7 +903,7 @@ def safewalk_main():
             print(aset_alerts[0])
             a_set.next_alarm = aset_alerts[0]
             a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %Y/%m/%d")
-            d1 = abs(now - aset_alerts[0])
+            d1 = now - aset_alerts[0]
             d2 = float(d1.total_seconds())
             days = math.floor(d2 / 86400)
             hours = math.floor((d2 - (days * 86400)) / 3600)
@@ -916,6 +916,8 @@ def safewalk_main():
             a_set.minutes = int(minutes)
             a_set.seconds = int(seconds)
             a_set.total =int(d2)
+            if d1 < datetime.timedelta(seconds=0):
+                a_set.total = 0
             print(a_set.total)
 
     return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
