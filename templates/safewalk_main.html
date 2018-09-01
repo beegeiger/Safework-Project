@@ -24,7 +24,12 @@
 	
 	&nbsp &nbsp &nbsp &nbsp
 
-	<div class="alert_inner" id='countdown{{ set.alert_set_id }}'></div>
+	<div class="alert_inner" id='countdown{{ set.alert_set_id }}'>
+		{% if set.total == 0 %}
+		0:00:00 Remaining
+		{% endif %}
+	</div>
+{% if set.total != 0 %}
 	<script type="text/javascript">
 	var t{{ set.alert_set_id }} = ({{ set.total }} * 1000)
 
@@ -57,11 +62,13 @@
 
 	    // Then we set the text inside the clock div 
 	    // to the hours, minutes, and seconds of the current time
+
 	    countDiv.innerText = days + " days and " + hours + ":" + minutes + ":" + seconds + " Remaining";
 	  
 	    return {
 	    	'changes': change + 1 
 	    };
+
 	  }
 
 	  // This runs the displayTime function the first time
@@ -73,6 +80,7 @@
 	});
 
 </script>
+{% endif %}
 {% endif %}
 </div>
 <script>
