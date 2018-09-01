@@ -9,6 +9,7 @@ import math
 import time
 import json
 import datetime
+import threading
 import secrets
 from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, flash,
@@ -19,11 +20,7 @@ from sqlalchemy import (update, asc, desc)
 from model import Forum, Post, User, Incident, Police, Source, Like, Flag, Contact, AlertSet, Alert, CheckIn, ReqCheck, connect_to_db, db, app
 import requests
 # from secrets_env import CLIENT_ID
-
-from twisted.internet import task
-from twisted.internet import reactor
-from multiprocessing import Pool
-import trollius
+import asyncio
 
 
 db.init_app(app)
@@ -44,15 +41,17 @@ def create_alert(alert_id):
     user = User.query.filter_by(user_id=alert.user_id).one()
     alert_set = AlertSet.query.filter_by(alert_set_id=alert.alert_set_id).one()
     all_alerts = Alert.query.filter(alert.alert_set_id == alert.alert_set_id, alert.datetime > alert_set.start_datetime).all()
+    check_ins = CheckIn.query.filter_by(user_id=user.user_id).all()
     message_body = """This is a Safety Alert sent by {} {} through the SafeWork Project SafeWalk Alert system, 
-            found at safeworkproject.org \n \n The user has included the following 
-            messages when they made this alert and checked in \n \n {}""".format(user.fname, user.lname, alert_set.message)
+            found at safeworkproject.org \n \n""".format(user.fname, user.lname)
+    if alert_set.notes:
+        message_body += """The user has included the following messages when they made this alert and checked in \n \n {}""".format(alert_set.message)
     for a_a in all_alerts:
         if len(a_a.message) > 2:
             events[a_a.datetime] = a_a
     for chks in check_ins:
         events[chks.datetime] = chks
-    for key in sorted(events.iterkeys()):
+    for key in sorted(events.keys()):
         if events[key].alert_set_id and events[key].checked_in == True:
             message_body += "An alarm was scheduled for {} which {} checked-in for.".format(key, user.fname)
             if events[key].message:
@@ -85,33 +84,70 @@ def send_alert(alert_id, message_body):
     user = User.query.filter_by(user_id=alert.user_id).one()
     if user.email2:
         send_email(user.email2, message_body)
+        print('Sending to email2')
     elif user.email:
         send_email(user.email, message_body)
+        print('Sending to email1')
     if user.phone:
         send_message(user.phone, message_body)
+        print('Sending to phone')
     return "Messages Sent"
 
 
-# def check_alerts():
-#     @trolius.coroutine
-#     with app.app_context():
-#             print "Checking for Alerts Now: " + str(datetime.datetime.now())
-#             alerts = Alert.query.filter_by(active=True).all()
-#             print alerts
-#             if len(alerts) > 0:
-#                 for alert in alerts:
-#                     difference = alert.datetime - datetime.datetime.now()
-#                     if difference <= datetime.timedelta(minutes=1) and difference > datetime.timedelta(seconds=0):
-#                         checks = 0
-#                         check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
-#                         for ch in check_ins:
-#                             dif = datetime.datetime.now() - alert.datetime
-#                             if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
-#                                 checks += 1
-#                         if checks == 0:
-#                             message_body = create_alert(alert.alert_id)
-#                             send_alert(alert.alert_id, message_body)
-#     return
+def check_alerts():
+    with app.app_context():
+        print("Checking for Alerts Now: " + str(datetime.datetime.now()))
+        alerts = Alert.query.filter_by(active=True).all()
+        # print(alerts)
+        if len(alerts) > 0:
+            for alert in alerts:
+                difference = alert.datetime - datetime.datetime.now()
+                checks = 0
+                check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
+                for ch in check_ins:
+                    dif = datetime.datetime.now() - alert.datetime
+                    if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
+                        checks += 1
+                if difference <= datetime.timedelta(minutes=1) and difference > datetime.timedelta(seconds=0) and checks == 0:
+                    print('A CHECK-IN WAS MISSED AND AN ALERT IS BEING SENT NOW!')
+                    message_body = create_alert(alert.alert_id)
+                    send_alert(alert.alert_id, message_body)
+                elif difference <= datetime.timedelta(minutes=15) and difference > datetime.timedelta(minutes=14) and checks == 0:
+                    print('A CHECK-IN REMINDER IS BEING SENT NOW!')
+                    message_body = """Reminder! You have a Check-In Scheduled in 15 minutes. If you don't check-in
+                    by responding to this text, emailing 'safe@safeworkproject.org', or checking in on the site at
+                    'www.safeworkproject.org/check_ins', your pre-set alerts will be sent to your contact(s)!"""
+                    send_alert(alert.alert_id, message_body)
+    return
+
+#below is modified code from https://networklore.com/start-task-with-flask/
+@app.before_first_request
+def activate_job():
+    def run_job():
+        while True:
+            check_alerts()
+            time.sleep(60)
+
+    thread = threading.Thread(target=run_job)
+    thread.start()
+
+def start_runner():
+    def start_loop():
+        not_started = True
+        while not_started:
+            print('In start loop')
+            try:
+                r = requests.get('http://127.0.0.1:5000/')
+                if r.status_code == 200:
+                    print('Server started, quiting start_loop')
+                    not_started = False
+                print(r.status_code)
+            except:
+                print('Server not yet started')
+            time.sleep(2)
+    print('Started runner')
+    thread = threading.Thread(target=start_loop)
+    thread.start()
 
 
 
@@ -257,7 +293,7 @@ def log_in():
     """Render's the log-in page if user not in session,
      otherwise redirects to the homepage (Tested)"""
 
-    if 'current_user' in session.keys():
+    if 'current_user' in list(session.keys()):
         return redirect("/")
     else:
         return render_template("login.html")
@@ -377,7 +413,7 @@ def go_forums():
 
 
     #Checks to see if the user is logged in. If so, renders forums
-    if 'current_user' in session.keys():
+    if 'current_user' in list(session.keys()):
         return render_template("forums.html", cam=cam, dom=dom, escort=escort,
                                porn=porn, dance=dance, phone=phone, other=other, sugar=sugar,
                                cam_query=cam_query, dom_query=dom_query, escort_query=escort_query,
@@ -656,9 +692,9 @@ def date_order(forum_id, page_num=1):
     forum = Forum.query.filter_by(forum_id=forum_id).one()
     post_index=int(math.ceil((len(posts)/float(10))))
 
-    print posts
+    print(posts)
     if posts:
-        print posts[0].forum_id
+        print(posts[0].forum_id)
 
     #Defines empty flag list to be filled with user's flags
     flags = []
@@ -726,7 +762,7 @@ def pop_order(forum_id, page_num=1):
 def report_page():
     """If user logged in, renders report form page, otherwise redirects to login"""
 
-    if 'current_user' in session.keys():
+    if 'current_user' in list(session.keys()):
         return render_template("report_form.html")
     else:
         flash('You must sign in before making a report.')
@@ -852,7 +888,6 @@ def safewalk_main():
         a_set.total = 0
         for alert in alerts:
             if a_set.alert_set_id == alert.alert_set_id and a_set.interval:
-                alert.datetime = now + datetime.timedelta(minutes=a_set.interval)
                 aset_alerts.append(alert.datetime)
             elif a_set.alert_set_id == alert.alert_set_id:
                 dtime = datetime.datetime.now()
@@ -864,6 +899,8 @@ def safewalk_main():
                 aset_alerts.append(dtime)
         if len(aset_alerts) >= 1:     
             aset_alerts.sort()
+            print('aset_alerts:')
+            print(aset_alerts[0])
             a_set.next_alarm = aset_alerts[0]
             a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %Y/%m/%d")
             d1 = abs(now - aset_alerts[0])
@@ -872,14 +909,14 @@ def safewalk_main():
             hours = math.floor((d2 - (days * 86400)) / 3600)
             minutes = math.floor((d2 - (days * 86400) - (hours * 3600)) / 60)
             seconds = math.floor(d2 - (days * 86400) - (hours * 3600) - (minutes * 60))
-            print minutes
+            print(minutes)
             a_set.countdown = datetime.time(int(hours), int(minutes), int(seconds))
             a_set.days = int(days)
             a_set.hours = int(hours)
             a_set.minutes = int(minutes)
             a_set.seconds = int(seconds)
             a_set.total =int(d2)
-            print a_set.total
+            print(a_set.total)
 
     return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
 
@@ -1047,7 +1084,7 @@ def add_sched_alert(alert_set_id):
 
 @app.route("/activate/<alert_set_id>")
 def activate_alertset(alert_set_id):
-    print alert_set_id
+    print(alert_set_id)
     alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
@@ -1055,26 +1092,26 @@ def activate_alertset(alert_set_id):
     if alert_set.date == None:
         db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'date': date, 'start_datetime': dt})
     if alert_set.interval == None:
-        print "step 1"
+        print("step 1")
         alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
         for alert in alerts:
-            print "step 2"
+            print("step 2")
             db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'active': True, 'start_time': time})
             if alert.date == None:
-                print "step3a"
-                print time
-                print alert.time
-                print type(alert.time)
+                print("step3a")
+                print(time)
+                print(alert.time)
+                print(type(alert.time))
                 dtime = datetime.datetime.combine(date, alert.time)
-                print dtime
+                print(dtime)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'date': date, 'datetime': dtime})
             else:
-                print "step 3b"
+                print("step 3b")
                 dtime = datetime.datetime.combine(alert.date, alert.time)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'datetime': dtime})
     else:
-        print "Interval = " + str(alert_set.interval)
-        print "Rec Activated"
+        print("Interval = " + str(alert_set.interval))
+        print("Rec Activated")
         dtime = datetime.datetime.combine(date, time)
         dtime_int = dtime + datetime.timedelta(minutes=alert_set.interval)
         alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
@@ -1094,6 +1131,24 @@ def deactivate_alertset(alert_set_id):
     db.session.commit()
     return "Alert Set Deactivated"
 
+@app.route("/check_ins")
+def checkin_page():
+    user = User.query.filter_by(email=session['current_user']).one()
+    check_ins = CheckIn.query.filter_by(user_id=user.user_id).all()
+    return render_template("checkins_page.html", check_ins=check_ins)
+
+@app.route("/add_check_in", methods=["POST"])
+def add_new_checkin():
+    text = request.form['check_text']
+    user = User.query.filter_by(email=session['current_user']).one()
+    time = datetime.datetime.now().time()
+    date = (datetime.datetime.today())
+    datetim = datetime.datetime.now()
+    new_check = CheckIn(user_id=user.user_id, notes=text, time=time, date=date, datetime=datetim)
+    db.session.add(new_check)
+    db.session.commit()
+    return redirect("/check_ins")
+
 @app.route("/incoming_mail", methods=["POST"])  
 def mailin():  
     
@@ -1104,43 +1159,45 @@ def mailin():
     text = request.form['body-plain']
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
-    datetime = datetime.datetime.now()
-    user = User.query.filter_by(email=strp(send_email)).all()
+    datetim = datetime.datetime.now()
+    user = User.query.filter_by(email=str.strip(send_email)).all()
     if len(user) >= 1:        
-        new_check = CheckIn(user_id=user.user_id, notes=text, time=time, date=date, datetime=datetime)
+        new_check = CheckIn(user_id=user.user_id, notes=text, time=time, date=date, datetime=datetim)
         db.session.add(new_check)
         db.session.commit()
-    print send_email
-    print "Email Message Received"
+    print(send_email)
+    print("Email Message Received")
     return "Email Message Received"
 
 @app.route('/incoming_sms', methods=['POST'])
 def smsin():
-    number = request.form['From']
-    message_body = request.form['Body']
+    dat = request.data
+    data = json.loads(dat.decode(encoding="utf-8", errors="strict"))
+    message_body = data['text']
+    phone = data['from']
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
-    datetime = datetime.datetime.now()
-    user = User.query.filter_by(phone=str(number)).all()
+    datetim = datetime.datetime.now()
+    user = User.query.filter_by(phone=str(phone[-10:])).all()
+    u_id = user[0].user_id
     if len(user) >= 1:        
-        new_check = CheckIn(user_id=user.user_id, notes=message_body, time=time, date=date, datetime=datetime)
+        new_check = CheckIn(user_id=u_id, notes=message_body, time=time, date=date, datetime=datetim)
         db.session.add(new_check)
         db.session.commit()
-    print number
-    print "SMS Received"
+    print(phone[-10:])
+    print(user)
+    print("SMS Received")
     return "SMS Received"
 
-check_alerts()
 
 #####################################################
 
 if __name__ == "__main__":
-    
-    print "should be working"
+    start_runner()
+    print("should be working")
     connect_to_db(app, 'postgresql:///safework')
-    
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    print "Connected to DB."
+    print("Connected to DB.")
     app.run(host='0.0.0.0')
     
 
