@@ -1153,20 +1153,15 @@ def add_new_checkin():
 
 @app.route("/incoming_mail", methods=["POST"])  
 def mailin():  
-    
     # access some of the email parsed values:
     sender = request.form['From']
     send_email = request.form['sender']
     subject = request.form['subject']
     text = request.form['body-plain']
-    time = datetime.datetime.now().time()
-    date = (datetime.datetime.today())
-    datetim = datetime.datetime.now()
     user = User.query.filter_by(email=str.strip(send_email)).all()
+    u_id = user[0].user_id
     if len(user) >= 1:        
-        new_check = CheckIn(user_id=user.user_id, notes=text, time=time, date=date, datetime=datetim)
-        db.session.add(new_check)
-        db.session.commit()
+        check_in(u_id, text)
     print(send_email)
     print("Email Message Received")
     return "Email Message Received"
@@ -1177,19 +1172,33 @@ def smsin():
     data = json.loads(dat.decode(encoding="utf-8", errors="strict"))
     message_body = data['text']
     phone = data['from']
-    time = datetime.datetime.now().time()
-    date = (datetime.datetime.today())
-    datetim = datetime.datetime.now()
     user = User.query.filter_by(phone=str(phone[-10:])).all()
     u_id = user[0].user_id
     if len(user) >= 1:        
-        new_check = CheckIn(user_id=u_id, notes=message_body, time=time, date=date, datetime=datetim)
-        db.session.add(new_check)
-        db.session.commit()
+        check_in(u_id, message_body)
     print(phone[-10:])
     print(user)
     print("SMS Received")
     return "SMS Received"
+
+def check_in(user_id, notes):
+    time = datetime.datetime.now().time()
+    date = (datetime.datetime.today())
+    datetim = datetime.datetime.now()
+    new_check = CheckIn(user_id=user_id, notes=notes, time=time, date=date, datetime=datetim)
+    db.session.add(new_check)
+    db.session.commit()
+    alerts = Alert.query.filter(alert.user_id == user_id, alert.active == True).all()
+    for alert in alerts:
+        if alert.datetime - datetim < datime.timedelta(hours=1):
+            if alert.interval:
+                (db.session.query(Alert).filter_by(alert_id=alert.id)).update(
+                {'datetime': (alert.datetime + datetime.timedelta(minutes=alert.interval)), 'checked_in': True})    
+            else:
+                (db.session.query(Alert).filter_by(alert_id=alert.id)).update(
+                {'active': False, 'checked_in': True})
+    db.session.commit()
+    return "Check In has been Logged!"
 
 
 #####################################################
