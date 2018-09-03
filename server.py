@@ -889,6 +889,8 @@ def safewalk_main():
         for alert in alerts:
             if a_set.alert_set_id == alert.alert_set_id and a_set.interval:
                 aset_alerts.append(alert.datetime)
+                print("Alert:")
+                print(alert)
             elif a_set.alert_set_id == alert.alert_set_id:
                 dtime = datetime.datetime.now()
                 if time >= alert.time:
@@ -897,28 +899,30 @@ def safewalk_main():
                 else:    
                     dtime = datetime.datetime.combine(date, alert.time)
                 aset_alerts.append(dtime)
+                print(dtime)
         if len(aset_alerts) >= 1:     
-            aset_alerts.sort()
-            print('aset_alerts:')
-            print(aset_alerts[0])
-            a_set.next_alarm = aset_alerts[0]
-            a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %Y/%m/%d")
-            d1 = now - aset_alerts[0]
-            d2 = float(d1.total_seconds())
-            days = math.floor(d2 / 86400)
-            hours = math.floor((d2 - (days * 86400)) / 3600)
-            minutes = math.floor((d2 - (days * 86400) - (hours * 3600)) / 60)
-            seconds = math.floor(d2 - (days * 86400) - (hours * 3600) - (minutes * 60))
-            print(minutes)
-            a_set.countdown = datetime.time(int(hours), int(minutes), int(seconds))
-            a_set.days = int(days)
-            a_set.hours = int(hours)
-            a_set.minutes = int(minutes)
-            a_set.seconds = int(seconds)
-            a_set.total =int(d2)
-            if d1 < datetime.timedelta(seconds=0):
-                a_set.total = 0
-            print(a_set.total)
+            if aset_alerts[0] != None:    
+                aset_alerts.sort()
+                print('aset_alerts:')
+                print(aset_alerts[0])
+                a_set.next_alarm = aset_alerts[0]
+                a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %Y/%m/%d")
+                d1 = now - aset_alerts[0]
+                d2 = abs(d1.total_seconds())
+                days = math.floor(d2 / 86400)
+                hours = math.floor((d2 - (days * 86400)) / 3600)
+                minutes = math.floor((d2 - (days * 86400) - (hours * 3600)) / 60)
+                seconds = math.floor(d2 - (days * 86400) - (hours * 3600) - (minutes * 60))
+                print(minutes)
+                a_set.countdown = datetime.time(int(hours), int(minutes), int(seconds))
+                a_set.days = int(days)
+                a_set.hours = int(hours)
+                a_set.minutes = int(minutes)
+                a_set.seconds = int(seconds)
+                a_set.total =int(d2)
+                # if d1 < datetime.timedelta(seconds=0):
+                #     a_set.total = 0
+                print(a_set.total)
 
     return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
 
@@ -1129,7 +1133,7 @@ def deactivate_alertset(alert_set_id):
     alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
     for alert in alerts:
         db.session.query(Alert).filter_by(alert_id=alert.alert_id).update(
-        {'active': False})
+        {'active': False, 'checked_in': False})
     db.session.commit()
     return "Alert Set Deactivated"
 
@@ -1143,12 +1147,7 @@ def checkin_page():
 def add_new_checkin():
     text = request.form['check_text']
     user = User.query.filter_by(email=session['current_user']).one()
-    time = datetime.datetime.now().time()
-    date = (datetime.datetime.today())
-    datetim = datetime.datetime.now()
-    new_check = CheckIn(user_id=user.user_id, notes=text, time=time, date=date, datetime=datetim)
-    db.session.add(new_check)
-    db.session.commit()
+    check_in(user.user_id, text)
     return redirect("/check_ins")
 
 @app.route("/incoming_mail", methods=["POST"])  
@@ -1188,15 +1187,17 @@ def check_in(user_id, notes):
     new_check = CheckIn(user_id=user_id, notes=notes, time=time, date=date, datetime=datetim)
     db.session.add(new_check)
     db.session.commit()
-    alerts = Alert.query.filter(alert.user_id == user_id, alert.active == True).all()
+    alerts = Alert.query.filter(Alert.user_id == user_id, Alert.active == True).all()
     for alert in alerts:
-        if alert.datetime - datetim < datime.timedelta(hours=1):
+        if alert.datetime - datetim < datetime.timedelta(hours=1):
             if alert.interval:
-                (db.session.query(Alert).filter_by(alert_id=alert.id)).update(
+                print("Alert:")
+                print(alert)
+                (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update(
                 {'datetime': (alert.datetime + datetime.timedelta(minutes=alert.interval)), 'checked_in': True})    
             else:
-                (db.session.query(Alert).filter_by(alert_id=alert.id)).update(
-                {'active': False, 'checked_in': True})
+                (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update(
+                {'datetime': (alert.datetime + datetime.timedelta(days=1)), 'checked_in': True})
     db.session.commit()
     return "Check In has been Logged!"
 

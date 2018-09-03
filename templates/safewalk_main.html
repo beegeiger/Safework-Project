@@ -25,11 +25,9 @@
 	&nbsp &nbsp &nbsp &nbsp
 
 	<div class="alert_inner" id='countdown{{ set.alert_set_id }}'>
-		{% if set.total == 0 %}
-		0:00:00 Remaining
-		{% endif %}
+
 	</div>
-{% if set.total != 0 %}
+
 	<script type="text/javascript">
 	var t{{ set.alert_set_id }} = ({{ set.total }} * 1000)
 
@@ -80,7 +78,7 @@
 	});
 
 </script>
-{% endif %}
+
 {% endif %}
 </div>
 <script>
