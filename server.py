@@ -52,20 +52,21 @@ def create_alert(alert_id):
     for chks in check_ins:
         events[chks.datetime] = chks
     for key in sorted(events.keys()):
-        if events[key].alert_set_id and events[key].checked_in == True:
-            message_body += "An alarm was scheduled for {} which {} checked-in for.".format(key, user.fname)
-            if events[key].message:
-                message_body += "The Alarm included the following notes: {} \n \n".format(events[key].message)
+        if type(events[key]) == model.Alarm:
+            if events[key].checked_in == True:
+                message_body += "An alarm was scheduled for {} which {} checked-in for.".format(key, user.fname)
+                if events[key].message:
+                    message_body += "The Alarm included the following notes: {} \n \n".format(events[key].message)
+                else:
+                    message_body += "\n \n" 
             else:
-                message_body += "\n \n" 
+                message_body += "An alarm was scheduled for {} which {} MISSED the checked-in for.".format(key, user.fname)
+                if events[key].message:
+                    message_body += "The Alarm included the following notes: {} \n \n".format(events[key].message)
+                else:
+                    message_body += "\n \n"
         elif alert.datetime >= datetime.datetime.now() and events[key].message:
              message_body += "A future alarm is scheduled for {} and includes the notes: {}.".format(alert.datetime, events[key].message)
-        elif events[key].alert_set_id:
-            message_body += "An alarm was scheduled for {} which {} MISSED the checked-in for.".format(key, user.fname)
-            if events[key].message:
-                message_body += "The Alarm included the following notes: {} \n \n".format(events[key].message)
-            else:
-                message_body += "\n \n" 
         else:
             message_body += "{} checked in with the app at {} and included the following message: {}".format(user.fname, key, events[key].notes)
     if alert.contact_id3:
@@ -98,21 +99,24 @@ def check_alerts():
     with app.app_context():
         print("Checking for Alerts Now: " + str(datetime.datetime.now()))
         alerts = Alert.query.filter_by(active=True).all()
+        print(alerts)
         # print(alerts)
         if len(alerts) > 0:
             for alert in alerts:
                 difference = alert.datetime - datetime.datetime.now()
+                print("Alert " + str(alert.alert_id))
+                print(difference)
                 checks = 0
                 check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
                 for ch in check_ins:
                     dif = datetime.datetime.now() - alert.datetime
                     if dif <= datetime.timedelta(hours=1) and difference > datetime.timedelta(seconds=0):
                         checks += 1
-                if difference <= datetime.timedelta(minutes=1) and difference > datetime.timedelta(seconds=0) and checks == 0:
+                if abs(difference) <= datetime.timedelta(minutes=1) and abs(difference) > datetime.timedelta(seconds=0) and checks == 0:
                     print('A CHECK-IN WAS MISSED AND AN ALERT IS BEING SENT NOW!')
                     message_body = create_alert(alert.alert_id)
                     send_alert(alert.alert_id, message_body)
-                elif difference <= datetime.timedelta(minutes=15) and difference > datetime.timedelta(minutes=14) and checks == 0:
+                elif abs(difference) <= datetime.timedelta(minutes=15) and abs(difference) > datetime.timedelta(minutes=14) and checks == 0:
                     print('A CHECK-IN REMINDER IS BEING SENT NOW!')
                     message_body = """Reminder! You have a Check-In Scheduled in 15 minutes. If you don't check-in
                     by responding to this text, emailing 'safe@safeworkproject.org', or checking in on the site at
@@ -154,7 +158,8 @@ def start_runner():
 @app.route("/")
 def go_home():
     """Renders the safework homepage. (Tested)"""
-    
+    check = CheckIn.query.first()
+    print(type(check))
     return render_template("homepage.html")
 
 
