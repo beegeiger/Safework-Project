@@ -231,11 +231,12 @@ def register_process():
     email_input = request.form['email_input']
     email2 = request.form['email_input2']
     phone = request.form['phone']
-    pw_input = request.form['password'].encode('utf-8')
+    pw_input = request.form['password']
     username = request.form['username']
     tagline = request.form['tagline']
     location = request.form['location']
-    hashed_word = bcrypt.hashpw(pw_input, bcrypt.gensalt())
+    p_word = bytes(pw_input, 'utf-8')
+    hashed_word = str(bcrypt.hashpw(p_word, bcrypt.gensalt()), 'utf8')
     user_type = request.form['user_type']
     second_type = request.form['2nd']
     timezone = request.form['timezone']
@@ -311,7 +312,7 @@ def login():
 
     #Sets variable equal to the login form inputs
     email_input = request.form['email_input']
-    pw_input = request.form['pw_input'].encode('utf-8')
+    pw_input = request.form['pw_input']
     user_query = User.query.filter(User.email == email_input).all()
 
     if user_query == []:
@@ -320,15 +321,19 @@ def login():
 
 
     #Queries to see if the email and pword match the database. If so, redirects to forums.
-    elif bcrypt.checkpw(pw_input, user_query[0].password.encode('utf-8')):
-        session['current_user'] = email_input
-        flash('You were successfully logged in')
-        return redirect("/forums")
-
-    #Otherwise, it re-renders the page and throws an error message to the user
     else:
-        flash('Your e-mail or password was incorrect! Please try again or Register.')
-        return render_template("login.html")
+        p_word = user_query[0].password
+        p_word = bytes(p_word, 'utf-8')
+        pw_in = bytes(pw_input, 'utf-8')
+        if bcrypt.hashpw(pw_in, p_word) == p_word:
+            session['current_user'] = email_input
+            flash('You were successfully logged in')
+            return redirect("/forums")
+
+        #Otherwise, it re-renders the page and throws an error message to the user
+        else:
+            flash('Your e-mail or password was incorrect! Please try again or Register.')
+            return render_template("login.html")
 
 
 @app.route("/logout")
