@@ -325,7 +325,7 @@ def login():
         p_word = user_query[0].password
         p_word = bytes(p_word, 'utf-8')
         pw_in = bytes(pw_input, 'utf-8')
-        if bcrypt.hashpw(pw_in, p_word) == p_word:
+        if bcrypt.checkpw(pw_in, p_word):
             session['current_user'] = email_input
             flash('You were successfully logged in')
             return redirect("/forums")
