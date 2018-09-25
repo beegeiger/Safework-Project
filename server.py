@@ -65,8 +65,6 @@ def create_alert(alert_id):
                     message_body += "The Alarm included the following notes: {} \n \n".format(events[key].message)
                 else:
                     message_body += "\n \n"
-        elif alert.datetime >= datetime.datetime.now() and events[key].message:
-             message_body += "A future alarm is scheduled for {} and includes the notes: {}.".format(alert.datetime, events[key].message)
         else:
             message_body += "{} checked in with the app at {} and included the following message: {}".format(user.fname, key, events[key].notes)
     if alert.contact_id3:
@@ -112,10 +110,12 @@ def check_alerts():
                     dif = datetime.datetime.now() - alert.datetime
                     if dif <= datetime.timedelta(hours=1) and difference > datetime.timedelta(seconds=0):
                         checks += 1
-                if abs(difference) <= datetime.timedelta(minutes=1) and abs(difference) > datetime.timedelta(seconds=0) and checks == 0:
+                if abs(difference) <= datetime.timedelta(minutes=1) and abs(difference) > datetime.timedelta(seconds=0) and checks == 0 and alert.sent == False:
                     print('A CHECK-IN WAS MISSED AND AN ALERT IS BEING SENT NOW!')
                     message_body = create_alert(alert.alert_id)
                     send_alert(alert.alert_id, message_body)
+                    (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update({'sent': True})
+                    db.session.commit()
                 elif abs(difference) <= datetime.timedelta(minutes=15) and abs(difference) > datetime.timedelta(minutes=14) and checks == 0:
                     print('A CHECK-IN REMINDER IS BEING SENT NOW!')
                     message_body = """Reminder! You have a Check-In Scheduled in 15 minutes. If you don't check-in
@@ -236,7 +236,7 @@ def register_process():
     tagline = request.form['tagline']
     location = request.form['location']
     p_word = bytes(pw_input, 'utf-8')
-    hashed_word = str(bcrypt.hashpw(p_word, bcrypt.gensalt()), 'utf8')
+    hashed_word = str(bcrypt.hashpw(p_word, bcrypt.gensalt()))
     user_type = request.form['user_type']
     second_type = request.form['2nd']
     timezone = request.form['timezone']
