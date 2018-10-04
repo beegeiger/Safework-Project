@@ -114,9 +114,9 @@ def check_alerts():
                     print('A CHECK-IN WAS MISSED AND AN ALERT IS BEING SENT NOW!')
                     message_body = create_alert(alert.alert_id)
                     send_alert(alert.alert_id, message_body)
-                    (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update({'sent': True})
+                    (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update({'sent': True, 'active': False})
                     db.session.commit()
-                elif abs(difference) <= datetime.timedelta(minutes=15) and abs(difference) > datetime.timedelta(minutes=14) and checks == 0:
+                elif abs(difference) <= datetime.timedelta(minutes=15) and abs(difference) > datetime.timedelta(minutes=14) and checks == 0 and alert.sent == False:
                     print('A CHECK-IN REMINDER IS BEING SENT NOW!')
                     message_body = """Reminder! You have a Check-In Scheduled in 15 minutes. If you don't check-in
                     by responding to this text, emailing 'safe@safeworkproject.org', or checking in on the site at
