@@ -92,16 +92,18 @@
 {% endif %}
 </div>
 <script>
+	let countDiv = document.getElementById('countdown{{ set.alert_set_id }}');
 	$(document).ready(function(){
 	    $( "#toggle_rec{{ set.alert_set_id }}" ).change(function(event){
 	        if(this.checked) {
 	        	$.get("/activate/{{ set.alert_set_id }}");
 	        	console.log("Toggle Button On is working");
+	        	countDiv.show();
 	        }
 	       	else {
 	       		$.get("/deactivate/{{ set.alert_set_id }}");
 	        	console.log("Toggle Button Off is working");
-	        }
+	        	countDiv.hide();
 	    });
 	    
 	});
