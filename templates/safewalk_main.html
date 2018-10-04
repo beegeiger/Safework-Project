@@ -161,11 +161,21 @@
 
 	    // Then we set the text inside the clock div 
 	    // to the hours, minutes, and seconds of the current time
+	    if(t > 0) {
 	    countDiv.innerText = days + " days and " + hours + ":" + minutes + ":" + seconds + " Remaining";
 	  
 	    return {
 	    	'changes': change + 1 
 	    };
+		}
+		else {
+		countDiv.innerText = "0 days and 0:00:00 Remaining";
+	  
+	    return {
+	    	'changes': change 
+	    };
+
+		}
 	  }
 
 	  // This runs the displayTime function the first time
