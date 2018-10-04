@@ -898,7 +898,9 @@ def safewalk_main():
         a_set.total = 0
         for alert in alerts:
             if a_set.alert_set_id == alert.alert_set_id and a_set.interval:
-                aset_alerts.append(alert.datetime)
+                tim = now + datetime.timedelta(minutes=a_set.interval)
+                print("Interval Datetime" + str(tim))
+                aset_alerts.append(tim)
                 print("Alert:")
                 print(alert)
             elif a_set.alert_set_id == alert.alert_set_id:
@@ -933,6 +935,8 @@ def safewalk_main():
                 # if d1 < datetime.timedelta(seconds=0):
                 #     a_set.total = 0
                 print(a_set.total)
+            else:
+                a_set.next_alarm_dis = now.strftime("%I:%M %p, %Y/%m/%d")
 
     return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
 

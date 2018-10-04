@@ -18,13 +18,16 @@
 	<div class="alert_inner"> <input id="toggle_rec{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
 	&nbsp &nbsp
 	</div>
+	
 	{% if set.active == True %}
+	<div>
 	{{ set.next_alarm_dis }}
-
+	</div>
+	{% endif %}
 	
 	&nbsp &nbsp &nbsp &nbsp
 
-	<div class="alert_inner" id='countdown{{ set.alert_set_id }}'>
+	<div {% if set.active == False %} class="hidden" {% endif %} id='countdown{{ set.alert_set_id }}'>
 
 	</div>
 
@@ -89,23 +92,23 @@
 
 </script>
 
-{% endif %}
+
 </div>
 <script>
-	let countDiv = document.getElementById('countdown{{ set.alert_set_id }}');
 	$(document).ready(function(){
 	    $( "#toggle_rec{{ set.alert_set_id }}" ).change(function(event){
 	        if(this.checked) {
 	        	$.get("/activate/{{ set.alert_set_id }}");
 	        	console.log("Toggle Button On is working");
-	        	countDiv.show();
+	        	$( "#countdown{{ set.alert_set_id }}" ).show();
 	        }
 	       	else {
 	       		$.get("/deactivate/{{ set.alert_set_id }}");
 	        	console.log("Toggle Button Off is working");
-	        	countDiv.hide();
-	    });
+	        	$( "#countdown{{ set.alert_set_id }}" ).hide();
+	    };
 	    
+	});
 	});
 </script>
 {% endif %}
