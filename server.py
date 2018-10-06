@@ -1109,6 +1109,7 @@ def activate_alertset(alert_set_id):
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
     dt = datetime.datetime.now()
+    dt_list = []
     if alert_set.date == None:
         db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'date': date, 'start_datetime': dt})
     if alert_set.interval == None:
@@ -1125,20 +1126,25 @@ def activate_alertset(alert_set_id):
                 dtime = datetime.datetime.combine(date, alert.time)
                 print(dtime)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'date': date, 'datetime': dtime})
+                dt_list.appent(dtime)
             else:
                 print("step 3b")
                 dtime = datetime.datetime.combine(alert.date, alert.time)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'datetime': dtime})
+                dt_list.appent(dtime)
     else:
         print("Interval = " + str(alert_set.interval))
         print("Rec Activated")
         dtime = datetime.datetime.combine(date, time)
+        dt_list.append(dtime)
         dtime_int = dtime + datetime.timedelta(minutes=alert_set.interval)
         alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
         db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'active': True, 'start_time': time, 'start_time': time, 'datetime': dtime_int})
     db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'active': True, 'start_time': time, 'start_datetime': dt})
     db.session.commit()
-    return "Alert Set Activated"
+    dt_list.sort()
+    alarm_dt = dt_list[0]
+    return alarm_dt
 
 @app.route("/deactivate/<alert_set_id>")
 def deactivate_alertset(alert_set_id):
