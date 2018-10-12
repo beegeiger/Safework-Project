@@ -101,11 +101,16 @@
 	        if(this.checked) {
 	        	$.get("/activate/{{ set.alert_set_id }}");
 	        	console.log("Toggle Button On is working");
+	        	let date = Date.now();
+	        	let newDateObj = new Date(date.getTime() + {{ set.interval }}*60000);
+	        	{{set.next_alarm_dis = newDateObj }};
+	        	{{ set.active = True }};
 	        	$( "#count_display{{ set.alert_set_id }}" ).show();
 	        }
 	       	else {
 	       		$.get("/deactivate/{{ set.alert_set_id }}");
 	        	console.log("Toggle Button Off is working");
+	        	{{ set.active = False }};
 	        	$( "#count_display{{ set.alert_set_id }}" ).hide();
 	    };
 	    
