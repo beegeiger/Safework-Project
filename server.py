@@ -1144,7 +1144,7 @@ def activate_alertset(alert_set_id):
     db.session.commit()
     dt_list.sort()
     alarm_dt = dt_list[0]
-    return alarm_dt
+    return str(alarm_dt)
 
 @app.route("/deactivate/<alert_set_id>")
 def deactivate_alertset(alert_set_id):
