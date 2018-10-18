@@ -19,17 +19,18 @@
 	&nbsp &nbsp
 	</div>
 	
-	<div {% if set.active == False %} class="hidden" {% endif %} id="count_display{{ set.alert_set_id }}">
+	<div {% if set.active == False %}class='hidden'{% endif %} id="count_display{{ set.alert_set_id }}">
 	
-
+	<div id="datetime{{ set.alert_set_id }}">
 	{% if set.active == True %}
 	{{ set.next_alarm_dis }}
 	{% endif %}
+	</div>
 	
-	&nbsp &nbsp &nbsp &nbsp
 
-	<div  id='countdown{{ set.alert_set_id }}'>
+	<div id='countdown{{ set.alert_set_id }}'>
 
+	</div>
 	</div>
 	</div>
 	<script type="text/javascript">
@@ -93,17 +94,19 @@
 
 </script>
 
-
-</div>
 <script>
 	$(document).ready(function(){
 	    $( "#toggle_rec{{ set.alert_set_id }}" ).change(function(event){
 	    	console.log('Button is pressed!')
 	        if(this.checked) {
-	        	$.get("/activate/{{ set.alert_set_id }}");
+	        	$.get("/activate/{{ set.alert_set_id }}", function(data) {
+	        		document.getElementById("datetime{{ set.alert_set_id }}").innerHTML = data.value;
+	        	});
 	        	console.log("Toggle Button On is working");
 	        	$( "#count_display{{ set.alert_set_id }}" ).show();
 	        }
+
+
 	       	else {
 	       		$.get("/deactivate/{{ set.alert_set_id }}");
 	        	console.log("Toggle Button Off is working");
