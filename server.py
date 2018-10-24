@@ -936,7 +936,7 @@ def safewalk_main():
                 #     a_set.total = 0
                 print(a_set.total)
             else:
-                a_set.next_alarm_dis = now.strftime("%I:%M %p, %Y/%m/%d")
+                a_set.next_alarm_dis = now.strftime("%I:%M %p, %m/%d/%Y")
 
     return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
 
@@ -1135,15 +1135,16 @@ def activate_alertset(alert_set_id):
     else:
         print("Interval = " + str(alert_set.interval))
         print("Rec Activated")
-        dtime = datetime.datetime.combine(date, time)
-        dt_list.append(dtime)
-        dtime_int = dtime + datetime.timedelta(minutes=alert_set.interval)
+        # dtime = datetime.datetime.combine(date, time)
+        # dt_list.append(dtime)
+        dtime_int = dt + datetime.timedelta(minutes=alert_set.interval)
         alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
         db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'active': True, 'start_time': time, 'start_time': time, 'datetime': dtime_int})
+        dt_list.append(dtime_int)
     db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'active': True, 'start_time': time, 'start_datetime': dt})
     db.session.commit()
     dt_list.sort()
-    alarm_dt = dt_list[0]
+    alarm_dt = dt_list[0].strftime("%I:%M %p, %m/%d/%Y")
     return str(alarm_dt)
 
 @app.route("/deactivate/<alert_set_id>")

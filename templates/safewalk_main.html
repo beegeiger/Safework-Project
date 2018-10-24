@@ -257,14 +257,16 @@
 	  function displayTime() {
 	    var currentTime = new Date();
 		var year = currentTime.getYear() + 1900;
-	    var month = currentTime.getMonth();
+	    var month = currentTime.getMonth() + 1;
+	    console.log('month:')
+	    console.log(month);
 	    var day = currentTime.getDate();
-	    var hours = currentTime.getUTCHours();
+	    var hours = currentTime.getUTCHours() + 1;
 	    var minutes = currentTime.getMinutes();
 	    console.log(typeof minutes);
 	    var seconds = currentTime.getSeconds();
 	    var meridiem = "AM";
-	    hours = hours + {{ timezone }}
+	    hours = hours + {{ timezone }};
 	    if (hours < 1) {
 	    	hours = 25 + hours
 	    }
