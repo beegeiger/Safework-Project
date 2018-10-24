@@ -21,11 +21,11 @@
 	
 	<div {% if set.active == False %}class='hidden'{% endif %} id="count_display{{ set.alert_set_id }}">
 	
-	<div id="datetime{{ set.alert_set_id }}">
+	<p id="datetime{{ set.alert_set_id }}">
 	{% if set.active == True %}
 	{{ set.next_alarm_dis }}
 	{% endif %}
-	</div>
+	</p>
 	
 
 	<div id='countdown{{ set.alert_set_id }}'>
@@ -101,6 +101,9 @@
 	        if(this.checked) {
 	        	$.get("/activate/{{ set.alert_set_id }}", function(data) {
 	        		document.getElementById("datetime{{ set.alert_set_id }}").innerHTML = data.value;
+	        		console.log("data then value:");
+	        		console.log(data);
+	        		console.log(data.value);
 	        	});
 	        	console.log("Toggle Button On is working");
 	        	$( "#count_display{{ set.alert_set_id }}" ).show();
