@@ -100,7 +100,7 @@
 	    	console.log('Button is pressed!')
 	        if(this.checked) {
 	        	$.get("/activate/{{ set.alert_set_id }}", function(data) {
-	        		document.getElementById("datetime{{ set.alert_set_id }}").innerHTML = data.value;
+	        		document.getElementById("datetime{{ set.alert_set_id }}").innerHTML = data;
 	        		console.log("data then value:");
 	        		console.log(data);
 	        		console.log(data.value);
