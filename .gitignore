@@ -1,4 +1,6 @@
 env/
+env3/
+env4/
 secrets.sh
 secrets.env
 secrets-env
