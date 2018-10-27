@@ -11,11 +11,35 @@
 <a href="/check_ins">Check-In Online and View Your Previously Logged Check-Ins</a>
 
 <h2>Recurring Alerts*</h2>
+<div class="container-fluid.">
+	<div class="row">
+		<div class="col-2">
+			<p style="font-size: 150%; text-align: left; padding-left: 15%; text-decoration: underline;">Alert Name</p>
+		</div>
+		<div class="col-2">
+			<p style="font-size: 150%; text-align: left; padding-left: 15%; text-decoration: underline;">Activated</p>
+		</div>
+		<div class="col-7" style="display: inline-block; padding: 0 0 0 0;">
+			<div class="col-5" style="display: inline-block;">
+				<p style="font-size: 150%; text-align: left; display: inline-block; padding-left: 10%; text-decoration: underline;">Next Alert Time</p>
+			</div>
+			<div class="col-6" style="display: inline-block;">
+				<p style="font-size: 150%; text-align: left; display: inline-block; padding-left: 10%; text-decoration: underline;">Next Alert Countdown</p>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+
+
 {% for set in alert_sets %}
 {% if set.interval %}
-<div class="container-fluid">
+<div class="container-fluid.">
 	<div class="row.alert_display" style="width:100%">
-		<div class="col-2" style="display: inline-block;">
+		<div class="col-2" style="display: inline-block; font-family: 'Bitter', serif;
+        font-weight: bold; font-size: 150%;">
 			<a href="/edit_recset/{{ set.alert_set_id }}">{{ set.a_name }}</a> &nbsp &nbsp
 		</div>
 		<div class="col-2" id="alert_inner" style="display: inline-block;"> 
@@ -23,10 +47,11 @@
 		</div>
 		
 
-		<div {% if set.active == False %}class='hidden.col-4' {% else %} class="col-4" {% endif %} id="count_display{{ set.alert_set_id }}" style="display: inline-block;">
+		<div {% if set.active == False %}class='hidden.col-7' {% else %} class="col-7" {% endif %} id="count_display{{ set.alert_set_id }}" style="display: inline-block; padding: 0 0 0 0;">
 			
-			<div style="display: inline-block;">	
-			<p id="datetime{{ set.alert_set_id }}">
+			<div class="col-5" style="display: inline-block;">	
+			<p id="datetime{{ set.alert_set_id }}" style="font-family: 'Bitter', serif;
+        	font-weight: bold; font-size: 120%; color: red;">
 			{% if set.active == True %}
 			{{ set.next_alarm_dis }}
 			{% endif %}
@@ -34,7 +59,8 @@
 			</div>
 		
 
-			<div id='countdown{{ set.alert_set_id }}' style="display: inline-block;">
+			<div class="col-6" id='countdown{{ set.alert_set_id }}' style="display: inline-block; font-family: 'Bitter', serif;
+        font-weight: bold; font-size: 120%; color: red;">
 
 			</div>
 		</div>
