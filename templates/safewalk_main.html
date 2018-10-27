@@ -13,25 +13,32 @@
 <h2>Recurring Alerts*</h2>
 {% for set in alert_sets %}
 {% if set.interval %}
-<div class="alert_display">
-	<a href="/edit_recset/{{ set.alert_set_id }}">{{ set.a_name }}</a> &nbsp &nbsp
-	<div class="alert_inner"> <input id="toggle_rec{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
-	&nbsp &nbsp
-	</div>
-	
-	<div {% if set.active == False %}class='hidden'{% endif %} id="count_display{{ set.alert_set_id }}">
-	
-	<p id="datetime{{ set.alert_set_id }}">
-	{% if set.active == True %}
-	{{ set.next_alarm_dis }}
-	{% endif %}
-	</p>
-	
+<div class="container-fluid">
+	<div class="row" id="alert_display">
+		<div class="col-1">
+			<a href="/edit_recset/{{ set.alert_set_id }}">{{ set.a_name }}</a> &nbsp &nbsp
+		</div>
+		<div class="col-1" id="alert_inner"> 
+			<input id="toggle_rec{{ set.alert_set_id }}" type="checkbox" data-toggle="toggle" data-on="Alert Set Active" data-off="Inactive" {% if set.active == True %}checked{% endif %}>
+		</div>
+		
+		<div class="col-5">
+			<div {% if set.active == False %}class='hidden'{% endif %} id="count_display{{ set.alert_set_id }}">
+				
+				<div class="col-2">			
+					<p id="datetime{{ set.alert_set_id }}">
+					{% if set.active == True %}
+					{{ set.next_alarm_dis }}
+					{% endif %}
+					</p>
+				</div>
+			
 
-	<div id='countdown{{ set.alert_set_id }}'>
-
-	</div>
-	</div>
+				<div class="col-3" id='countdown{{ set.alert_set_id }}'>
+				
+				</div>
+			</div>
+		</div>	
 	</div>
 	<script type="text/javascript">
 	var t{{ set.alert_set_id }} = ({{ set.total }} * 1000)
