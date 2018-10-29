@@ -50,23 +50,22 @@ Contacts:
 <br>
 Message: {{ alert.message }}<br><br><br>
 
-<form action="/edit_al/{{ alert_set.alert_set_id }}" method="POST" id="set_form">
-	<h5>New Scheduled Alert</h5>
+<form action="/edit_al/{{ alert.alert_id }}" method="POST" id="edit_form{{ alert.alert_id }}">
+	<h5>Edit Scheduled Alert {{ alertloop.index }}</h5>
 	
 	<!-- <b>What Date/Time should a check-in be required?</b> <input type="datetime-local" name="check_time"><br> -->
-	What time would you like the app to send an alert if you don't check-in by that time: <input type="time" name="time"><br>
-	(You'll receive texts reminding you to check in 15 minutes before your required check-ins)<br><br>
-	Which contact(s) would you like to be alerted if you miss this check-in? (select up to 3)<br>
+	Time: <input type="time" name="time" value="{{ alert.time }}"><br>
+	Contacts:<br>
 		{% for contact in contacts %}
 	{% set contactloop = loop %}
 	<input type="checkbox" name="contact" value="{{ contact.contact_id }}">{{ contact.name }} &nbsp &nbsp
 	{% endfor %}<br>
 	    <a href="/contacts">Add/Edit/View Your Contacts</a><br>
-	<b>Special message to contacts if this specific check-in is missed:</b> 
-	<input type=textbox name="check_mess"></input><br>
+	<b>Message:</b> 
+	<input type=textbox name="check_mess" value="{{ alert.message }}"></input><br>
 <br>
 <button type="submit">Save Alert</button>
-<br><a href="/sw_main">Go Back to the Main SafeWalk <br> Alerts Page</a>
+<br><br>
 </form>
 
 

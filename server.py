@@ -1084,7 +1084,7 @@ def save_schedset(alert_set_id):
     return redirect("/edit_schedset/" + str(alert_set_id))
 
 @app.route("/edit_al/<alert_id>", methods=["POST"])
-def save_schedset(alert_set_id):
+def edit_schedal(alert_id):
     date = request.form['date']
     end_date = request.form['end_date']
     name = request.form['set_name']
