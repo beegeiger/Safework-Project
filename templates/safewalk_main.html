@@ -49,9 +49,9 @@
 
 		<div {% if set.active == False %}class='hidden.col-7' {% else %} class="col-7" {% endif %} id="count_display{{ set.alert_set_id }}" style="display: inline-block; padding: 0 0 0 0;">
 			
-			<div class="col-5" style="display: inline-block;">	
+			<div class="col-5" id="al_time{{ set.alert_set_id }}" style="display: inline-block;">	
 			<p id="datetime{{ set.alert_set_id }}" style="font-family: 'Bitter', serif;
-        	font-weight: bold; font-size: 120%; color: red;">
+        	font-weight: bold; font-size: 120%; color: red; display: inline-block;">
 			{% if set.active == True %}
 			{{ set.next_alarm_dis }}
 			{% endif %}
@@ -59,7 +59,7 @@
 			</div>
 		
 
-			<div class="col-6" id='countdown{{ set.alert_set_id }}' style="display: inline-block; font-family: 'Bitter', serif;
+			<div {% if set.active == False %} class='hidden.col-6' {% else %} class="col-6" {% endif %} id='countdown{{ set.alert_set_id }}' style=" {% if set.active == False %} display: none; {% else %} display: inline-block; {% endif %} font-family: 'Bitter', serif;
         font-weight: bold; font-size: 120%; color: red;">
 
 			</div>
@@ -141,6 +141,8 @@
 	        	});
 	        	console.log("Toggle Button On is working");
 	        	$( "#count_display{{ set.alert_set_id }}" ).show();
+	        	$( "#countdown{{ set.alert_set_id }}").show();
+	        	$( "#countdown{{ set.alert_set_id }}").css("display", "inline-block");
 	        }
 
 
@@ -148,6 +150,7 @@
 	       		$.get("/deactivate/{{ set.alert_set_id }}");
 	        	console.log("Toggle Button Off is working");
 	        	$( "#count_display{{ set.alert_set_id }}" ).hide();
+	        	$( "#countdown{{ set.alert_set_id }}").hide();
 	    	};
 	    
 	});
