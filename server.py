@@ -1085,14 +1085,22 @@ def save_schedset(alert_set_id):
 
 @app.route("/edit_al/<alert_id>", methods=["POST"])
 def edit_schedal(alert_id):
-    date = request.form['date']
-    end_date = request.form['end_date']
-    name = request.form['set_name']
-    desc = request.form['descri']
-    (db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id)).update(
-    {'date': date, 'end_date': end_date, 'a_name': name, 'a_desc': desc})    
+    alert = Alert.query.filter_by(alert_id=alert_id).one()
+    user = User.query.filter_by(email=session['current_user']).one()
+    time = request.form['time']
+    contacts = request.form.getlist('contact')
+    contact1 = int(contacts[0])
+    contact2 = None
+    contact3 = None
+    if len(contacts) > 1:
+        contact2 = int(contacts[1])
+    if len(contacts) > 2:
+        contact3 = int(contacts[2])
+    message = request.form['check_mess']
+    (db.session.query(Alert).filter_by(alert_id=alert_id)).update(
+    {'time': time, 'contact_id1': contact1, 'contact_id2': contact2, 'contact_id3': contact3, 'message': message})    
     db.session.commit()
-    return redirect("/edit_schedset/" + str(alert_set_id))
+    return redirect("/edit_schedset/" + str(alert.alert_set_id))
 
 @app.route("/add_alert/<alert_set_id>", methods=["POST"])
 def add_sched_alert(alert_set_id):
