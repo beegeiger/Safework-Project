@@ -918,7 +918,7 @@ def safewalk_main():
                 print('aset_alerts:')
                 print(aset_alerts[0])
                 a_set.next_alarm = aset_alerts[0]
-                a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %Y/%m/%d")
+                a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %m/%d/%Y")
                 d1 = now - aset_alerts[0]
                 d2 = abs(d1.total_seconds())
                 days = math.floor(d2 / 86400)

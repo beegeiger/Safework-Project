@@ -59,7 +59,7 @@
 			</div>
 		
 
-			<div {% if set.active == False %} class='hidden.col-6' {% else %} class="col-6" {% endif %} id='countdown{{ set.alert_set_id }}' style=" {% if set.active == False %} display: none; {% else %} display: inline-block; {% endif %} font-family: 'Bitter', serif;
+			<div {% if set.active == False %} class='hidden' {% else %} class="col-6" {% endif %} id='countdown{{ set.alert_set_id }}' style=" {% if set.active == False %} display: none; {% else %} display: inline-block; {% endif %} font-family: 'Bitter', serif;
         font-weight: bold; font-size: 120%; color: red;">
 
 			</div>
@@ -141,7 +141,9 @@
 	        	});
 	        	console.log("Toggle Button On is working");
 	        	$( "#count_display{{ set.alert_set_id }}" ).show();
+	        	$( "#count_display{{ set.alert_set_id }}" ).removeClass("hidden").addClass("col-7");
 	        	$( "#countdown{{ set.alert_set_id }}").show();
+	        	$( "#countdown{{ set.alert_set_id }}").removeClass("hidden").addClass("col-6");
 	        	$( "#countdown{{ set.alert_set_id }}").css("display", "inline-block");
 	        }
 
