@@ -1083,6 +1083,17 @@ def save_schedset(alert_set_id):
     db.session.commit()
     return redirect("/edit_schedset/" + str(alert_set_id))
 
+@app.route("/edit_al/<alert_id>", methods=["POST"])
+def save_schedset(alert_set_id):
+    date = request.form['date']
+    end_date = request.form['end_date']
+    name = request.form['set_name']
+    desc = request.form['descri']
+    (db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id)).update(
+    {'date': date, 'end_date': end_date, 'a_name': name, 'a_desc': desc})    
+    db.session.commit()
+    return redirect("/edit_schedset/" + str(alert_set_id))
+
 @app.route("/add_alert/<alert_set_id>", methods=["POST"])
 def add_sched_alert(alert_set_id):
     user = User.query.filter_by(email=session['current_user']).one()
@@ -1131,7 +1142,7 @@ def activate_alertset(alert_set_id):
                 print("step 3b")
                 dtime = datetime.datetime.combine(alert.date, alert.time)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'datetime': dtime})
-                dt_list.appent(dtime)
+                dt_list.append(dtime)
     else:
         print("Interval = " + str(alert_set.interval))
         print("Rec Activated")
