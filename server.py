@@ -1068,7 +1068,7 @@ def add_sched_alertset():
 def edit_schedset_page(alert_set_id):
     user = User.query.filter_by(email=session['current_user']).one()
     alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
-    alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
+    alerts = Alert.query.filter_by(alert_set_id=alert_set_id).order_by(asc(Alert.alert_id)).all()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
     return render_template("edit_sched_alerts.html", alert_set=alert_set, contacts=contacts, alerts=alerts)
 
