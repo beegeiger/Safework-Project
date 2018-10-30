@@ -52,7 +52,7 @@ Message: {{ alert.message }}<br>
 </div>
 <br><br>
 
-<form action="/edit_al/{{ alert.alert_id }}" method="POST" id="edit_form{{ alert.alert_id }}" class="hidden">
+<form onsubmit="SubmitForm{{ alert.alert_id }}()" method="POST" id="edit_form{{ alert.alert_id }}" class="hidden">
 	<h5>Edit Scheduled Alert {{ alertloop.index }}</h5>
 	
 	<!-- <b>What Date/Time should a check-in be required?</b> <input type="datetime-local" name="check_time"><br> -->
@@ -60,7 +60,7 @@ Message: {{ alert.message }}<br>
 	Contacts:<br>
 		{% for contact in contacts %}
 	{% set contactloop = loop %}
-	<input type="checkbox" name="contact" value="{{ contact.contact_id }}">{{ contact.name }} &nbsp &nbsp
+	<input type="checkbox" name="contact{{ alert.alert_id }}" value="{{ contact.contact_id }}">{{ contact.name }} &nbsp &nbsp
 	{% endfor %}<br>
 	    <a href="/contacts">Add/Edit/View Your Contacts</a><br>
 	<b>Message:</b> 
@@ -81,7 +81,19 @@ Message: {{ alert.message }}<br>
 
 	$('#form').submit(function (evt) {
     	evt.preventDefault();
-    	window.history.back();
+    	var checkboxes = document.getElementsByName("contact{{ alert.alert_id }}");  
+        var numberOfCheckedItems = 0;  
+        for(var i = 0; i < checkboxes.length; i++){  
+            if(checkboxes[i].checked) { 
+                numberOfCheckedItems++;  
+        	}
+        }	
+        if(numberOfCheckedItems == 0){
+        	$.flash('You need to select at least one contact!');
+        }
+        else{
+        	$.post("/edit_al/{{ alert.alert_id }}");
+        }
 	});
 </script>
 
