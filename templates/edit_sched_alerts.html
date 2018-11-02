@@ -79,7 +79,7 @@ Message: {{ alert.message }}<br>
 	    });
 	});
 
-	$('#form').submit(function (evt) {
+	$('#edit_form{{ alert.alert_id }}').submit(function (evt) {
     	evt.preventDefault();
     	var checkboxes = document.getElementsByName("contact{{ alert.alert_id }}");  
         var numberOfCheckedItems = 0;  
