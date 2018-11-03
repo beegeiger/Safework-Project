@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Alert Set{% endblock %}
 {% block head %}
-
+<script src="http://malsup.github.com/jquery.form.js"></script> 
 {% endblock %}
 {% block content %}
 <div class="gen_div" id="title_div">
@@ -52,7 +52,7 @@ Message: {{ alert.message }}<br>
 </div>
 <br><br>
 
-<form onsubmit="SubmitForm{{ alert.alert_id }}()" method="POST" id="edit_form{{ alert.alert_id }}" class="hidden">
+<form id="edit_form{{ alert.alert_id }}" class="hidden" action="/edit_al/{{ alert.alert_id }}" method="post">
 	<h5>Edit Scheduled Alert {{ alertloop.index }}</h5>
 	
 	<!-- <b>What Date/Time should a check-in be required?</b> <input type="datetime-local" name="check_time"><br> -->
@@ -88,11 +88,18 @@ Message: {{ alert.message }}<br>
                 numberOfCheckedItems++;  
         	}
         }	
+        console.log("Checked Items:")
+        console.log(numberOfCheckedItems)
         if(numberOfCheckedItems == 0){
-        	$.flash('You need to select at least one contact!');
+        	alert('You need to select at least one contact!');
+        	console.log("should be flashing");
         }
         else{
-        	$.post("/edit_al/{{ alert.alert_id }}");
+        	$("#edit_form{{ alert.alert_id }}").submit();
+        	// $('#edit_form{{ alert.alert_id }}').ajaxForm(function() { 
+         //        alert("Thank you"); 
+         //    }); 
+        	console.log("Should be sending post request");
         }
 	});
 </script>
