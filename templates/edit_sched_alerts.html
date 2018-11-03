@@ -60,7 +60,7 @@ Message: {{ alert.message }}<br>
 	Contacts:<br>
 		{% for contact in contacts %}
 	{% set contactloop = loop %}
-	<input type="checkbox" name="contact{{ alert.alert_id }}" value="{{ contact.contact_id }}">{{ contact.name }} &nbsp &nbsp
+	<input type="checkbox" name="contact" id="contact{{ alert.alert_id }}" value="{{ contact.contact_id }}">{{ contact.name }} &nbsp &nbsp
 	{% endfor %}<br>
 	    <a href="/contacts">Add/Edit/View Your Contacts</a><br>
 	<b>Message:</b> 
@@ -81,7 +81,9 @@ Message: {{ alert.message }}<br>
 
 	$('#edit_form{{ alert.alert_id }}').submit(function (evt) {
     	evt.preventDefault();
-    	var checkboxes = document.getElementsByName("contact{{ alert.alert_id }}");  
+    	var checkboxes = document.getElementById("contact{{ alert.alert_id }}");  
+    	console.log("checkboxes:")
+    	console.log(checkboxes)
         var numberOfCheckedItems = 0;  
         for(var i = 0; i < checkboxes.length; i++){  
             if(checkboxes[i].checked) { 
@@ -95,11 +97,12 @@ Message: {{ alert.message }}<br>
         	console.log("should be flashing");
         }
         else{
-        	$("#edit_form{{ alert.alert_id }}").submit();
+        	$('#edit_form{{ alert.alert_id }}').unbind('submit').submit();
+        	// $("#edit_form{{ alert.alert_id }}").submit();
         	// $('#edit_form{{ alert.alert_id }}').ajaxForm(function() { 
          //        alert("Thank you"); 
          //    }); 
-        	console.log("Should be sending post request");
+        	// console.log("Should be sending post request");
         }
 	});
 </script>
