@@ -83,26 +83,26 @@ Message: {{ alert.message }}<br>
     	evt.preventDefault();
     	var checkboxes = document.getElementById("contact{{ alert.alert_id }}");  
     	console.log("checkboxes:")
-    	console.log(checkboxes)
-        var numberOfCheckedItems = 0;  
-        for(var i = 0; i < checkboxes.length; i++){  
-            if(checkboxes[i].checked) { 
-                numberOfCheckedItems++;  
-        	}
-        }	
-        console.log("Checked Items:")
-        console.log(numberOfCheckedItems)
-        if(numberOfCheckedItems == 0){
-        	alert('You need to select at least one contact!');
-        	console.log("should be flashing");
+    	console.log(checkboxes.checked)
+        // var numberOfCheckedItems = 0;  
+        // for(var i = 0; i < checkboxes.length; i++){  
+        //     if(checkboxes.checked == True) { 
+        //         numberOfCheckedItems++;  
+        // 	}
+        // }	
+        // console.log("Checked Items:")
+        // console.log(numberOfCheckedItems)
+        if(checkboxes.checked == true){
+        	$('#edit_form{{ alert.alert_id }}').unbind('submit').submit();
         }
         else{
-        	$('#edit_form{{ alert.alert_id }}').unbind('submit').submit();
         	// $("#edit_form{{ alert.alert_id }}").submit();
         	// $('#edit_form{{ alert.alert_id }}').ajaxForm(function() { 
          //        alert("Thank you"); 
          //    }); 
         	// console.log("Should be sending post request");
+        	alert('You need to select at least one contact!');
+        	console.log("should be flashing");
         }
 	});
 </script>
