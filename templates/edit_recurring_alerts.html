@@ -6,6 +6,10 @@
 {% block content %}
 <h1 style="text-align: center;">Edit Recurring Alert Set</h1>
 <div class="gen_div">
+{% if contacts|length < 1 %}
+<h5><a href="/contacts">You must add at least one contact to save an alarm set. Click here to add/edit contacts.</a></h5>
+{% endif %}
+<br>
 <form action="/save_recset/{{ alert_set.alert_set_id }}" method="POST">
 	<b>What would you like to name this alert set?:</b> <input type=textbox name="set_name" value="{{ alert_set.a_name }}" required></input><br>
 	<b>Where are you going and/or what are you doing that you might need this alert?</b><br>
