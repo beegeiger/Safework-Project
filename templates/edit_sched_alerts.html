@@ -28,12 +28,11 @@
 	<button type="submit">Save Alert Set</button>
 </form><br><br>
 
+
 {% for alert in alerts %}
 {% set alertloop = loop %}
+<div id="alert_info{{ alert.alert_id }}">
 <h5>Alert {{ alertloop.index }}</h5>
-{% if alert.date %}
-Date: {{ alert.date }}<br>
-{% endif %}
 Time: {{ alert.time }}<br>
 Contacts:
 {% for contact in contacts %}
@@ -48,7 +47,56 @@ Contacts:
 {% endif %}
 {% endfor %}
 <br>
-Message: {{ alert.message }}<br><br><br>
+Message: {{ alert.message }}<br>
+<button type="button" id="edit_al_but{{ alert.alert_id }}">Edit Alert</button>
+</div>
+<br><br>
+
+<form onsubmit="SubmitForm{{ alert.alert_id }}()" method="POST" id="edit_form{{ alert.alert_id }}" class="hidden">
+	<h5>Edit Scheduled Alert {{ alertloop.index }}</h5>
+	
+	<!-- <b>What Date/Time should a check-in be required?</b> <input type="datetime-local" name="check_time"><br> -->
+	Time: <input type="time" name="time" value="{{ alert.time }}"><br>
+	Contacts:<br>
+		{% for contact in contacts %}
+	{% set contactloop = loop %}
+	<input type="checkbox" name="contact{{ alert.alert_id }}" value="{{ contact.contact_id }}">{{ contact.name }} &nbsp &nbsp
+	{% endfor %}<br>
+	    <a href="/contacts">Add/Edit/View Your Contacts</a><br>
+	<b>Message:</b> 
+	<input type=textbox name="check_mess" value="{{ alert.message }}"></input><br>
+<br>
+<button type="submit">Save Alert</button>
+<br><br>
+</form>
+
+<script>
+	$(document).ready(function(){
+	    $( "#edit_al_but{{ alert.alert_id }}" ).click(function(){
+	        $( "#alert_info{{ alert.alert_id }}" ).hide();
+	        $( "#edit_form{{ alert.alert_id }}" ).show();
+	        console.log("Alert {{ alert.alert_id }} Button is working");
+	    });
+	});
+
+	$('#form').submit(function (evt) {
+    	evt.preventDefault();
+    	var checkboxes = document.getElementsByName("contact{{ alert.alert_id }}");  
+        var numberOfCheckedItems = 0;  
+        for(var i = 0; i < checkboxes.length; i++){  
+            if(checkboxes[i].checked) { 
+                numberOfCheckedItems++;  
+        	}
+        }	
+        if(numberOfCheckedItems == 0){
+        	$.flash('You need to select at least one contact!');
+        }
+        else{
+        	$.post("/edit_al/{{ alert.alert_id }}");
+        }
+	});
+</script>
+
 {% endfor %}
 
 
@@ -72,7 +120,7 @@ Message: {{ alert.message }}<br><br><br>
 	<b>Special message to contacts if this specific check-in is missed:</b> 
 	<input type=textbox name="check_mess"></input><br>
 <br>
-<button type="submit">Save Alert</button>
+<button type="submit">Save Alert Set</button>
 <br><a href="/sw_main">Go Back to the Main SafeWalk <br> Alerts Page</a>
 </form>
 <br>

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Your Check-Ins{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block content %}
+<div class="gen_div">
+<h1>Check-In Now!</h1>
+<form action="/add_check_in" method="POST">
+	Include a short message about where you are, if you are safe, and/or what your plans are:<br>
+	<textarea rows="6" cols="50" name="check_text"></textarea><br>
+	<input type=submit value="Check-In Now">
+</form>
+</div>
+<br><br>
+<div class="gen_div">
+<h1>Your Previous Check-Ins</h1>
+</div>
+<div class="gen_div">
+{% for check in check_ins %}
+{{ check.datetime }} &nbsp &nbsp
+{{ check.notes }}<br>
+{% endfor %}
+
+
+<a href="/sw_main">Go Back to Main SafeWalk Page</a>
+</div>
+{% endblock %}

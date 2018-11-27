@@ -52,20 +52,19 @@ def create_alert(alert_id):
     for chks in check_ins:
         events[chks.datetime] = chks
     for key in sorted(events.keys()):
-        if events[key].alert_set_id and events[key].checked_in == True:
-            message_body += "An alarm was scheduled for {} which {} checked-in for.".format(key, user.fname)
-            if events[key].message:
-                message_body += "The Alarm included the following notes: {} \n \n".format(events[key].message)
+        if type(events[key]) == model.Alarm:
+            if events[key].checked_in == True:
+                message_body += "An alarm was scheduled for {} which {} checked-in for.".format(key, user.fname)
+                if events[key].message:
+                    message_body += "The Alarm included the following notes: {} \n \n".format(events[key].message)
+                else:
+                    message_body += "\n \n" 
             else:
-                message_body += "\n \n" 
-        elif alert.datetime >= datetime.datetime.now() and events[key].message:
-             message_body += "A future alarm is scheduled for {} and includes the notes: {}.".format(alert.datetime, events[key].message)
-        elif events[key].alert_set_id:
-            message_body += "An alarm was scheduled for {} which {} MISSED the checked-in for.".format(key, user.fname)
-            if events[key].message:
-                message_body += "The Alarm included the following notes: {} \n \n".format(events[key].message)
-            else:
-                message_body += "\n \n" 
+                message_body += "An alarm was scheduled for {} which {} MISSED the checked-in for.".format(key, user.fname)
+                if events[key].message:
+                    message_body += "The Alarm included the following notes: {} \n \n".format(events[key].message)
+                else:
+                    message_body += "\n \n"
         else:
             message_body += "{} checked in with the app at {} and included the following message: {}".format(user.fname, key, events[key].notes)
     if alert.contact_id3:
@@ -98,21 +97,26 @@ def check_alerts():
     with app.app_context():
         print("Checking for Alerts Now: " + str(datetime.datetime.now()))
         alerts = Alert.query.filter_by(active=True).all()
+        print(alerts)
         # print(alerts)
         if len(alerts) > 0:
             for alert in alerts:
                 difference = alert.datetime - datetime.datetime.now()
+                print("Alert " + str(alert.alert_id))
+                print(difference)
                 checks = 0
                 check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
                 for ch in check_ins:
                     dif = datetime.datetime.now() - alert.datetime
-                    if dif <= timedelta(hours=1) and difference > timedelta(seconds=0):
+                    if dif <= datetime.timedelta(hours=1) and difference > datetime.timedelta(seconds=0):
                         checks += 1
-                if difference <= datetime.timedelta(minutes=1) and difference > datetime.timedelta(seconds=0) and checks == 0:
+                if abs(difference) <= datetime.timedelta(minutes=1) and abs(difference) > datetime.timedelta(seconds=0) and checks == 0 and alert.sent == False:
                     print('A CHECK-IN WAS MISSED AND AN ALERT IS BEING SENT NOW!')
                     message_body = create_alert(alert.alert_id)
                     send_alert(alert.alert_id, message_body)
-                elif difference <= datetime.timedelta(minutes=15) and difference > datetime.timedelta(minutes=14) and checks == 0:
+                    (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update({'sent': True, 'active': False})
+                    db.session.commit()
+                elif abs(difference) <= datetime.timedelta(minutes=15) and abs(difference) > datetime.timedelta(minutes=14) and checks == 0 and alert.sent == False:
                     print('A CHECK-IN REMINDER IS BEING SENT NOW!')
                     message_body = """Reminder! You have a Check-In Scheduled in 15 minutes. If you don't check-in
                     by responding to this text, emailing 'safe@safeworkproject.org', or checking in on the site at
@@ -154,7 +158,8 @@ def start_runner():
 @app.route("/")
 def go_home():
     """Renders the safework homepage. (Tested)"""
-    
+    check = CheckIn.query.first()
+    print(type(check))
     return render_template("homepage.html")
 
 
@@ -226,11 +231,12 @@ def register_process():
     email_input = request.form['email_input']
     email2 = request.form['email_input2']
     phone = request.form['phone']
-    pw_input = request.form['password'].encode('utf-8')
+    pw_input = request.form['password']
     username = request.form['username']
     tagline = request.form['tagline']
     location = request.form['location']
-    hashed_word = bcrypt.hashpw(pw_input, bcrypt.gensalt())
+    p_word = bytes(pw_input, 'utf-8')
+    hashed_word = str(bcrypt.hashpw(p_word, bcrypt.gensalt()))
     user_type = request.form['user_type']
     second_type = request.form['2nd']
     timezone = request.form['timezone']
@@ -306,7 +312,7 @@ def login():
 
     #Sets variable equal to the login form inputs
     email_input = request.form['email_input']
-    pw_input = request.form['pw_input'].encode('utf-8')
+    pw_input = request.form['pw_input']
     user_query = User.query.filter(User.email == email_input).all()
 
     if user_query == []:
@@ -315,15 +321,19 @@ def login():
 
 
     #Queries to see if the email and pword match the database. If so, redirects to forums.
-    elif bcrypt.checkpw(pw_input, user_query[0].password.encode('utf-8')):
-        session['current_user'] = email_input
-        flash('You were successfully logged in')
-        return redirect("/forums")
-
-    #Otherwise, it re-renders the page and throws an error message to the user
     else:
-        flash('Your e-mail or password was incorrect! Please try again or Register.')
-        return render_template("login.html")
+        p_word = user_query[0].password
+        p_word = bytes(p_word, 'utf-8')
+        pw_in = bytes(pw_input, 'utf-8')
+        if bcrypt.checkpw(pw_in, p_word):
+            session['current_user'] = email_input
+            flash('You were successfully logged in')
+            return redirect("/forums")
+
+        #Otherwise, it re-renders the page and throws an error message to the user
+        else:
+            flash('Your e-mail or password was incorrect! Please try again or Register.')
+            return render_template("login.html")
 
 
 @app.route("/logout")
@@ -888,7 +898,11 @@ def safewalk_main():
         a_set.total = 0
         for alert in alerts:
             if a_set.alert_set_id == alert.alert_set_id and a_set.interval:
-                aset_alerts.append(alert.datetime)
+                tim = now + datetime.timedelta(minutes=a_set.interval)
+                print("Interval Datetime" + str(tim))
+                aset_alerts.append(tim)
+                print("Alert:")
+                print(alert)
             elif a_set.alert_set_id == alert.alert_set_id:
                 dtime = datetime.datetime.now()
                 if time >= alert.time:
@@ -897,26 +911,32 @@ def safewalk_main():
                 else:    
                     dtime = datetime.datetime.combine(date, alert.time)
                 aset_alerts.append(dtime)
+                print(dtime)
         if len(aset_alerts) >= 1:     
-            aset_alerts.sort()
-            print('aset_alerts:')
-            print(aset_alerts[0])
-            a_set.next_alarm = aset_alerts[0]
-            a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %Y/%m/%d")
-            d1 = abs(now - aset_alerts[0])
-            d2 = float(d1.total_seconds())
-            days = math.floor(d2 / 86400)
-            hours = math.floor((d2 - (days * 86400)) / 3600)
-            minutes = math.floor((d2 - (days * 86400) - (hours * 3600)) / 60)
-            seconds = math.floor(d2 - (days * 86400) - (hours * 3600) - (minutes * 60))
-            print(minutes)
-            a_set.countdown = datetime.time(int(hours), int(minutes), int(seconds))
-            a_set.days = int(days)
-            a_set.hours = int(hours)
-            a_set.minutes = int(minutes)
-            a_set.seconds = int(seconds)
-            a_set.total =int(d2)
-            print(a_set.total)
+            if aset_alerts[0] != None:    
+                aset_alerts.sort()
+                print('aset_alerts:')
+                print(aset_alerts[0])
+                a_set.next_alarm = aset_alerts[0]
+                a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %m/%d/%Y")
+                d1 = now - aset_alerts[0]
+                d2 = abs(d1.total_seconds())
+                days = math.floor(d2 / 86400)
+                hours = math.floor((d2 - (days * 86400)) / 3600)
+                minutes = math.floor((d2 - (days * 86400) - (hours * 3600)) / 60)
+                seconds = math.floor(d2 - (days * 86400) - (hours * 3600) - (minutes * 60))
+                print(minutes)
+                a_set.countdown = datetime.time(int(hours), int(minutes), int(seconds))
+                a_set.days = int(days)
+                a_set.hours = int(hours)
+                a_set.minutes = int(minutes)
+                a_set.seconds = int(seconds)
+                a_set.total =int(d2)
+                # if d1 < datetime.timedelta(seconds=0):
+                #     a_set.total = 0
+                print(a_set.total)
+            else:
+                a_set.next_alarm_dis = now.strftime("%I:%M %p, %m/%d/%Y")
 
     return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
 
@@ -1048,7 +1068,7 @@ def add_sched_alertset():
 def edit_schedset_page(alert_set_id):
     user = User.query.filter_by(email=session['current_user']).one()
     alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
-    alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
+    alerts = Alert.query.filter_by(alert_set_id=alert_set_id).order_by(asc(Alert.alert_id)).all()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
     return render_template("edit_sched_alerts.html", alert_set=alert_set, contacts=contacts, alerts=alerts)
 
@@ -1062,6 +1082,25 @@ def save_schedset(alert_set_id):
     {'date': date, 'end_date': end_date, 'a_name': name, 'a_desc': desc})    
     db.session.commit()
     return redirect("/edit_schedset/" + str(alert_set_id))
+
+@app.route("/edit_al/<alert_id>", methods=["POST"])
+def edit_schedal(alert_id):
+    alert = Alert.query.filter_by(alert_id=alert_id).one()
+    user = User.query.filter_by(email=session['current_user']).one()
+    time = request.form['time']
+    contacts = request.form.getlist('contact')
+    contact1 = int(contacts[0])
+    contact2 = None
+    contact3 = None
+    if len(contacts) > 1:
+        contact2 = int(contacts[1])
+    if len(contacts) > 2:
+        contact3 = int(contacts[2])
+    message = request.form['check_mess']
+    (db.session.query(Alert).filter_by(alert_id=alert_id)).update(
+    {'time': time, 'contact_id1': contact1, 'contact_id2': contact2, 'contact_id3': contact3, 'message': message})    
+    db.session.commit()
+    return redirect("/edit_schedset/" + str(alert.alert_set_id))
 
 @app.route("/add_alert/<alert_set_id>", methods=["POST"])
 def add_sched_alert(alert_set_id):
@@ -1089,6 +1128,7 @@ def activate_alertset(alert_set_id):
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
     dt = datetime.datetime.now()
+    dt_list = []
     if alert_set.date == None:
         db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'date': date, 'start_datetime': dt})
     if alert_set.interval == None:
@@ -1105,20 +1145,26 @@ def activate_alertset(alert_set_id):
                 dtime = datetime.datetime.combine(date, alert.time)
                 print(dtime)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'date': date, 'datetime': dtime})
+                dt_list.appent(dtime)
             else:
                 print("step 3b")
                 dtime = datetime.datetime.combine(alert.date, alert.time)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'datetime': dtime})
+                dt_list.append(dtime)
     else:
         print("Interval = " + str(alert_set.interval))
         print("Rec Activated")
-        dtime = datetime.datetime.combine(date, time)
-        dtime_int = dtime + datetime.timedelta(minutes=alert_set.interval)
+        # dtime = datetime.datetime.combine(date, time)
+        # dt_list.append(dtime)
+        dtime_int = dt + datetime.timedelta(minutes=alert_set.interval)
         alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
         db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'active': True, 'start_time': time, 'start_time': time, 'datetime': dtime_int})
+        dt_list.append(dtime_int)
     db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'active': True, 'start_time': time, 'start_datetime': dt})
     db.session.commit()
-    return "Alert Set Activated"
+    dt_list.sort()
+    alarm_dt = dt_list[0].strftime("%I:%M %p, %m/%d/%Y")
+    return str(alarm_dt)
 
 @app.route("/deactivate/<alert_set_id>")
 def deactivate_alertset(alert_set_id):
@@ -1127,7 +1173,7 @@ def deactivate_alertset(alert_set_id):
     alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
     for alert in alerts:
         db.session.query(Alert).filter_by(alert_id=alert.alert_id).update(
-        {'active': False})
+        {'active': False, 'checked_in': False})
     db.session.commit()
     return "Alert Set Deactivated"
 
@@ -1141,30 +1187,20 @@ def checkin_page():
 def add_new_checkin():
     text = request.form['check_text']
     user = User.query.filter_by(email=session['current_user']).one()
-    time = datetime.datetime.now().time()
-    date = (datetime.datetime.today())
-    datetim = datetime.datetime.now()
-    new_check = CheckIn(user_id=user.user_id, notes=text, time=time, date=date, datetime=datetim)
-    db.session.add(new_check)
-    db.session.commit()
+    check_in(user.user_id, text)
     return redirect("/check_ins")
 
 @app.route("/incoming_mail", methods=["POST"])  
 def mailin():  
-    
     # access some of the email parsed values:
     sender = request.form['From']
     send_email = request.form['sender']
     subject = request.form['subject']
     text = request.form['body-plain']
-    time = datetime.datetime.now().time()
-    date = (datetime.datetime.today())
-    datetim = datetime.datetime.now()
     user = User.query.filter_by(email=str.strip(send_email)).all()
+    u_id = user[0].user_id
     if len(user) >= 1:        
-        new_check = CheckIn(user_id=user.user_id, notes=text, time=time, date=date, datetime=datetim)
-        db.session.add(new_check)
-        db.session.commit()
+        check_in(u_id, text)
     print(send_email)
     print("Email Message Received")
     return "Email Message Received"
@@ -1175,19 +1211,35 @@ def smsin():
     data = json.loads(dat.decode(encoding="utf-8", errors="strict"))
     message_body = data['text']
     phone = data['from']
-    time = datetime.datetime.now().time()
-    date = (datetime.datetime.today())
-    datetim = datetime.datetime.now()
     user = User.query.filter_by(phone=str(phone[-10:])).all()
     u_id = user[0].user_id
     if len(user) >= 1:        
-        new_check = CheckIn(user_id=u_id, notes=message_body, time=time, date=date, datetime=datetim)
-        db.session.add(new_check)
-        db.session.commit()
+        check_in(u_id, message_body)
     print(phone[-10:])
     print(user)
     print("SMS Received")
     return "SMS Received"
+
+def check_in(user_id, notes):
+    time = datetime.datetime.now().time()
+    date = (datetime.datetime.today())
+    datetim = datetime.datetime.now()
+    new_check = CheckIn(user_id=user_id, notes=notes, time=time, date=date, datetime=datetim)
+    db.session.add(new_check)
+    db.session.commit()
+    alerts = Alert.query.filter(Alert.user_id == user_id, Alert.active == True).all()
+    for alert in alerts:
+        if alert.datetime - datetim < datetime.timedelta(hours=1):
+            if alert.interval:
+                print("Alert:")
+                print(alert)
+                (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update(
+                {'datetime': (alert.datetime + datetime.timedelta(minutes=alert.interval)), 'checked_in': True})    
+            else:
+                (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update(
+                {'datetime': (alert.datetime + datetime.timedelta(days=1)), 'checked_in': True})
+    db.session.commit()
+    return "Check In has been Logged!"
 
 
 #####################################################

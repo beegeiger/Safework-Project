@@ -75,16 +75,17 @@ def add_incident_data_start(source_nums):
 					if "PROST" in row["descript"].upper() and Incident.query.filter(Incident.police_rec_num == row["incidntnum"]).all() == []:
 						if year >= 2000:
 							sf_num += 1
-							print "sf # " + str(sf_num)
-							print row	
+							print("sf # " + str(sf_num))
+							print(row)	
 							if s_num == 3:
 								incident = Incident(police_dept_id=2, source_id=3, inc_type="API", latitude=row["location"]["coordinates"][1], longitude=row["location"]["coordinates"][0], address=row["address"], city="San Francisco", state="CA", date=row["date"], year=year, time=row["time"], description=row["descript"], police_rec_num=row["incidntnum"])
 								db.session.add(incident)
 							elif s_num == 2:
 								incident = Incident(police_dept_id=2, source_id=2, inc_type="API", latitude=row["location"]["latitude"], longitude=row["location"]["longitude"], address=row["address"], city="San Francisco", state="CA", date=row["date"], year=year, time=row["time"], description=row["descript"], police_rec_num=row["incidntnum"])
 								db.session.add(incident)
-							 	print incident.latitude, incident.longitude
-							 	print type(incident.latitude), type(incident.longitude)
+								print(incident.latitude)
+								print(incident.longitude)
+								print(type(incident.latitude) + type(incident.longitude))
 						db.session.commit()
 			elif s_num == 5:
 				incident_info = requests.get(sour.url).json()
@@ -95,8 +96,8 @@ def add_incident_data_start(source_nums):
 					if Incident.query.filter(Incident.police_rec_num == row["incident_id"]).all() == []:
 						if year >= 2000:
 							alameda += 1
-							print "Alameda" + str(alameda)
-							print row	
+							print("Alameda" + str(alameda))
+							print(row)	
 							incident = Incident(police_dept_id=4, source_id=5, inc_type="API", latitude=row["latitude"], longitude=row["longitude"], address=row["address_1"], city=row["city"], state="CA", date=row["incident_datetime"], year=year, time=(str(row["hour_of_day"]) + ":00"), description=row["incident_description"], police_rec_num=row["incident_id"])
 							db.session.add(incident)
 						db.session.commit()
@@ -109,8 +110,8 @@ def add_incident_data_start(source_nums):
 					if Incident.query.filter(Incident.police_rec_num == row["incident_id"]).all() == []:
 						if year >= 2000:
 							santa_clara += 1
-							print "Santa Clara " + str(santa_clara)
-							print row	
+							print("Santa Clara " + str(santa_clara))
+							print(row)	
 							incident = Incident(police_dept_id=5, source_id=6, inc_type="API", latitude=row["latitude"], longitude=row["longitude"], address=row["address_1"], city=row["city"], state="CA", date=row["incident_datetime"], year=year, time=(str(row["hour_of_day"]) + ":00"), description=row["incident_description"], police_rec_num=row["incident_id"])
 							db.session.add(incident)
 						db.session.commit()
@@ -123,8 +124,8 @@ def add_incident_data_start(source_nums):
 					if Incident.query.filter(Incident.police_rec_num == row["incident_id"]).all() == []:
 						if year >= 2000:
 							fremont += 1
-							print "Fremont " + str(fremont)
-							print row	
+							print("Fremont " + str(fremont))
+							print(row)
 							incident = Incident(police_dept_id=6, source_id=7, inc_type="API", latitude=row["latitude"], longitude=row["longitude"], address=row["address_1"], city=row["city"], state="CA", date=row["incident_datetime"], year=year, time=(str(row["hour_of_day"]) + ":00"), description=row["incident_description"], police_rec_num=row["incident_id"])
 							db.session.add(incident)
 						db.session.commit()
@@ -137,8 +138,8 @@ def add_incident_data_start(source_nums):
 					if Incident.query.filter(Incident.police_rec_num == row["incident_id"]).all() == []:
 						if year >= 2000:
 							san_leandro+= 1
-							print "San Leandro " + str(san_leandro)
-							print row	
+							print("San Leandro " + str(san_leandro))
+							print(row)	
 							incident = Incident(police_dept_id=7, source_id=8, inc_type="API", latitude=row["latitude"], longitude=row["longitude"], address=row["address_1"], city=row["city"], state="CA", date=row["incident_datetime"], year=year, time=(str(row["hour_of_day"]) + ":00"), description=row["incident_description"], police_rec_num=row["incident_id"])
 							db.session.add(incident)
 						db.session.commit()
@@ -151,8 +152,8 @@ def add_incident_data_start(source_nums):
 					if Incident.query.filter(Incident.police_rec_num == row["incident_id"]).all() == []:
 						if year >= 2000:
 							san_pablo += 1
-							print "San Pablo " + str(san_pablo)
-							print row	
+							print("San Pablo " + str(san_pablo))
+							print(row)
 							incident = Incident(police_dept_id=8, source_id=9, inc_type="API", latitude=row["latitude"], longitude=row["longitude"], address=row["address_1"], city=row["city"], state="CA", date=row["incident_datetime"], year=year, time=(str(row["hour_of_day"]) + ":00"), description=row["incident_description"], police_rec_num=row["incident_id"])
 							db.session.add(incident)
 						db.session.commit()
@@ -162,24 +163,24 @@ def add_incident_data_start(source_nums):
 				for row in incident_info:
 					new_york += 1
 					inde += 1
-					print "New York " + str(new_york)
-					print row
+					print("New York " + str(new_york))
+					print(row)
 					year = int(row["cmplnt_fr_dt"][0:4])
 					if Incident.query.filter(Incident.police_rec_num == row["cmplnt_num"]).all() == [] and "latitude" in row:
 						if year >= 2000:
 							new_york += 1
 							inde += 1
-							print "New York " + str(new_york)
-							print row	
+							print("New York " + str(new_york))
+							print(row)	
 							incident = Incident(police_dept_id=9, source_id=s_num, inc_type="API", latitude=row["latitude"], longitude=row["longitude"], address=row["boro_nm"], city="New York", state="CA", date=row["cmplnt_fr_dt"], year=year, time=(str(row["cmplnt_fr_tm"])), description=row["pd_desc"], police_rec_num=row["cmplnt_num"])
 							db.session.add(incident)
-							print incident.incident_id
+							print(incident.incident_id)
 						db.session.commit()
 			elif s_num == 4:
 				o_num = 0
 				for row in open("seed_data/oaklandcoords.csv"):
 					o_num += 1
-					print "Oakland # " + str(o_num)
+					print("Oakland # " + str(o_num))
 					incident_row = row.split(",")
 					# print incident[-2], incident[-1]
 					inc = []
@@ -193,8 +194,8 @@ def add_incident_data_start(source_nums):
 					address = str(inc[5])
 					incident = Incident(police_dept_id=3, source_id=4, inc_type="API", address=address, latitude=unicode(incident_row[-2].strip(), "utf-8"), longitude=unicode(incident_row[-1].strip(), "utf-8"), city="Oakland", state="CA", date=inc[1], year=inc[1][:4], time=inc[1][11:16], description=inc[3], police_rec_num=inc[2])
 					db.session.add(incident)
-					print incident.latitude, incident.longitude
-					print type(incident.latitude)
+					print(incident.latitude, incident.longitude)
+					print(type(incident.latitude))
 					db.session.commit()
 				
 
@@ -298,5 +299,5 @@ add_starter_forums()
 if __name__ == "__main__":
 
 	connect_to_db(app, 'postgresql:///safework')
-	print "Connected to DB."
+	print("Connected to DB.")
 

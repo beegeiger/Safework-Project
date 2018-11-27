@@ -20,14 +20,14 @@ class safeworkIntegrationTestCase(unittest.TestCase):
     """Integration tests for flask server for safework app."""
 
     def setUp(self):
-        print "(setUp ran)"
+        print("(setUp ran)")
         self.client = server.app.test_client()
         server.app.config['TESTING'] = True
 
     def tearDown(self):
         """Do at end of every test."""
-        
-        print "(tearDown ran)"
+
+        print("(tearDown ran)")
 
     def test_homepage(self):
         result = self.client.get('/')

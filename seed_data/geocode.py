@@ -70,7 +70,7 @@ def make_address_file():
 
 			address = [inc[5] + ", Oakland, CA"]
 			dout += [address]
-			print dout
+			print(dout)
 	with open('Oakland.csv', 'wb') as fout:
 		writer = csv.writer(fout)
 		writer.writerows(dout)
