@@ -236,7 +236,7 @@ def register_process():
     tagline = request.form['tagline']
     location = request.form['location']
     p_word = bytes(pw_input, 'utf-8')
-    hashed_word = str(bcrypt.hashpw(p_word, bcrypt.gensalt()))
+    hashed_word = bcrypt.hashpw(p_word, bcrypt.gensalt()).decode('utf-8')
     user_type = request.form['user_type']
     second_type = request.form['2nd']
     timezone = request.form['timezone']
@@ -323,9 +323,12 @@ def login():
     #Queries to see if the email and pword match the database. If so, redirects to forums.
     else:
         p_word = user_query[0].password
-        p_word = bytes(p_word, 'utf-8')
-        pw_in = bytes(pw_input, 'utf-8')
-        if bcrypt.checkpw(pw_in, p_word):
+        if isinstance(pw_input, str):
+            pw_input = bytes(pw_input, 'utf-8')
+        passwd = bytes(p_word, 'utf-8')
+
+
+        if bcrypt.hashpw(pw_input, passwd) == passwd:
             session['current_user'] = email_input
             flash('You were successfully logged in')
             return redirect("/forums")
