@@ -943,6 +943,11 @@ def safewalk_main():
 
     return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
 
+@app.route("/sw_getting_started")
+def get_started():
+    user = User.query.filter_by(email=session['current_user']).one()
+    contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
+    return render_template("getting_started_safewalk.html", contacts=contacts)
 
 @app.route("/rec_alerts")
 def recurring_alerts():
@@ -954,7 +959,8 @@ def recurring_alerts():
 def scheduled_alerts():
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
-    return render_template("scheduled_alerts.html", contacts=contacts)
+    con_length = len(contacts)
+    return render_template("scheduled_alerts.html", contacts=contacts, con_length=con_length)
 
 
 @app.route("/contacts")
