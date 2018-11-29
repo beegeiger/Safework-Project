@@ -940,6 +940,7 @@ def safewalk_main():
                 print(a_set.total)
             else:
                 a_set.next_alarm_dis = now.strftime("%I:%M %p, %m/%d/%Y")
+        else:a_set.next_alarm_dis = now.strftime("%I:%M %p, %m/%d/%Y")
 
     return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
 
