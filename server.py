@@ -947,7 +947,8 @@ def safewalk_main():
 def get_started():
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
-    return render_template("getting_started_safewalk.html", contacts=contacts)
+    con_length = len(contacts)
+    return render_template("getting_started_safewalk.html", contacts=contacts, con_length=con_length)
 
 @app.route("/rec_alerts")
 def recurring_alerts():
@@ -959,8 +960,7 @@ def recurring_alerts():
 def scheduled_alerts():
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
-    con_length = len(contacts)
-    return render_template("scheduled_alerts.html", contacts=contacts, con_length=con_length)
+    return render_template("scheduled_alerts.html", contacts=contacts)
 
 
 @app.route("/contacts")

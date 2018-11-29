@@ -8,9 +8,14 @@
 <div class="gen_div">
 <h4>1. Add Contacts and Their Information</h4>
 <h5>Before any Alerts can be created, you must first add at least one contact and their information.</h5>
+<h5>You currently have {{ con_length }} contacts saved.</h5>
 <p>Tip: If you just want to test the system before using it, just add your own contact information.</p>
 <button type="button" onclick="/contacts">Click Here to Add/Edit Contacts</button>
-<h4>2. Choose Reocurring or Pre-Scheduled Alert Type and Create a New Alert Set</h4>
+<h4>2. Choose Recurring or Pre-Scheduled Alert Type and Create a New Alert Set</h4>
+<h6>All Alert types require you to check-in with the app <a href="/check_ins">here</a>, over SMS (at [1]415-800-1883), or over e-mail (checkin@safeworkproject.org'). </h6>
+<h5>A. Recurring Alert Set</h5>
+<p>A recurring alert set requires you to check-in with the app every pre-set time interval. For example, if you set it to require a check-in every 2 hours (120 minutes) and you activated it at 7:30PM, you would need to check-in at least once before 9:30PM, then again between 11:30PM, then 1:30AM, etc. until you miss a check-in and your alert is sent OR you deactivate the Alert Set.</p>
+<h5>B. (Pre-)Scheduled Alert Set</h5>
 <h4>3. Activate/Deactivate Alerts As Needed</h4>
 </div>
 {% endblock %}
