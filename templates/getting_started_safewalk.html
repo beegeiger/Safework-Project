@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Alert Set{% endblock %}
+{% block title %}Alert-set{% endblock %}
 {% block head %}
 
 {% endblock %}
@@ -10,33 +10,39 @@
 <h4>1. Add Contacts and Their Information</h4>
 <h5>Before any Alerts can be created, you must first add at least one contact and their information.</h5>
 <h5>You currently have {{ con_length }} contacts saved.</h5>
-<p>Tip: If you just want to test the system before using it, just add your own contact information.</p><br>
+<p>Tip: If you just want to test the system before using it, just add your own contact information.</p>
 <button type="button" onclick="/contacts">Click Here to Add/Edit Contacts</button>
+<br><br>
 
-
-<h4>2. Choose Recurring or Pre-Scheduled Alert Type and Create a New Alert Set</h4>
+<h4>2. Choose Recurring or Pre-Scheduled Alert Type and Create a New Alert-Set</h4>
 
 
 <h6>If an alert-set is active, the check-in requirements/alerts will apply to any day they are in use. If you are concerned you might forget to deactivate an alert-set, set the "End Date" to be the last day you forsee using the alert-set and even when activated, those alerts cannot be sent after that date.</h6>
 
 
-<h5>A. Recurring Alert Set</h5>
-<p>A recurring alert set requires you to check-in with the app every pre-set time interval. For example, if you set it to require a check-in every 2 hours (120 minutes) and you activated it at 7:30PM, you would need to check-in at least once before 9:30PM, then again between 11:30PM, then 1:30AM, etc. until you miss a check-in and your alert is sent OR you deactivate the Alert Set. This alert set type is ideal if you aren't sure of your schedule/plans and are going out to work (or date) and see what you find.</p><br>
-<button type="button" onclick="/rec_alerts">Click Here to Add a New Recurring Alert Set</button>
-
-
-<h5>B. (Pre-)Scheduled Alert Set</h5>
-<p>A scheduled alert set allows you to pre-set alerts(/check-in requirements) by time. You will be required to check-in within 1 hour (60 minutes) before each check-in time or that specific alert will be sent to your contacts. For example, if you set an alert for 8:00PM and 2:15AM, you will need to check in between 7:00 and 8:00PM and then again between 1:15 and 2:15AM. If an earlier scheduled alert is missed, the following check-ins are still required to prevent the alerts from being send, unless you deactivate the alert set in use. This alert set type is ideal if you know your schedule and want some backup in case something goes wrong. For example, if you have a date at 7:00PM and it is supposed to be 2 hours, you could set a check-in for 7:30 so you can double-check you met the client and he seems alright. You could then set another check-in for 9:30 to make sure you got out alright, or 10:00 to make sure you got home alright. If you miss a check-in, if you include where you are going in your message, your contacts will be easily able to find you!
+<h5>A. Recurring Alert-set</h5>
+<p>A recurring alert-set requires you to check-in with the app every pre-set time interval. For example, if you set it to require a check-in every 2 hours (120 minutes) and you activated it at 7:30PM, you would need to check-in at least once before 9:30PM, then again between 11:30PM, then 1:30AM, etc. until you miss a check-in and your alert is sent OR you deactivate the Alert-set. This alert-set type is ideal if you aren't sure of your schedule/plans and are going out to work (or date) and see what you find.</p>
+<button type="button" onclick="/rec_alerts">Click Here to Add a New Recurring Alert-set</button>
 <br><br>
-For scheduled alert sets, you need to first create the alert set (an set any notes/messages about what you are doing and an [optional] End date). Then, once the alert set is created, you can then add the specific check-in/alert times and any specific information related to that time that could be relevant if the alert is sent to your contacts.
-</p><br>
-<button type="button" onclick="/sched_alerts">Click Here to Add a New Scheduled Alert Set</button>
+
+<h5>B. (Pre-)Scheduled Alert-set</h5>
+<p>A scheduled alert-set allows you to pre-set alerts(/check-in requirements) by time. You will be required to check-in within 1 hour (60 minutes) before each check-in time or that specific alert will be sent to your contacts. For example, if you set an alert for 8:00PM and 2:15AM, you will need to check in between 7:00 and 8:00PM and then again between 1:15 and 2:15AM. If an earlier scheduled alert is missed, the following check-ins are still required to prevent the alerts from being send, unless you deactivate the alert-set in use. This alert-set type is ideal if you know your schedule and want some backup in case something goes wrong. For example, if you have a date at 7:00PM and it is supposed to be 2 hours, you could set a check-in for 7:30 so you can double-check you met the client and he seems alright. You could then set another check-in for 9:30 to make sure you got out alright, or 10:00 to make sure you got home alright. If you miss a check-in, if you include where you are going in your message, your contacts will be easily able to find you!
+<br><br>
+For scheduled alert-sets, you need to first create the alert-set (an set any notes/messages about what you are doing and an [optional] End date). Then, once the alert-set is created, you can then add the specific check-in/alert times and any specific information related to that time that could be relevant if the alert is sent to your contacts.
+</p>
+<button type="button" onclick="/sched_alerts">Click Here to Add a New Scheduled Alert-set</button>
+<br><br>
 
 <h4>3. Activate/Deactivate Alerts As Needed</h4>
-<h5>On the mail SafeWalk Alerts page, <a href="/sw_mail">here</a>, by clicking the button next to each alert set, under the "Activated" column, you can activate and deactivate each set. To activate an alert set, merely click the "Inactive" button and it will activate and the next required check-in time as well as a countdown should appear. To deactivate a set, just click the "Alert Set Active" button and it will turn off (and any future check-in time should dissapear).</h5>
+<h6>On the mail SafeWalk Alerts page, <a href="/sw_main">here</a>, by clicking the button next to each alert-set, under the "Activated" column, you can activate and deactivate each set. To activate an alert-set, merely click the "Inactive" button and it will activate and the next required check-in time as well as a countdown should appear. To deactivate a set, just click the "Alert-set Active" button and it will turn off (and any future check-in time should dissapear).</h6>
 
 <h4>4. Check-In with the App at the Required Times</h4>
-<h5>When an alert set is active, you will be required to check-in with the app <a href="/check_ins">here</a>, over SMS (at [1]415-800-1883), or over e-mail (checkin@safeworkproject.org'). Note: Make sure your phone # and e-mail address are correct in your user information, because the app will identify you based on where it receives the SMS/e-mal from.</h5>
-<h6>Whatever text you send in the SMS/e-mail/site check-in will be added to the information that will get sent to your contacts if you miss an alarm. If there is an emergency and you want your future alerts to be sent immediately, start your check-in message with "help", "Help", or "911" (note that 911 will never actually be called by the app). This will trigger an early alert to be sent with whatever you add to the text that starts with help/911.</h6>
+<h6>When an alert-set is active, you will be required to check-in with the app <a href="/check_ins" style="color: white;">here</a>, over SMS (at 
+	<span style="color: white;">[1]415-800-1883</span>), or over e-mail (<span style="color: white;">checkin@safeworkproject.org</span>). Note: Make sure your phone # and e-mail address are correct in your user information, because the app will identify you based on where it receives the SMS/e-mal from.
+<br><br>
+Whatever text you send in the SMS/e-mail/site check-in will be added to the information that will get sent to your contacts if you miss an alarm. If there is an emergency and you want your future alerts to be sent immediately, start your check-in message with "help", "Help", or "911" (note that 911 will never actually be called by the app). This will trigger an early alert to be sent with whatever you add to the text that starts with help/911.</h6>
+<br><br>
+
+<a href="/sw_main">Click Here to Return to the Main SafeWalk Page (At least one saved contact is required.</a>
 </div>
 {% endblock %}

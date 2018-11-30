@@ -896,6 +896,10 @@ def safewalk_main():
     alert_sets = AlertSet.query.filter_by(user_id=user.user_id).all()
     al_sets = []
     alerts = Alert.query.filter_by(user_id=user.user_id).all()
+    contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
+    con_length = len(contacts)
+    if con_length < 1:
+        return redirect("/sw_getting_started")
     for a_set in alert_sets:
         aset_alerts = []
         a_set.total = 0
