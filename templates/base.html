@@ -3,10 +3,11 @@
     <head>
         <title>{% block title %} {% endblock %}</title>
        <link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Roboto" rel="stylesheet">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="icon" href="/static/img/fav.png">    
-    <meta name="viewport" content="width=device-width, initial-scale=.5">    
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
         {% block head %} {% endblock %}
     <style>
     body {
@@ -140,9 +141,9 @@
     <body>
     <div class="container" style="background: rgba(0, 0, 0, 0.8); width: 105%; text-align: center; margin-left: 0; margin-right: 5%; padding-left: 0; padding-right: 0; max-width: 100%">
         <div class="container d-flex flex-column flex-xl-row justify-content-between">
-        <div class="col-lg-11 text-center">
+        <div class="col-lg-10 col-md-12 col-sm-12 text-center">
         
-        {%- if request.path != "/" %}<a href="/"><img style="height: 40px;" src="/static/img/SafeWork2.gif"></a> &nbsp &nbsp
+        {%- if request.path != "/" %}<a href="/"><img class="d-none d-md-inline" style="height: 40px;" src="/static/img/SafeWork2.gif"></a> &nbsp &nbsp
         <!-- <button type="button" class="btn btn-danger" onclick="location.href='/';">SafeWork Homepage</button>  --> {% endif %}
         {%- if request.path != "/map" %}
         <button type="button" class="btn btn-danger myclass" onclick="location.href='/map';" style="width: 15%; font-family: 'Open Sans', sans-serif; font-weight: bold;">Map</button> {% endif %}

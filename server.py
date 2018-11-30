@@ -331,7 +331,7 @@ def login():
         if bcrypt.hashpw(pw_input, passwd) == passwd:
             session['current_user'] = email_input
             flash('You were successfully logged in')
-            return redirect("/forums")
+            return redirect("/sw_main")
 
         #Otherwise, it re-renders the page and throws an error message to the user
         else:
@@ -1261,8 +1261,9 @@ def check_in(user_id, notes):
 if __name__ == "__main__":
     start_runner()
     print("should be working")
-    connect_to_db(app, 'postgresql:///safework')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    connect_to_db(app, 'postgresql:///safework')
+    
     print("Connected to DB.")
     app.run(host='0.0.0.0')
     
