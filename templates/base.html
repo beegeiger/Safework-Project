@@ -117,6 +117,9 @@
     }
     .btn-danger {
         background-color: red;
+        height: 30px;
+        font-size: 15px;
+        padding-top: 3px;
     }
     .myclass {
         font-family: 'Open Sans', sans-serif;
@@ -139,7 +142,7 @@
         <div class="container d-flex flex-column flex-xl-row justify-content-between">
         <div class="col-lg-11 text-center">
         
-        {%- if request.path != "/" %}<a href="/"><img style="height: 60px;" src="/static/img/SafeWork2.gif"></a> &nbsp &nbsp
+        {%- if request.path != "/" %}<a href="/"><img style="height: 40px;" src="/static/img/SafeWork2.gif"></a> &nbsp &nbsp
         <!-- <button type="button" class="btn btn-danger" onclick="location.href='/';">SafeWork Homepage</button>  --> {% endif %}
         {%- if request.path != "/map" %}
         <button type="button" class="btn btn-danger myclass" onclick="location.href='/map';" style="width: 15%; font-family: 'Open Sans', sans-serif; font-weight: bold;">Map</button> {% endif %}
