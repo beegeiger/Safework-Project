@@ -816,7 +816,7 @@ def submit_form():
     db.session.add(new_cop)
     db.session.commit()
 
-    #Redirects to homepage sudo apt-get install build-essential libffi-dev python-dev
+    #Redirects to homepage
     flash('Your report has been filed and should be added to the map soon!')
     return redirect("/")
 
@@ -881,35 +881,45 @@ def edit_profile():
 
 @app.route("/contact")
 def contact_us():
+    """Renders the 'contact us' page"""
     return render_template("contact.html")
 
 @app.route("/resources")
 def resources():
+    """Renders the 'additional resources' page"""
     return render_template("resources.html")
 
 @app.route("/sw_main")
 def safewalk_main():
+    """Renders the main safewalk page including a user's alert-sets"""
+
+    #Creates variables for the curent time, date, and datetime for convenience
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
     now = datetime.datetime.now()
+
+    #Queries the dBase for the current user and their alerts and contacts
     user = User.query.filter_by(email=session['current_user']).one()
     alert_sets = AlertSet.query.filter_by(user_id=user.user_id).all()
     al_sets = []
     alerts = Alert.query.filter_by(user_id=user.user_id).all()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
     con_length = len(contacts)
+
+    #If the user has added no contacts, they are re-routed to the 'getting started' page
     if con_length < 1:
         return redirect("/sw_getting_started")
+
+    #Loops through all user's alert-sets and initiates variables to keep track of them
     for a_set in alert_sets:
         aset_alerts = []
         a_set.total = 0
+
+        #Loops through the alerts and adds the datetime for each to the aset_alerts list
         for alert in alerts:
             if a_set.alert_set_id == alert.alert_set_id and a_set.interval:
                 tim = now + datetime.timedelta(minutes=a_set.interval)
-                print("Interval Datetime" + str(tim))
                 aset_alerts.append(tim)
-                print("Alert:")
-                print(alert)
             elif a_set.alert_set_id == alert.alert_set_id:
                 dtime = datetime.datetime.now()
                 if time >= alert.time:
@@ -918,7 +928,9 @@ def safewalk_main():
                 else:    
                     dtime = datetime.datetime.combine(date, alert.time)
                 aset_alerts.append(dtime)
-                print(dtime)
+
+        """If there is at least one alert for each alert-set, the earliest alert and 
+        the total number of seconds until that alert are saved to the alert-set object"""
         if len(aset_alerts) >= 1:     
             if aset_alerts[0] != None:    
                 aset_alerts.sort()
@@ -928,16 +940,16 @@ def safewalk_main():
                 a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %m/%d/%Y")
                 d1 = now - aset_alerts[0]
                 d2 = abs(d1.total_seconds())
-                days = math.floor(d2 / 86400)
-                hours = math.floor((d2 - (days * 86400)) / 3600)
-                minutes = math.floor((d2 - (days * 86400) - (hours * 3600)) / 60)
-                seconds = math.floor(d2 - (days * 86400) - (hours * 3600) - (minutes * 60))
-                print(minutes)
-                a_set.countdown = datetime.time(int(hours), int(minutes), int(seconds))
-                a_set.days = int(days)
-                a_set.hours = int(hours)
-                a_set.minutes = int(minutes)
-                a_set.seconds = int(seconds)
+                # days = math.floor(d2 / 86400)
+                # hours = math.floor((d2 - (days * 86400)) / 3600)
+                # minutes = math.floor((d2 - (days * 86400) - (hours * 3600)) / 60)
+                # seconds = math.floor(d2 - (days * 86400) - (hours * 3600) - (minutes * 60))
+                # print(minutes)
+                # a_set.countdown = datetime.time(int(hours), int(minutes), int(seconds))
+                # a_set.days = int(days)
+                # a_set.hours = int(hours)
+                # a_set.minutes = int(minutes)
+                # a_set.seconds = int(seconds)
                 a_set.total =int(d2)
                 # if d1 < datetime.timedelta(seconds=0):
                 #     a_set.total = 0
