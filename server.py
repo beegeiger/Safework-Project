@@ -956,54 +956,84 @@ def safewalk_main():
                 print(a_set.total)
             else:
                 a_set.next_alarm_dis = now.strftime("%I:%M %p, %m/%d/%Y")
+        
+        #If there are no alerts, the current datetime is used as a placeholder
         else:a_set.next_alarm_dis = now.strftime("%I:%M %p, %m/%d/%Y")
 
     return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
 
 @app.route("/sw_getting_started")
 def get_started():
+    """Renders the 'Getting Started with SafeWalk' Page"""
+
+    #Queries the current user and their contact info
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
     con_length = len(contacts)
+    
     return render_template("getting_started_safewalk.html", contacts=contacts, con_length=con_length)
 
 @app.route("/rec_alerts")
 def recurring_alerts():
+    """Renders the 'Create a Recurring Alert-Set' Page"""
+    
+    #Queries the current user and their contact info
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
+    
     return render_template("recurring_alerts.html", contacts=contacts)
 
 @app.route("/sched_alerts")
 def scheduled_alerts():
+    """Renders the 'Create a Scheduled Alert-Set' Page"""
+    
+    #Queries the current user and their contact info
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
+    
     return render_template("scheduled_alerts.html", contacts=contacts)
 
 
 @app.route("/contacts")
 def user_contacts():
+    """Renders the User's 'contacts' Page"""
+    
+    #Queries the current user and their contact info  
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
+
     return render_template("contacts.html", contacts=contacts)
 
 @app.route("/contacts", methods=["POST"])
 def add_contact():
+    """Adds a user's new contact's info to the dBase"""
+
+    #Creates variables from the form on the contacts page
     name = request.form['name']
     phone = request.form['phone']
     email = request.form['email']
     c_type = request.form['c_type']
     message = request.form['message']
+
+    #Queries the current user
     user = User.query.filter_by(email=session['current_user']).one()
+    
+    #Creates the new Contact object, adds it to the dBase and commits the addition
     new_contact = Contact(user_id=user.user_id, name=name, email=email, phone=phone, c_type=c_type, c_message=message)
     db.session.add(new_contact)
     db.session.commit()
+    
     return redirect("/contacts")
 
 @app.route("/del_contact/<contact_num>")
 def delete_contact(contact_num):
+    """Deletes a user's contact from the dBase"""
+
+    #Queries the contact in question, deletes it from the dBase, and commits
     contact = Contact.query.filter_by(contact_id=contact_num).one()
     db.session.delete(contact)
     db.session.commit()
+    
     return redirect("/contacts")
 
 @app.route("/edit_contact/<contact_num>", methods=["POST"])
