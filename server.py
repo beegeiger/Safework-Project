@@ -1111,22 +1111,35 @@ def edit_recset_page(alert_set_id):
 
 @app.route("/save_recset/<alert_set_id>", methods=["POST"])
 def save_recset(alert_set_id):
+    """Saves the edits to a recurring alert set"""
+
+    #Gets the alert and alert set info from the form
     name = request.form['set_name']
     desc = request.form['descri']
     interval = request.form['interval']
     contacts = request.form.getlist('contact')
+
+    #The Alert-Set is updated in the dBase with the new data
     (db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id)).update(
     {'a_name': name, 'a_desc': desc, 'interval': interval})
+    
+    #Initiates 3 contact variables, sets the first to the first contact and the next two to None
     contact1 = int(contacts[0])
     contact2 = None
     contact3 = None
+
+    #If more than one contact is associated with the alert set, the following variables are set to them
     if len(contacts) > 1:
         contact2 = int(contacts[1])
     if len(contacts) > 2:
         contact3 = int(contacts[2])
+    
+    #The alert associated with the alert set is then updated and all of the changes are committed
     (db.session.query(Alert).filter_by(alert_set_id=alert_set_id)).update(
     {'message': desc, 'interval': interval, 'contact_id1': contact1, 'contact_id2': contact2, 'contact_id3': contact3})
     db.session.commit()
+    
+    #The user is then re-routed to the main safewalk page
     return redirect("/sw_main")
 
 @app.route("/add_schedset", methods=["POST"])
