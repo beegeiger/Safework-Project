@@ -1144,28 +1144,45 @@ def save_recset(alert_set_id):
 
 @app.route("/add_schedset", methods=["POST"])
 def add_sched_alertset():
+    """Adds a new scheduled alert set"""
+
+    #Iniates date and end date variables and sets them to None
     date = None
     end_date = None
+
+    #If the user enters a date or end_date, the variables are then updated to that value
     if len(request.form['date']) > 2:
         date = request.form['date']
     if len(request.form['end_date']) > 2:
         end_date = request.form['end_date']
+
+    #Gets the alert set name, description, and then queries the current user
     name = request.form['set_name']
     desc = request.form['descri']
     user = User.query.filter_by(email=session['current_user']).one()
+
+    #A new alert set object is then created, added to the dBase, and commited
     new_alert_set = AlertSet(user_id=user.user_id, a_name=name, a_desc=desc, date=date, end_date=end_date)
     db.session.add(new_alert_set)
     db.session.commit()
+    
+    #The just-created alert set is then queried to get the alert_set_id
     alert_set = AlertSet.query.filter(AlertSet.user_id == user.user_id, AlertSet.a_name == name).first()
+    
+    #The user is then redirected to the scheduled set edit page for this alert set
     return redirect("/edit_schedset/" + str(alert_set.alert_set_id))
-    # return redirect("/sw_main")
 
 @app.route("/edit_schedset/<alert_set_id>")
 def edit_schedset_page(alert_set_id):
+    """Renders the page where a scheduled alert set can be edited"""
+
+    #The user, their alert_sets, alerts, and contacts are queried
     user = User.query.filter_by(email=session['current_user']).one()
     alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
     alerts = Alert.query.filter_by(alert_set_id=alert_set_id).order_by(asc(Alert.alert_id)).all()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
+    
+    #This information is then sent to the rendered edit page
     return render_template("edit_sched_alerts.html", alert_set=alert_set, contacts=contacts, alerts=alerts)
 
 @app.route("/edit_set/<alert_set_id>", methods=["POST"])
