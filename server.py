@@ -1187,10 +1187,15 @@ def edit_schedset_page(alert_set_id):
 
 @app.route("/edit_set/<alert_set_id>", methods=["POST"])
 def save_schedset(alert_set_id):
+    """Saves the scheduled alert set beind edited"""
+
+    #Gets the alert set details from the form
     date = request.form['date']
     end_date = request.form['end_date']
     name = request.form['set_name']
     desc = request.form['descri']
+
+    #Queries the dBase for the alert set, updates it, commits, and redirects the user back to edit page
     (db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id)).update(
     {'date': date, 'end_date': end_date, 'a_name': name, 'a_desc': desc})    
     db.session.commit()
