@@ -1263,27 +1263,30 @@ def add_sched_alert(alert_set_id):
 
 @app.route("/activate/<alert_set_id>")
 def activate_alertset(alert_set_id):
-    print(alert_set_id)
+    """Activates an alert set"""
+
+    #The alert set in question is queried
     alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
+    
+    #Variables set to the current date, time, and datetime are created for convenience
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
     dt = datetime.datetime.now()
+    
+    #An empty list is created to store the datetimes of the alerts associated with the alert set
     dt_list = []
+    
+    #If there is no start date, the start date is set to today
     if alert_set.date == None:
         db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'date': date, 'start_datetime': dt})
+    
+    #If the alert set is scheduled (not recurring), the alert times are added to the the dt_list
     if alert_set.interval == None:
-        print("step 1")
         alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
         for alert in alerts:
-            print("step 2")
             db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'active': True, 'start_time': time})
             if alert.date == None:
-                print("step3a")
-                print(time)
-                print(alert.time)
-                print(type(alert.time))
                 dtime = datetime.datetime.combine(date, alert.time)
-                print(dtime)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'date': date, 'datetime': dtime})
                 dt_list.appent(dtime)
             else:
@@ -1291,6 +1294,8 @@ def activate_alertset(alert_set_id):
                 dtime = datetime.datetime.combine(alert.date, alert.time)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'datetime': dtime})
                 dt_list.append(dtime)
+    
+    #If the alert set is recurring, the alert time is set to now + the time interval
     else:
         print("Interval = " + str(alert_set.interval))
         print("Rec Activated")
@@ -1300,8 +1305,12 @@ def activate_alertset(alert_set_id):
         alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
         db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'active': True, 'start_time': time, 'start_time': time, 'datetime': dtime_int})
         dt_list.append(dtime_int)
+    
+    #The alert set is updated to be active and its commited
     db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id).update({'active': True, 'start_time': time, 'start_datetime': dt})
     db.session.commit()
+    
+    #The alert datetime list is sorted and the earliest time is then sent back to the page
     dt_list.sort()
     alarm_dt = dt_list[0].strftime("%I:%M %p, %m/%d/%Y")
     return str(alarm_dt)
