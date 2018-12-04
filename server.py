@@ -37,12 +37,12 @@ app.jinja_env.undefined = StrictUndefined
 
 def create_alert(alert_id):
     alert = Alert.query.filter_by(alert_id=alert_id).one()
-    events = {}    
+    events = {}
     user = User.query.filter_by(user_id=alert.user_id).one()
     alert_set = AlertSet.query.filter_by(alert_set_id=alert.alert_set_id).one()
     all_alerts = Alert.query.filter(alert.alert_set_id == alert.alert_set_id, alert.datetime > alert_set.start_datetime).all()
     check_ins = CheckIn.query.filter_by(user_id=user.user_id).all()
-    message_body = """This is a Safety Alert sent by {} {} through the SafeWork Project SafeWalk Alert system, 
+    message_body = """This is a Safety Alert sent by {} {} through the SafeWork Project SafeWalk Alert system,
             found at safeworkproject.org \n \n""".format(user.fname, user.lname)
     if alert_set.notes:
         message_body += """The user has included the following messages when they made this alert and checked in \n \n {}""".format(alert_set.message)
@@ -58,7 +58,7 @@ def create_alert(alert_id):
                 if events[key].message:
                     message_body += "The Alarm included the following notes: {} \n \n".format(events[key].message)
                 else:
-                    message_body += "\n \n" 
+                    message_body += "\n \n"
             else:
                 message_body += "An alarm was scheduled for {} which {} MISSED the checked-in for.".format(key, user.fname)
                 if events[key].message:
@@ -307,7 +307,7 @@ def log_in():
 
 @app.route("/login", methods=["POST"])
 def login():
-    """Gets login info, verifies it, & either redirects to the forums or 
+    """Gets login info, verifies it, & either redirects to the forums or
     gives an error message (Tested)"""
 
     #Sets variable equal to the login form inputs
@@ -375,7 +375,7 @@ def go_forums():
 
     # group_forums = Forum.query.group_by(Forum.parent_forum_id).all()
 
-    # """Creates a list of dictionaries, each of which has all 8 forum_ids as keys with corresponding 
+    # """Creates a list of dictionaries, each of which has all 8 forum_ids as keys with corresponding
     # children forums (or a blank string if there are no more children of a parent forum) which
     # can then be iterated through"""
     # all_forums = []
@@ -432,7 +432,7 @@ def go_forums():
                                cam_query=cam_query, dom_query=dom_query, escort_query=escort_query,
                                porn_query=porn_query, dance_query=dance_query, phone_query=phone_query,
                                sugar_query=sugar_query, other_query=other_query)
-    
+
     #Otherwise it redirects to the login page
     else:
         flash("Please login before entering the forums.")
@@ -737,7 +737,7 @@ def pop_order(forum_id, page_num=1):
     phone = Forum.query.filter_by(forum_id=6).one()
     sugar = Forum.query.filter_by(forum_id=7).one()
     other = Forum.query.filter_by(forum_id=8).one()
-    
+
     #Creates lists for all of the children forums of the main 8 forums
     cam_query = Forum.query.filter_by(parent_forum_id=1).all()
     dom_query = Forum.query.filter_by(parent_forum_id=2).all()
@@ -763,7 +763,7 @@ def pop_order(forum_id, page_num=1):
 
     #Renders Page
     return render_template("forum_page.html", forum=forum, cam=cam, dom=dom, escort=escort, user=user,
-                           porn=porn, dance=dance, phone=phone, posts=posts, 
+                           porn=porn, dance=dance, phone=phone, posts=posts,
                            child_posts=child_posts, flags=flags, flagnum=0, other=other, sugar=sugar,
                            post_index=post_index, current_page=1,
                            cam_query=cam_query, dom_query=dom_query, escort_query=escort_query,
@@ -925,14 +925,14 @@ def safewalk_main():
                 if time >= alert.time:
                     tomorrow = date + datetime.timedelta(days=1)
                     dtime = datetime.datetime.combine(tomorrow, alert.time)
-                else:    
+                else:
                     dtime = datetime.datetime.combine(date, alert.time)
                 aset_alerts.append(dtime)
 
-        """If there is at least one alert for each alert-set, the earliest alert and 
+        """If there is at least one alert for each alert-set, the earliest alert and
         the total number of seconds until that alert are saved to the alert-set object"""
-        if len(aset_alerts) >= 1:     
-            if aset_alerts[0] != None:    
+        if len(aset_alerts) >= 1:
+            if aset_alerts[0] != None:
                 aset_alerts.sort()
                 print('aset_alerts:')
                 print(aset_alerts[0])
@@ -956,7 +956,7 @@ def safewalk_main():
                 print(a_set.total)
             else:
                 a_set.next_alarm_dis = now.strftime("%I:%M %p, %m/%d/%Y")
-        
+
         #If there are no alerts, the current datetime is used as a placeholder
         else:a_set.next_alarm_dis = now.strftime("%I:%M %p, %m/%d/%Y")
 
@@ -970,35 +970,35 @@ def get_started():
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
     con_length = len(contacts)
-    
+
     return render_template("getting_started_safewalk.html", contacts=contacts, con_length=con_length)
 
 @app.route("/rec_alerts")
 def recurring_alerts():
     """Renders the 'Create a Recurring Alert-Set' Page"""
-    
+
     #Queries the current user and their contact info
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
-    
+
     return render_template("recurring_alerts.html", contacts=contacts)
 
 @app.route("/sched_alerts")
 def scheduled_alerts():
     """Renders the 'Create a Scheduled Alert-Set' Page"""
-    
+
     #Queries the current user and their contact info
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
-    
+
     return render_template("scheduled_alerts.html", contacts=contacts)
 
 
 @app.route("/contacts")
 def user_contacts():
     """Renders the User's 'contacts' Page"""
-    
-    #Queries the current user and their contact info  
+
+    #Queries the current user and their contact info
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
 
@@ -1018,12 +1018,12 @@ def add_contact():
 
     #Queries the current user
     user = User.query.filter_by(email=session['current_user']).one()
-    
+
     #Creates the new Contact object, adds it to the dBase and commits the addition
     new_contact = Contact(user_id=user.user_id, name=name, email=email, phone=phone, c_type=c_type, c_message=message)
     db.session.add(new_contact)
     db.session.commit()
-    
+
     return redirect("/contacts")
 
 
@@ -1035,7 +1035,7 @@ def delete_contact(contact_num):
     contact = Contact.query.filter_by(contact_id=contact_num).one()
     db.session.delete(contact)
     db.session.commit()
-    
+
     return redirect("/contacts")
 
 
@@ -1071,13 +1071,13 @@ def add_rec_alertset():
 
     #Queries the current user
     user = User.query.filter_by(email=session['current_user']).one()
-    
+
     #Creates a new alert set, adds it to the dBase, commits, and then queries the just-created alert set
     new_alert_set = AlertSet(user_id=user.user_id, a_name=name, a_desc=desc, interval=interval)
     db.session.add(new_alert_set)
     db.session.commit()
     alert_set = AlertSet.query.filter(AlertSet.user_id == user.user_id, AlertSet.a_name == name).first()
-    
+
     #Initiates 3 contact variables, sets the first to the first contact and the next two to None
     contact1 = int(contacts[0])
     contact2 = None
@@ -1106,7 +1106,7 @@ def edit_recset_page(alert_set_id):
     alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
     alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
-    
+
     return render_template("edit_recurring_alerts.html", alert_set=alert_set, contacts=contacts, alert=alert)
 
 @app.route("/save_recset/<alert_set_id>", methods=["POST"])
@@ -1122,7 +1122,7 @@ def save_recset(alert_set_id):
     #The Alert-Set is updated in the dBase with the new data
     (db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id)).update(
     {'a_name': name, 'a_desc': desc, 'interval': interval})
-    
+
     #Initiates 3 contact variables, sets the first to the first contact and the next two to None
     contact1 = int(contacts[0])
     contact2 = None
@@ -1133,12 +1133,12 @@ def save_recset(alert_set_id):
         contact2 = int(contacts[1])
     if len(contacts) > 2:
         contact3 = int(contacts[2])
-    
+
     #The alert associated with the alert set is then updated and all of the changes are committed
     (db.session.query(Alert).filter_by(alert_set_id=alert_set_id)).update(
     {'message': desc, 'interval': interval, 'contact_id1': contact1, 'contact_id2': contact2, 'contact_id3': contact3})
     db.session.commit()
-    
+
     #The user is then re-routed to the main safewalk page
     return redirect("/sw_main")
 
@@ -1165,10 +1165,10 @@ def add_sched_alertset():
     new_alert_set = AlertSet(user_id=user.user_id, a_name=name, a_desc=desc, date=date, end_date=end_date)
     db.session.add(new_alert_set)
     db.session.commit()
-    
+
     #The just-created alert set is then queried to get the alert_set_id
     alert_set = AlertSet.query.filter(AlertSet.user_id == user.user_id, AlertSet.a_name == name).first()
-    
+
     #The user is then redirected to the scheduled set edit page for this alert set
     return redirect("/edit_schedset/" + str(alert_set.alert_set_id))
 
@@ -1181,7 +1181,7 @@ def edit_schedset_page(alert_set_id):
     alert_set = AlertSet.query.filter_by(alert_set_id=alert_set_id).one()
     alerts = Alert.query.filter_by(alert_set_id=alert_set_id).order_by(asc(Alert.alert_id)).all()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
-    
+
     #This information is then sent to the rendered edit page
     return render_template("edit_sched_alerts.html", alert_set=alert_set, contacts=contacts, alerts=alerts)
 
@@ -1197,26 +1197,37 @@ def save_schedset(alert_set_id):
 
     #Queries the dBase for the alert set, updates it, commits, and redirects the user back to edit page
     (db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id)).update(
-    {'date': date, 'end_date': end_date, 'a_name': name, 'a_desc': desc})    
+    {'date': date, 'end_date': end_date, 'a_name': name, 'a_desc': desc})
     db.session.commit()
     return redirect("/edit_schedset/" + str(alert_set_id))
 
 @app.route("/edit_al/<alert_id>", methods=["POST"])
 def edit_schedal(alert_id):
+    """Saves the existing scheduled alert being edited"""
+
+    #Queries alert in question current user
     alert = Alert.query.filter_by(alert_id=alert_id).one()
     user = User.query.filter_by(email=session['current_user']).one()
+
+    #Gets the alert information from the form on the page
     time = request.form['time']
     contacts = request.form.getlist('contact')
+    message = request.form['check_mess']
+
+    #Initiates 3 contact variables, sets the first to the first contact and the next two to None
     contact1 = int(contacts[0])
     contact2 = None
     contact3 = None
+
+    #If more than one contact is associated with the alert set, the following variables are set to them
     if len(contacts) > 1:
         contact2 = int(contacts[1])
     if len(contacts) > 2:
         contact3 = int(contacts[2])
-    message = request.form['check_mess']
+
+    #Queries and updates the alert, commits, and redirects back to the edit page
     (db.session.query(Alert).filter_by(alert_id=alert_id)).update(
-    {'time': time, 'contact_id1': contact1, 'contact_id2': contact2, 'contact_id3': contact3, 'message': message})    
+    {'time': time, 'contact_id1': contact1, 'contact_id2': contact2, 'contact_id3': contact3, 'message': message})
     db.session.commit()
     return redirect("/edit_schedset/" + str(alert.alert_set_id))
 
@@ -1308,8 +1319,8 @@ def add_new_checkin():
     check_in(user.user_id, text)
     return redirect("/check_ins")
 
-@app.route("/incoming_mail", methods=["POST"])  
-def mailin():  
+@app.route("/incoming_mail", methods=["POST"])
+def mailin():
     # access some of the email parsed values:
     sender = request.form['From']
     send_email = request.form['sender']
@@ -1317,7 +1328,7 @@ def mailin():
     text = request.form['body-plain']
     user = User.query.filter_by(email=str.strip(send_email)).all()
     u_id = user[0].user_id
-    if len(user) >= 1:        
+    if len(user) >= 1:
         check_in(u_id, text)
     print(send_email)
     print("Email Message Received")
@@ -1331,7 +1342,7 @@ def smsin():
     phone = data['from']
     user = User.query.filter_by(phone=str(phone[-10:])).all()
     u_id = user[0].user_id
-    if len(user) >= 1:        
+    if len(user) >= 1:
         check_in(u_id, message_body)
     print(phone[-10:])
     print(user)
@@ -1352,7 +1363,7 @@ def check_in(user_id, notes):
                 print("Alert:")
                 print(alert)
                 (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update(
-                {'datetime': (alert.datetime + datetime.timedelta(minutes=alert.interval)), 'checked_in': True})    
+                {'datetime': (alert.datetime + datetime.timedelta(minutes=alert.interval)), 'checked_in': True})
             else:
                 (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update(
                 {'datetime': (alert.datetime + datetime.timedelta(days=1)), 'checked_in': True})
@@ -1367,8 +1378,6 @@ if __name__ == "__main__":
     print("should be working")
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     connect_to_db(app, 'postgresql:///safework')
-    
+
     print("Connected to DB.")
     app.run(host='0.0.0.0')
-    
-
