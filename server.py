@@ -1233,17 +1233,28 @@ def edit_schedal(alert_id):
 
 @app.route("/add_alert/<alert_set_id>", methods=["POST"])
 def add_sched_alert(alert_set_id):
+    """Saves a new scheduled alert"""
+
+    #Queries the current user
     user = User.query.filter_by(email=session['current_user']).one()
+    
+    #Gets the alert info from the form on the edit sched set page
     time = request.form['time']
     contacts = request.form.getlist('contact')
+    message = request.form['check_mess']
+    
+    #Initiates 3 contact variables, sets the first to the first contact and the next two to None
     contact1 = int(contacts[0])
     contact2 = None
     contact3 = None
+    
+    #If more than one contact is associated with the alert set, the following variables are set to them
     if len(contacts) > 1:
         contact2 = int(contacts[1])
     if len(contacts) > 2:
         contact3 = int(contacts[2])
-    message = request.form['check_mess']
+    
+    #Creates a new alert object, adds it to the dBase, commits, and redirects back to the edit page
     new_alert = Alert(alert_set_id=alert_set_id, user_id=user.user_id, contact_id1=contact1,
                       contact_id2=contact2, contact_id3=contact3, message=message, time=time)
     db.session.add(new_alert)
