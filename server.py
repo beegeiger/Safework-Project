@@ -1317,8 +1317,13 @@ def activate_alertset(alert_set_id):
 
 @app.route("/deactivate/<alert_set_id>")
 def deactivate_alertset(alert_set_id):
+    """Deactivates an alert set"""
+
+    #The alert set is queried and updated
     (db.session.query(AlertSet).filter_by(alert_set_id=alert_set_id)).update(
     {'active': False})
+    
+    #All alerts associated with the alert set are queried and updated, and it's all commited
     alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
     for alert in alerts:
         db.session.query(Alert).filter_by(alert_id=alert.alert_id).update(
@@ -1328,12 +1333,17 @@ def deactivate_alertset(alert_set_id):
 
 @app.route("/check_ins")
 def checkin_page():
+    """Renders the User's check-in page"""
+
+    #The current user and check-ins are queried and the page is rendered
     user = User.query.filter_by(email=session['current_user']).one()
     check_ins = CheckIn.query.filter_by(user_id=user.user_id).all()
     return render_template("checkins_page.html", check_ins=check_ins)
 
 @app.route("/add_check_in", methods=["POST"])
 def add_new_checkin():
+    """Using POST, a new check-in is added from the check-in page"""
+
     text = request.form['check_text']
     user = User.query.filter_by(email=session['current_user']).one()
     check_in(user.user_id, text)
