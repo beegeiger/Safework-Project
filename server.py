@@ -282,15 +282,7 @@ def register_process():
                         user_type_secondary=second_type, tagline=tagline, location=location,
                         email2=email2, phone=phone, timezone=timezone)
         db.session.add(new_user)
-        db.session.commit()
-        #Code isn't working:
-        # if user_type == "other":
-        #     flash("""While you may enter the discussion forums if you are not a sex worker,
-        #            keep in mind that this website is not intended for you. Do your best to respect
-        #            the sex workers on this site as well as their experiences and thoughts. Also,
-        #            please note that pimps and human traffickers are NOT welcome on this site. This
-        #            site is intended for consensual sex workers working on their own
-        #            volition ONLY.""")
+
     return redirect('/login')
 
 
@@ -1290,7 +1282,6 @@ def activate_alertset(alert_set_id):
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'date': date, 'datetime': dtime})
                 dt_list.appent(dtime)
             else:
-                print("step 3b")
                 dtime = datetime.datetime.combine(alert.date, alert.time)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'datetime': dtime})
                 dt_list.append(dtime)
@@ -1344,6 +1335,7 @@ def checkin_page():
 def add_new_checkin():
     """Using POST, a new check-in is added from the check-in page"""
 
+    #Get's the check-in details from the form on the page and runs the check_in helper-function
     text = request.form['check_text']
     user = User.query.filter_by(email=session['current_user']).one()
     check_in(user.user_id, text)
