@@ -97,8 +97,12 @@ def create_alert(alert_id):
     #All check-ins are added to the events dictionary
     for chks in check_ins:
         events[chks.datetime] = chks
+
+    #Loops through all of the ordered events in the dictionary
     for key in sorted(events.keys()):
+        #If the event was a scheduled alarm
         if type(events[key]) == model.Alarm:
+            #Different messages are added depending on whether the alarm was check-in for and if it had a message
             if events[key].checked_in == True:
                 message_body += "An alarm was scheduled for {} which {} checked-in for.".format(key, user.fname)
                 if events[key].message:
@@ -111,8 +115,11 @@ def create_alert(alert_id):
                     message_body += "The Alarm included the following notes: {} \n \n".format(events[key].message)
                 else:
                     message_body += "\n \n"
+        #If it isn't an alarm, it's a check-in object which is then added to the main message body
         else:
             message_body += "{} checked in with the app at {} and included the following message: {}".format(user.fname, key, events[key].notes)
+    
+    #Different messages are added depending on how many contacts are sent the alert
     if alert.contact_id3:
         message_body += """Two other contacts have been sent this alert. If you know who it might be,
                         consider reaching out and co-ordinating your effort to help {}.""".format(user.fname)
@@ -122,11 +129,28 @@ def create_alert(alert_id):
     else:
         message_body += """You were the only person sent this alert, so if anything can be done
                         to help {}, it is up to you! Good luck!!!""".format(user.fname)
+    
+    #The complete message body is then returned
     return message_body
 
 def send_alert(alert_id, message_body):
+    """Helper Function that actually sends the alerts over e-mail and sms"""
+    
+    #The current alert and user is queried
     alert = Alert.query.filter_by(alert_id=alert_id).one()
     user = User.query.filter_by(user_id=alert.user_id).one()
+    
+    #An empty list is created and then filled with the contact objects associated with the alert
+    contacts = []
+    contacts += Contact.query.filter_by(contact_id=alert.contact_id1)
+    if alert.contact_id2:
+        contacts += Contact.query.filter_by(contact_id=alert.contact_id2)
+    if alert.contact_id2:
+        contacts += Contact.query.filter_by(contact_id=alert.contact_id3)
+    
+    for con in contacts:
+        
+
     if user.email2:
         send_email(user.email2, message_body)
         print('Sending to email2')
