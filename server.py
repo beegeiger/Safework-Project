@@ -217,33 +217,43 @@ def check_alerts():
     return
 
 #below is modified code from https://networklore.com/start-task-with-flask/
+#Decorator which registers a function to run before the first request to the app
 @app.before_first_request
 def activate_job():
+    """Function that runs a thread that checks for alerts every 60 seconds"""
     def run_job():
+        """Function that checks for alerts and sleeps"""
         while True:
             check_alerts()
             time.sleep(60)
-
+    #A new thread is set to run the run_job() function and is started
     thread = threading.Thread(target=run_job)
     thread.start()
 
 def start_runner():
+    """Function runs when server starts to start thread to automatically self-visit/request the site so the activate_job() function can run"""
     def start_loop():
+        """Function that actually sends request to server to kickstart the 'activate_job()' funcion"""
         not_started = True
         while not_started:
             print('In start loop')
             try:
+                #A new GET request is sent to the server
                 r = requests.get('http://127.0.0.1:5000/')
+                #If it is successful, it quits the start_loop() function by setting not_started to False
                 if r.status_code == 200:
                     print('Server started, quiting start_loop')
                     not_started = False
                 print(r.status_code)
+                #If the request is unsuccessful, it waits 2 seconds and tries again
             except:
                 print('Server not yet started')
             time.sleep(2)
-    print('Started runner')
+    
+    #A new thread that runs start_loop() is created and started
     thread = threading.Thread(target=start_loop)
     thread.start()
+    print('Started runner')
 
 
 
