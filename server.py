@@ -1345,7 +1345,7 @@ def add_new_checkin():
 def mailin():
     """Route where incoming mail is sent from mailgun"""
 
-    # access some of the email parsed values:
+    #Access some of the email parsed values:
     sender = request.form['From']
     send_email = request.form['sender']
     subject = request.form['subject']
@@ -1385,13 +1385,22 @@ def smsin():
     return "SMS Received"
 
 def check_in(user_id, notes):
+    """Helper-function used to log a new check-in from any source"""
+
+    #Date, time, and datetime objects are initiated for convenience
     time = datetime.datetime.now().time()
     date = (datetime.datetime.today())
     datetim = datetime.datetime.now()
+
+    #A new check-in object is created, added, and commited
     new_check = CheckIn(user_id=user_id, notes=notes, time=time, date=date, datetime=datetim)
     db.session.add(new_check)
     db.session.commit()
+    
+    #All active alerts for the user are queried
     alerts = Alert.query.filter(Alert.user_id == user_id, Alert.active == True).all()
+    
+    #The alerts are looped through and all alerts within an hour are marked as checked-in
     for alert in alerts:
         if alert.datetime - datetim < datetime.timedelta(hours=1):
             if alert.interval:
