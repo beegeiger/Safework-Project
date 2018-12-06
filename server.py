@@ -34,21 +34,67 @@ app.jinja_env.undefined = StrictUndefined
 
 
 ####################################################################
+def check_in(user_id, notes):
+    """Helper-function used to log a new check-in from any source"""
+
+    #Date, time, and datetime objects are initiated for convenience
+    time = datetime.datetime.now().time()
+    date = (datetime.datetime.today())
+    datetim = datetime.datetime.now()
+
+    #A new check-in object is created, added, and commited
+    new_check = CheckIn(user_id=user_id, notes=notes, time=time, date=date, datetime=datetim)
+    db.session.add(new_check)
+    db.session.commit()
+    
+    #All active alerts for the user are queried
+    alerts = Alert.query.filter(Alert.user_id == user_id, Alert.active == True).all()
+    
+    #The alerts are looped through and all alerts within an hour are marked as checked-in
+    for alert in alerts:
+        if alert.datetime - datetim < datetime.timedelta(hours=1):
+            if alert.interval:
+                print("Alert:")
+                print(alert)
+                (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update(
+                {'datetime': (alert.datetime + datetime.timedelta(minutes=alert.interval)), 'checked_in': True})
+            else:
+                (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update(
+                {'datetime': (alert.datetime + datetime.timedelta(days=1)), 'checked_in': True})
+    db.session.commit()
+    return "Check In has been Logged!"
+
 
 def create_alert(alert_id):
+    """Helper Function for creating an alert's actual message body"""
+
+    #Datetime object for now created for convenience
+    datetim = datetime.datetime.now()
+
+    #The alert in question, the user, the alert set, all other associated alerts, and the recent check-ins are all queried
     alert = Alert.query.filter_by(alert_id=alert_id).one()
-    events = {}
     user = User.query.filter_by(user_id=alert.user_id).one()
     alert_set = AlertSet.query.filter_by(alert_set_id=alert.alert_set_id).one()
     all_alerts = Alert.query.filter(alert.alert_set_id == alert.alert_set_id, alert.datetime > alert_set.start_datetime).all()
-    check_ins = CheckIn.query.filter_by(user_id=user.user_id).all()
+    check_ins = CheckIn.query.filter(checkin.user_id == user.user_id, abs(checkin.datetime - datetime) <  datetime.timedelta(days=1)).all()
+    
+    #An empty dictionary is created to store the associated events for the alert
+    events = {}
+    
+    #A new string that will begin the alert message is created
     message_body = """This is a Safety Alert sent by {} {} through the SafeWork Project SafeWalk Alert system,
             found at safeworkproject.org \n \n""".format(user.fname, user.lname)
+    
+    #If there are notes on the alert set, they are added to the message
     if alert_set.notes:
         message_body += """The user has included the following messages when they made this alert and checked in \n \n {}""".format(alert_set.message)
+    
+    #For all associated alerts, if there is a message longer than 2 characters, the alert is added to the events dictionary
     for a_a in all_alerts:
         if len(a_a.message) > 2:
             events[a_a.datetime] = a_a
+    
+    #All check-ins are added to the events dictionary
     for chks in check_ins:
         events[chks.datetime] = chks
     for key in sorted(events.keys()):
@@ -1384,35 +1430,7 @@ def smsin():
     print("SMS Received")
     return "SMS Received"
 
-def check_in(user_id, notes):
-    """Helper-function used to log a new check-in from any source"""
 
-    #Date, time, and datetime objects are initiated for convenience
-    time = datetime.datetime.now().time()
-    date = (datetime.datetime.today())
-    datetim = datetime.datetime.now()
-
-    #A new check-in object is created, added, and commited
-    new_check = CheckIn(user_id=user_id, notes=notes, time=time, date=date, datetime=datetim)
-    db.session.add(new_check)
-    db.session.commit()
-    
-    #All active alerts for the user are queried
-    alerts = Alert.query.filter(Alert.user_id == user_id, Alert.active == True).all()
-    
-    #The alerts are looped through and all alerts within an hour are marked as checked-in
-    for alert in alerts:
-        if alert.datetime - datetim < datetime.timedelta(hours=1):
-            if alert.interval:
-                print("Alert:")
-                print(alert)
-                (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update(
-                {'datetime': (alert.datetime + datetime.timedelta(minutes=alert.interval)), 'checked_in': True})
-            else:
-                (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update(
-                {'datetime': (alert.datetime + datetime.timedelta(days=1)), 'checked_in': True})
-    db.session.commit()
-    return "Check In has been Logged!"
 
 
 #####################################################
