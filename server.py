@@ -1343,13 +1343,19 @@ def add_new_checkin():
 
 @app.route("/incoming_mail", methods=["POST"])
 def mailin():
+    """Route where incoming mail is sent from mailgun"""
+
     # access some of the email parsed values:
     sender = request.form['From']
     send_email = request.form['sender']
     subject = request.form['subject']
     text = request.form['body-plain']
+
+    #The user is queried using the e-mail address
     user = User.query.filter_by(email=str.strip(send_email)).all()
     u_id = user[0].user_id
+    
+    #Assuming a user is found, the check-in helper-function is run
     if len(user) >= 1:
         check_in(u_id, text)
     print(send_email)
@@ -1358,12 +1364,19 @@ def mailin():
 
 @app.route('/incoming_sms', methods=['POST'])
 def smsin():
+    """Route where incoming SMS messages are sent from Bandwidth"""
+    
+    #Access some of the SMS parsed values:
     dat = request.data
     data = json.loads(dat.decode(encoding="utf-8", errors="strict"))
     message_body = data['text']
     phone = data['from']
+    
+    #The user is queried using the phone-number
     user = User.query.filter_by(phone=str(phone[-10:])).all()
     u_id = user[0].user_id
+    
+    #Assuming a user is found, the check-in helper-function is run
     if len(user) >= 1:
         check_in(u_id, message_body)
     print(phone[-10:])
