@@ -148,9 +148,16 @@ def send_alert(alert_id, message_body):
     if alert.contact_id2:
         contacts += Contact.query.filter_by(contact_id=alert.contact_id3)
     
+    #For each contact, an optional personal message is added to the message_body and is sent to email and sms
     for con in contacts:
-        
+        if con.c_message:
+            body = con.c_message + message_body
+        if con.email:
+            send_email(con.email, body)
+        if con.phone:
+            send_sms(con.phone, body)
 
+    #For the purposes of testing, the message is also sent to the user over email and sms
     if user.email2:
         send_email(user.email2, message_body)
         print('Sending to email2')
