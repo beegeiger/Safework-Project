@@ -52,7 +52,7 @@ def check_in(user_id, notes):
     
     #The alerts are looped through and all alerts within an hour are marked as checked-in
     for alert in alerts:
-        if alert.datetime - datetim < datetime.timedelta(hours=1):
+        if alert.datetime - datetim < datetime.timedelta(hours=1.5):
             if alert.interval:
                 print("Alert:")
                 print(alert)
@@ -171,21 +171,21 @@ def send_alert(alert_id, message_body):
 
 
 def check_alerts():
+    """A Helper function run every minute to check if any alerts need to be sent"""
+    
     with app.app_context():
-        print("Checking for Alerts Now: " + str(datetime.datetime.now()))
+        #All currently-active alerts are queried 
         alerts = Alert.query.filter_by(active=True).all()
-        print(alerts)
-        # print(alerts)
+
+        #If at least one alert is active, the alerts are looped through to see if any need to be sent
         if len(alerts) > 0:
             for alert in alerts:
                 difference = alert.datetime - datetime.datetime.now()
-                print("Alert " + str(alert.alert_id))
-                print(difference)
                 checks = 0
                 check_ins = CheckIn.query.filter_by(user_id=alert.user_id).all()
                 for ch in check_ins:
                     dif = datetime.datetime.now() - alert.datetime
-                    if dif <= datetime.timedelta(hours=1) and difference > datetime.timedelta(seconds=0):
+                    if dif <= datetime.timedelta(hours=1.5) and difference > datetime.timedelta(seconds=0):
                         checks += 1
                 if abs(difference) <= datetime.timedelta(minutes=1) and abs(difference) > datetime.timedelta(seconds=0) and checks == 0 and alert.sent == False:
                     print('A CHECK-IN WAS MISSED AND AN ALERT IS BEING SENT NOW!')
