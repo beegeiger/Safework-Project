@@ -188,18 +188,18 @@ def add_incident_data_start(source_nums):
 					for item in incident_row:
 						item_num += 1
 						if item_num <=10:
-							inc += [item.translate(None, string.punctuation)]
+							inc += [item.translate(string.punctuation).replace('"', '')]
 						else:
 							inc += item
 					address = str(inc[5])
-					incident = Incident(police_dept_id=3, source_id=4, inc_type="API", address=address, latitude=unicode(incident_row[-2].strip(), "utf-8"), longitude=unicode(incident_row[-1].strip(), "utf-8"), city="Oakland", state="CA", date=inc[1], year=inc[1][:4], time=inc[1][11:16], description=inc[3], police_rec_num=inc[2])
+					incident = Incident(police_dept_id=3, source_id=4, inc_type="API", address=address, latitude=incident_row[-2].strip(), longitude=incident_row[-1].strip(), city="Oakland", state="CA", date=inc[1], year=inc[1][:4], time=inc[1][11:16], description=inc[3], police_rec_num=inc[2])
 					db.session.add(incident)
 					print(incident.latitude, incident.longitude)
 					print(type(incident.latitude))
 					db.session.commit()
 				
 
-# add_incident_data_start([3, 4, 5, 7, 8, 9, 10, 11])
+add_incident_data_start([4, 5, 7, 8, 9, 10, 11])
 
 #def add_incident_data(source_nums):
 # 	"""Example Basic Template for adding Incident Source API's. MUST be customized by source."""
