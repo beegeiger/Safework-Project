@@ -199,8 +199,8 @@ def add_incident_data_start(source_nums):
 					db.session.commit()
 				
 
-# add_incident_data_start([3, 4, 5, 7, 8, 9, 10, 11])
-add_incident_data_start([3])
+add_incident_data_start([3, 4, 5, 7, 8, 9, 10, 11])
+# add_incident_data_start([3])
 
 #def add_incident_data(source_nums):
 # 	"""Example Basic Template for adding Incident Source API's. MUST be customized by source."""

@@ -384,6 +384,7 @@ def register_process():
                         user_type_secondary=second_type, tagline=tagline, location=location,
                         email2=email2, phone=phone, timezone=timezone)
         db.session.add(new_user)
+        db.session.commit()
 
     return redirect('/login')
 

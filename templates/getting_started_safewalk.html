@@ -11,7 +11,7 @@
 <h5>Before any Alerts can be created, you must first add at least one contact and their information.</h5>
 <h5 style="color: white;">You currently have <span style="color: red;"> {{ con_length }}</span> contact(s) saved.</h5>
 <p>Tip: If you just want to test the system before using it, just add your own contact information.</p>
-<button type="button" onclick="/contacts">Click Here to Add/Edit Contacts</button>
+<button type="button" onclick="window.location.href='/contacts'">Click Here to Add/Edit Contacts</button>
 <br><br><br><br>
 
 <h4>2. Choose Recurring or Pre-Scheduled Alert Type and Create a New Alert-Set</h4>
@@ -22,7 +22,7 @@
 
 <h5>A. Recurring Alert-set</h5>
 <p>A recurring alert-set requires you to check-in (within 90 minutes of the next alert) with the app every pre-set time interval. For example, if you set it to require a check-in every 2 hours (120 minutes) and you activated it at 7:30PM, you would need to check-in at least once between 8:00 and 9:30PM, then again between 10:00 and 11:30PM, then midnight and 1:30AM, etc. until you miss a check-in and your alert is sent OR you deactivate the Alert-set. This alert-set type is ideal if you aren't sure of your schedule/plans and are going out to work (or date) and see what you find.</p>
-<button type="button" onclick="/rec_alerts">Click Here to Add a New Recurring Alert-set</button>
+<button type="button" onclick="window.location.href='/rec_alerts'">Click Here to Add a New Recurring Alert-set</button>
 <br><br>
 
 <h5>B. (Pre-)Scheduled Alert-set</h5>
@@ -30,7 +30,7 @@
 <br><br>
 For scheduled alert-sets, you need to first create the alert-set (and set any notes/messages about what you are doing and an [optional] End date). Then, once the alert-set is created, you can then add the specific check-in/alert times and any specific information related to that time that could be relevant if the alert is sent to your contacts.
 </p>
-<button type="button" onclick="/sched_alerts">Click Here to Add a New Scheduled Alert-set</button>
+<button type="button" onclick="window.location.href='/sched_alerts'">Click Here to Add a New Scheduled Alert-set</button>
 <br><br><br><br>
 
 
