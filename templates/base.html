@@ -158,7 +158,7 @@
         </button>
         <div class="dropdown-menu" style="color: white; background: rgba(255, 0, 0, 0.8);">
             <a class="dropdown-item" href="/forums" style="color: white; background: rgba(255, 0, 0, 0.8);">Discussion Forums</a>  
-            <a class="dropdown-item" href="/report" style="color: white; background: rgba(255, 0, 0, 0.8);">Make A Report</a> 
+<!--             <a class="dropdown-item" href="/report" style="color: white; background: rgba(255, 0, 0, 0.8);">Make A Report</a>  -->
         </div> 
         </div>
 
@@ -181,25 +181,19 @@
         {%- if request.path != "/forums" %}
         <button type="button" class="btn btn-danger" onclick="location.href='/forums';" color: red; style="width: 20%; font-weight: bold;">Discussion Forums</button> {% endif %}
 
-        <div class="btn-group">
-        <button type="button" class="btn btn-danger"  onclick="location.href='/resources';" style="font-weight: bold;">Resources</button>
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" color: red;>
-        <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <div class="dropdown-menu" style="color: white; background: rgba(255, 0, 0, 0.8);">
-<!--         <a class="dropdown-item" href="/report" style="color: white; background: rgba(255, 0, 0, 0.8);">Make A Report</a>  -->
-        <a  class="dropdown-item" href="/contact" style="color: white; background: rgba(255, 0, 0, 0.8);">Contact Us</a>
-        </div>
-        </div>
+        
         {%- if request.path != "/sw_main" %}
         <button type="button" class="btn btn-danger"  onclick="location.href='/sw_main';" style="font-weight: bold;">SafeWalk Alerts</button>
         {% endif %}
         <div class="btn-group">
-        <button type="button" class="btn btn-danger"  onclick="location.href='/profile';" style="font-weight: bold;">Your Profile</button>
+        <button type="button" class="btn btn-danger" style="font-weight: bold;">More</button>    
+        
         <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" color: red;>
         <span class="sr-only">Toggle Dropdown</span>
         </button>
         <div class="dropdown-menu" style="color: white; background: rgba(255, 0, 0, 0.8);">
+        <a  class="dropdown-item" href="/contact" style="color: white; background: rgba(255, 0, 0, 0.8);">Contact Us</a>
+        <a  class="dropdown-item" href="/profile" style="color: white; background: rgba(255, 0, 0, 0.8);">Your Profile</button>
         <a  class="dropdown-item" href="/logout" style="color: white; background: rgba(255, 0, 0, 0.8);">Logout</a>
         </div>
         </div>
