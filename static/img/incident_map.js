@@ -8,10 +8,10 @@ let sf_cent = {lat: 37.772121, lng: -122.420850};
 //   google: 'https://api.google.com/some/script.js'
 // });
 
-// GoogleApi({
-//   apiKey: "AIzaSyDqSXr_5uDcPRB4GEFIUUeIfP-GdZOz3Hg",
-//   libraries: ['places']
-// });
+GoogleApi({
+  apiKey: "AIzaSyDEAWz7loO8vmoSgs6QLG4-wDFM91eDjhU",
+  libraries: ['places']
+});
 
 
 // const Container = React.createClass({
