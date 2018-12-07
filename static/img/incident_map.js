@@ -8,10 +8,10 @@ let sf_cent = {lat: 37.772121, lng: -122.420850};
 //   google: 'https://api.google.com/some/script.js'
 // });
 
-GoogleApi({
-  apiKey: "AIzaSyDEAWz7loO8vmoSgs6QLG4-wDFM91eDjhU",
-  libraries: ['places']
-});
+// GoogleApi({
+//   apiKey: "AIzaSyDEAWz7loO8vmoSgs6QLG4-wDFM91eDjhU",
+//   libraries: ['places']
+// });
 
 
 // const Container = React.createClass({
@@ -711,8 +711,8 @@ function getPoints() {
               '</div>'));
         markArr.push(marker);
         };
-        console.log(markArr[1].year)
-        console.log(markArr[1].lat)        
+        // console.log(markArr[1].year)
+        // console.log(markArr[1].lat)        
         makeMarkerGroups(markArr); 
   });
 }
@@ -787,7 +787,7 @@ var marker
 
 function makeMarkerGroups(markArr) {
   // console.log(markArr)
-  console.log(markArr[1].year)
+  // console.log(markArr[1].year)
   for (var h=0; h < markArr.length; h++) {
       marker = markArr[h];
       if (marker.year == 2000) {
