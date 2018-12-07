@@ -8,9 +8,9 @@ Currently located at safeworkproject.org
 
 ### Prerequisites
 
--Running a Linux System (Developed and Tested on Ubuntu 16.04)
+-Running a Linux System (Developed and Tested on Ubuntu 18.04)
 
--System can run Python 2.7+
+-System can be run on Python 3.6.5+
 
 ### Installing
 

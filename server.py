@@ -173,7 +173,7 @@ def send_alert(alert_id, message_body):
 
 
 def check_alerts():
-    """A Helper function run every minute to check if any alerts need to be sent"""
+    """A Helper function to run every minute to check if any alerts need to be sent"""
     
     #Datetime object for now created for convenience
     datetim = datetime.datetime.now()
