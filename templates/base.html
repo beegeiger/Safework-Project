@@ -139,7 +139,7 @@
     </head>
 
     <body>
-    <div class="container" style="background: rgba(0, 0, 0, 0.8); width: 105%; text-align: center; margin-left: 0; margin-right: 5%; padding-left: 0; padding-right: 0; max-width: 100%">
+    <div class="container" style="background: rgba(0, 0, 0, 0.8); width: 105%; text-align: center; margin-left: 5%; margin-right: 5%; padding-left: 0; padding-right: 0; max-width: 100%">
         <div class="container d-flex flex-column flex-xl-row justify-content-between">
         <div class="col-lg-10 col-md-12 col-sm-12 text-center">
         
@@ -183,7 +183,7 @@
 
         
         {%- if request.path != "/sw_main" %}
-        <button type="button" class="btn btn-danger"  onclick="location.href='/sw_main';" style="font-weight: bold;">SafeWalk Alerts</button>
+        <button type="button" class="btn btn-danger"  onclick="location.href='/sw_main';" style="font-weight: bold; border-color: blue; border-width: 3px;">SafeWalk Alerts</button>
         {% endif %}
         <div class="btn-group">
         <button type="button" class="btn btn-danger" style="font-weight: bold;">More</button>    
