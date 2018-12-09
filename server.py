@@ -923,7 +923,7 @@ def user_profile():
 
     user = User.query.filter_by(email=session['current_user']).one()
 
-    return render_template("user_page.html", email=user.email, username=user.username,
+    return render_template("user_page.html", user=user, email=user.email, username=user.username,
                            fname=user.fname, lname=user.lname, about_me=user.description, tagline=user.tagline, location=user.location)
 
 
