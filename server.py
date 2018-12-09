@@ -34,6 +34,7 @@ app.jinja_env.undefined = StrictUndefined
 
 
 ####################################################################
+
 def check_in(user_id, notes):
     """Helper-function used to log a new check-in from any source"""
 
@@ -216,6 +217,8 @@ def check_alerts():
                     send_alert(alert.alert_id, message_body)
     return
 
+#################################################################
+
 #below is modified code from https://networklore.com/start-task-with-flask/
 #Decorator which registers a function to run before the first request to the app
 @app.before_first_request
@@ -255,7 +258,7 @@ def start_runner():
     thread.start()
     print('Started runner')
 
-
+#######################################################################
 
 @app.route("/")
 def go_home():
