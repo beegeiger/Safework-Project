@@ -10,13 +10,16 @@
 </style>
 {% endblock %}
 {% block content %}
-<h2>Register</h2>
+<h2 style="text-align: center;">Register for The Safework Project</h2>
 <div class="container">
+<div class="row">
+<div class="col-lg-6-offset-3 col-md-8-offset-2 col-sm-10-offset-1 col-xs-12"	
 	<form action="/register" method="POST"><br>
-	<div class="row">
+	
 		<b>E-mail:</b><b style="color: red;">*</b> <input type=textbox name="email_input"  value="{{ email }}" required></input><br><br>
 		<b>Username:</b><b style="color: red;">*</b> <input type=textbox name="username" value="{{ username }}" required><br><br>
-		<b>Password</b> (at least 6 characters):<b style="color: red;">*</b> <input type=password name="password" id="myInput" required></input><br><br>
+		<b>Password</b> (at least 6 characters):<b style="color: red;">*</b> <input type=password name="password" id="myInput" required></input><br>
+		<input type="checkbox" onclick="myFunction()">Show Password<br><br>
 		(Feel free to use any name, real or fake!)<br>
 		<b>First name: <b style="color: red;">*</b></b><input type=textbox name="fname" value={{ fname }} required></input>&nbsp &nbsp<b>Last name:</b><input type=textbox name="lname" value={{ lname }}></input><br><br>
 
@@ -56,14 +59,14 @@
 		</select>
 		<br><br>
 
-		<b>Additional E-mail:</b> <input type=textbox name="email_input2"></input><br>
-	</div>
-		<b>Phone Number:</b><input type="tel" name="phone"><br>
+		<b>Additional E-mail:</b> <input type=textbox name="email_input2"></input><br><br>
+	
+		<b>Phone Number:</b><input type="tel" name="phone"><br><br>
 		
-		<b>Tagline:</b> (what is your experience?) <input type=textbox name="tagline" maxlength="100">
+		<b>Tagline:</b> (what is your experience?) <input type=textbox name="tagline" maxlength="100"><br><br>
 		<b>What city/area is most of your experience from?</b><input type=textbox name="location" maxlength="50"><br><br>
 		
-		<input type="checkbox" onclick="myFunction()">Show Password<br><br>
+		
 		
 		<b>Which of the following best describes you?</b><br>
 			<input type="radio" name="user_type" value="current_worker" required>Current Sex Worker &nbsp &nbsp
@@ -102,7 +105,7 @@
 				<input type="radio" name="2nd" value="law" required>You are Law Enforcement &nbsp &nbsp
 				<input type="radio" name="2nd" value="support" required>To support sex workers &nbsp &nbsp
 				<input type="radio" name="2nd" value="troll" required>To give your non-sex worker opion to sex workers</p>
-				<br>
+
 <!-- 			<p id="john1" class="hidden">This site is not at all intended to hire sex workers. If you try to hire someone, you will be banned immediately.</p>
 			<p id="law1" class="hidden">You may enter the site, but please know that this site is only intended for adult, consensual sex workers. Pimps and human traffickers are NOT welcome here!!!</p>
 			<p id="support1" class="hidden">Remember, the best way to support is to listen.</p>
@@ -110,6 +113,7 @@
 		<br><br><b>Tell us a bit about yourself:</b><br>
 		<textarea rows="6" cols="50" name="about_me">{{ about_me }}</textarea><br>
 		<br><input type=submit></form>
+</div>
 </div>
 
 <script type="text/javascript">
