@@ -8,13 +8,25 @@
 <h1>Your Profile</h1>
 </div>
 <div class="gen_div">
-<b>Username:</b> {{ username }}<br>
-<b>E-mail:</b> {{ email }}<br>
-<b>Name:</b> {{ fname }} {{ lname }}<br>
-<b>About Me:</b> {{ about_me }}<br>
-<b>Tagline:</b> {{ tagline }}<br>
-<b>Location:</b> {{ location }}<br>
+<b>Username:</b> {{ username }}<br><br>
+<b>E-mail:</b> {{ email }}<br><br>
+<b>Name:</b> {{ fname }} {{ lname }}<br><br>
 <b>Timezone:</b> GMT {{ user.timezone }}<br><br>
+{% if user.phone %}
+<b>Phone #: </b> {{ user.phone }}<br><br>
+{% endif %}
+{% if user.email2 %}
+<b>Additional E-mail: </b> {{ user.email2 }}<br><br>
+{% endif %}
+{% if user.tagline %}
+<b>Tagline: </b> {{ user.tagline }}<br><br>
+{% endif %}
+{% if user.location %}
+<b>Experience Location: </b> {{ user.location }}<br><br>
+{% endif %}
+{% if user.description %}
+<b>User 'About Me': </b> {{ user.description }}<br><br>
+{% endif %}
 
 <a href="/edit_profile">Edit Profile</a>
 </div>
