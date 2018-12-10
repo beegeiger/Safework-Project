@@ -12,10 +12,9 @@
 		<b>Username:</b> <input type=textbox name="username" value={{ username }}><br>
 		<b>Tagline:</b> (what is your experience?) <input type=textbox name="tagline" maxlength="100">
 		<b>What city/area is most of your experience from?</b><input type=textbox name="location" maxlength="50"><br><br>
-		<b>Old Password:</b> <input type="password" name="old_password" id="myInput" required></input><br>
-		<input type="checkbox" onclick="myFunction()">Show Password<br>
-		<b>New Password:</b> <input type="password" name="new_password" id="myInput2"></input><br>
-		<input type="checkbox" onclick="myFunction2()">Show Password<br><br>
+		
+		<!-- <b>New Password:</b> <input type="password" name="new_password" id="myInput2"></input><br>
+		<input type="checkbox" onclick="myFunction2()">Show Password<br> --><br>
 		(Please do not use your real name. Use your sex worker name, make one up, or leave the name field blank)<br>
 		<b>First name:</b><input type=textbox name="fname" value="{{ fname }}"></input>&nbsp &nbsp<b>Last name:</b><input type=textbox name="lname" value={{ lname }}></input><br><br>
 		<b>Tell us a bit about yourself:</b><br>
@@ -53,6 +52,8 @@
 		<option value="10.0">(GMT +10:00) Eastern Australia, Guam, Vladivostok</option>
 		<option value="11.0">(GMT +11:00) Magadan, Solomon Islands, New Caledonia</option>
 		<option value="12.0">(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option><br><br>
+		<b>Enter Your Password:</b> <input type="password" name="old_password" id="myInput" required></input><br>
+		<input type="checkbox" onclick="myFunction()">Show Password<br>
 		<br><input type=submit></form>
 
 <script>

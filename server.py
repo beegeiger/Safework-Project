@@ -418,7 +418,7 @@ def login():
         return render_template("login.html")
 
 
-    #Queries to see if the email and pword match the database. If so, redirects to forums.
+    #Queries to see if the email and pword match the database. If so, redirects to the safewalk page.
     else:
         p_word = user_query[0].password
         if isinstance(pw_input, str):
@@ -949,7 +949,7 @@ def edit_profile():
     #Gets info from html form and dbase
     email_input = request.form['email_input']
     pw_input = request.form['old_password']
-    new_password = request.form['new_password']
+    # new_password = request.form['new_password']
     username = request.form['username']
     fname = request.form['fname']
     tagline = request.form['tagline']
@@ -961,16 +961,22 @@ def edit_profile():
     timezone = request.form['timezone']
     user = User.query.filter_by(email=session['current_user']).one()
 
-    #Checks that the password matches the user's password. If so, updates the user's info
-    if User.query.filter(User.email == email_input, User.password == pw_input).all() != []:
+
+    p_word = user.password
+    if isinstance(pw_input, str):
+        pw_input = bytes(pw_input, 'utf-8')
+    passwd = bytes(p_word, 'utf-8')
+
+    if bcrypt.hashpw(pw_input, passwd) == passwd:
         (db.session.query(User).filter(
-            User.email == session['current_user'], User.password == pw_input).update(
-                {'fname': fname, 'lname': lname, 'email': email_input, 'password': new_password,
+            User.email == session['current_user']).update(
+                {'fname': fname, 'lname': lname, 'email': email_input,
                  'username': username, 'description': about_me, 'email2': email2, 'phone': phone,
                  'timezone': timezone}))
         db.session.commit()
         flash('Your Profile was Updated!')
         return redirect("/profile")
+        
 
     #Otherwise, it flashes a message and redirects to the login page
     else:
