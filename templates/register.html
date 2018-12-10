@@ -16,16 +16,16 @@
 		<b>E-mail:</b><b style="color: red;">*</b> <input type=textbox name="email_input"  value="{{ email }}" required></input><br><br>
 		<b>Additional E-mail (Optional):</b> <input type=textbox name="email_input2"></input><br>
 		<b>Phone Number:</b><input type="tel" name="phone"><br>
-		<b>Username:</b> <input type=textbox name="username" value="{{ username }}" required><br>
+		<b>Username:</b><b style="color: red;">*</b> <input type=textbox name="username" value="{{ username }}" required><br>
 		<b>Tagline:</b> (what is your experience?) <input type=textbox name="tagline" maxlength="100">
 		<b>What city/area is most of your experience from?</b><input type=textbox name="location" maxlength="50"><br><br>
-		<b>Password</b> (at least 6 characters): <input type=password name="password" id="myInput" required></input><br>
+		<b>Password</b> (at least 6 characters):<b style="color: red;">*</b> <input type=password name="password" id="myInput" required></input><br>
 		<input type="checkbox" onclick="myFunction()">Show Password<br><br>
-		(Please do not use your real name. Use your sex worker name, make one up, or leave the name field blank)<br>
-		<b>First name:</b><input type=textbox name="fname" value={{ fname }}></input>&nbsp &nbsp<b>Last name:</b><input type=textbox name="lname" value={{ lname }}></input><br><br>
+		(Feel free to use any name, real or fake!)<br>
+		<b>First name: <b style="color: red;">*</b></b><input type=textbox name="fname" value={{ fname }} required></input>&nbsp &nbsp<b>Last name:</b><input type=textbox name="lname" value={{ lname }}></input><br><br>
 
-		<b>What is your timezone?:</b>
-	<select name="timezone" id="DropDownTimezone">
+		<b>What is your timezone?:<b style="color: red;">*</b></b>
+	<select name="timezone" id="DropDownTimezone" required value="None">
 		<option value="-12.0">(GMT -12:00) Eniwetok, Kwajalein</option>
 		<option value="-11.0">(GMT -11:00) Midway Island, Samoa</option>
 		<option value="-10.0">(GMT -10:00) Hawaii</option>
