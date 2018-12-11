@@ -1,24 +1,24 @@
 {% extends 'base.html' %}
 {% block title %}Edit Profile{% endblock %}
 {% block head %}
-<h2>Edit Your Profile:</h2>
+
 {% endblock %}
 {% block content %}
+<h2 style="text-align: center;">Edit Your Profile:</h2>
 
-	<form action="/edit_profile" method="POST"><br>
-		<b>E-mail:</b> <input type=textbox name="email_input" value={{ email }}></input><br>
-		<b>Additional E-mail (Optional):</b> <input type=textbox name="email_input2"  value="{{ user.email2 }}"></input><br>
-		<b>Phone Number:</b><input type="tel" name="phone" value="{{ user.phone }}"><br><br>
-		<b>Username:</b> <input type=textbox name="username" value={{ username }}><br>
-		<b>Tagline:</b> (what is your experience?) <input type=textbox name="tagline" maxlength="100">
-		<b>What city/area is most of your experience from?</b><input type=textbox name="location" maxlength="50"><br><br>
+
+
+<div class="container">
+<div class="row" style="width: 100%;">
+<div class="col-lg-6-offset-3 col-md-8-offset-2 col-sm-10-offset-1 col-xs-12">	
+	<form action="/register" method="POST"><br>
+	
+		<b>E-mail:</b><b style="color: red;">*</b> <input type=textbox name="email_input"  value="{{ email }}" required></input><br><br>
+		<b>Username:</b><b style="color: red;">*</b> <input type=textbox name="username" value="{{ username }}" required><br><br>
 		
-		<!-- <b>New Password:</b> <input type="password" name="new_password" id="myInput2"></input><br>
-		<input type="checkbox" onclick="myFunction2()">Show Password<br> --><br>
-		(Please do not use your real name. Use your sex worker name, make one up, or leave the name field blank)<br>
-		<b>First name:</b><input type=textbox name="fname" value="{{ fname }}"></input>&nbsp &nbsp<b>Last name:</b><input type=textbox name="lname" value={{ lname }}></input><br><br>
-		<b>Tell us a bit about yourself:</b><br>
-		<textarea rows="6" cols="50" name="about_me">{{ about_me }}</textarea><br>
+		(Feel free to use any name, real or fake!)<br>
+		<b>First name: <b style="color: red;">*</b></b><input type=textbox name="fname" value="{{ fname }}" required></input>&nbsp &nbsp<b>Last name:</b><input type=textbox name="lname" value={{ lname }}></input><br><br>
+
 		<b>What is your timezone?:</b>
 	<select name="timezone" id="DropDownTimezone" value="{{ user.timezone }}">
 		<option value="-12.0" {% if user.timezone == '-12.0' %}selected{% endif %}>(GMT -12:00) Eniwetok, Kwajalein</option>
@@ -53,9 +53,28 @@
 		<option value="11.0" {% if user.timezone == '11.0' %}selected{% endif %}>(GMT +11:00) Magadan, Solomon Islands, New Caledonia</option>
 		<option value="12.0" {% if user.timezone == '12.0' %}selected{% endif %}>(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option><br><br>
 	</select>
-		<br><br><b>Enter Your Password:</b> <input type="password" name="old_password" id="myInput" required></input><br>
+		<br><br>
+
+		<b>Additional E-mail:</b> <input type=textbox name="email_input2"></input><br><br>
+	
+		<b>Phone Number:</b><input type="tel" name="phone"><br><br>
+		
+		<b>Tagline:</b> (what is your experience?) <input type=textbox name="tagline" maxlength="100"><br><br>
+		<b>What city/area is most of your experience from?</b><input type=textbox name="location" maxlength="50"><br><br>
+		
+		
+		<br><br><b>Tell us a bit about yourself:</b><br>
+		<textarea rows="6" cols="50" name="about_me">{{ about_me }}</textarea><br>
+
+		<b>Please Re-Enter Your Password:</b><b style="color: red;">*</b> <input type=password name="password" id="myInput" required></input><br>
 		<input type="checkbox" onclick="myFunction()">Show Password<br>
+
+
 		<br><input type=submit></form>
+</div>
+</div>
+</div>
+
 
 <script>
 	function myFunction() {

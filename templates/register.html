@@ -12,8 +12,8 @@
 {% block content %}
 <h2 style="text-align: center;">Register for The Safework Project</h2>
 <div class="container">
-<div class="row">
-<div class="col-lg-6-offset-3 col-md-8-offset-2 col-sm-10-offset-1 col-xs-12"	
+<div class="row" style="width: 100%;">
+<div class="col-lg-6-offset-3 col-md-8-offset-2 col-sm-10-offset-1 col-xs-12">	
 	<form action="/register" method="POST"><br>
 	
 		<b>E-mail:</b><b style="color: red;">*</b> <input type=textbox name="email_input"  value="{{ email }}" required></input><br><br>
@@ -113,6 +113,7 @@
 		<br><br><b>Tell us a bit about yourself:</b><br>
 		<textarea rows="6" cols="50" name="about_me">{{ about_me }}</textarea><br>
 		<br><input type=submit></form>
+</div>
 </div>
 </div>
 
