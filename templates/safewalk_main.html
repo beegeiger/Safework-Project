@@ -352,14 +352,14 @@
 	    console.log('month:')
 	    console.log(month);
 	    var day = currentTime.getDate();
-	    var hours = currentTime.getUTCHours() + 1;
+	    var hours = currentTime.getUTCHours();
 	    var minutes = currentTime.getMinutes();
 	    console.log(typeof minutes);
 	    var seconds = currentTime.getSeconds();
 	    var meridiem = "AM";
 	    hours = hours + {{ timezone }};
 	    if (hours < 1) {
-	    	hours = 23 + hours
+	    	hours = 24 + hours
 	    }
 	    if (hours > 12) {
 		    hours = hours - 12;

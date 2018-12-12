@@ -1023,29 +1023,31 @@ def safewalk_main():
 
         #Loops through the alerts and adds the datetime for each to the aset_alerts list
         for alert in alerts:
+            print(alert)
             if alert.active == True:
                 print(alert)
             if a_set.alert_set_id == alert.alert_set_id and a_set.interval and alert.active == False:
                 tim = now + datetime.timedelta(minutes=a_set.interval)
                 aset_alerts.append(tim)
-            if a_set.alert_set_id == alert.alert_set_id and a_set.interval and alert.active == True:
+                print(tim)
+            elif a_set.alert_set_id == alert.alert_set_id and a_set.interval and alert.active == True:
                 aset_alerts.append(alert.datetime)
-            elif a_set.alert_set_id == alert.alert_set_id:
+                print(alert.datetime)
+            elif a_set.alert_set_id == alert.alert_set_id and alert.active == True:
                 dtime = alert.datetime
-                # dtime = datetime.datetime.now()
-                # if now >= alert.datetime:
-                #     tomorrow = date + datetime.timedelta(days=1)
-                #     dtime = datetime.datetime.combine(tomorrow, alert.time)
-                # else:
-                #     dtime = datetime.datetime.combine(date, alert.time)
+                aset_alerts.append(dtime)
+            elif a_set.alert_set_id == alert.alert_set_id and alert.active == False:
+                dtime = datetime.datetime.combine(date, alert.time)
                 aset_alerts.append(dtime)
 
         """If there is at least one alert for each alert-set, the earliest alert and
         the total number of seconds until that alert are saved to the alert-set object"""
         if len(aset_alerts) >= 1:
-            if aset_alerts[0] != None:
-                aset_alerts.sort()
+            if aset_alerts[0] != []:
                 print('aset_alerts:')
+                print(aset_alerts)
+                aset_alerts.sort()
+                print('aset_alerts0:')
                 print(aset_alerts[0])
                 print(now)
                 a_set.next_alarm = aset_alerts[0]
@@ -1401,7 +1403,7 @@ def activate_alertset(alert_set_id):
             if alert.date == None:
                 dtime = datetime.datetime.combine(date, alert.time)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'date': date, 'datetime': dtime})
-                dt_list.appent(dtime)
+                dt_list.append(dtime)
             else:
                 dtime = datetime.datetime.combine(alert.date, alert.time)
                 db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'datetime': dtime})
@@ -1438,8 +1440,12 @@ def deactivate_alertset(alert_set_id):
     #All alerts associated with the alert set are queried and updated, and it's all commited
     alerts = Alert.query.filter_by(alert_set_id=alert_set_id).all()
     for alert in alerts:
-        db.session.query(Alert).filter_by(alert_id=alert.alert_id).update(
-        {'active': False, 'checked_in': False})
+        if alert.interval:
+            db.session.query(Alert).filter_by(alert_id=alert.alert_id).update(
+            {'active': False, 'checked_in': False, 'time': None, 'datetime': None})
+        else:
+            db.session.query(Alert).filter_by(alert_id=alert.alert_id).update(
+            {'active': False, 'checked_in': False,'datetime': None})
     db.session.commit()
     return "Alert Set Deactivated"
 
