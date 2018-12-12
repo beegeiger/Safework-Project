@@ -164,6 +164,8 @@
 </script>
 {% endif %}
 {% endfor %}
+
+
 <form method="GET" action="/rec_alerts">
     <button type="submit">Add New Recurring Alert Set</button>
 </form><br><br><br>
@@ -357,7 +359,7 @@
 	    var meridiem = "AM";
 	    hours = hours + {{ timezone }};
 	    if (hours < 1) {
-	    	hours = 25 + hours
+	    	hours = 23 + hours
 	    }
 	    if (hours > 12) {
 		    hours = hours - 12;
