@@ -81,6 +81,10 @@
     border: 2px solid red;
     }
 
+    button {
+        font-family: 'Open Sans', sans-serif; line-height: 30px;
+    }
+
     th {
     text-align: center;
     }
@@ -146,13 +150,13 @@
         {%- if request.path != "/" %}<a href="/"><img class="d-none d-md-inline" style="height: 46px;" src="/static/img/SafeWork2.gif"></a> &nbsp &nbsp
         <!-- <button type="button" class="btn btn-danger" onclick="location.href='/';">SafeWork Homepage</button>  --> {% endif %}
         {%- if request.path != "/map" %}
-        <button type="button" class="btn btn-danger myclass" onclick="location.href='/map';" style="width: 10%; font-family: 'Open Sans', sans-serif; font-weight: bold; height: 38px; font-size: 22px; line-height: 28px;" >Map</button> {% endif %}
+        <button type="button" class="btn btn-danger myclass" onclick="location.href='/map';" style="width: 10%; font-family: 'Open Sans', sans-serif; font-weight: bold; height: 38px; font-size: 20px; line-height: 30px;" >Map</button> {% endif %}
 
 
 
         {% if 'current_user' not in session %}
         <div class="btn-group" style="height: 38px;">
-        <button type="button" class="btn btn-danger" onclick="location.href='/resources';" style="width: 110px; font-family: 'Open Sans', sans-serif; font-weight: bold;  height: 38px; font-size: 28px; line-height: 28px;" >Resources</button>
+        <button type="button" class="btn btn-danger" onclick="location.href='/resources';" style="width: 110px; font-family: 'Open Sans', sans-serif; font-weight: bold;  height: 38px; font-size: 20px;" >Resources</button>
         <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="sr-only" style="height: 38px;">Toggle Dropdown</span>
         </button>
@@ -179,14 +183,14 @@
 
 
         {%- if request.path != "/forums" %}
-        <button type="button" class="btn btn-danger" onclick="location.href='/forums';" color: red; style="width: 20%; font-weight: bold; height: 38px; font-size: 22px; line-height: 28px;" >Discussion Forums</button> {% endif %}
+        <button type="button" class="btn btn-danger" onclick="location.href='/forums';" color: red; style="width: 25%; font-weight: bold; height: 38px; font-size: 20px;" >Discussion Forums</button> {% endif %}
 
         
         {%- if request.path != "/sw_main" %}
-        <button type="button" class="btn btn-danger"  onclick="location.href='/sw_main';" style="font-weight: bold; border-color: blue; border-width: 3px; height: 38px; font-size: 22px; line-height: 28px;" >SafeWalk Alerts</button>
+        <button type="button" class="btn btn-danger"  onclick="location.href='/sw_main';" style="font-weight: bold; border-color: blue; border-width: 3px; height: 38px; font-size: 20px;" >SafeWalk Alerts</button>
         {% endif %}
         <div class="btn-group">
-        <button type="button" class="btn btn-danger" style="font-weight: bold;  height: 38px; font-size: 22px; line-height: 28px;" >More</button>    
+        <button type="button" class="btn btn-danger" style="font-weight: bold;  height: 38px; font-size: 20px;" >More</button>    
         
         <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 38px;">
         <span class="sr-only">Toggle Dropdown</span>
@@ -200,8 +204,7 @@
         {% endif %}
         </div>
         </div>
-        </div>
-        <div class="col-1 text-center" style="width: 5%;">
+        
         </div>
 </div>
 
