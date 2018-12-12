@@ -1017,17 +1017,22 @@ def safewalk_main():
 
     #Loops through all user's alert-sets and initiates variables to keep track of them
     for a_set in alert_sets:
+        print(a_set)
         aset_alerts = []
         a_set.total = 0
 
         #Loops through the alerts and adds the datetime for each to the aset_alerts list
         for alert in alerts:
-            if a_set.alert_set_id == alert.alert_set_id and a_set.interval:
+            if alert.active == True:
+                print(alert)
+            if a_set.alert_set_id == alert.alert_set_id and a_set.interval and alert.active == False:
                 tim = now + datetime.timedelta(minutes=a_set.interval)
                 aset_alerts.append(tim)
+            if a_set.alert_set_id == alert.alert_set_id and a_set.interval and alert.active == True:
+                aset_alerts.append(alert.datetime)
             elif a_set.alert_set_id == alert.alert_set_id:
                 dtime = datetime.datetime.now()
-                if time >= alert.time:
+                if now >= alert.datetime:
                     tomorrow = date + datetime.timedelta(days=1)
                     dtime = datetime.datetime.combine(tomorrow, alert.time)
                 else:
@@ -1041,9 +1046,11 @@ def safewalk_main():
                 aset_alerts.sort()
                 print('aset_alerts:')
                 print(aset_alerts[0])
+                print(now)
                 a_set.next_alarm = aset_alerts[0]
                 a_set.next_alarm_dis = aset_alerts[0].strftime("%I:%M %p, %m/%d/%Y")
                 d1 = now - aset_alerts[0]
+                print(d1)
                 d2 = abs(d1.total_seconds())
                 # days = math.floor(d2 / 86400)
                 # hours = math.floor((d2 - (days * 86400)) / 3600)
