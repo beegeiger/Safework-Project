@@ -1031,12 +1031,13 @@ def safewalk_main():
             if a_set.alert_set_id == alert.alert_set_id and a_set.interval and alert.active == True:
                 aset_alerts.append(alert.datetime)
             elif a_set.alert_set_id == alert.alert_set_id:
-                dtime = datetime.datetime.now()
-                if now >= alert.datetime:
-                    tomorrow = date + datetime.timedelta(days=1)
-                    dtime = datetime.datetime.combine(tomorrow, alert.time)
-                else:
-                    dtime = datetime.datetime.combine(date, alert.time)
+                dtime = alert.datetime
+                # dtime = datetime.datetime.now()
+                # if now >= alert.datetime:
+                #     tomorrow = date + datetime.timedelta(days=1)
+                #     dtime = datetime.datetime.combine(tomorrow, alert.time)
+                # else:
+                #     dtime = datetime.datetime.combine(date, alert.time)
                 aset_alerts.append(dtime)
 
         """If there is at least one alert for each alert-set, the earliest alert and
@@ -1414,7 +1415,7 @@ def activate_alertset(alert_set_id):
         # dt_list.append(dtime)
         dtime_int = dt + datetime.timedelta(minutes=alert_set.interval)
         alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
-        db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'active': True, 'start_time': time, 'start_time': time, 'datetime': dtime_int})
+        db.session.query(Alert).filter_by(alert_id=alert.alert_id).update({'active': True, 'start_time': time, 'time': dtime_int.time(), 'datetime': dtime_int})
         dt_list.append(dtime_int)
     
     #The alert set is updated to be active and its commited
