@@ -191,7 +191,7 @@ def check_alerts():
                 difference = alert.datetime - datetime.datetime.now()
                 
                 #All recent check-ins are queried and a new counter variable checks is set to 0
-                check_ins = CheckIn.query.filter(checkin.user_id == user.user_id, checkin.datetime  >=  yester).all()
+                check_ins = CheckIn.query.filter(CheckIn.user_id == alert.user_id, CheckIn.datetime  >=  yester).all()
                 checks = 0
                 
                 #For each check-in, if it is within 90 minutes before the current time, the checks counter is added by 1
