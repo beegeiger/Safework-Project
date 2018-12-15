@@ -311,6 +311,24 @@ class ReqCheck(db.Model):
 		return "<req_check_id={} user_id={} check_in_id={} alert_id={} alert_set_id={} time={} date={} checked={}>".format(
 			self.req_check_id, self.user_id, self.check_in_id, self.alert_id, self.alert_set_id, self.time, self.date, self.checked)
 
+class Feedback(db.Model):
+	"""Error Feedback from Users"""
+
+	__tablename__ = "feedback"
+
+	feedback_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	datetime = db.Column(db.DateTime, nullable=True)
+	content = db.Column(db.String(2056))
+
+
+	def __repr__(self:)
+		"""Provide helpful representation when printed."""
+		return "<feedback_id={} user_id={} datetime={} content={}>".format(
+			self.feedback_id, self.user_id, self.datetime, self.content)
+ 
+
+
 ################################################################################
 
 def example_data():
