@@ -216,10 +216,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
+        <h4 class="modal-title" style="color: black;">Feedback</h4>
       </div>
       <div class="modal-body">
-        <p>Some text in the modal.</p>
+        <p style="color: black;">What page or feature isn't working/appearing properly? Please include as many details as possible!</p>
+        <form action="/feedback" method="POST">
+            <textarea rows="6" cols="50" name="feedback_text"></textarea><br>
+        <br><input type=submit>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
