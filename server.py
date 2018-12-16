@@ -1468,6 +1468,20 @@ def add_new_checkin():
     check_in(user.user_id, text)
     return redirect("/check_ins")
 
+@app.route("/feedback", methods=["POST"])
+def submit_feedback():
+    """Using POST, feedback is added from the check-in page"""
+
+    #Get's the Feedbacj details from the form on the page and adds it to the dBase
+    text = request.form['feedback_text']
+    user = User.query.filter_by(email=session['current_user']).one()
+    dt = datetime.datetime.now()
+    new_feedback = Feedback(user_id=user.user_id, datetime=dt, content=text)
+    db.session.add(new_feedback)
+    db.session.commit()
+    return "Feedback Submitted!"
+
+
 @app.route("/incoming_mail", methods=["POST"])
 def mailin():
     """Route where incoming mail is sent from mailgun"""
