@@ -322,7 +322,7 @@ class Feedback(db.Model):
 	content = db.Column(db.String(2056))
 
 
-	def __repr__(self:)
+	def __repr__(self):
 		"""Provide helpful representation when printed."""
 		return "<feedback_id={} user_id={} datetime={} content={}>".format(
 			self.feedback_id, self.user_id, self.datetime, self.content)
