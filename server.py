@@ -1473,6 +1473,24 @@ def add_new_checkin():
     text = request.form['check_text']
     user = User.query.filter_by(email=session['current_user']).one()
     check_in(user.user_id, text)
+    alerts = Alert.query.filter(Alert.user_id == user.user_id, Alert.active == True).all()
+    all_alerts = Alert.query.filter(Alert.user_id == user.user_id).all()
+    alert_datetimes = []
+    for alert in alerts:
+        if alert.datetime:
+            alert_datetimes.append(alert.datetime)
+    alert_datetimes.sort()
+    if len(alert_datetimes) > 0:
+        diff = datetime.datetime.now() - alert_datetimes[0]
+        minutes = diff.dt.minutes()
+        time = alert_datetimes[0].time()
+        check_time = (alert_datetimes[0] - datetime.timedelta(hours=1)).time()
+        message = "Your Check-In has been received! Your next alarm is due in " + str(minutes) +
+            " minutes, so you must check in between " + str(check_time) + " and " + str(time) + "."
+    else:
+        message = "Your check-in has been received! You don't have any alerts currently active."
+    send_alert_user(all_alerts[0].alert_id, message)
+
     return redirect("/check_ins")
 
 @app.route("/feedback", methods=["POST"])
