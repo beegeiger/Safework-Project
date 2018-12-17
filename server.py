@@ -211,7 +211,7 @@ def check_alerts():
                 if abs(difference) <= datetime.timedelta(minutes=1) and abs(difference) > datetime.timedelta(seconds=0) and checks == 0 and alert.sent == False:
                     print('A CHECK-IN WAS MISSED AND AN ALERT IS BEING SENT NOW!')
                     message_body = create_alert(alert.alert_id)
-                    send_alert(alert.alert_id, message_body)
+                    send_alert_contacts(alert.alert_id, message_body)
                     #The alert object is updates to be marked sent and inactive and its commited
                     (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update({'sent': True, 'active': False})
                     db.session.commit()
@@ -222,7 +222,7 @@ def check_alerts():
                     message_body = """Reminder! You have a Check-In Scheduled in 15 minutes. If you don't check-in
                     by responding to this text, emailing 'safe@safeworkproject.org', or checking in on the site at
                     'www.safeworkproject.org/check_ins', your pre-set alerts will be sent to your contact(s)!"""
-                    send_alert(alert.alert_id, message_body)
+                    send_alert_user(alert.alert_id, message_body)
     return
 
 #################################################################
