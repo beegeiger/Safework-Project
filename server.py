@@ -1485,8 +1485,7 @@ def add_new_checkin():
         minutes = diff.dt.minutes()
         time = alert_datetimes[0].time()
         check_time = (alert_datetimes[0] - datetime.timedelta(hours=1)).time()
-        message = "Your Check-In has been received! Your next alarm is due in " + str(minutes) +
-            " minutes, so you must check in between " + str(check_time) + " and " + str(time) + "."
+        message = "Your Check-In has been received! Your next alarm is due in " + str(minutes) + " minutes, so you must check in between " + str(check_time) + " and " + str(time) + "."
     else:
         message = "Your check-in has been received! You don't have any alerts currently active."
     send_alert_user(all_alerts[0].alert_id, message)
