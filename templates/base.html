@@ -144,13 +144,13 @@
 
     <body>
     <div class="container" style="background: rgba(0, 0, 0, 0.8); width: 105%; text-align: center; margin-left: 0%; margin-right: 0%; padding-left: 0; padding-right: 0; max-width: 100%; height: 5%; min-height: 46px;">
-        <div class="container d-flex flex-column flex-xl-row justify-content-between" style="min-height: 46px;">
+        <div class="row justify-content-between" style="min-height: 46px; margin-right: 0; margin-left: 0;">
         <div class="col-lg-10-offset-1 col-md-12 col-sm-12 text-center" style="min-height: 38px; padding-top: 4px">
         
         {%- if request.path != "/" %}<a href="/"><img class="d-none d-md-inline" style="height: 46px;" src="/static/img/SafeWork2.gif"></a> &nbsp &nbsp
         <!-- <button type="button" class="btn btn-danger" onclick="location.href='/';">SafeWork Homepage</button>  --> {% endif %}
         {%- if request.path != "/map" %}
-        <button type="button" class="btn btn-danger myclass" onclick="location.href='/map';" style="width: 10%; font-family: 'Open Sans', sans-serif; font-weight: bold; height: 38px; font-size: 20px; line-height: 30px;" >Map</button> {% endif %}
+        <button type="button" class="btn btn-danger myclass" onclick="location.href='/map';" style="width: 80px; font-family: 'Open Sans', sans-serif; font-weight: bold; height: 38px; font-size: 20px; line-height: 30px;" >Map</button> {% endif %}
 
 
 
@@ -183,11 +183,11 @@
 
 
         {%- if request.path != "/forums" %}
-        <button type="button" class="btn btn-danger" onclick="location.href='/forums';" color: red; style="width: 25%; font-weight: bold; height: 38px; font-size: 20px;" >Discussion Forums</button> {% endif %}
+        <button type="button" class="btn btn-danger" onclick="location.href='/forums';" color: red; style="width: 230px; font-weight: bold; height: 38px; font-size: 20px;" >Discussion Forums</button> {% endif %}
 
         
         {%- if request.path != "/sw_main" %}
-        <button type="button" class="btn btn-danger"  onclick="location.href='/sw_main';" style="font-weight: bold; border-color: blue; border-width: 3px; height: 38px; font-size: 20px;" >SafeWalk Alerts</button>
+        <button type="button" class="btn btn-danger"  onclick="location.href='/sw_main';" style="font-weight: bold; border-color: white; border-width: 3px; height: 38px; font-size: 20px; width: 235px; padding-right: 30px;" >SafeWalk Alerts <div style="margin-top: -23px; margin-right: -200px;"><b style="font-size: 15px; font-weight: bold; color: blue;">(New!)</b></div></button>
         {% endif %}
         <div class="btn-group">
         <button type="button" class="btn btn-danger" style="font-weight: bold;  height: 38px; font-size: 20px;" >More</button>    
@@ -203,9 +203,9 @@
         </div>
         {% endif %}
         </div>
-        <div class="col-md-4 col-sm-4">
-        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" style="max-height: 30px; margin-top: 10px;">Something wrong with a page or feature?</button>
-        </div>
+
+        <button type="button" class="btn btn-info btn-sm d-none d-md-block" data-toggle="modal" data-target="#myModal" style="max-height: 30px; margin-top: 10px; max-width: 222px; font-size: 10px; font-weight: bold;">Something wrong with a page or feature?</button>
+
         </div>
         
 
