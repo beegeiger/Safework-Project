@@ -271,8 +271,6 @@ def start_runner():
 @app.route("/")
 def go_home():
     """Renders the safework homepage. (Tested)"""
-    check = CheckIn.query.first()
-    print(type(check))
     return render_template("homepage.html")
 
 
@@ -423,6 +421,7 @@ def login():
 
     if user_query == []:
         flash('There is no record of your e-mail address! Please try again or Register.')
+        print("No Record")
         return render_template("login.html")
 
 
