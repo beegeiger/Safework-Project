@@ -1544,20 +1544,24 @@ def mailin():
 def smsin():
     """Route where incoming SMS messages are sent from Bandwidth"""
     
+    number = request.form['From']
+    message_body = request.form['Body']
+
+
     #Access some of the SMS parsed values:
-    dat = request.data
-    data = json.loads(dat.decode(encoding="utf-8", errors="strict"))
-    message_body = data['text']
-    phone = data['from']
+    # dat = request.data
+    # data = json.loads(dat.decode(encoding="utf-8", errors="strict"))
+    # message_body = data['text']
+    # phone = data['from']
     
     #The user is queried using the phone-number
-    user = User.query.filter_by(phone=str(phone[-10:])).all()
+    user = User.query.filter_by(phone=str(number)).all()
     u_id = user[0].user_id
     
     #Assuming a user is found, the check-in helper-function is run
     if len(user) >= 1:
         check_in(u_id, message_body)
-    print(phone[-10:])
+    print(number)
     print(user)
     print("SMS Received")
     return "SMS Received"
