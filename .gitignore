@@ -14,5 +14,5 @@ send-mail.py
 send-sms.py
 send_mail.py
 send_sms.py
-send_alerts.py
+
 secrets.py
