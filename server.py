@@ -1531,10 +1531,11 @@ def mailin():
 
     #The user is queried using the e-mail address
     user = User.query.filter_by(email=str.strip(send_email)).all()
-    u_id = user[0].user_id
+    
     
     #Assuming a user is found, the check-in helper-function is run
     if len(user) >= 1:
+        u_id = user[0].user_id
         check_in(u_id, text)
     print(send_email)
     print("Email Message Received")
@@ -1556,10 +1557,11 @@ def smsin():
     
     #The user is queried using the phone-number
     user = User.query.filter_by(phone=str(number)).all()
-    u_id = user[0].user_id
+
     
     #Assuming a user is found, the check-in helper-function is run
     if len(user) >= 1:
+        u_id = user[0].user_id
         check_in(u_id, message_body)
     print(number)
     print(user)
