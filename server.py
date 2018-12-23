@@ -1521,7 +1521,18 @@ def submit_feedback():
 @app.route("/user_code", methods=["POST"])
 def new_user_code():
     """Creates a new User Code"""
-    return str(user_code)
+    
+    user = User.query.filter_by(email=session['current_user']).one()
+    code = "".join(random.choices(string.ascii_uppercase + string.digits, k=4))
+    code_check = User.query.filter_by(user_code=code).all()
+    while len(code_check) > 0:
+        code = "".join(random.choices(string.ascii_uppercase + string.digits, k=4))
+        code_check = User.query.filter_by(user_code=code).all()
+
+    user.update({'user_code': code})
+    db.session.commit()
+
+    return str(code)
 
 @app.route("/incoming_mail", methods=["POST"])
 def mailin():
