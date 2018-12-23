@@ -1509,7 +1509,7 @@ def add_new_checkin():
 def submit_feedback():
     """Using POST, feedback is added from the check-in page"""
 
-    #Get's the Feedbacj details from the form on the page and adds it to the dBase
+    #Get's the Feedback details from the form on the page and adds it to the dBase
     text = request.form['feedback_text']
     user = User.query.filter_by(email=session['current_user']).one()
     dt = datetime.datetime.now()
@@ -1518,6 +1518,10 @@ def submit_feedback():
     db.session.commit()
     return "Feedback Submitted!"
 
+@app.route("/user_code", methods=["POST"])
+def new_user_code():
+    """Creates a new User Code"""
+    return str(user_code)
 
 @app.route("/incoming_mail", methods=["POST"])
 def mailin():
