@@ -1081,7 +1081,7 @@ def safewalk_main():
         #If there are no alerts, the current datetime is used as a placeholder
         else:a_set.next_alarm_dis = now.strftime("%I:%M %p, %m/%d/%Y")
 
-    return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone)
+    return render_template("safewalk_main.html", alert_sets=alert_sets, timezone=user.timezone, user=user)
 
 @app.route("/sw_getting_started")
 def get_started():
