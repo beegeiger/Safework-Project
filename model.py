@@ -70,7 +70,7 @@ class User(db.Model):
 	__tablename__ = "users"
 
 	user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-	user_code = db.Column(db,String(4), nullable=True)
+	user_code = db.Column(db.String(4), nullable=True)
 	password = db.Column(db.String(1028))
 	username = db.Column(db.String(64))
 	fname = db.Column(db.String(64), nullable=True)
