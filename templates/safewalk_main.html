@@ -404,8 +404,10 @@
 
 <br>
 <h3> Your Personal ID Code: </h3>
-<div style="text-align: center; outline: 3px solid white; height: 50px; width: 300px; margin: auto;">{% if user.user_code %}{{ user.user_code }}{% endif %}</div>
-<br><br>
+<div style="align-items: center; text-align: center; outline: 3px solid white; height: 50px; width: 300px; margin: auto;">{% if user.user_code %} ( {{ user.user_code }} ) {% endif %}</div>
+<button id="gen_code" type="button" style="display: flex; justify-content: center; margin: auto; margin-top: 5px; text-align: center;">Generate New Code</button>
+<p style="margin: auto; text-align: center;">Press this Button to Generate a New Code. If a user code already exists, the old user code will no longer be valid.</p>
+<br><br><br>
 	<b>*Adding an Alert Set: Do you want your alert set to require recurring check-ins (by a certain time interval) or pre-set check-ins with scheduled pre-set times?</b> Recurring check-ins are best if you aren't sure of your schedule when you go out to work (like with most who work the street). Pre-set check-ins are best if you have a known schedule and/or date with a client. In that case, you can require check-ins shortly after arriving, when the date should end, and/or some period after that (in case you aren't sure of the end time).<br>
 </div>
 </div>
