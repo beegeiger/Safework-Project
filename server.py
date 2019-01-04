@@ -8,6 +8,8 @@ import bcrypt
 import math
 import time
 import json
+import random
+import string
 import datetime
 import threading
 import secrets
@@ -1529,7 +1531,8 @@ def new_user_code():
         code = "".join(random.choices(string.ascii_uppercase + string.digits, k=4))
         code_check = User.query.filter_by(user_code=code).all()
 
-    user.update({'user_code': code})
+    db.session.query(User).filter_by(user_id=user.user_id).update({'user_code': code})
+
     db.session.commit()
 
     return str(code)
