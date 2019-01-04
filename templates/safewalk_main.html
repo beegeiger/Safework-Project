@@ -353,12 +353,9 @@
 	    var currentTime = new Date();
 		var year = currentTime.getYear() + 1900;
 	    var month = currentTime.getMonth() + 1;
-	    console.log('month:')
-	    console.log(month);
 	    var day = currentTime.getDate();
 	    var hours = currentTime.getUTCHours();
 	    var minutes = currentTime.getMinutes();
-	    console.log(typeof minutes);
 	    var seconds = currentTime.getSeconds();
 	    var meridiem = "AM";
 	    hours = hours + {{ timezone }};
@@ -404,7 +401,7 @@
 
 <br>
 <h3> Your Personal ID Code: </h3>
-<div style="align-items: center; text-align: center; outline: 3px solid white; height: 50px; width: 300px; margin: auto;">{% if user.user_code %} ( {{ user.user_code }} ) {% endif %}</div>
+<div id="user_code_div" style="align-items: center; text-align: center; outline: 3px solid white; height: 50px; width: 300px; margin: auto;">{% if user.user_code %} ( {{ user.user_code }} ) {% endif %}</div>
 <button id="gen_code" type="button" style="display: flex; justify-content: center; margin: auto; margin-top: 5px; text-align: center;">Generate New Code</button>
 <p style="margin: auto; text-align: center;">Press this Button to Generate a New Code. If a user code already exists, the old user code will no longer be valid.</p>
 <br><br><br>
@@ -412,4 +409,21 @@
 </div>
 </div>
 </div>
+
+<script>
+	$(document).ready(function(){
+	    document.getElementById('gen_code').click(function(event){
+	    	console.log('Gen Button is pressed!')
+	        if(this.checked) {
+	        	$.get("/user_code", function(data) {
+	        		document.getElementById("user_code_div").innerHTML = "(" + data + ")";
+	        		console.log("data then value:");
+	        		console.log(data);
+	        		console.log(data.value);
+	        	});
+	    	}
+	    });
+	});    	
+
+</script>
 {% endblock %}
