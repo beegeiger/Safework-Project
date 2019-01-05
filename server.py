@@ -1553,6 +1553,9 @@ def mailin():
     if user == []:
         user = User.query.filter_by(email2=str.strip(send_email)).all()
 
+    if user != []:
+        print("User Found by email address")
+
     while user == []:
         left = body.find("(")
         if left == -1:
@@ -1563,7 +1566,12 @@ def mailin():
                 user = User.query.filter_by(user_code=body[(left + 1):(left + 5)]).all()
                 body = body[0:left] + body[(left + 1):]
                 body = body[0:right] + body[(right + 1):]
+                if user != []:
+                    print("User Found by user code")
     
+    if user == []:
+        print("No User Was Found")
+
     #Assuming a user is found, the check-in helper-function is run
     if len(user) >= 1:
         u_id = user[0].user_id
