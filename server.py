@@ -1550,7 +1550,9 @@ def mailin():
 
     #The user is queried using the e-mail address
     user = User.query.filter_by(email=str.strip(send_email)).all()
-    
+    if user == []:
+        user = User.query.filter_by(email2=str.strip(send_email)).all()
+
     while user == []:
         left = body.find("(")
         if left == -1:
