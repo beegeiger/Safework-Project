@@ -1546,10 +1546,21 @@ def mailin():
     send_email = request.form['sender']
     subject = request.form['subject']
     text = request.form['body-plain']
+    body = str(text)
 
     #The user is queried using the e-mail address
     user = User.query.filter_by(email=str.strip(send_email)).all()
     
+    while user == []:
+        left = body.find("(")
+        if left == -1:
+            break
+        else:
+            right = body.find(")")
+            if right == left + 5:
+                user = User.query.filter_by(user_code=body[(left + 1):(left + 5)]).all()
+                body = body[0:left] + body[(left + 1):]
+                body = body[0:right] + body[(right + 1):]
     
     #Assuming a user is found, the check-in helper-function is run
     if len(user) >= 1:
