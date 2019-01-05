@@ -402,7 +402,7 @@
 <br>
 <h3> Your Personal ID Code: </h3>
 <p style="margin: auto; text-align: center;">If you want to check in from a phone # or e-mail address not associated with your account, include this secret 4-digit code (6 if you include the parentheses) so you can be indentified.</p>
-<p style="margin: auto; text-align: center;">Remember to include the parentheses, "(xxxx)" when you include this code. The 4-digit code alone, "xxxx" will not work.</p>
+<p style="margin: auto; text-align: center;">Remember to include the parentheses, "(xxxx)" with no spaces when you include this code. The 4-digit code alone, "xxxx" will not work.</p>
 <div id="user_code_div" style="align-items: center; text-align: center; outline: 3px solid white; height: 50px; width: 300px; margin: auto; font-size: 35px;">{% if user.user_code %} ( {{ user.user_code }} ) {% endif %}</div>
 <button onclick="new_code()" id="gen_code" type="button" style="display: flex; justify-content: center; margin: auto; margin-top: 5px; text-align: center;">Generate New Code</button>
 <p style="margin: auto; text-align: center;">Press this Button to Generate a New Code. If a user code already exists, the old user code will no longer be valid.</p>
