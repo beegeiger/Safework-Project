@@ -185,6 +185,8 @@ def send_alert_user(alert_id, message_body):
 def check_alerts():
     """A Helper function to run every minute to check if any alerts need to be sent"""
     
+    print("Checking For Alerts and Reminders Now")
+
     #Datetime object for now created for convenience
     datetim = datetime.datetime.now()
     yester = datetim - datetime.timedelta(days=1)
@@ -192,7 +194,7 @@ def check_alerts():
     with app.app_context():
         #All currently-active alerts are queried 
         alerts = Alert.query.filter_by(active=True).all()
-
+        print(alerts)
         #If at least one alert is active, the alerts are looped through to see if any need to be sent
         if len(alerts) > 0:
             for alert in alerts:
@@ -1527,7 +1529,7 @@ def new_user_code():
     user = User.query.filter_by(email=session['current_user']).one()
     code = "".join(random.choices(string.ascii_uppercase + string.digits, k=4))
     code_check = User.query.filter_by(user_code=code).all()
-    while len(code_check) > 0:
+    while len(code_check) > 0 or "0" in code or "O" in code:
         code = "".join(random.choices(string.ascii_uppercase + string.digits, k=4))
         code_check = User.query.filter_by(user_code=code).all()
 
