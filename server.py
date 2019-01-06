@@ -1586,7 +1586,7 @@ def smsin():
     
     number = request.form['From']
     message_body = request.form['Body']
-
+    body = str(message_body)
 
     #Access some of the SMS parsed values:
     # dat = request.data
@@ -1597,6 +1597,24 @@ def smsin():
     #The user is queried using the phone-number
     user = User.query.filter_by(phone=str(number)).all()
 
+    if user != []:
+        print("User Found by phone number")
+
+    while user == []:
+        left = body.find("(")
+        if left == -1:
+            break
+        else:
+            right = body.find(")")
+            if right == left + 5:
+                user = User.query.filter_by(user_code=body[(left + 1):(left + 5)]).all()
+                body = body[0:left] + body[(left + 1):]
+                body = body[0:right] + body[(right + 1):]
+                if user != []:
+                    print("User Found by user code")
+    
+    if user == []:
+        print("No User Was Found")
     
     #Assuming a user is found, the check-in helper-function is run
     if len(user) >= 1:
