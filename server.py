@@ -955,10 +955,10 @@ def edit_page():
 def edit_profile():
     """Submits the profile edits"""
 
+
     #Gets info from html form and dbase
     email_input = request.form['email_input']
-    pw_input = request.form['old_password']
-    # new_password = request.form['new_password']
+    pw_input = request.form['password']
     username = request.form['username']
     fname = request.form['fname']
     tagline = request.form['tagline']
