@@ -240,11 +240,12 @@ class AlertSet(db.Model):
 	notes = db.Column(db.String(2056), nullable=True)
 	interval = db.Column(db.Integer, nullable=True)
 	active = db.Column(db.Boolean, default=False)
+	checked_in = db.Column(db.Boolean, default=False)
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<alert_set_id={} user_id={} a_name={} a_desc={} start_time={} start_datetime={} date={} end_date={} notes={} active={}>".format(
-			self.alert_set_id, self.user_id, self.a_name, self.a_desc, self.start_time, self.start_datetime, self.date, self.end_date, self.notes, self.active)
+		return "<alert_set_id={} user_id={} a_name={} a_desc={} start_time={} start_datetime={} date={} end_date={} notes={} active={} checked_in={}>".format(
+			self.alert_set_id, self.user_id, self.a_name, self.a_desc, self.start_time, self.start_datetime, self.date, self.end_date, self.notes, self.active, self.checked_in)
 
 class Alert(db.Model):
 	"""SafeWalk AlertSet"""
