@@ -10,7 +10,7 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-lg-8-offset-2 col-md-10-offset-1 col-sm-12">
+		<div class="col-lg-10-offset-1 col-md-12">
 <h1>SafeWalk Safety Alert Sets</h1>
 <a href="/check_ins">Check-In Online and View Your Previously Logged Check-Ins</a>
 <br><br>
@@ -22,18 +22,21 @@
 <div class="container-fluid.">
 	<div class="row">
 		<div class="col-2">
-			<p style="font-size: 150%; text-align: left; padding-left: 15%; text-decoration: underline;">Alert Name</p>
+			<p style="font-size: 140%; text-align: left; padding-left: 15%; text-decoration: underline;">Alert Name</p>
 		</div>
 		<div class="col-2">
-			<p style="font-size: 150%; text-align: left; padding-left: 15%; text-decoration: underline;">Activated</p>
+			<p style="font-size: 140%; text-align: left; padding-left: 15%; text-decoration: underline;">Activated</p>
 		</div>
-		<div class="col-7" style="display: inline-block; padding: 0 0 0 0;">
+		<div class="col-6" style="display: inline-block; padding: 0 0 0 0;">
 			<div class="col-5" style="display: inline-block;">
-				<p style="font-size: 150%; text-align: left; display: inline-block; padding-left: 10%; text-decoration: underline;">Next Alert Time</p>
+				<p style="font-size: 140%; text-align: left; display: inline-block; padding-left: 10%; text-decoration: underline;">Next Alert Time</p>
 			</div>
 			<div class="col-6" style="display: inline-block;">
-				<p style="font-size: 150%; text-align: left; display: inline-block; padding-left: 10%; text-decoration: underline;">Next Alert Countdown</p>
+				<p style="font-size: 140%; text-align: left; display: inline-block; padding-left: 10%; text-decoration: underline;">Next Alert Countdown</p>
 			</div>
+		</div>
+		<div class="col-1">
+			<p style="font-size: 120%; text-align: left; padding-left: 10%; text-decoration: underline;">Checked-In?</p>
 		</div>
 
 	</div>
@@ -55,11 +58,11 @@
 		</div>
 		
 
-		<div {% if set.active == False %}class='hidden.col-7' {% else %} class="col-7" {% endif %} id="count_display{{ set.alert_set_id }}" style="display: inline-block; padding: 0 0 0 0;">
+		<div {% if set.active == False %}class='hidden.col-6' {% else %} class="col-6" {% endif %} id="count_display{{ set.alert_set_id }}" style="display: inline-block; padding: 0 0 0 0;">
 			
 			<div class="col-5" id="al_time{{ set.alert_set_id }}" style="display: inline-block;">	
 			<p id="datetime{{ set.alert_set_id }}" style="font-family: 'Bitter', serif;
-        	font-weight: bold; font-size: 120%; color: red; display: inline-block;">
+        	font-weight: bold; font-size: 105%; color: red; display: inline-block;">
 			{% if set.active == True %}
 			{{ set.next_alarm_dis }}
 			{% endif %}
@@ -68,7 +71,7 @@
 		
 
 			<div {% if set.active == False %} class='hidden' {% else %} class="col-6" {% endif %} id='countdown{{ set.alert_set_id }}' style=" {% if set.active == False %} display: none; {% else %} display: inline-block; {% endif %} font-family: 'Bitter', serif;
-        font-weight: bold; font-size: 120%; color: red;">
+        font-weight: bold; font-size: 105%; color: red;">
 
 			</div>
 		</div>
@@ -109,7 +112,7 @@
 	    // to the hours, minutes, and seconds of the current time
 
 	    if(t > 0) {
-	    countDiv.innerText = days + " days and " + hours + ":" + minutes + ":" + seconds + " Remaining";
+	    countDiv.innerText = days + " days & " + hours + ":" + minutes + ":" + seconds + " Remaining";
 	  
 	    return {
 	    	'changes': change + 1 
