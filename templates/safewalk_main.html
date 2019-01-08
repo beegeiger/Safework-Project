@@ -76,9 +76,11 @@
 			</div>
 		</div>
 		<div class="col-1">
-			<p style="font-family: 'Bitter', serif; font-weight: bold; font-size: 150%; {% if set.check %} color: red; display: inline-block;">
-			{% if set.active == True %}
-			{{ set.next_alarm_dis }}
+			<p style="font-family: 'Bitter', serif; font-weight: bold; font-size: 150%; {% if set.checked_in %} color: green; {% else %} color: red; {% endif %} display: inline-block;">
+			{% if set.checked_in == True %}
+			Yes
+			{% else %}
+			No
 			{% endif %}
 			</p>
 		</div>
