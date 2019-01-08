@@ -61,9 +61,11 @@ def check_in(user_id, notes):
                 print(alert)
                 (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update(
                 {'datetime': (alert.datetime + datetime.timedelta(minutes=alert.interval)), 'checked_in': True})
+                db.session.query(AlertSet).filter_by(alert_set_id=alert.alert_set_id).update({'checked_in': True})
             else:
                 (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update(
                 {'datetime': (alert.datetime + datetime.timedelta(days=1)), 'checked_in': True})
+                db.session.query(AlertSet).filter_by(alert_set_id=alert.alert_set_id).update({'checked_in': True})
     db.session.commit()
     return "Check In has been Logged!"
 
@@ -220,6 +222,10 @@ def check_alerts():
                     (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update({'sent': True, 'active': False})
                     db.session.commit()
                 
+                elif abs(difference) <= datetime.timedelta(minutes=1) and abs(difference) > datetime.timedelta(seconds=0) and checks < 0 and alert.sent == False:
+                    db.session.query(AlertSet).filter_by(alert_set_id=alert.alert_set_id).update({'checked_in': False})
+
+
                 #If there is no check in and it is 15 minutes before an alert, a reminder message is sent
                 elif abs(difference) <= datetime.timedelta(minutes=15) and abs(difference) > datetime.timedelta(minutes=14) and checks == 0 and alert.sent == False:
                     print('A CHECK-IN REMINDER IS BEING SENT NOW!')
