@@ -75,8 +75,8 @@
 
 			</div>
 		</div>
-		<div class="col-1">
-			<p style="font-family: 'Bitter', serif; font-weight: bold; font-size: 150%; {% if set.checked_in %} color: green; {% else %} color: red; {% endif %} display: inline-block;">
+		<div class='col-1'style="display: inline-block;" id="checked{{ set.alert_set_id }}">
+			<p {% if set.active == False %} class='hidden' {% else %} class='visible' {%endif%}  id="checked{{ set.alert_set_id }}" style="font-family: 'Bitter', serif; font-weight: bold; font-size: 150%; {% if set.checked_in %} color: green; {% else %} color: red; {% endif %}">
 			{% if set.checked_in == True %}
 			Yes
 			{% else %}
@@ -161,9 +161,10 @@
 	        	});
 	        	console.log("Toggle Button On is working");
 	        	$( "#count_display{{ set.alert_set_id }}" ).show();
-	        	$( "#count_display{{ set.alert_set_id }}" ).removeClass("hidden").addClass("col-7");
+	        	$( "#count_display{{ set.alert_set_id }}" ).removeClass("hidden").addClass("col-6");
 	        	$( "#countdown{{ set.alert_set_id }}").show();
 	        	$( "#countdown{{ set.alert_set_id }}").removeClass("hidden").addClass("col-6");
+	        	$( "#checked{{ set.alert_set_id }}").removeClass("hidden").addClass("visible").show();
 	        	$( "#countdown{{ set.alert_set_id }}").css("display", "inline-block");
 	        }
 
@@ -173,6 +174,7 @@
 	        	console.log("Toggle Button Off is working");
 	        	$( "#count_display{{ set.alert_set_id }}" ).hide();
 	        	$( "#countdown{{ set.alert_set_id }}").hide();
+	        	$( "#checked{{ set.alert_set_id }}").hide()
 	    	};
 	    
 	});
