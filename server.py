@@ -1556,15 +1556,15 @@ def mailin():
 
     #Access some of the email parsed values:
     sender = request.form['From']
-    send_email = request.form['sender']
+    send_address = request.form['sender']
     subject = request.form['subject']
     text = request.form['body-plain']
     body = str(text)
 
     #The user is queried using the e-mail address
-    user = User.query.filter_by(email=str.strip(send_email)).all()
+    user = User.query.filter_by(email=str.strip(send_address)).all()
     if user == []:
-        user = User.query.filter_by(email2=str.strip(send_email)).all()
+        user = User.query.filter_by(email2=str.strip(send_address)).all()
 
     if user != []:
         print("User Found by email address")
@@ -1584,12 +1584,14 @@ def mailin():
     
     if user == []:
         print("No User Was Found")
+    else:
+        send_email(send_address, "Thank You! Your Check-In has been received and logged!")
 
     #Assuming a user is found, the check-in helper-function is run
     if len(user) >= 1:
         u_id = user[0].user_id
         check_in(u_id, text)
-    print(send_email)
+    print(send_address)
     print("Email Message Received")
     return "Email Message Received"
 

@@ -19,7 +19,7 @@ def send_email(recipient, email_text):
 	"""Helper Function used to send e-mail"""
 	request_url = 'https://api.mailgun.net/v3/sw.safeworkproject.org/messages'.format(mail_sandbox)
 	request = requests.post(request_url, auth=('api', mailgun_private), data={
-						'from': 'alerts@safeworkproject.org',
+						'from': 'safe@safeworkproject.org',
 						'to': recipient,
 						'subject': 'Alert From The SafeWork Project',
 						'text': email_text
