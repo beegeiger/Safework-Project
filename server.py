@@ -1601,13 +1601,21 @@ def smsin():
     message_body = request.form['Body']
     body = str(message_body)
 
-    #Access some of the SMS parsed values:
+    # # Access some of the SMS parsed values:
     # dat = request.data
     # data = json.loads(dat.decode(encoding="utf-8", errors="strict"))
     # message_body = data['text']
     # phone = data['from']
-    
+
+    if len(number) > 10:
+        number = number[-10:]
+
+    print("Number =" + str(number))
+    print("Body =" + body)
+
+
     #The user is queried using the phone-number
+
     user = User.query.filter_by(phone=str(number)).all()
 
     if user != []:
@@ -1628,6 +1636,8 @@ def smsin():
     
     if user == []:
         print("No User Was Found")
+    else:
+        send_message(number, "Thank You " + user[0].fname + "! Your Check-In has been received and logged!")
     
     #Assuming a user is found, the check-in helper-function is run
     if len(user) >= 1:
