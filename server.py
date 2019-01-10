@@ -220,6 +220,7 @@ def check_alerts():
                     send_alert_contacts(alert.alert_id, message_body)
                     #The alert object is updates to be marked sent and inactive and its commited
                     (db.session.query(Alert).filter_by(alert_id=alert.alert_id)).update({'sent': True, 'active': False})
+                    (db.session.query(AlertSet).filter_by(alert_set_id=alert.alert_set_id)).update({'active': False})
                     db.session.commit()
                 
                 elif abs(difference) <= datetime.timedelta(minutes=1) and abs(difference) > datetime.timedelta(seconds=0) and checks < 0 and alert.sent == False:
