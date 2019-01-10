@@ -11,12 +11,55 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-10-offset-1 col-md-12">
-<h1>SafeWalk Safety Alert Sets</h1>
-<a href="/check_ins">Check-In Online and View Your Previously Logged Check-Ins</a>
-<br><br>
-<a href="/contacts">Add and Edit User Contacts Information</a>
-<br><br>
-<a href="/sw_getting_started">Go to the SafeWalk "Getting Started" page for instructions on how to use the Safewalk automatic safety alert feature.</a>
+<h1 style="text-align: center;">SafeWalk Safety Alert Sets</h1>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+<div class="container" style="background: none; width: 105%; text-align: center; margin-left: 0%; margin-right: 0%;  padding-left: 0; padding-right: 0; max-width: 100%; height: 5%; min-height: 46px;">
+        <div class="row justify-content-between" style="min-height: 46px; margin-right: 0; margin-left: 0;">
+        <div class="col-lg-10-offset-1 col-md-12 col-sm-12 text-center" style="min-height: 38px; padding-top: 4px;">
+        
+       {%- if request.path != "/sw_getting_started" %}
+        <button type="button" class="btn btn-danger myclass" onclick="location.href='/sw_getting_started';" style="background-color: white; color:red; font-family: 'Open Sans', sans-serif; font-weight: bold; height: 38px; font-size: 20px; line-height: 30px;" >SafeWalk Instructions</button>
+        {% endif %}
+
+        {%- if request.path != "/check_ins" %}
+        <button type="button" class="btn btn-danger myclass" onclick="location.href='/check_ins';" style="background-color: white; color:red;font-family: 'Open Sans', sans-serif; font-weight: bold; height: 38px; font-size: 20px; line-height: 30px;" >Check-In</button>
+        {% endif %}
+
+        {%- if request.path != "/sw_main" %}
+        <button type="button" class="btn btn-danger myclass" onclick="location.href='/sw_main';" style="color: blue; font-family: 'Open Sans', sans-serif; font-weight: bold; height: 38px; font-size: 20px; line-height: 30px;" >Main SafeWalk Page</button>
+        {% endif %}
+
+        {%- if request.path != "/contacts" %}
+        <button type="button" class="btn btn-danger myclass" onclick="location.href='/contacts';" style="background-color: white; color:red;font-family: 'Open Sans', sans-serif; font-weight: bold; height: 38px; font-size: 20px; line-height: 30px;" >Your Contacts</button>
+        {% endif %}
+        
+
+       
+
+        </div>
+        
+
+        </div>
+</div>
+
+
+
+
+
+
+
+
+
+
 
 {% block safewalk %}
 {% endblock %}
