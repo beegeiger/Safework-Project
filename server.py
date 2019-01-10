@@ -1107,7 +1107,7 @@ def get_started():
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
     con_length = len(contacts)
 
-    return render_template("getting_started_safewalk.html", contacts=contacts, con_length=con_length)
+    return render_template("getting_started_safewalk.html", contacts=contacts, con_length=con_length, timezone=user.timezone)
 
 @app.route("/rec_alerts")
 def recurring_alerts():
@@ -1117,7 +1117,7 @@ def recurring_alerts():
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
 
-    return render_template("recurring_alerts.html", contacts=contacts)
+    return render_template("recurring_alerts.html", contacts=contacts, timezone=user.timezone)
 
 @app.route("/sched_alerts")
 def scheduled_alerts():
@@ -1127,7 +1127,7 @@ def scheduled_alerts():
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
 
-    return render_template("scheduled_alerts.html", contacts=contacts)
+    return render_template("scheduled_alerts.html", contacts=contacts, timezone=user.timezone)
 
 
 @app.route("/contacts")
@@ -1243,7 +1243,7 @@ def edit_recset_page(alert_set_id):
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
     alert = Alert.query.filter_by(alert_set_id=alert_set_id).one()
 
-    return render_template("edit_recurring_alerts.html", alert_set=alert_set, contacts=contacts, alert=alert)
+    return render_template("edit_recurring_alerts.html", alert_set=alert_set, contacts=contacts, alert=alert, timezone=user.timezone)
 
 @app.route("/save_recset/<alert_set_id>", methods=["POST"])
 def save_recset(alert_set_id):
@@ -1319,7 +1319,7 @@ def edit_schedset_page(alert_set_id):
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
 
     #This information is then sent to the rendered edit page
-    return render_template("edit_sched_alerts.html", alert_set=alert_set, contacts=contacts, alerts=alerts)
+    return render_template("edit_sched_alerts.html", alert_set=alert_set, contacts=contacts, alerts=alerts, timezone=user.timezone)
 
 @app.route("/edit_set/<alert_set_id>", methods=["POST"])
 def save_schedset(alert_set_id):
