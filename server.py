@@ -1138,7 +1138,7 @@ def user_contacts():
     user = User.query.filter_by(email=session['current_user']).one()
     contacts = Contact.query.filter_by(user_id=user.user_id).order_by(asc(Contact.contact_id)).all()
 
-    return render_template("contacts.html", contacts=contacts)
+    return render_template("contacts.html", contacts=contacts, timezone=user.timezone)
 
 
 @app.route("/contacts", methods=["POST"])
@@ -1477,7 +1477,7 @@ def checkin_page():
     #The current user and check-ins are queried and the page is rendered
     user = User.query.filter_by(email=session['current_user']).one()
     check_ins = CheckIn.query.filter_by(user_id=user.user_id).all()
-    return render_template("checkins_page.html", check_ins=check_ins)
+    return render_template("checkins_page.html", check_ins=check_ins, timezone=user.timezone)
 
 @app.route("/add_check_in", methods=["POST"])
 def add_new_checkin():
