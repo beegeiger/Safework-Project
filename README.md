@@ -24,20 +24,6 @@ Currently located at safeworkproject.org
 
 -Seed Database:
 
-	-Make sure the entire line in server.py that begins with "from model import..." is commented out
-
-	-Make sure that the line in model.py "from server import app" is NOT commented out
-
-	-Run model.py ($python model.py)
-
-	-In seed.py, make sure the function calls are not commented out (and as of 6/25/18, the "add_incident_data" function call should be "add_incident_data([3, 4, 5, 6, 7, 8, 9, 10, 11])")
-
-	-Run seed.py (python seed.py)
-
-	-Comment back out the line in model.py "from server import app"
-
-	-Uncomment the entire line in server.py that begins with "from model import..."
-
 -Run server.py ($python server.py)
 
 -The app should be running on your local system!
