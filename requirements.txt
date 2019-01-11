@@ -1,7 +1,7 @@
 asyncio==3.4.3
 bandwidth-sdk==3.0.1
 bcrypt==3.1.4
-Flask==0.12
+Flask==0.12.3
 Flask-DebugToolbar==0.10.1
 Flask-Fixtures==0.3.6
 Flask-SQLAlchemy==2.2
@@ -12,7 +12,7 @@ pkg-resources==0.0.0
 psycopg2==2.7.1
 pycparser==2.19
 python-dateutil==2.7.3
-requests==2.18.4
+requests==2.20.0
 SQLAlchemy==1.1.7
-urllib3==1.22
+
 
