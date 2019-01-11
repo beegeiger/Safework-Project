@@ -349,18 +349,23 @@ def register_process():
     about_me = ""
     tagline = ""
     location = ""
+
     #Sets variables equal to the form values
     email_input = request.form['email_input']
     email2 = request.form['email_input2']
     phone = request.form['phone']
+
     pw_input = request.form['password']
     username = request.form['username']
     tagline = request.form['tagline']
     location = request.form['location']
     p_word = bytes(pw_input, 'utf-8')
     hashed_word = bcrypt.hashpw(p_word, bcrypt.gensalt()).decode('utf-8')
-    user_type = request.form['user_type']
-    second_type = request.form['2nd']
+
+    #These two categories need to be worked out better
+    # user_type = request.form['user_type']
+    # second_type = request.form['2nd']
+    
     timezone = request.form['timezone']
 
     """Checks to make sure values exist in the optional fields
@@ -374,12 +379,14 @@ def register_process():
 
     #Checking that the e-mail address field at least includes a "." and a "@"
     if "." not in email_input or "@" not in email_input:
+        print("Testing3")
         flash(email_input + " is not a valid e-mail address!")
         return render_template("register.html", email=email_input, username=username,
                                fname=fname, lname=lname, about_me=about_me)
 
     #Checking that the e-mail address hasn't already been registered
     elif User.query.filter_by(email=email_input).all() != []:
+        print("Testing4")
         flash(email_input + """This e-mail has already been registered! Either sign in with it,
                 use a different e-mail address, or reset your password if you forgot it.""")
         return render_template("register.html", email=email_input, username=username, fname=fname,
@@ -387,25 +394,28 @@ def register_process():
 
     #Checking that the username is available
     elif User.query.filter_by(username=username).all() != []:
+        print("Testing5")
         flash(email_input + "This username is already in use! Please try another one!")
         return render_template("register.html", email=email_input, username=username, fname=fname,
                                lname=lname, about_me=about_me)
 
     #Checking that the password length is at least 6
     elif len(pw_input) < 6:
+        print("Testing6")
         flash("Your password must be at least 5 characters long! Try again.")
         return render_template("register.html", email=email_input, username=username, fname=fname,
                                lname=lname, about_me=about_me)
 
     #Otherwise, the new user's information is added to the database
     else:
+        print("Testing7")
         new_user = User(email=email_input, password=hashed_word, username=username, fname=fname,
                         lname=lname, description=about_me, user_type_main=user_type,
                         user_type_secondary=second_type, tagline=tagline, location=location,
                         email2=email2, phone=phone, timezone=timezone)
         db.session.add(new_user)
         db.session.commit()
-
+    print("Testing1")
     return redirect('/login')
 
 
