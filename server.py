@@ -261,7 +261,7 @@ def start_runner():
             print('In start loop')
             try:
                 #A new GET request is sent to the server
-                r = requests.get('https://52.37.78.94.org/')
+                r = requests.get('https://safeworkproject.org/')
                 #If it is successful, it quits the start_loop() function by setting not_started to False
                 if r.status_code == 200:
                     print('Server started, quiting start_loop')
@@ -1671,6 +1671,5 @@ if __name__ == "__main__":
     print("should be working")
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     connect_to_db(app, 'postgresql:///safework')
-
     print("Connected to DB.")
-    app.run(host='52.37.78.94')
+    app.run()
