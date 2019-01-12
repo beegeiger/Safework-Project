@@ -410,8 +410,7 @@ def register_process():
     else:
         print("Testing7")
         new_user = User(email=email_input, password=hashed_word, username=username, fname=fname,
-                        lname=lname, description=about_me, user_type_main=user_type,
-                        user_type_secondary=second_type, tagline=tagline, location=location,
+                        lname=lname, description=about_me, tagline=tagline, location=location,
                         email2=email2, phone=phone, timezone=timezone)
         db.session.add(new_user)
         db.session.commit()
