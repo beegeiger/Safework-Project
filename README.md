@@ -4,6 +4,8 @@ The SafeWork Project is a sex worker support web app designed to help provide se
 
 Currently located at safeworkproject.org
 
+### Update: The SafeWork Project 2.0 is now live. It includes a feature called "SafeWalk Alerts" which can send automatic safety alerts to family/friends if a worker misses a check-in. It is also now all in Python3. Testing and Documentation desperately needs to be appended, so any work there is greatly appreciated!
+
 ## Getting Started
 
 ### Prerequisites
