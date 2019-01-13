@@ -20,13 +20,13 @@ Currently located at safeworkproject.org
 
 -Create a virtual environment ($virtualenv env) and activate it ($source env/bin/activate)
 
--Install requirements ($pip install -r requirements.txt)
+-Install requirements ($pip3 install -r requirements.txt)
 
 -Create psql database called "safework" ($createdb safework)
 
 -Seed Database:
 
--Run server.py ($python server.py)
+-Run server.py ($python3 server.py)
 
 -The app should be running on your local system!
 
