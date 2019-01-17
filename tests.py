@@ -16,110 +16,110 @@ from sqlalchemy import (update, desc)
 
 #######################################################33
 
-class safeworkIntegrationTestCase(unittest.TestCase):
-    """Integration tests for flask server for safework app."""
+# class safeworkIntegrationTestCase(unittest.TestCase):
+#     """Integration tests for flask server for safework app."""
 
-    def setUp(self):
-        print("setUp ran")
-        self.client = server.app.test_client()
-        server.app.config['TESTING'] = True
+#     def setUp(self):
+#         print("setUp ran")
+#         self.client = server.app.test_client()
+#         server.app.config['TESTING'] = True
 
-    def tearDown(self):
-        """Do at end of every test."""
+#     def tearDown(self):
+#         """Do at end of every test."""
         
-        print("tearDown ran")
+#         print("tearDown ran")
 
-    def test_homepage(self):
-        result = self.client.get('/')
-        self.assertIn('created by and for sex workers'.encode(), result.data)
+#     def test_homepage(self):
+#         result = self.client.get('/')
+#         self.assertIn('created by and for sex workers'.encode(), result.data)
 
-    def test_map_page(self):
-        result = self.client.get('/map')
-        self.assertIn('<input id="PointscheckBox" type="checkbox" checked>'.encode(), result.data)
+#     def test_map_page(self):
+#         result = self.client.get('/map')
+#         self.assertIn('<input id="PointscheckBox" type="checkbox" checked>'.encode(), result.data)
 
-    # def test_incidents(self):
-    #     result = self.client.get('/incidents.json')
-    #     self.assertIn('incidents', result.data)
+#     # def test_incidents(self):
+#     #     result = self.client.get('/incidents.json')
+#     #     self.assertIn('incidents', result.data)
 
 
-    def test_reg_page(self):
-        result = self.client.get('/register')
-        self.assertIn('Feel free to use any name, real or fake!'.encode(), result.data)
+#     def test_reg_page(self):
+#         result = self.client.get('/register')
+#         self.assertIn('Feel free to use any name, real or fake!'.encode(), result.data)
 
-    def test_login_page(self):
-        result = self.client.get('/login')
-        self.assertIn("Don't have an account?".encode(), result.data)
+#     def test_login_page(self):
+#         result = self.client.get('/login')
+#         self.assertIn("Don't have an account?".encode(), result.data)
 
-    def test_resources_page(self):
-        result = self.client.get('/resources')
-        self.assertIn("St. James Infirmiry".encode(), result.data)
+#     def test_resources_page(self):
+#         result = self.client.get('/resources')
+#         self.assertIn("St. James Infirmiry".encode(), result.data)
 
-    def test_contact_page(self):
-        result = self.client.get('/contact')
-        self.assertIn("E-mail safeworkapp@gmail.com with any comments!".encode(), result.data)
+#     def test_contact_page(self):
+#         result = self.client.get('/contact')
+#         self.assertIn("E-mail safeworkapp@gmail.com with any comments!".encode(), result.data)
 
 
 
 
 ######################################################
 
-# class safeworkTestsDatabase(unittest.TestCase):
-#     """Flask tests that use the database."""
+class safeworkTestsDatabase(unittest.TestCase):
+    """Flask tests that use the database."""
 
-#     def setUp(self):
-#         """Stuff to do before every test."""
+    def setUp(self):
+        """Stuff to do before every test."""
 
-#         # Get the Flask test client
-#         self.client = app.test_client()
-#         app.config['TESTING'] = True
+        # Get the Flask test client
+        self.client = app.test_client()
+        app.config['TESTING'] = True
 
-#         # Connect to test database
-#         connect_to_db(app, "postgresql:///testdb")
+        # Connect to test database
+        connect_to_db(app, "postgresql:///testdb")
 
-#         # Create tables and add sample data
-#         db.drop_all()
-#         db.create_all()
-#         example_data()
+        # Create tables and add sample data
+        db.drop_all()
+        db.create_all()
+        example_data()
 
-#     # def test_registration(self):
-#     #     """Testing Registration"""
-#     #     result = self.client.post("/register",
-#     #                               data={"email_input": "Testing1234@gmail.com", "password": "Testing123", "username": "Developer", "user_type": "other", "2nd": "support", "fname": "Happy", "lname": "Dopey", "about_me": "Doc"},
-#     #                               follow_redirects=True)
-#     #     self.assertIn("While you may enter the discussion forums if you are not a sex worker", result.data)
-#     #     result = self.client.post('/login',
-#     #                               data={"email_input": "Testing1234@gmail.com", "pw_input": "Testing123"},
-#     #                               follow_redirects=True)
-#     #     self.assertIn('You were successfully logged in', result.data)
+    # def test_registration(self):
+    #     """Testing Registration"""
+    #     result = self.client.post("/register",
+    #                               data={"email_input": "Testing1234@gmail.com", "password": "Testing123", "username": "Developer", "user_type": "other", "2nd": "support", "fname": "Happy", "lname": "Dopey", "about_me": "Doc"},
+    #                               follow_redirects=True)
+    #     self.assertIn("While you may enter the discussion forums if you are not a sex worker", result.data)
+    #     result = self.client.post('/login',
+    #                               data={"email_input": "Testing1234@gmail.com", "pw_input": "Testing123"},
+    #                               follow_redirects=True)
+    #     self.assertIn('You were successfully logged in', result.data)
 
 
-#     def test_login_failure(self):
-#         """Test login page."""
+    def test_login_failure(self):
+        """Test login page."""
 
-#         result = self.client.post("/login",
-#                                   data={"email_input": "Testing@gmail.com", "pw_input": "Tawdafawvcing"},
-#                                   follow_redirects=True)
-#         self.assertIn("Your e-mail or password was incorrect!", result.data)
+        result = self.client.post("/login",
+                                  data={"email_input": "Testing@gmail.com".encode(), "pw_input": "Tawdafawvcing".encode()},
+                                  follow_redirects=True)
+        self.assertIn("Your e-mail or password was incorrect!".encode(), result.data)
 
-#     def test_login_failure2(self):
-#         """Test login page."""
+    def test_login_failure2(self):
+        """Test login page."""
 
-#         result = self.client.post("/login",
-#                                   data={"email_input": "wefwefwef@gmail.com", "pw_input": "Tawdafawvcing"},
-#                                   follow_redirects=True)
-#         self.assertIn("There is no record of your e-mail address", result.data)
+        result = self.client.post("/login",
+                                  data={"email_input": "wefwefwef@gmail.com", "pw_input": "Tawdafawvcing"},
+                                  follow_redirects=True)
+        self.assertIn("There is no record of your e-mail address".encode(), result.data)
 
-#     def test_login_success(self):
-#         """Test login page."""
+    def test_login_success(self):
+        """Test login page."""
 
-#         result = self.client.post("/login",
-#                                   data={"email_input": "Testing@gmail.com", "pw_input": "Testing"},
-#                                   follow_redirects=True)
-#         self.assertIn("You were successfully logged in", result.data)
+        result = self.client.post("/login",
+                                  data={"email_input": "Testing@gmail.com", "pw_input": "Testing"},
+                                  follow_redirects=True)
+        self.assertIn("You were successfully logged in".encode(), result.data)
 
-#     def tearDown(self):
-#         """Do at end of every test."""
-#         db.session.close()
+    def tearDown(self):
+        """Do at end of every test."""
+        db.session.close()
     
 
 # ##############################################################
