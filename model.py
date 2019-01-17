@@ -368,9 +368,9 @@ def example_data():
 	f3 = Forum(forum_id=11, forum_name="Escorting", forum_type="main", forum_desc="Central Forum for all escorts to discuss Strategies.", created_by="dev", parent_forum_id=1)
 
 	#Example Users
-	u1 = User(password=bcrypt.hashpw("12356", bcrypt.gensalt()), username="LaceyKittey", fname="Lacey", lname="Kittey", email="lkitty@.com", description="Former Escort", created_at=datetime.now(), edited_at=datetime.now())
-	u2 = User(password=bcrypt.hashpw("abcdef", bcrypt.gensalt()), username="HappyDoc", fname="Happy", lname="Doc", email="HDoc@.com", description="Former Cam Model", created_at=datetime.now(), edited_at=datetime.now())
-	u3 = User(password=bcrypt.hashpw("Testing", bcrypt.gensalt()), username="Testing", fname="Dev", lname="Tester", email="Testing@gmail.com", description="Former Sugar baby", created_at=datetime.now(), edited_at=datetime.now())
+	u1 = User(password=bcrypt.hashpw("12356".encode(), bcrypt.gensalt()), username="LaceyKittey", fname="Lacey", lname="Kittey", email="lkitty@.com", description="Former Escort", created_at=datetime.now(), edited_at=datetime.now())
+	u2 = User(password=bcrypt.hashpw("abcdef".encode(), bcrypt.gensalt()), username="HappyDoc", fname="Happy", lname="Doc", email="HDoc@.com", description="Former Cam Model", created_at=datetime.now(), edited_at=datetime.now())
+	u3 = User(password=bcrypt.hashpw("Testing".encode(), bcrypt.gensalt()), username="Testing", fname="Dev", lname="Tester", email="Testing@gmail.com", description="Former Sugar baby", created_at=datetime.now(), edited_at=datetime.now())
 	
 	#Example Posts
 	p1 = Post(user_id=1, forum_id=1, username="LaceyKittey", content="Testing 123", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=0, dislike_num=0)
