@@ -44,7 +44,7 @@ class safeworkIntegrationTestCase(unittest.TestCase):
 
     def test_reg_page(self):
         result = self.client.get('/register')
-        self.assertIn('Please do not use your real name.'.encode(), result.data)
+        self.assertIn('Feel free to use any name, real or fake!'.encode(), result.data)
 
     def test_login_page(self):
         result = self.client.get('/login')
