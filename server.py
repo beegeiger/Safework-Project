@@ -1671,4 +1671,4 @@ if __name__ == "__main__":
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     connect_to_db(app, 'postgresql:///safework')
     print("Connected to DB.")
-    app.run()
+    # app.run()
