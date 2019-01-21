@@ -14,7 +14,10 @@ from sqlalchemy.ext.declarative import declarative_base
 
 # Required to use Flask sessions and the debug toolbar
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///safework'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
+db.app = app
 
 
 ################################################
@@ -416,10 +419,10 @@ def connect_to_db(app, db_uri='postgresql:///safework'):
 	"""Connect the database to our Flask app."""
 	# Configure to use our PstgreSQL database
 	print("Connecting")
-	app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///safework'
-	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+	# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///safework'
+	# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-	db.app = app
+	# db.app = app
 	db.init_app(app)
 
 if __name__ == "__main__":	
