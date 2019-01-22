@@ -22,6 +22,7 @@ from sqlalchemy import (update, asc, desc)
 from model import Forum, Post, User, Incident, Police, Source, Like, Flag, Contact, AlertSet, Alert, CheckIn, ReqCheck, connect_to_db, db, app
 import requests
 # from secrets_env import CLIENT_ID
+import logging
 
 
 db.init_app(app)
@@ -32,6 +33,12 @@ app.secret_key = "ABC"
 # Causes error messages for undefined variables in jinja
 app.jinja_env.undefined = StrictUndefined
 
+#################################################################
+
+level = logging.DEBUG
+format = '%(asctime)s %(levelname)s %(message)s'
+handlers = [logging.FileHandler('log1.log'), logging.StreamHandler()]
+logging.basicConfig(level = level, format = format, handlers = handlers)
 
 
 ####################################################################
