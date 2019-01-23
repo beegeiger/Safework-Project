@@ -1036,11 +1036,11 @@ def safewalk_main():
     now = datetime.datetime.now()
 
     #Queries the dBase for the current user and their alerts and contacts
-    if session['current_user']:
+    if 'current_user' in session:
         user = User.query.filter_by(email=session['current_user']).one()
     else:
         return redirect('/login')
-        
+
     alert_sets = AlertSet.query.filter_by(user_id=user.user_id).all()
     al_sets = []
     alerts = Alert.query.filter_by(user_id=user.user_id).all()
