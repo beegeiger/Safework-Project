@@ -1558,10 +1558,12 @@ def new_user_code():
     """Creates a new User Code"""
     
     user = User.query.filter_by(email=session['current_user']).one()
-    code = "".join(random.choices(string.ascii_uppercase + string.digits, k=4))
+    code = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
+    # code = "".join(random.choices(string.ascii_uppercase + string.digits, k=4))
     code_check = User.query.filter_by(user_code=code).all()
     while len(code_check) > 0 or "0" in code or "O" in code:
-        code = "".join(random.choices(string.ascii_uppercase + string.digits, k=4))
+        code = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
+        # code = "".join(random.choices(string.ascii_uppercase + string.digits, k=4))
         code_check = User.query.filter_by(user_code=code).all()
 
     db.session.query(User).filter_by(user_id=user.user_id).update({'user_code': code})
