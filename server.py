@@ -1526,7 +1526,7 @@ def add_new_checkin():
     #If there is at least one active alert, a message is created with that info
     if len(alert_datetimes) > 0:
         diff = datetime.datetime.now() - alert_datetimes[0]
-        minutes = diff.datetime.minutes()
+        minutes = (diff.total_seconds()) / 60
         time = alert_datetimes[0].time()
         check_time = (alert_datetimes[0] - datetime.timedelta(hours=1)).time()
         message = "Your Check-In has been received! Your next alarm is due in " + str(minutes) + " minutes, so you must check in between " + str(check_time) + " and " + str(time) + "."
