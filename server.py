@@ -37,7 +37,7 @@ app.jinja_env.undefined = StrictUndefined
 
 level = logging.DEBUG
 format = '%(asctime)s %(levelname)s %(message)s'
-handlers = [logging.FileHandler('log1.log'), logging.StreamHandler()]
+handlers = [logging.FileHandler('log2.log'), logging.StreamHandler()]
 logging.basicConfig(level = level, format = format, handlers = handlers)
 
 
