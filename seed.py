@@ -3,7 +3,7 @@ from model import (Forum, Post, User, Incident, Police, Source, Like, Flag, conn
 import requests
 from flask import (Flask, render_template, redirect, request, flash,
                    session, copy_current_request_context, jsonify, current_app)
-from flask_debugtoolbar import DebugToolbarExtension
+# from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 import datetime
@@ -12,7 +12,7 @@ from datetime import datetime
 from server import app
 import string
 import os
-from geopy import geocoders
+# from geopy import geocoders
 
 from server import app
 
