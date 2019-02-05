@@ -18,7 +18,10 @@ Currently located at safeworkproject.org
 
 -Clone/Download the repo from https://github.com/beegeiger/Safework-Project
 
--Create a virtual environment ($virtualenv env) and activate it ($source env/bin/activate)
+-Add "/env" directory to your working directory
+
+-Create a virtual environment ($sudo python3 -m venv ./env
+) and activate it ($source env/bin/activate)
 
 -Install requirements ($pip3 install -r requirements.txt)
 
