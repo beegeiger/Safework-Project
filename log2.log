@@ -1,0 +1,23 @@
+2019-02-04 18:10:31,938 DEBUG Starting new HTTPS connection (1): data.sfgov.org:443
+2019-02-04 18:10:32,864 DEBUG https://data.sfgov.org:443 "GET /resource/cuks-n6tp.json?$limit=50000&category=PROSTITUTION HTTP/1.1" 200 None
+2019-02-04 18:14:42,246 DEBUG Starting new HTTPS connection (1): moto.data.socrata.com:443
+2019-02-04 18:14:42,941 DEBUG https://moto.data.socrata.com:443 "GET /resource/bvi2-5rde.json?$where=incident_description%20like%20%27%25PROST%25%27 HTTP/1.1" 200 None
+2019-02-04 18:14:51,884 DEBUG Starting new HTTPS connection (1): moto.data.socrata.com:443
+2019-02-04 18:14:52,360 DEBUG https://moto.data.socrata.com:443 "GET /resource/nnzs-rxi5.json?$where=incident_description%20like%20%27%25PROST%25%27 HTTP/1.1" 200 None
+2019-02-04 18:14:55,277 DEBUG Starting new HTTPS connection (1): moto.data.socrata.com:443
+2019-02-04 18:14:55,777 DEBUG https://moto.data.socrata.com:443 "GET /resource/6nbc-apvm.json?$where=incident_description%20like%20%27%25PROST%25%27 HTTP/1.1" 200 None
+2019-02-04 18:14:56,360 DEBUG Starting new HTTPS connection (1): moto.data.socrata.com:443
+2019-02-04 18:14:56,859 DEBUG https://moto.data.socrata.com:443 "GET /resource/tsdt-igxn.json?$where=incident_description%20like%20%27%25PROST%25%27 HTTP/1.1" 200 None
+2019-02-04 18:14:57,270 DEBUG Starting new HTTPS connection (1): data.cityofnewyork.us:443
+2019-02-04 18:14:58,689 DEBUG https://data.cityofnewyork.us:443 "GET /resource/7x9x-zpz6.json?$where=pd_desc%20like%20%27%25PROST%25%27 HTTP/1.1" 200 None
+2019-02-04 18:14:59,333 DEBUG Starting new HTTPS connection (1): data.cityofnewyork.us:443
+2019-02-04 18:15:13,043 DEBUG https://data.cityofnewyork.us:443 "GET /resource/9s4h-37hy.json?$where=pd_desc%20like%20%27%25PROST%25%27&$limit=50000 HTTP/1.1" 200 None
+2019-02-04 18:16:38,216 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-04 18:16:38,240 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-04 18:16:38,531 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 502 182
+2019-02-04 18:16:40,545 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-04 18:16:54,905 INFO 127.0.0.1 - - [04/Feb/2019 18:16:54] "GET / HTTP/1.1" 200 -
+2019-02-04 18:16:54,932 INFO 127.0.0.1 - - [04/Feb/2019 18:16:54] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-04 18:16:54,936 INFO 127.0.0.1 - - [04/Feb/2019 18:16:54] "GET /static/img/201.jpg HTTP/1.1" 200 -
+2019-02-04 18:16:55,177 INFO 127.0.0.1 - - [04/Feb/2019 18:16:55] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-04 18:16:56,197 INFO 127.0.0.1 - - [04/Feb/2019 18:16:56] "GET /static/img/fav.png HTTP/1.1" 200 -
