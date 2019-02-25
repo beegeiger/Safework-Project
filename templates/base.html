@@ -200,8 +200,21 @@
         <div class="pos-f-t d-md-none">
           <div class="collapse" id="navbarToggleExternalContent">
             <div class="bg-dark p-4">
-              <h4 class="text-white">Collapsed content</h4>
+
+            {% if 'current_user' in session %}    
+              <h4 class="text-white"><a href="/map">Recent Arrest Map</a></h4>
+              <h4 class="text-white"><a href="/forums">Discussion Forum</a></h4>
+              
+
+            {% else %}
+
+
+
+
               <span class="text-muted">Toggleable via the navbar brand.</span>
+
+            {% endif %}  
+
             </div>
           </div>
           <nav class="navbar navbar-dark bg-dark">
