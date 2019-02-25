@@ -184,9 +184,9 @@
                     <div class="dropdown-menu" style="color: white; background: rgba(255, 0, 0, 0.8);">
                     <a  class="dropdown-item" href="/contact" style="color: white; background: rgba(255, 0, 0, 0.8);">Contact Us</a>
                     {% if 'current_user' in session %}
-                    <a  class="dropdown-item" href="/profile" style="color: white; background: rgba(255, 0, 0, 0.8);">Your Profile</button>
+                    <a  class="dropdown-item" href="/profile" style="color: white; background: rgba(255, 0, 0, 0.8);">Your Profile</a>
 
-            {% endif %}
+                    {% endif %}
                     </div>
                 </div>
 
@@ -203,7 +203,7 @@
 
             {% if 'current_user' in session %}    
               <h4 class="text-white"><a href="/map">Recent Arrest Map</a></h4>
-              <h4 class="text-white"><a href="/forums">Discussion Forum</a></h4>
+              <h4 class="text-white"><a href="/forums">Discussion Forums</a></h4>
               
 
             {% else %}
