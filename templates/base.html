@@ -164,11 +164,11 @@
 
             
             {%- if request.path != "/sw_main" %}
-            <button type="button" class="btn btn-danger d-md-inline d-sm-none d-xs-none"  onclick="location.href='/sw_main';" style="font-weight: bold; border-color: white; border-width: 3px; height: 38px; font-size: 20px; width: 235px; padding-right: 30px;" >SafeWalk Alerts <div style="margin-top: -23px; margin-right: -200px;"><b style="font-size: 15px; font-weight: bold; color: blue;">(New!)</b></div></button>
+            <button type="button" class="btn btn-danger d-md-inline d-sm-none d-xs-none"  onclick="location.href='/sw_main';" style="font-weight: bold; border-color: white; border-width: 3px; height: 38px; font-size: 20px; width: 210px; padding-right: 40px;" >SafeWalk Alerts <div style="margin-top: -23px; margin-right: -200px;"><b style="font-size: 15px; font-weight: bold; color: blue;">(New!)</b></div></button>
             {% endif %}
 
             {% if 'current_user' not in session %}
-            <button type="button" class="btn btn-danger d-md-inline d-sm-none d-xs-none" onclick="location.href='/login';" color: red; style="width: 220px; font-weight: bold; height: 38px; font-size: 20px;">Log-In/Register</button>
+            <button type="button" class="btn btn-danger d-md-inline d-sm-none d-xs-none" onclick="location.href='/login';" color: red; style="width: 190px; font-weight: bold; height: 38px; font-size: 20px;">Log-In/Register</button>
 
             {% else %}
             <button type="button" class="btn btn-danger d-md-inline d-sm-none d-xs-none" onclick="location.href='/logout';" color: red; style="width: 120px; font-weight: bold; height: 38px; font-size: 20px;">Logout</button>
@@ -178,8 +178,6 @@
 
 
                 <div class="btn-group d-md-inline d-sm-none d-xs-none">
-                <button type="button" class="btn btn-danger d-md-inline d-sm-none d-xs-none" style="font-weight: bold;  height: 38px; font-size: 20px;" >More</button>    
-                
                 <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split d-md-inline d-sm-none d-xs-none" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 38px;">
                 <span class="sr-only  d-md-block d-sm-none d-xs-none">Toggle Dropdown</span>
                 </button>

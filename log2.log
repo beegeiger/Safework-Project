@@ -179,3 +179,42 @@
 2019-02-24 17:09:24,549 INFO 127.0.0.1 - - [24/Feb/2019 17:09:24] "GET /static/img/201.jpg HTTP/1.1" 200 -
 2019-02-24 17:09:24,687 INFO 127.0.0.1 - - [24/Feb/2019 17:09:24] "GET /static/img/103.jpg HTTP/1.1" 200 -
 2019-02-24 17:09:25,019 INFO 127.0.0.1 - - [24/Feb/2019 17:09:25] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-24 17:19:09,329 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-24 17:19:09,511 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-02-24 17:19:14,468 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-24 17:19:14,631 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-02-24 17:19:36,412 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-24 17:19:36,416 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-24 17:19:36,571 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-02-24 17:19:43,327 INFO 127.0.0.1 - - [24/Feb/2019 17:19:43] "GET / HTTP/1.1" 200 -
+2019-02-24 17:19:44,160 INFO 127.0.0.1 - - [24/Feb/2019 17:19:44] "GET / HTTP/1.1" 200 -
+2019-02-24 17:19:44,180 INFO 127.0.0.1 - - [24/Feb/2019 17:19:44] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-24 17:19:44,181 INFO 127.0.0.1 - - [24/Feb/2019 17:19:44] "GET /static/img/201.jpg HTTP/1.1" 200 -
+2019-02-24 17:19:44,273 INFO 127.0.0.1 - - [24/Feb/2019 17:19:44] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-24 17:19:44,988 INFO 127.0.0.1 - - [24/Feb/2019 17:19:44] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-24 17:20:34,594 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-24 17:20:34,599 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-24 17:20:34,752 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-02-24 17:20:37,757 INFO 127.0.0.1 - - [24/Feb/2019 17:20:37] "GET / HTTP/1.1" 200 -
+2019-02-24 17:20:37,793 INFO 127.0.0.1 - - [24/Feb/2019 17:20:37] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-24 17:20:37,794 INFO 127.0.0.1 - - [24/Feb/2019 17:20:37] "GET /static/img/201.jpg HTTP/1.1" 200 -
+2019-02-24 17:20:38,685 INFO 127.0.0.1 - - [24/Feb/2019 17:20:38] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-24 17:20:38,970 INFO 127.0.0.1 - - [24/Feb/2019 17:20:38] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-24 17:22:08,848 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-24 17:22:08,997 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-02-24 17:22:15,453 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-24 17:22:15,457 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-24 17:22:15,600 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-02-24 17:22:19,299 INFO 127.0.0.1 - - [24/Feb/2019 17:22:19] "GET / HTTP/1.1" 200 -
+2019-02-24 17:22:19,324 INFO 127.0.0.1 - - [24/Feb/2019 17:22:19] "GET /static/img/201.jpg HTTP/1.1" 200 -
+2019-02-24 17:22:19,327 INFO 127.0.0.1 - - [24/Feb/2019 17:22:19] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-24 17:22:19,436 INFO 127.0.0.1 - - [24/Feb/2019 17:22:19] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-24 17:22:19,738 INFO 127.0.0.1 - - [24/Feb/2019 17:22:19] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-24 17:23:30,112 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-24 17:23:30,117 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-24 17:23:30,274 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-02-24 17:23:33,196 INFO 127.0.0.1 - - [24/Feb/2019 17:23:33] "GET / HTTP/1.1" 200 -
+2019-02-24 17:23:33,222 INFO 127.0.0.1 - - [24/Feb/2019 17:23:33] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-24 17:23:33,223 INFO 127.0.0.1 - - [24/Feb/2019 17:23:33] "GET /static/img/201.jpg HTTP/1.1" 200 -
+2019-02-24 17:23:33,324 INFO 127.0.0.1 - - [24/Feb/2019 17:23:33] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-24 17:23:33,670 INFO 127.0.0.1 - - [24/Feb/2019 17:23:33] "GET /static/img/fav.png HTTP/1.1" 200 -
