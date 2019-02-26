@@ -200,13 +200,19 @@
         <div class="pos-f-t d-md-none">
           <div class="collapse" id="navbarToggleExternalContent">
             <div class="bg-dark p-4">
-
-            {% if 'current_user' in session %}    
-              <h4 class="text-white"><a href="/map">Recent Arrest Map</a></h4>
-              <h4 class="text-white"><a href="/forums">Discussion Forums</a></h4>
+                {%- if request.path != "/" %}
+                <a href="/"><img class="d-none d-md-inline" style="height: 46px;" src="/static/img/SafeWork2.gif"></a>
+                {% endif %}
+                {% if 'current_user' in session %}    
+                <h4 class="text-white"><a href="/map">Recent Arrest Map</a></h4>
+                <h4 class="text-white"><a href="/forums">Discussion Forums</a></h4>
+                <h4 class="text-white"><a href="/sw_main">SafeWalk Safety Alerts</a></h4>
+                <h4 class="text-white"><a href="/contact">About</a></h4>
+                <h4 class="text-white"><a href="/forums">Discussion Forums</a></h4>
+                <h4 class="text-white"><a href="/logout">Log-Out</a></h4>
               
 
-            {% else %}
+                {% else %}
 
 
 
