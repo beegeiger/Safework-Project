@@ -154,7 +154,7 @@
             
             {%- if request.path != "/" %}<a href="/"><img class="d-none d-md-inline" style="height: 46px;" src="/static/img/SafeWork2.gif"></a> &nbsp &nbsp
             <!-- <button type="button" class="btn btn-danger" onclick="location.href='/';">SafeWork Homepage</button>  --> {% endif %}
-            {%- if request.path != "/map" %}
+            {% if request.path != "/map" %}
             <button type="button" class="btn btn-danger myclass d-md-inline d-sm-none d-xs-none" onclick="location.href='/map';" style="width: 70px; font-family: 'Open Sans', sans-serif; font-weight: bold; height: 38px; font-size: 20px; line-height: 30px;" >Map</button> {% endif %}
 
 
@@ -203,21 +203,50 @@
                 {%- if request.path != "/" %}
                 <a href="/"><img class="d-none d-md-inline" style="height: 46px;" src="/static/img/SafeWork2.gif"></a>
                 {% endif %}
-                {% if 'current_user' in session %}    
+                {% if 'current_user' in session %}
+
+                {% if request.path != "/map" %}
                 <h4 class="text-white"><a href="/map">Recent Arrest Map</a></h4>
+                {% endif %}
+                {% if request.path != "/forums" %}
                 <h4 class="text-white"><a href="/forums">Discussion Forums</a></h4>
+                {% endif %}
+                {% if request.path != "/sw_main" %}
                 <h4 class="text-white"><a href="/sw_main">SafeWalk Safety Alerts</a></h4>
+                {% endif %}
+                {% if request.path != "/contact" %}
                 <h4 class="text-white"><a href="/contact">About</a></h4>
-                <h4 class="text-white"><a href="/forums">Discussion Forums</a></h4>
+                {% endif %}
+                {% if request.path != "/profile" %}
+                <h4 class="text-white"><a href="/profile">Your Profile</a></h4>
+                {% endif %}
+
                 <h4 class="text-white"><a href="/logout">Log-Out</a></h4>
               
+                <button type="button" class="btn btn-info btn-sm d-none d-xl-inline" data-toggle="modal" data-target="#myModal" style="max-height: 30px; margin-bottom: 2px; margin-left: 40px; max-width: 222px; font-size: 10px; font-weight: bold;">Something Wrong?</button>
 
                 {% else %}
 
+                {% if request.path != "/map" %}
+                <h4 class="text-white"><a href="/map">Recent Arrest Map</a></h4>
+                {% endif %}
+                {% if request.path != "/forums" %}
+                <span class="text-muted"><a href="/forums">Discussion Forums</a></span>
+                {% endif %}
+                {% if request.path != "/sw_main" %}
+                <span class="text-muted"><a href="/sw_main">SafeWalk Safety Alerts</a><</span>
+                {% endif %}
+                {% if request.path != "/contact" %}
+                <h4 class="text-white"><a href="/contact">About</a></h4>
+                {% endif %}
+                {% if request.path != "/profile" %}
+                <span class="text-muted"><a href="/profile">Your Profile</a><</span>
+                {% endif %}
 
+                <h4 class="text-white"><a href="/login">Log-In/Register</a></h4>
 
+                <button type="button" class="btn btn-info btn-sm d-none d-xl-inline" data-toggle="modal" data-target="#myModal" style="max-height: 30px; margin-bottom: 2px; margin-left: 40px; max-width: 222px; font-size: 10px; font-weight: bold;">Something Wrong?</button>
 
-              <span class="text-muted">Toggleable via the navbar brand.</span>
 
             {% endif %}  
 
