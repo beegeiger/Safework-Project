@@ -267,3 +267,137 @@
 2019-02-25 13:36:25,740 INFO 127.0.0.1 - - [25/Feb/2019 13:36:25] "GET / HTTP/1.1" 200 -
 2019-02-25 13:37:37,884 INFO 127.0.0.1 - - [25/Feb/2019 13:37:37] "GET / HTTP/1.1" 200 -
 2019-02-25 13:37:50,450 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-02-26 17:58:36,697 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 17:58:36,702 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 17:58:36,968 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-02-26 17:58:44,493 INFO 127.0.0.1 - - [26/Feb/2019 17:58:44] "GET / HTTP/1.1" 200 -
+2019-02-26 17:58:44,538 INFO 127.0.0.1 - - [26/Feb/2019 17:58:44] "GET /static/img/SafeWork2.gif HTTP/1.1" 304 -
+2019-02-26 17:58:44,539 INFO 127.0.0.1 - - [26/Feb/2019 17:58:44] "GET /static/img/201.jpg HTTP/1.1" 304 -
+2019-02-26 17:58:44,627 INFO 127.0.0.1 - - [26/Feb/2019 17:58:44] "GET /static/img/103.jpg HTTP/1.1" 304 -
+2019-02-26 17:59:50,246 INFO 127.0.0.1 - - [26/Feb/2019 17:59:50] "GET /logout HTTP/1.1" 302 -
+2019-02-26 17:59:50,252 INFO 127.0.0.1 - - [26/Feb/2019 17:59:50] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:00:33,111 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:00:33,119 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:00:44,630 INFO 127.0.0.1 - - [26/Feb/2019 18:00:44] "GET / HTTP/1.1" 200 -
+2019-02-26 18:01:42,931 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:01:42,935 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:01:44,804 INFO 127.0.0.1 - - [26/Feb/2019 18:01:44] "GET / HTTP/1.1" 200 -
+2019-02-26 18:01:44,833 INFO 127.0.0.1 - - [26/Feb/2019 18:01:44] "GET /static/img/201.jpg HTTP/1.1" 200 -
+2019-02-26 18:01:44,837 INFO 127.0.0.1 - - [26/Feb/2019 18:01:44] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:01:44,949 INFO 127.0.0.1 - - [26/Feb/2019 18:01:44] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:01:45,176 INFO 127.0.0.1 - - [26/Feb/2019 18:01:45] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:01:48,199 INFO 127.0.0.1 - - [26/Feb/2019 18:01:48] "GET /forums HTTP/1.1" 302 -
+2019-02-26 18:01:48,204 INFO 127.0.0.1 - - [26/Feb/2019 18:01:48] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:03:10,055 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:03:10,060 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:03:12,074 INFO 127.0.0.1 - - [26/Feb/2019 18:03:12] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:03:12,099 INFO 127.0.0.1 - - [26/Feb/2019 18:03:12] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:03:12,617 INFO 127.0.0.1 - - [26/Feb/2019 18:03:12] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:03:12,806 INFO 127.0.0.1 - - [26/Feb/2019 18:03:12] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:05:18,665 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:05:18,669 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:05:20,737 INFO 127.0.0.1 - - [26/Feb/2019 18:05:20] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:05:20,752 INFO 127.0.0.1 - - [26/Feb/2019 18:05:20] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:05:20,891 INFO 127.0.0.1 - - [26/Feb/2019 18:05:20] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:05:21,067 INFO 127.0.0.1 - - [26/Feb/2019 18:05:21] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:05:52,056 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:05:52,061 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:05:53,684 INFO 127.0.0.1 - - [26/Feb/2019 18:05:53] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:05:53,715 INFO 127.0.0.1 - - [26/Feb/2019 18:05:53] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:05:53,843 INFO 127.0.0.1 - - [26/Feb/2019 18:05:53] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:05:54,067 INFO 127.0.0.1 - - [26/Feb/2019 18:05:54] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:08:01,737 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-02-26 18:08:04,999 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:08:05,005 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:08:06,508 INFO 127.0.0.1 - - [26/Feb/2019 18:08:06] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:08:06,525 INFO 127.0.0.1 - - [26/Feb/2019 18:08:06] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:08:06,673 INFO 127.0.0.1 - - [26/Feb/2019 18:08:06] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:08:06,969 INFO 127.0.0.1 - - [26/Feb/2019 18:08:06] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:10:13,952 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:10:13,958 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:10:15,601 INFO 127.0.0.1 - - [26/Feb/2019 18:10:15] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:10:15,636 INFO 127.0.0.1 - - [26/Feb/2019 18:10:15] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:10:15,762 INFO 127.0.0.1 - - [26/Feb/2019 18:10:15] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:10:16,019 INFO 127.0.0.1 - - [26/Feb/2019 18:10:16] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:11:24,003 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:11:24,011 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:11:26,265 INFO 127.0.0.1 - - [26/Feb/2019 18:11:26] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:11:26,304 INFO 127.0.0.1 - - [26/Feb/2019 18:11:26] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:11:26,433 INFO 127.0.0.1 - - [26/Feb/2019 18:11:26] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:11:26,660 INFO 127.0.0.1 - - [26/Feb/2019 18:11:26] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:12:42,923 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:12:42,929 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:12:44,656 INFO 127.0.0.1 - - [26/Feb/2019 18:12:44] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:12:44,683 INFO 127.0.0.1 - - [26/Feb/2019 18:12:44] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:12:44,819 INFO 127.0.0.1 - - [26/Feb/2019 18:12:44] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:12:45,066 INFO 127.0.0.1 - - [26/Feb/2019 18:12:45] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:13:02,424 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:13:02,429 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:13:03,852 INFO 127.0.0.1 - - [26/Feb/2019 18:13:03] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:13:03,885 INFO 127.0.0.1 - - [26/Feb/2019 18:13:03] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:13:04,018 INFO 127.0.0.1 - - [26/Feb/2019 18:13:04] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:13:04,283 INFO 127.0.0.1 - - [26/Feb/2019 18:13:04] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:14:05,766 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:14:05,774 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:14:07,352 INFO 127.0.0.1 - - [26/Feb/2019 18:14:07] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:14:07,375 INFO 127.0.0.1 - - [26/Feb/2019 18:14:07] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:14:07,508 INFO 127.0.0.1 - - [26/Feb/2019 18:14:07] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:14:07,778 INFO 127.0.0.1 - - [26/Feb/2019 18:14:07] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:14:22,150 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:14:22,155 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:14:25,254 INFO 127.0.0.1 - - [26/Feb/2019 18:14:25] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:14:25,300 INFO 127.0.0.1 - - [26/Feb/2019 18:14:25] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:14:25,406 INFO 127.0.0.1 - - [26/Feb/2019 18:14:25] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:14:25,707 INFO 127.0.0.1 - - [26/Feb/2019 18:14:25] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:15:46,517 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:15:46,521 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:15:47,885 INFO 127.0.0.1 - - [26/Feb/2019 18:15:47] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:15:47,910 INFO 127.0.0.1 - - [26/Feb/2019 18:15:47] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:15:48,081 INFO 127.0.0.1 - - [26/Feb/2019 18:15:48] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:15:48,436 INFO 127.0.0.1 - - [26/Feb/2019 18:15:48] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:16:35,222 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:16:35,228 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:16:36,752 INFO 127.0.0.1 - - [26/Feb/2019 18:16:36] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:16:36,784 INFO 127.0.0.1 - - [26/Feb/2019 18:16:36] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:16:36,926 INFO 127.0.0.1 - - [26/Feb/2019 18:16:36] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:16:37,278 INFO 127.0.0.1 - - [26/Feb/2019 18:16:37] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:17:06,681 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:17:06,686 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:17:07,997 INFO 127.0.0.1 - - [26/Feb/2019 18:17:07] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:17:08,021 INFO 127.0.0.1 - - [26/Feb/2019 18:17:08] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:17:08,161 INFO 127.0.0.1 - - [26/Feb/2019 18:17:08] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:17:08,406 INFO 127.0.0.1 - - [26/Feb/2019 18:17:08] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:17:52,301 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:17:52,306 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:17:53,812 INFO 127.0.0.1 - - [26/Feb/2019 18:17:53] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:17:53,848 INFO 127.0.0.1 - - [26/Feb/2019 18:17:53] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:17:53,971 INFO 127.0.0.1 - - [26/Feb/2019 18:17:53] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:17:54,281 INFO 127.0.0.1 - - [26/Feb/2019 18:17:54] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:18:05,361 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:18:05,365 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:18:06,830 INFO 127.0.0.1 - - [26/Feb/2019 18:18:06] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:18:06,857 INFO 127.0.0.1 - - [26/Feb/2019 18:18:06] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:18:06,981 INFO 127.0.0.1 - - [26/Feb/2019 18:18:06] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:18:07,222 INFO 127.0.0.1 - - [26/Feb/2019 18:18:07] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:18:09,649 INFO 127.0.0.1 - - [26/Feb/2019 18:18:09] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:18:09,688 INFO 127.0.0.1 - - [26/Feb/2019 18:18:09] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:18:09,809 INFO 127.0.0.1 - - [26/Feb/2019 18:18:09] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:18:10,071 INFO 127.0.0.1 - - [26/Feb/2019 18:18:10] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:18:45,748 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:18:45,753 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:18:47,150 INFO 127.0.0.1 - - [26/Feb/2019 18:18:47] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:18:47,182 INFO 127.0.0.1 - - [26/Feb/2019 18:18:47] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:18:47,320 INFO 127.0.0.1 - - [26/Feb/2019 18:18:47] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:18:47,618 INFO 127.0.0.1 - - [26/Feb/2019 18:18:47] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:19:01,256 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:19:01,262 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:19:02,423 INFO 127.0.0.1 - - [26/Feb/2019 18:19:02] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:19:02,458 INFO 127.0.0.1 - - [26/Feb/2019 18:19:02] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:19:02,593 INFO 127.0.0.1 - - [26/Feb/2019 18:19:02] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:19:02,863 INFO 127.0.0.1 - - [26/Feb/2019 18:19:02] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-02-26 18:19:29,708 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-02-26 18:19:29,714 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-02-26 18:19:30,928 INFO 127.0.0.1 - - [26/Feb/2019 18:19:30] "GET /login HTTP/1.1" 200 -
+2019-02-26 18:19:30,952 INFO 127.0.0.1 - - [26/Feb/2019 18:19:30] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-02-26 18:19:31,073 INFO 127.0.0.1 - - [26/Feb/2019 18:19:31] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-02-26 18:19:31,379 INFO 127.0.0.1 - - [26/Feb/2019 18:19:31] "GET /static/img/fav.png HTTP/1.1" 200 -

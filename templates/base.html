@@ -155,12 +155,12 @@
             {%- if request.path != "/" %}<a href="/"><img class="d-none d-md-inline" style="height: 46px;" src="/static/img/SafeWork2.gif"></a> &nbsp &nbsp
             <!-- <button type="button" class="btn btn-danger" onclick="location.href='/';">SafeWork Homepage</button>  --> {% endif %}
             {% if request.path != "/map" %}
-            <button type="button" class="btn btn-danger myclass d-md-inline d-sm-none d-xs-none" onclick="location.href='/map';" style="width: 70px; font-family: 'Open Sans', sans-serif; font-weight: bold; height: 38px; font-size: 20px; line-height: 30px;" >Map</button> {% endif %}
+            <button type="button" class="btn btn-danger myclass d-md-inline d-sm-none d-xs-none" onclick="location.href='/map';" style="width: 55px; font-family: 'Open Sans', sans-serif; font-weight: bold; height: 38px; font-size: 20px; line-height: 30px; padding-left: 8px;" >Map</button> {% endif %}
 
 
 
             {%- if request.path != "/forums" %}
-            <button type="button" class="btn btn-danger d-md-inline d-sm-none d-xs-none" onclick="location.href='/forums';" color: red; style="width: 220px; font-weight: bold; height: 38px; font-size: 20px;" >Discussion Forums</button> {% endif %}
+            <button type="button" class="btn btn-danger d-md-inline d-sm-none d-xs-none" onclick="location.href='/forums';" color: red; style="width: 205px; font-weight: bold; height: 38px; font-size: 20px;" >Discussion Forums</button> {% endif %}
 
             
             {%- if request.path != "/sw_main" %}
@@ -168,7 +168,7 @@
             {% endif %}
 
             {% if 'current_user' not in session %}
-            <button type="button" class="btn btn-danger d-md-inline d-sm-none d-xs-none" onclick="location.href='/login';" color: red; style="width: 190px; font-weight: bold; height: 38px; font-size: 20px;">Log-In/Register</button>
+            <button type="button" class="btn btn-danger d-md-inline d-sm-none d-xs-none" onclick="location.href='/login';" color: red; style="width: 165px; font-weight: bold; height: 38px; font-size: 20px;">Log-In/Register</button>
 
             {% else %}
             <button type="button" class="btn btn-danger d-md-inline d-sm-none d-xs-none" onclick="location.href='/logout';" color: red; style="width: 120px; font-weight: bold; height: 38px; font-size: 20px;">Logout</button>
@@ -199,59 +199,62 @@
 
         <div class="pos-f-t d-md-none">
           <div class="collapse" id="navbarToggleExternalContent">
-            <div class="bg-dark p-4">
+            <div class="bg-dark p-4" style="text-align: left">
+                
                 {%- if request.path != "/" %}
-                <a href="/"><img class="d-none d-md-inline" style="height: 46px;" src="/static/img/SafeWork2.gif"></a>
+                <a href="/"><img style="height: 90px; display:block;" src="/static/img/SafeWork2.gif"></a>
                 {% endif %}
                 {% if 'current_user' in session %}
 
                 {% if request.path != "/map" %}
-                <h4 class="text-white"><a href="/map">Recent Arrest Map</a></h4>
+                <h4 class="text-white" style="text-align: left"><a href="/map" >Recent Arrest Map</a></h4>
                 {% endif %}
                 {% if request.path != "/forums" %}
-                <h4 class="text-white"><a href="/forums">Discussion Forums</a></h4>
+                <h4 class="text-white" style="text-align: left"><a href="/forums">Discussion Forums</a></h4>
                 {% endif %}
                 {% if request.path != "/sw_main" %}
-                <h4 class="text-white"><a href="/sw_main">SafeWalk Safety Alerts</a></h4>
+                <h4 class="text-white" style="text-align: left"><a href="/sw_main">SafeWalk Safety Alerts</a></h4>
                 {% endif %}
                 {% if request.path != "/contact" %}
-                <h4 class="text-white"><a href="/contact">About</a></h4>
+                <h4 class="text-white" style="text-align: left"><a href="/contact">About</a></h4>
                 {% endif %}
                 {% if request.path != "/profile" %}
-                <h4 class="text-white"><a href="/profile">Your Profile</a></h4>
+                <h4 class="text-white" style="text-align: left"><a href="/profile">Your Profile</a></h4>
                 {% endif %}
 
-                <h4 class="text-white"><a href="/logout">Log-Out</a></h4>
+                <h4 class="text-white" style="text-align: left"><a href="/logout">Log-Out</a></h4>
               
-                <button type="button" class="btn btn-info btn-sm d-none d-xl-inline" data-toggle="modal" data-target="#myModal" style="max-height: 30px; margin-bottom: 2px; margin-left: 40px; max-width: 222px; font-size: 10px; font-weight: bold;">Something Wrong?</button>
+                <button type="button" class="btn btn-info btn-sm d-xl-inline" data-toggle="modal" data-target="#myModal" style="max-height: 30px; margin-bottom: 2px; max-width: 222px; font-size: 10px; font-weight: bold;">Something Wrong?</button>
 
                 {% else %}
 
                 {% if request.path != "/map" %}
-                <h4 class="text-white"><a href="/map">Recent Arrest Map</a></h4>
+                <h4 class="text-white" style="text-align: left"><a href="/map">Recent Arrest Map</a></h4>
                 {% endif %}
                 {% if request.path != "/forums" %}
-                <span class="text-muted"><a href="/forums">Discussion Forums</a></span>
+                <h4 class="text-white" style="text-align: left"><span class="text-muted"><a href="/forums" style="color: grey; ">Discussion Forums</a></span></h4>
                 {% endif %}
                 {% if request.path != "/sw_main" %}
-                <span class="text-muted"><a href="/sw_main">SafeWalk Safety Alerts</a><</span>
+                <h4 class="text-white" style="text-align: left"><span class="text-muted"><a href="/sw_main"  style="color: grey;">SafeWalk Safety Alerts</a></span></h4>
                 {% endif %}
                 {% if request.path != "/contact" %}
-                <h4 class="text-white"><a href="/contact">About</a></h4>
+                <h4 class="text-white" style="text-align: left"><a href="/contact">About</a></h4>
                 {% endif %}
                 {% if request.path != "/profile" %}
-                <span class="text-muted"><a href="/profile">Your Profile</a><</span>
+                <h4 class="text-white" style="text-align: left"><span class="text-muted"><a href="/profile"  style="color: grey;">Your Profile</a></span></h4>
                 {% endif %}
 
-                <h4 class="text-white"><a href="/login">Log-In/Register</a></h4>
+                <h4 class="text-white" style="text-align: left"><a href="/login">Log-In/Register</a></h4>
 
-                <button type="button" class="btn btn-info btn-sm d-none d-xl-inline" data-toggle="modal" data-target="#myModal" style="max-height: 30px; margin-bottom: 2px; margin-left: 40px; max-width: 222px; font-size: 10px; font-weight: bold;">Something Wrong?</button>
+               
 
 
-            {% endif %}  
+            {% endif %} 
+                <button type="button" class="btn btn-info btn-sm d-xl-inline" data-toggle="modal" data-target="#myModal" style="max-height: 35px;  max-width: 300px; font-size: 12px; font-weight: bold;">Something Wrong?</button>
 
+                </div>
             </div>
-          </div>
+          
           <nav class="navbar navbar-dark bg-dark">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
