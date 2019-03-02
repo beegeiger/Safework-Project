@@ -14,12 +14,13 @@
 <div class="container">
 <div class="row" style="width: 100%;">
 <div class="col-lg-6-offset-3 col-md-8-offset-2 col-sm-10-offset-1 col-xs-12">	
-	<form action="/register" method="POST"><br>
+	<form action="/register" method="POST" id="reg_form"><br>
 	
 		<b>E-mail:</b><b style="color: red;">*</b> <input type=textbox name="email_input"  value="{{ email }}" required></input><br><br>
 		<b>Username:</b><b style="color: red;">*</b> <input type=textbox name="username" value="{{ username }}" required><br><br>
-		<b>Password</b> (at least 6 characters):<b style="color: red;">*</b> <input type=password name="password" id="myInput" required></input><br>
+		<b>Password</b> (at least 6 characters):<b style="color: red;">*</b> <input type=password name="password" id="password" required></input><br>
 		<input type="checkbox" onclick="myFunction()">Show Password<br><br>
+		<b>Confirm Password</b>:<b style="color: red;">*</b> <input type=password name="password2" id="password2" required></input><br><br>
 		(Feel free to use any name, real or fake!)<br>
 		<b>First name: <b style="color: red;">*</b></b><input type=textbox name="fname" value="{{ fname }}" required></input>&nbsp &nbsp<b>Last name:</b><input type=textbox name="lname" value={{ lname }}></input><br><br>
 
@@ -170,13 +171,22 @@
 });
 
 function myFunction() {
-    var x = document.getElementById("myInput");
+    var x = document.getElementById("password");
     if (x.type === "password") {
         x.type = "text";
     } else {
         x.type = "password";
     }
 }
+
+$( "#reg_form" ).validate({
+  rules: {
+    password: "required",
+    password2: {
+      equalTo: "#password"
+    }
+  }
+});
 
 // 	$(document).ready(function() {
 //     $('input[type=radio][name=2nd]').change(function() {
