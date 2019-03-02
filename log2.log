@@ -401,3 +401,159 @@
 2019-02-26 18:19:30,952 INFO 127.0.0.1 - - [26/Feb/2019 18:19:30] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
 2019-02-26 18:19:31,073 INFO 127.0.0.1 - - [26/Feb/2019 18:19:31] "GET /static/img/103.jpg HTTP/1.1" 200 -
 2019-02-26 18:19:31,379 INFO 127.0.0.1 - - [26/Feb/2019 18:19:31] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-03-02 15:09:48,479 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-02 15:09:48,485 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-03-02 15:09:48,794 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-03-02 15:09:57,513 INFO 127.0.0.1 - - [02/Mar/2019 15:09:57] "GET / HTTP/1.1" 200 -
+2019-03-02 15:09:57,560 INFO 127.0.0.1 - - [02/Mar/2019 15:09:57] "GET /static/img/SafeWork2.gif HTTP/1.1" 304 -
+2019-03-02 15:09:57,560 INFO 127.0.0.1 - - [02/Mar/2019 15:09:57] "GET /static/img/201.jpg HTTP/1.1" 200 -
+2019-03-02 15:09:57,663 INFO 127.0.0.1 - - [02/Mar/2019 15:09:57] "GET /static/img/103.jpg HTTP/1.1" 304 -
+2019-03-02 15:10:00,540 INFO 127.0.0.1 - - [02/Mar/2019 15:10:00] "GET /login HTTP/1.1" 200 -
+2019-03-02 15:10:03,398 INFO 127.0.0.1 - - [02/Mar/2019 15:10:03] "GET /register HTTP/1.1" 200 -
+2019-03-02 15:10:27,788 ERROR Exception on /register [POST]
+Traceback (most recent call last):
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1182, in _execute_context
+    context)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 470, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.ProgrammingError: column users.reset_datetime does not exist
+LINE 1: ...ne AS users_timezone, users.phone AS users_phone, users.rese...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "server.py", line 395, in register_process
+    elif User.query.filter_by(email=email_input).all() != []:
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 2703, in all
+    return list(self)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 2855, in __iter__
+    return self._execute_and_instances(context)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 2878, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 945, in execute
+    return meth(self, multiparams, params)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 263, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1053, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1189, in _execute_context
+    context)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1394, in _handle_dbapi_exception
+    exc_info
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 203, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 186, in reraise
+    raise value.with_traceback(tb)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1182, in _execute_context
+    context)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 470, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.ProgrammingError) column users.reset_datetime does not exist
+LINE 1: ...ne AS users_timezone, users.phone AS users_phone, users.rese...
+                                                             ^
+ [SQL: 'SELECT users.user_id AS users_user_id, users.user_code AS users_user_code, users.password AS users_password, users.username AS users_username, users.fname AS users_fname, users.lname AS users_lname, users.email AS users_email, users.email2 AS users_email2, users.description AS users_description, users.picture AS users_picture, users.created_at AS users_created_at, users.edited_at AS users_edited_at, users.user_type_main AS users_user_type_main, users.user_type_secondary AS users_user_type_secondary, users.tagline AS users_tagline, users.location AS users_location, users.user_type AS users_user_type, users.timezone AS users_timezone, users.phone AS users_phone, users.reset_datetime AS users_reset_datetime, users.reset_code AS users_reset_code \nFROM users \nWHERE users.email = %(email_1)s'] [parameters: {'email_1': '123456@gmail.com'}]
+2019-03-02 15:10:27,795 INFO 127.0.0.1 - - [02/Mar/2019 15:10:27] "POST /register HTTP/1.1" 500 -
+2019-03-02 15:10:27,945 INFO 127.0.0.1 - - [02/Mar/2019 15:10:27] "GET /favicon.ico HTTP/1.1" 404 -
+2019-03-02 15:11:34,703 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-02 15:11:38,328 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-02 15:12:07,062 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-02 15:12:07,067 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-03-02 15:12:21,624 ERROR Exception on /register [POST]
+Traceback (most recent call last):
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1182, in _execute_context
+    context)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 470, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.ProgrammingError: column users.reset_datetime does not exist
+LINE 1: ...ne AS users_timezone, users.phone AS users_phone, users.rese...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "server.py", line 395, in register_process
+    elif User.query.filter_by(email=email_input).all() != []:
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 2703, in all
+    return list(self)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 2855, in __iter__
+    return self._execute_and_instances(context)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 2878, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 945, in execute
+    return meth(self, multiparams, params)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 263, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1053, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1189, in _execute_context
+    context)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1394, in _handle_dbapi_exception
+    exc_info
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 203, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 186, in reraise
+    raise value.with_traceback(tb)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1182, in _execute_context
+    context)
+  File "/home/dorothybee/src/safework/env3/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 470, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.ProgrammingError) column users.reset_datetime does not exist
+LINE 1: ...ne AS users_timezone, users.phone AS users_phone, users.rese...
+                                                             ^
+ [SQL: 'SELECT users.user_id AS users_user_id, users.user_code AS users_user_code, users.password AS users_password, users.username AS users_username, users.fname AS users_fname, users.lname AS users_lname, users.email AS users_email, users.email2 AS users_email2, users.description AS users_description, users.picture AS users_picture, users.created_at AS users_created_at, users.edited_at AS users_edited_at, users.user_type_main AS users_user_type_main, users.user_type_secondary AS users_user_type_secondary, users.tagline AS users_tagline, users.location AS users_location, users.user_type AS users_user_type, users.timezone AS users_timezone, users.phone AS users_phone, users.reset_datetime AS users_reset_datetime, users.reset_code AS users_reset_code \nFROM users \nWHERE users.email = %(email_1)s'] [parameters: {'email_1': '123456@gmail.com'}]
+2019-03-02 15:12:21,627 INFO 127.0.0.1 - - [02/Mar/2019 15:12:21] "POST /register HTTP/1.1" 500 -
+2019-03-02 15:13:32,211 DEBUG Starting new HTTPS connection (1): data.sfgov.org:443
+2019-03-02 15:13:33,230 DEBUG https://data.sfgov.org:443 "GET /resource/cuks-n6tp.json?$limit=50000&category=PROSTITUTION HTTP/1.1" 200 None
+2019-03-02 15:14:58,754 DEBUG Starting new HTTPS connection (1): moto.data.socrata.com:443
+2019-03-02 15:14:59,382 DEBUG https://moto.data.socrata.com:443 "GET /resource/bvi2-5rde.json?$where=incident_description%20like%20%27%25PROST%25%27 HTTP/1.1" 200 None
+2019-03-02 15:15:02,309 DEBUG Starting new HTTPS connection (1): moto.data.socrata.com:443
+2019-03-02 15:15:03,273 DEBUG https://moto.data.socrata.com:443 "GET /resource/nnzs-rxi5.json?$where=incident_description%20like%20%27%25PROST%25%27 HTTP/1.1" 200 None
+2019-03-02 15:15:04,386 DEBUG Starting new HTTPS connection (1): moto.data.socrata.com:443
+2019-03-02 15:15:05,194 DEBUG https://moto.data.socrata.com:443 "GET /resource/6nbc-apvm.json?$where=incident_description%20like%20%27%25PROST%25%27 HTTP/1.1" 200 None
+2019-03-02 15:15:05,419 DEBUG Starting new HTTPS connection (1): moto.data.socrata.com:443
+2019-03-02 15:15:05,863 DEBUG https://moto.data.socrata.com:443 "GET /resource/tsdt-igxn.json?$where=incident_description%20like%20%27%25PROST%25%27 HTTP/1.1" 200 None
+2019-03-02 15:15:06,008 DEBUG Starting new HTTPS connection (1): data.cityofnewyork.us:443
+2019-03-02 15:15:07,887 DEBUG https://data.cityofnewyork.us:443 "GET /resource/7x9x-zpz6.json?$where=pd_desc%20like%20%27%25PROST%25%27 HTTP/1.1" 200 None
+2019-03-02 15:15:08,071 DEBUG Starting new HTTPS connection (1): data.cityofnewyork.us:443
+2019-03-02 15:15:20,000 DEBUG https://data.cityofnewyork.us:443 "GET /resource/9s4h-37hy.json?$where=pd_desc%20like%20%27%25PROST%25%27&$limit=50000 HTTP/1.1" 200 None
+2019-03-02 15:23:42,294 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-02 15:24:20,148 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-02 15:24:20,152 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-03-02 15:24:22,566 INFO 127.0.0.1 - - [02/Mar/2019 15:24:22] "GET /register HTTP/1.1" 200 -
+2019-03-02 15:24:22,612 INFO 127.0.0.1 - - [02/Mar/2019 15:24:22] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-03-02 15:24:22,774 INFO 127.0.0.1 - - [02/Mar/2019 15:24:22] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-03-02 15:24:23,934 INFO 127.0.0.1 - - [02/Mar/2019 15:24:23] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-03-02 15:24:59,924 INFO 127.0.0.1 - - [02/Mar/2019 15:24:59] "POST /register HTTP/1.1" 302 -
+2019-03-02 15:24:59,931 INFO 127.0.0.1 - - [02/Mar/2019 15:24:59] "GET /login HTTP/1.1" 200 -
+2019-03-02 15:26:30,780 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-03-02 15:28:06,310 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-02 15:28:06,316 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-03-02 15:28:09,753 INFO 127.0.0.1 - - [02/Mar/2019 15:28:09] "GET /register HTTP/1.1" 200 -
+2019-03-02 15:28:44,992 INFO 127.0.0.1 - - [02/Mar/2019 15:28:44] "POST /register HTTP/1.1" 200 -

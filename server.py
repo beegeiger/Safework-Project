@@ -363,6 +363,8 @@ def register_process():
     phone = request.form['phone']
 
     pw_input = request.form['password']
+    password2 = request.form['password2']
+
     username = request.form['username']
     tagline = request.form['tagline']
     location = request.form['location']
@@ -375,6 +377,12 @@ def register_process():
     
     timezone = request.form['timezone']
 
+
+    if pw_input != password2:
+        flash("Your passwords don't match!")
+        return render_template("register.html", email=email_input, username=username, fname=fname,
+                               lname=lname, about_me=about_me)
+    
     """Checks to make sure values exist in the optional fields
                 before setting the variables equal to the form values"""
     if len(request.form['fname']) >= 1:
@@ -1686,8 +1694,8 @@ def pass_code():
 def pass_change():
     return redirect("/check_ins")
 
-@app.route("/login", methods=["GET"])
-def log_in():
+@app.route("/pass_page", methods=["GET"])
+def pass_page():
 
     return render_template("reset.html")
 
