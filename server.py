@@ -1674,9 +1674,22 @@ def smsin():
     print("SMS Received")
     return "SMS Received"
 
-@app.route('/reset_password', methods=['POST'])
+@app.route('/pass_reset', methods=['POST'])
 def pass_reset():
     return redirect("/check_ins")
+
+@app.route('/pass_code', methods=['POST'])
+def pass_code():
+    return redirect("/check_ins")
+
+@app.route('/pass_change', methods=['POST'])
+def pass_change():
+    return redirect("/check_ins")
+
+@app.route("/login", methods=["GET"])
+def log_in():
+
+    return render_template("reset.html")
 
 #####################################################
 
