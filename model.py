@@ -91,11 +91,13 @@ class User(db.Model):
 	user_type = db.Column(db.String(50), default="regular")
 	timezone = db.Column(db.String(48))
 	phone = db.Column(db.String(28), nullable=True)
+	reset_datetime = db.Column(db.DateTime, nullable=True)
+	reset_code = db.Column(db.String(16), nullable=True)
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<user_id={} user_code={} password={} username={} fname={} lname={} email={} description={} picture={} created_at={} edited_at={} user_type_main={} user_type_secondary={}> tagline={} location={} user_type={}>".format(
-			self.user_id, self.user_code, self.password, self.username, self.fname, self.lname, self.email, self.description, self.picture, self.created_at, self.edited_at, self.user_type_main, self.user_type_secondary, self.tagline, self.location, self.user_type)
+		return "<user_id={} user_code={} password={} username={} fname={} lname={} email={} description={} picture={} created_at={} edited_at={} user_type_main={} user_type_secondary={}> tagline={} location={} user_type={} reset_datetime={} reset_code={}>".format(
+			self.user_id, self.user_code, self.password, self.username, self.fname, self.lname, self.email, self.description, self.picture, self.created_at, self.edited_at, self.user_type_main, self.user_type_secondary, self.tagline, self.location, self.user_type, self.reset_datetime, self.reset_code)
 
 
 class Incident(db.Model):
