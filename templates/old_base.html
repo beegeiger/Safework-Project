@@ -1,0 +1,256 @@
+<!doctype html>
+<html>
+    <head>
+        <title>{% block title %} {% endblock %}</title>
+       <link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Roboto" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="icon" href="/static/img/fav.png">    
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+        {% block head %} {% endblock %}
+    <style>
+    body {
+    background: url("/static/img/103.jpg") no-repeat;
+      background-color: black;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      background-attachment: fixed;
+      height: 100%
+    }
+    h1, h3, h5, h6 {
+    color: red;
+    font-family: 'Bitter', serif;
+    font-weight: bold;
+    }
+
+    .alert_display {
+        color: red;
+        font-family: 'Bitter', serif;
+        font-weight: bold;
+        display:inline-block;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        white-space: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        font-size: 23px;
+
+    }
+
+    .visible {
+        display: inline-block;
+    }
+
+    #alert_inner {
+        display: inline-block;
+    }
+
+    h2, h4{
+        color:white;
+        font-family: 'Bitter', serif;
+    font-weight: bold;
+    }
+
+    #clock {
+    font-family: courier, monospace;
+
+    color: white;
+    }
+    h3, h4 {
+            text-align: center;
+    }
+    p {
+        margin:0 0 0 0;
+    }
+    .gm-style-iw{
+        color: black;
+    }
+    body{
+    font-family: 'Roboto', sans-serif;
+    color: white;    
+    }
+
+    .small {
+        font-size: 10px;
+    }
+
+    .forums_head {
+        border: 2px solid red;
+    }
+    table, th, td {
+    border: 2px solid red;
+    }
+
+    button {
+        font-family: 'Open Sans', sans-serif; line-height: 30px;
+    }
+
+    th {
+    text-align: center;
+    }
+
+    .hidden { display: none; }
+
+    table {
+       margin-left: 10%;
+    }
+
+    .gen_div {
+        text-align: center;
+        margin-right: 20%;
+        margin-left: 20%;
+    }
+
+    .sorting {
+        background-color: red;
+        color: white;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+
+    .forum_text {
+        color: white;
+        background-color: transparent;
+    }
+
+    a {
+    font-family: 'Roboto', sans-serif;
+    color: red;
+    }
+    .btn-danger {
+        background-color: red;
+        height: 30px;
+        font-size: 15px;
+        padding-top: 3px;
+    }
+    .myclass {
+        font-family: 'Open Sans', sans-serif;
+    }
+    .flash-class {
+        color: rgb(255,0,0);
+        font-family: 'Open Sans', sans-serif;
+        font-size: 20px;
+    }
+    .alert-error {
+        background: #FF1122;
+        color: #fff;
+        margin-right: 30px;
+    }
+    </style>
+    </head>
+
+    <body>
+    <div class="container" style="background: rgba(0, 0, 0, 0.8); width: 105%; text-align: center; margin-left: 0%; margin-right: 0%;  padding-left: 0; padding-right: 0; max-width: 100%; height: 5%; min-height: 46px;">
+        <div class="row justify-content-between" style="min-height: 46px; margin-right: 0; margin-left: 0;">
+        <div class="col-lg-10-offset-1 col-md-12 col-sm-12 text-center" style="min-height: 38px; padding-top: 4px; padding-left: 15%; ">
+        
+        {%- if request.path != "/" %}<a href="/"><img class="d-none d-md-inline" style="height: 46px;" src="/static/img/SafeWork2.gif"></a> &nbsp &nbsp
+        <!-- <button type="button" class="btn btn-danger" onclick="location.href='/';">SafeWork Homepage</button>  --> {% endif %}
+        {%- if request.path != "/map" %}
+        <button type="button" class="btn btn-danger myclass" onclick="location.href='/map';" style="width: 70px; font-family: 'Open Sans', sans-serif; font-weight: bold; height: 38px; font-size: 20px; line-height: 30px;" >Map</button> {% endif %}
+
+
+
+        {%- if request.path != "/forums" %}
+        <button type="button" class="btn btn-danger" onclick="location.href='/forums';" color: red; style="width: 220px; font-weight: bold; height: 38px; font-size: 20px;" >Discussion Forums</button> {% endif %}
+
+        
+        {%- if request.path != "/sw_main" %}
+        <button type="button" class="btn btn-danger"  onclick="location.href='/sw_main';" style="font-weight: bold; border-color: white; border-width: 3px; height: 38px; font-size: 20px; width: 235px; padding-right: 30px;" >SafeWalk Alerts <div style="margin-top: -23px; margin-right: -200px;"><b style="font-size: 15px; font-weight: bold; color: blue;">(New!)</b></div></button>
+        {% endif %}
+
+        {% if 'current_user' in session %}
+        <div class="btn-group">
+        <button type="button" class="btn btn-danger" style="font-weight: bold;  height: 38px; font-size: 20px;" >More</button>    
+        
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 38px;">
+        <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu" style="color: white; background: rgba(255, 0, 0, 0.8);">
+        <button type="button" data-toggle="modal" class="d-lg-none d-md-block d-sm-block d-xs-block" data-target="#myModal" style="color: blue; background: rgba(255, 0, 0, 0.8); border-width: 0; margin-left: 5px;">Something Wrong?</button>
+        <a  class="dropdown-item" href="/contact" style="color: white; background: rgba(255, 0, 0, 0.8);">Contact Us</a>
+        <a  class="dropdown-item" href="/profile" style="color: white; background: rgba(255, 0, 0, 0.8);">Your Profile</button>
+        <a  class="dropdown-item" href="/logout" style="color: white; background: rgba(255, 0, 0, 0.8);">Logout</a>
+
+        </div>
+        </div>
+        {% endif %}
+
+        {% if 'current_user' not in session %}
+<!--         <div class="btn-group" style="height: 38px;">
+        <button type="button" class="btn btn-danger" onclick="location.href='/resources';" style="width: 110px; font-family: 'Open Sans', sans-serif; font-weight: bold;  height: 38px; font-size: 20px;" >Resources</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 38px;">
+        <span class="sr-only" style="height: 38px;">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu" style="color: white; background: rgba(255, 0, 0, 0.8);  font-size: 22px; line-height: 28px; height: 38px;">
+            <a class="dropdown-item" href="/forums" style="color: white; background: rgba(255, 0, 0, 0.8); ">Discussion Forums</a>  
+<!--             <a class="dropdown-item" href="/report" style="color: white; background: rgba(255, 0, 0, 0.8);">Make A Report</a>  -->
+        <!-- </div> 
+        </div> -->
+
+        <div class="btn-group" style="height: 38px;">
+        <button type="button" class="btn btn-danger color: red;"  onclick="location.href='/login';" style="width: 250px; font-weight: bold; height: 38px; font-size: 22px; line-height: 28px;" >Login For All Features</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split color: red;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 38px;">
+        <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu" style="color: white; background: rgba(255, 0, 0, 0.8);  height: 38px;  font-size: 22px; line-height: 28px;">
+        <a class="dropdown-item" href="/register" style="color: white;background: rgba(255, 0, 0, 0.8);  height: 38px;" >Register</a>
+        </div>
+        </div>
+        {% endif %}
+
+        
+         <button type="button" class="btn btn-info btn-sm d-none d-xl-inline" data-toggle="modal" data-target="#myModal" style="max-height: 30px; margin-bottom: 2px; margin-left: 40px; max-width: 222px; font-size: 10px; font-weight: bold;">Something wrong with a page or feature?</button>
+         <button type="button" class="btn btn-info btn-sm d-none d-xl-none d-lg-inline" data-toggle="modal" data-target="#myModal" style="max-height: 30px; margin-bottom: 2px; margin-left: 10px; max-width: 222px; font-size: 10px; font-weight: bold;">Something wrong?</button>
+        
+
+       
+
+        </div>
+        
+
+        </div>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" style="color: black;">Feedback</h4>
+      </div>
+      <div class="modal-body">
+        <p style="color: black;">What page or feature isn't working/appearing properly? Please include as many details as possible!</p>
+        <form action="/feedback" method="POST">
+            <textarea rows="6" cols="50" name="feedback_text"></textarea><br>
+        <br><input type=submit>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+    <ul class=flashes>	
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <div class="alert alert-error flash-class">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+    </ul>
+    {% block content %} {% endblock %}
+    <div style="height: 30px;"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    </body>
+</html>
