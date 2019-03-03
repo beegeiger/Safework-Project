@@ -1682,6 +1682,11 @@ def smsin():
     print("SMS Received")
     return "SMS Received"
 
+
+@app.route('/pass_change', methods=['POST'])
+def pass_change():
+    return redirect("/check_ins")
+
 @app.route('/pass_reset', methods=['POST'])
 def pass_reset():
     return redirect("/check_ins")
@@ -1690,12 +1695,10 @@ def pass_reset():
 def pass_code():
     return redirect("/check_ins")
 
-@app.route('/pass_change', methods=['POST'])
-def pass_change():
-    return redirect("/check_ins")
 
-@app.route('/pass_change', methods=['POST'])
-def pass_change():
+
+@app.route('/new_pass', methods=['POST'])
+def new_pass():
     return redirect("/check_ins")
 
 @app.route("/pass_page", methods=["GET"])
