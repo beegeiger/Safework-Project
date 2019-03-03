@@ -1694,6 +1694,10 @@ def pass_code():
 def pass_change():
     return redirect("/check_ins")
 
+@app.route('/pass_change', methods=['POST'])
+def pass_change():
+    return redirect("/check_ins")
+
 @app.route("/pass_page", methods=["GET"])
 def pass_page():
 
