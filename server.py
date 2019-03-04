@@ -1685,7 +1685,38 @@ def smsin():
 
 @app.route('/pass_change', methods=['POST'])
 def pass_change():
-    return redirect("/check_ins")
+    old_pw = request.form['pw_old']
+    new_pw1 = request.form['pw_new']
+    new_pw2 = request.form['pw_new2']
+
+    user_query = User.query.filter(User.email == email_input).all()
+    pword = bytes(new_pw1, 'utf-8')
+    hashed_word = bcrypt.hashpw(pword, bcrypt.gensalt()).decode('utf-8')
+        #Queries to see if the email and pword match the database. If so, redirects to the safewalk page.
+
+    p_word = user_query[0].password
+    if isinstance(pw_input, str):
+        pw_input = bytes(old_pw, 'utf-8')
+    passwd = bytes(p_word, 'utf-8')
+
+
+    if bcrypt.hashpw(pw_input, passwd) != passwd:
+        flash('Your existing password is incorrect. Please Try again.')
+        return redirect("/pass_page")
+
+    #Otherwise, it re-renders the page and throws an error message to the user
+
+    elif new_pw1 != new_pw2:
+        flash("Your passwords don't match!")
+        return redirect("/pass_page")
+
+    else:
+        (db.session.query(User).filter(
+            User.email == session['current_user']).update(
+                {'password': hashed_word}))
+        db.session.commit()
+        flash('Your Password was updated!')
+        return redirect("/check_ins")
 
 @app.route('/pass_reset', methods=['POST'])
 def pass_reset():
@@ -1703,6 +1734,11 @@ def new_pass():
 
 @app.route("/pass_page", methods=["GET"])
 def pass_page():
+
+    return render_template("pass_change.html")
+
+@app.route("/pass_reset_page", methods=["GET"])
+def pass_reset_page():
 
     return render_template("reset.html")
 

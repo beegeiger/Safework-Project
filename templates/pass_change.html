@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Additional Resources{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block content %}
+<div class="gen_div">
+<h1>Change/Reset Password</h1>
+
+<form action="/pass_change" method="POST" {% if 'current_user' not in session %} class="hidden" {% endif %}><br>
+
+	<input type="password" name="pw_old" id="pw_old" placeholder="Old Password" size="30" required></input><br>
+	<input type="checkbox" onclick="myFunction1()">Show Password<br>
+	<input type="password" name="pw_new" id="pw_new" placeholder="New Password" size="30" required></input><br>
+	<input type="checkbox" onclick="myFunction2()">Show Password<br>
+	<input type="password" name="pw_new2" id="pw_new2" placeholder="Confirm New Password" size="30" required></input><br>
+</form>
+
+</div>
+
+
+<script>
+	function myFunction1() {
+    var x = document.getElementById("pw_old");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+
+	function myFunction2() {
+    var x = document.getElementById("pw_new");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+
+
+</script>
+{% endblock %}
