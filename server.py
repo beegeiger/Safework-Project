@@ -1692,7 +1692,7 @@ def pass_change():
 
     pword = bytes(new_pw1, 'utf-8')
     hashed_word = bcrypt.hashpw(pword, bcrypt.gensalt()).decode('utf-8')
-        #Queries to see if the email and pword match the database. If so, redirects to the safewalk page.
+        
 
     p_word = user_query[0].password
     if isinstance(pw_input, str):
@@ -1704,7 +1704,6 @@ def pass_change():
         flash('Your existing password is incorrect. Please Try again.')
         return redirect("/pass_page")
 
-    #Otherwise, it re-renders the page and throws an error message to the user
 
     elif new_pw1 != new_pw2:
         flash("Your passwords don't match!")
@@ -1725,14 +1724,21 @@ def pass_reset():
     user_query = User.query.filter(User.email == email).all()
 
     if user_query == []:
-        flask('There is no record of this e-mail address. Try again with a different e-mail or register a new account.')
+        flash('There is no record of this e-mail address. Try again with a different e-mail or register a new account.')
         return redirect("/pass_reset_page")
+
+    else:
+        reset_code = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(8))
+        message = "Enter the following reset code in the field at 'safeworkproject.org/pass_reset_page' / Reset Code: " + reset_code
+        session['reset'] = "reset_sent"
+        send_email(email, message)
+        flash('A reset code has been sent to your e-mail. It will be valid for the next 10 minutes.')
+        return True
+
 
 @app.route('/pass_code', methods=['POST'])
 def pass_code():
     return redirect("/check_ins")
-
-
 
 @app.route('/new_pass', methods=['POST'])
 def new_pass():
