@@ -1688,8 +1688,8 @@ def pass_change():
     old_pw = request.form['pw_old']
     new_pw1 = request.form['pw_new']
     new_pw2 = request.form['pw_new2']
+    user_query = User.query.filter_by(email=session['current_user']).one()
 
-    user_query = User.query.filter(User.email == email_input).all()
     pword = bytes(new_pw1, 'utf-8')
     hashed_word = bcrypt.hashpw(pword, bcrypt.gensalt()).decode('utf-8')
         #Queries to see if the email and pword match the database. If so, redirects to the safewalk page.
@@ -1720,7 +1720,13 @@ def pass_change():
 
 @app.route('/pass_reset', methods=['POST'])
 def pass_reset():
-    return redirect("/check_ins")
+
+    email = request.form['email']
+    user_query = User.query.filter(User.email == email).all()
+
+    if user_query == []:
+        flask('There is no record of this e-mail address. Try again with a different e-mail or register a new account.')
+        return redirect("/pass_reset_page")
 
 @app.route('/pass_code', methods=['POST'])
 def pass_code():
@@ -1731,6 +1737,8 @@ def pass_code():
 @app.route('/new_pass', methods=['POST'])
 def new_pass():
     return redirect("/check_ins")
+
+
 
 @app.route("/pass_page", methods=["GET"])
 def pass_page():

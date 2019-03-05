@@ -7,32 +7,27 @@
 <div class="gen_div">
 <h1>Change/Reset Password</h1>
 
-<form action="/pass_change" method="POST" {% if 'current_user' not in session %} class="hidden" {% endif %}><br>
-
-	<input type="password" name="pw_old" id="pw_old" placeholder="Old Password" size="30" required></input><br>
-	<input type="checkbox" onclick="myFunction1()">Show Password<br>
-	<input type="password" name="pw_new" id="pw_new" placeholder="New Password" size="30" required></input><br>
-	<input type="checkbox" onclick="myFunction2()">Show Password<br>
-	<input type="password" name="pw_new2" id="pw_new2" placeholder="Confirm New Password" size="30" required></input><br>
-</form>
-
-
-
-<form action="/pass_reset" method="POST" {% if 'current_user' in session %} class="hidden" {% endif %}><br>
+<form action="/pass_reset" method="POST" id="pass_reset"><br>
+    <b>Enter your E-mail:</b><b style="color: red;">*</b> <input type=textbox name="email" required></input><br>
+    <br><input type=submit>
 </form>
 
 
 
 <form action="/pass_code" method="POST" class="hidden"><br>
+    <br><input type=submit>
 </form>
 
 
 
 <form action="/new_pass" method="POST" class="hidden"><br>
+    <br><input type=submit>
 </form>
 
 
 </div>
+
+
 
 
 <script>
