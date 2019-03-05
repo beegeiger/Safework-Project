@@ -1722,6 +1722,7 @@ def pass_reset():
 
     email = request.form['email']
     user_query = User.query.filter(User.email == email).all()
+    dt = datetime.datetime.now()
 
     if user_query == []:
         flash('There is no record of this e-mail address. Try again with a different e-mail or register a new account.')
@@ -1733,11 +1734,28 @@ def pass_reset():
         session['reset'] = "reset_sent"
         send_email(email, message)
         flash('A reset code has been sent to your e-mail. It will be valid for the next 10 minutes.')
+        (db.session.query(User).filter(
+            User.email == email).update(
+                {'reset_code': reset_code, 'reset_datetime': dt}))
+        db.session.commit()
         return True
 
 
 @app.route('/pass_code', methods=['POST'])
 def pass_code():
+    code = request.form['pass_code']
+    user_query = User.query.filter(User.reset_code == code).all()
+    dt = datetime.datetime.now()
+    
+    if user_query == []:
+        flash('The code was incorrect. Try again. Re-send a new code to your e-mail anytime!')
+        return False
+    elif abs(user_query[0].reset_datetime - dt) > datetime.timedelta(minutes=10):
+        flash('This code is expired. Each code is only valid for 10 minutes. Re-send a new code anytime.')
+        return False
+    else:
+        return True
+
     return redirect("/check_ins")
 
 @app.route('/new_pass', methods=['POST'])
