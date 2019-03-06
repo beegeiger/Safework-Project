@@ -1709,6 +1709,10 @@ def pass_change():
         flash("Your passwords don't match!")
         return redirect("/pass_page")
 
+    elif len(new_pw2) < 6:
+        flash("Your password must be at least 6 characters!")
+        return redirect("/pass_page")
+
     else:
         (db.session.query(User).filter(
             User.email == session['current_user']).update(
@@ -1754,13 +1758,32 @@ def pass_code():
         flash('This code is expired. Each code is only valid for 10 minutes. Re-send a new code anytime.')
         return False
     else:
+        session['user_reset'] = email_input
         return True
-
     return redirect("/check_ins")
 
 @app.route('/new_pass', methods=['POST'])
 def new_pass():
-    return redirect("/check_ins")
+    new_pw1 = request.form['pw_new']
+    new_pw2 = request.form['pw_new2']
+    user_query = User.query.filter_by(email=session['user_reset']).one()
+    if new_pw1 != new_pw2:
+        flash("Your passwords don't match! Try again")
+        return redirect("/pass_reset_page")
+
+    elif len(new_pw2) < 6:
+        flash("Your password must be at least 6 characters!")
+        return redirect("/pass_page")
+
+    else:
+        p_word = bytes(new_pw2, 'utf-8')
+        hashed_word = bcrypt.hashpw(p_word, bcrypt.gensalt()).decode('utf-8')
+        (db.session.query(User).filter(
+            User.email == session['user_reset']).update(
+                {'password': hashed_word}))
+        db.session.commit()
+        flash('Your Password was updated! You can now log in with it.')
+        return redirect("/")
 
 
 
