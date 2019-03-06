@@ -1773,7 +1773,7 @@ def new_pass():
 
     elif len(new_pw2) < 6:
         flash("Your password must be at least 6 characters!")
-        return redirect("/pass_page")
+        return redirect("/pass_reset_page")
 
     else:
         p_word = bytes(new_pw2, 'utf-8')
@@ -1783,6 +1783,8 @@ def new_pass():
                 {'password': hashed_word}))
         db.session.commit()
         flash('Your Password was updated! You can now log in with it.')
+        del session['user_reset']
+        del session['reset']
         return redirect("/")
 
 

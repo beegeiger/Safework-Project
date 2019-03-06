@@ -7,21 +7,21 @@
 <div class="gen_div">
 <h1>Change/Reset Password</h1>
 
-<form action="/pass_reset" method="POST" id="pass_reset"><br>
+<form onsubmit="passreset(); return false;" id="pass_reset" ><br>
     <b>Enter your E-mail:</b><b style="color: red;">*</b> <input type=textbox name="email" required></input><br>
     <br><input type=submit value="Send a Reset Code to your E-mail">
 </form>
 
 
 
-<form action="/pass_code" method="POST" class="hidden"><br>
+<form id="pass_code" onsubmit="passcode(); return false;" {% if 'reset' not in session %} class="hidden" {% endif %}><br>
     <b>Enter the Reset Code sent to your E-mail:</b><b style="color: red;">*</b> <input type=textbox name="pass_code" required></input>
     <br><input type=submit>
 </form>
 
 
 
-<form action="/new_pass" method="POST" class="hidden"><br>
+<form id="new_pass" action="/new_pass" method="POST" {% if 'user_reset' not in session %} class="hidden" {% endif %}><br>
     <input type="password" name="pw_new" id="pw_new" placeholder="New Password" size="30" required></input><br>
     <input type="checkbox" onclick="myFunction2()">Show Password<br>
     <input type="password" name="pw_new2" id="pw_new2" placeholder="Confirm New Password" size="30" required></input><br>
@@ -45,6 +45,37 @@
     }
 }
 
+    function passreset(){
+        $( "#pass_reset" ).submit(function(event){
+            console.log('Pass_reset form submitted');
+            $.post("/pass_reset", function(data) {
+                console.log("data then value:");
+                console.log(data);
+                console.log(data.value);
+                if(data == True) {
+                    $( "#pass_code" ).show()
+                }
+            });
+                
+            
+        });
+    };
+
+    function passcode(){
+        $( "#pass_code" ).submit(function(event){
+            console.log('Pass_reset form submitted');
+            $.post("/pass_code", function(data) {
+                console.log("data then value:");
+                console.log(data);
+                console.log(data.value);
+                if(data == True) {
+                    $( "#new_pass" ).show()
+                }
+            });
+                
+            
+        });
+    };
 
 </script>
 {% endblock %}
