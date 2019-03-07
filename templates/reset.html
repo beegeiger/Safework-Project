@@ -15,6 +15,7 @@
 
 
 <form id="pass_code" onsubmit="passcode(); return false;" {% if 'reset' not in session %} class="hidden" {% endif %}><br>
+    <p>You can send a new reset-code to your E-mail anytime. Only the most recent code is valid and each code is only valid for 10 minutes</p><br>
     <b>Enter the Reset Code sent to your E-mail:</b><b style="color: red;">*</b> <input type=textbox name="pass_code" required></input>
     <br><input type=submit>
 </form>
@@ -48,11 +49,11 @@
     function passreset(){
         $( "#pass_reset" ).submit(function(event){
             console.log('Pass_reset form submitted');
-            $.post("/pass_reset", function(data) {
+            $.post("/pass_reset", $("#pass_reset").serialize(), function(data) {
                 console.log("data then value:");
                 console.log(data);
                 console.log(data.value);
-                if(data == True) {
+                if(data == "code_sent") {
                     $( "#pass_code" ).show()
                 }
             });
@@ -63,12 +64,12 @@
 
     function passcode(){
         $( "#pass_code" ).submit(function(event){
-            console.log('Pass_reset form submitted');
-            $.post("/pass_code", function(data) {
+            console.log('Pass_code form submitted');
+            $.post("/pass_code", $("#pass_code").serialize(), function(data) {
                 console.log("data then value:");
                 console.log(data);
                 console.log(data.value);
-                if(data == True) {
+                if(data == "code_correct") {
                     $( "#new_pass" ).show()
                 }
             });

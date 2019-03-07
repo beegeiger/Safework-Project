@@ -1742,7 +1742,7 @@ def pass_reset():
             User.email == email).update(
                 {'reset_code': reset_code, 'reset_datetime': dt}))
         db.session.commit()
-        return True
+        return "code_sent"
 
 
 @app.route('/pass_code', methods=['POST'])
@@ -1753,14 +1753,14 @@ def pass_code():
     
     if user_query == []:
         flash('The code was incorrect. Try again. Re-send a new code to your e-mail anytime!')
-        return False
+        return redirect("/pass_reset_page")
     elif abs(user_query[0].reset_datetime - dt) > datetime.timedelta(minutes=10):
         flash('This code is expired. Each code is only valid for 10 minutes. Re-send a new code anytime.')
-        return False
+        return redirect("/pass_reset_page")
     else:
-        session['user_reset'] = email_input
-        return True
-    return redirect("/check_ins")
+        session['user_reset'] = user_query[0].email
+        return "code_correct"
+    
 
 @app.route('/new_pass', methods=['POST'])
 def new_pass():
@@ -1804,7 +1804,7 @@ def pass_reset_page():
 if __name__ == "__main__":
     start_runner()
     print("should be working")
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     connect_to_db(app, 'postgresql:///safework')
     print("Connected to DB.")
     app.run()
