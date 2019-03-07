@@ -557,3 +557,136 @@ LINE 1: ...ne AS users_timezone, users.phone AS users_phone, users.rese...
 2019-03-02 15:28:06,316 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 2019-03-02 15:28:09,753 INFO 127.0.0.1 - - [02/Mar/2019 15:28:09] "GET /register HTTP/1.1" 200 -
 2019-03-02 15:28:44,992 INFO 127.0.0.1 - - [02/Mar/2019 15:28:44] "POST /register HTTP/1.1" 200 -
+2019-03-07 15:20:45,396 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-07 15:20:45,405 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-03-07 15:20:45,406 INFO  * Restarting with stat
+2019-03-07 15:20:45,657 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-03-07 15:20:45,759 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-07 15:20:45,769 WARNING  * Debugger is active!
+2019-03-07 15:20:45,776 INFO  * Debugger PIN: 218-565-538
+2019-03-07 15:20:58,643 DEBUG Initializing Flask-DebugToolbar log handler
+2019-03-07 15:20:58,737 INFO 127.0.0.1 - - [07/Mar/2019 15:20:58] "GET / HTTP/1.1" 200 -
+2019-03-07 15:20:58,783 INFO 127.0.0.1 - - [07/Mar/2019 15:20:58] "GET /static/img/SafeWork2.gif HTTP/1.1" 304 -
+2019-03-07 15:20:58,785 INFO 127.0.0.1 - - [07/Mar/2019 15:20:58] "GET /static/img/201.jpg HTTP/1.1" 304 -
+2019-03-07 15:20:58,845 INFO 127.0.0.1 - - [07/Mar/2019 15:20:58] "GET /_debug_toolbar/static/js/jquery.js HTTP/1.1" 200 -
+2019-03-07 15:20:58,848 INFO 127.0.0.1 - - [07/Mar/2019 15:20:58] "GET /_debug_toolbar/static/js/toolbar.js HTTP/1.1" 200 -
+2019-03-07 15:20:58,848 INFO 127.0.0.1 - - [07/Mar/2019 15:20:58] "GET /_debug_toolbar/static/js/jquery.tablesorter.js HTTP/1.1" 200 -
+2019-03-07 15:20:58,893 INFO 127.0.0.1 - - [07/Mar/2019 15:20:58] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-03-07 15:20:59,059 INFO 127.0.0.1 - - [07/Mar/2019 15:20:59] "GET /_debug_toolbar/static/css/toolbar.css?0.3972613608239073 HTTP/1.1" 200 -
+2019-03-07 15:20:59,211 INFO 127.0.0.1 - - [07/Mar/2019 15:20:59] "GET /_debug_toolbar/static/img/tick-red.png HTTP/1.1" 200 -
+2019-03-07 15:21:10,366 INFO 127.0.0.1 - - [07/Mar/2019 15:21:10] "GET /login HTTP/1.1" 200 -
+2019-03-07 15:21:10,438 INFO 127.0.0.1 - - [07/Mar/2019 15:21:10] "GET /_debug_toolbar/static/css/toolbar.css?0.701044811255739 HTTP/1.1" 200 -
+2019-03-07 15:21:16,713 INFO 127.0.0.1 - - [07/Mar/2019 15:21:16] "GET /register HTTP/1.1" 200 -
+2019-03-07 15:21:16,845 INFO 127.0.0.1 - - [07/Mar/2019 15:21:16] "GET /_debug_toolbar/static/css/toolbar.css?0.8858872124127233 HTTP/1.1" 200 -
+2019-03-07 15:22:03,964 INFO 127.0.0.1 - - [07/Mar/2019 15:22:03] "POST /register HTTP/1.1" 200 -
+2019-03-07 15:22:04,026 INFO 127.0.0.1 - - [07/Mar/2019 15:22:04] "GET /_debug_toolbar/static/css/toolbar.css?0.8499937344140063 HTTP/1.1" 200 -
+2019-03-07 15:22:04,200 INFO 127.0.0.1 - - [07/Mar/2019 15:22:04] "GET /favicon.ico HTTP/1.1" 404 -
+2019-03-07 15:22:12,322 INFO 127.0.0.1 - - [07/Mar/2019 15:22:12] "GET /login HTTP/1.1" 200 -
+2019-03-07 15:22:12,481 INFO 127.0.0.1 - - [07/Mar/2019 15:22:12] "GET /_debug_toolbar/static/css/toolbar.css?0.7708190827781678 HTTP/1.1" 200 -
+2019-03-07 15:22:28,325 INFO 127.0.0.1 - - [07/Mar/2019 15:22:28] "POST /login HTTP/1.1" 200 -
+2019-03-07 15:22:28,374 INFO 127.0.0.1 - - [07/Mar/2019 15:22:28] "GET /_debug_toolbar/static/css/toolbar.css?0.10507035069286563 HTTP/1.1" 200 -
+2019-03-07 15:22:30,026 INFO 127.0.0.1 - - [07/Mar/2019 15:22:30] "GET /sw_main HTTP/1.1" 200 -
+2019-03-07 15:22:30,075 INFO 127.0.0.1 - - [07/Mar/2019 15:22:30] "GET /_debug_toolbar/static/css/toolbar.css?0.48932048724324373 HTTP/1.1" 200 -
+2019-03-07 15:22:31,592 INFO 127.0.0.1 - - [07/Mar/2019 15:22:31] "GET /sw_getting_started HTTP/1.1" 200 -
+2019-03-07 15:22:31,793 INFO 127.0.0.1 - - [07/Mar/2019 15:22:31] "GET /_debug_toolbar/static/css/toolbar.css?0.14911372978920379 HTTP/1.1" 200 -
+2019-03-07 15:22:36,453 INFO 127.0.0.1 - - [07/Mar/2019 15:22:36] "GET /profile HTTP/1.1" 200 -
+2019-03-07 15:22:36,512 INFO 127.0.0.1 - - [07/Mar/2019 15:22:36] "GET /_debug_toolbar/static/css/toolbar.css?0.6402136282828883 HTTP/1.1" 200 -
+2019-03-07 15:22:39,769 INFO 127.0.0.1 - - [07/Mar/2019 15:22:39] "GET /edit_profile HTTP/1.1" 200 -
+2019-03-07 15:22:39,881 INFO 127.0.0.1 - - [07/Mar/2019 15:22:39] "GET /_debug_toolbar/static/css/toolbar.css?0.656290016100844 HTTP/1.1" 200 -
+2019-03-07 15:22:43,263 INFO 127.0.0.1 - - [07/Mar/2019 15:22:43] "GET /pass_page HTTP/1.1" 200 -
+2019-03-07 15:22:43,345 INFO 127.0.0.1 - - [07/Mar/2019 15:22:43] "GET /_debug_toolbar/static/css/toolbar.css?0.807293740279253 HTTP/1.1" 200 -
+2019-03-07 15:22:55,605 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-03-07 15:23:00,273 INFO 127.0.0.1 - - [07/Mar/2019 15:23:00] "POST /pass_change HTTP/1.1" 500 -
+2019-03-07 15:23:00,288 INFO 127.0.0.1 - - [07/Mar/2019 15:23:00] "GET /pass_change?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2019-03-07 15:23:00,289 INFO 127.0.0.1 - - [07/Mar/2019 15:23:00] "GET /pass_change?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+2019-03-07 15:23:00,292 INFO 127.0.0.1 - - [07/Mar/2019 15:23:00] "GET /pass_change?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2019-03-07 15:23:00,464 INFO 127.0.0.1 - - [07/Mar/2019 15:23:00] "GET /pass_change?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2019-03-07 15:23:00,519 INFO 127.0.0.1 - - [07/Mar/2019 15:23:00] "GET /pass_change?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2019-03-07 15:23:19,596 INFO  * Detected change in '/home/dorothybee/src/safework/model.py', reloading
+2019-03-07 15:23:19,661 INFO  * Restarting with stat
+2019-03-07 15:23:20,041 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-07 15:23:20,051 WARNING  * Debugger is active!
+2019-03-07 15:23:20,051 INFO  * Debugger PIN: 218-565-538
+2019-03-07 15:23:47,345 INFO  * Detected change in '/home/dorothybee/src/safework/server.py', reloading
+2019-03-07 15:23:55,258 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-07 15:23:55,264 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-03-07 15:23:55,265 INFO  * Restarting with stat
+2019-03-07 15:23:55,624 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-07 15:23:55,631 WARNING  * Debugger is active!
+2019-03-07 15:23:55,631 INFO  * Debugger PIN: 218-565-538
+2019-03-07 15:23:56,704 DEBUG Initializing Flask-DebugToolbar log handler
+2019-03-07 15:23:56,713 INFO 127.0.0.1 - - [07/Mar/2019 15:23:56] "GET /_debug_toolbar/static/css/toolbar.css?0.17979722027984013 HTTP/1.1" 200 -
+2019-03-07 15:23:58,245 INFO 127.0.0.1 - - [07/Mar/2019 15:23:58] "GET /pass_page HTTP/1.1" 200 -
+2019-03-07 15:23:58,282 INFO 127.0.0.1 - - [07/Mar/2019 15:23:58] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-03-07 15:23:58,344 INFO 127.0.0.1 - - [07/Mar/2019 15:23:58] "GET /_debug_toolbar/static/js/jquery.js HTTP/1.1" 200 -
+2019-03-07 15:23:58,354 INFO 127.0.0.1 - - [07/Mar/2019 15:23:58] "GET /_debug_toolbar/static/js/jquery.tablesorter.js HTTP/1.1" 200 -
+2019-03-07 15:23:58,356 INFO 127.0.0.1 - - [07/Mar/2019 15:23:58] "GET /_debug_toolbar/static/js/toolbar.js HTTP/1.1" 200 -
+2019-03-07 15:23:58,391 INFO 127.0.0.1 - - [07/Mar/2019 15:23:58] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-03-07 15:23:58,538 INFO 127.0.0.1 - - [07/Mar/2019 15:23:58] "GET /_debug_toolbar/static/css/toolbar.css?0.007633032797106587 HTTP/1.1" 200 -
+2019-03-07 15:23:58,555 INFO 127.0.0.1 - - [07/Mar/2019 15:23:58] "GET /_debug_toolbar/static/css/toolbar.css?0.05373222486705376 HTTP/1.1" 200 -
+2019-03-07 15:23:58,633 INFO 127.0.0.1 - - [07/Mar/2019 15:23:58] "GET /_debug_toolbar/static/img/tick-red.png HTTP/1.1" 200 -
+2019-03-07 15:23:59,226 INFO 127.0.0.1 - - [07/Mar/2019 15:23:59] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-03-07 15:24:14,813 INFO 127.0.0.1 - - [07/Mar/2019 15:24:14] "POST /pass_change HTTP/1.1" 500 -
+2019-03-07 15:24:14,825 INFO 127.0.0.1 - - [07/Mar/2019 15:24:14] "GET /pass_change?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2019-03-07 15:24:14,831 INFO 127.0.0.1 - - [07/Mar/2019 15:24:14] "GET /pass_change?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2019-03-07 15:24:14,831 INFO 127.0.0.1 - - [07/Mar/2019 15:24:14] "GET /pass_change?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+2019-03-07 15:24:14,932 INFO 127.0.0.1 - - [07/Mar/2019 15:24:14] "GET /pass_change?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2019-03-07 15:26:06,062 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-03-07 15:26:06,067 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-03-07 15:26:26,440 INFO  * Detected change in '/home/dorothybee/src/safework/server.py', reloading
+2019-03-07 15:26:26,517 INFO  * Restarting with stat
+2019-03-07 15:26:26,867 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-07 15:26:26,876 WARNING  * Debugger is active!
+2019-03-07 15:26:26,877 INFO  * Debugger PIN: 218-565-538
+2019-03-07 15:26:30,981 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-07 15:26:30,987 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-03-07 15:26:30,988 INFO  * Restarting with stat
+2019-03-07 15:26:31,413 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-07 15:26:31,422 WARNING  * Debugger is active!
+2019-03-07 15:26:31,423 INFO  * Debugger PIN: 218-565-538
+2019-03-07 15:26:33,023 DEBUG Initializing Flask-DebugToolbar log handler
+2019-03-07 15:26:33,035 INFO 127.0.0.1 - - [07/Mar/2019 15:26:33] "GET /_debug_toolbar/static/css/toolbar.css?0.9919598953236266 HTTP/1.1" 200 -
+2019-03-07 15:26:33,036 INFO 127.0.0.1 - - [07/Mar/2019 15:26:33] "GET /_debug_toolbar/static/css/toolbar.css?0.579312423295071 HTTP/1.1" 200 -
+2019-03-07 15:26:34,321 INFO 127.0.0.1 - - [07/Mar/2019 15:26:34] "GET /pass_page HTTP/1.1" 200 -
+2019-03-07 15:26:34,349 INFO 127.0.0.1 - - [07/Mar/2019 15:26:34] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-03-07 15:26:34,386 INFO 127.0.0.1 - - [07/Mar/2019 15:26:34] "GET /_debug_toolbar/static/js/jquery.js HTTP/1.1" 200 -
+2019-03-07 15:26:34,414 INFO 127.0.0.1 - - [07/Mar/2019 15:26:34] "GET /_debug_toolbar/static/js/jquery.tablesorter.js HTTP/1.1" 200 -
+2019-03-07 15:26:34,415 INFO 127.0.0.1 - - [07/Mar/2019 15:26:34] "GET /_debug_toolbar/static/js/toolbar.js HTTP/1.1" 200 -
+2019-03-07 15:26:34,458 INFO 127.0.0.1 - - [07/Mar/2019 15:26:34] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-03-07 15:26:34,574 INFO 127.0.0.1 - - [07/Mar/2019 15:26:34] "GET /_debug_toolbar/static/css/toolbar.css?0.5677131913271254 HTTP/1.1" 200 -
+2019-03-07 15:26:34,595 INFO 127.0.0.1 - - [07/Mar/2019 15:26:34] "GET /_debug_toolbar/static/css/toolbar.css?0.6323876559257442 HTTP/1.1" 200 -
+2019-03-07 15:26:34,662 INFO 127.0.0.1 - - [07/Mar/2019 15:26:34] "GET /_debug_toolbar/static/img/tick-red.png HTTP/1.1" 200 -
+2019-03-07 15:26:34,743 INFO 127.0.0.1 - - [07/Mar/2019 15:26:34] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-03-07 15:26:53,611 INFO 127.0.0.1 - - [07/Mar/2019 15:26:53] "POST /pass_change HTTP/1.1" 200 -
+2019-03-07 15:26:53,667 INFO 127.0.0.1 - - [07/Mar/2019 15:26:53] "GET /_debug_toolbar/static/css/toolbar.css?0.4287025407824294 HTTP/1.1" 200 -
+2019-03-07 15:26:53,679 INFO 127.0.0.1 - - [07/Mar/2019 15:26:53] "GET /_debug_toolbar/static/css/toolbar.css?0.4752033915631799 HTTP/1.1" 200 -
+2019-03-07 15:26:53,830 INFO 127.0.0.1 - - [07/Mar/2019 15:26:53] "GET /favicon.ico HTTP/1.1" 404 -
+2019-03-07 15:26:56,447 INFO 127.0.0.1 - - [07/Mar/2019 15:26:56] "GET /check_ins HTTP/1.1" 200 -
+2019-03-07 15:26:56,593 INFO 127.0.0.1 - - [07/Mar/2019 15:26:56] "GET /_debug_toolbar/static/css/toolbar.css?0.9127699465963213 HTTP/1.1" 200 -
+2019-03-07 15:26:56,603 INFO 127.0.0.1 - - [07/Mar/2019 15:26:56] "GET /_debug_toolbar/static/css/toolbar.css?0.055044327147220296 HTTP/1.1" 200 -
+2019-03-07 15:27:04,156 INFO 127.0.0.1 - - [07/Mar/2019 15:27:04] "GET /logout HTTP/1.1" 200 -
+2019-03-07 15:27:04,205 INFO 127.0.0.1 - - [07/Mar/2019 15:27:04] "GET /_debug_toolbar/static/css/toolbar.css?0.016848884516111662 HTTP/1.1" 200 -
+2019-03-07 15:27:04,209 INFO 127.0.0.1 - - [07/Mar/2019 15:27:04] "GET /_debug_toolbar/static/css/toolbar.css?0.28401474632562906 HTTP/1.1" 200 -
+2019-03-07 15:27:06,185 INFO 127.0.0.1 - - [07/Mar/2019 15:27:06] "GET /login HTTP/1.1" 200 -
+2019-03-07 15:27:06,329 INFO 127.0.0.1 - - [07/Mar/2019 15:27:06] "GET /_debug_toolbar/static/css/toolbar.css?0.06282072897894286 HTTP/1.1" 200 -
+2019-03-07 15:27:06,427 INFO 127.0.0.1 - - [07/Mar/2019 15:27:06] "GET /_debug_toolbar/static/css/toolbar.css?0.08611199005641734 HTTP/1.1" 200 -
+2019-03-07 15:27:16,378 INFO 127.0.0.1 - - [07/Mar/2019 15:27:16] "POST /login HTTP/1.1" 200 -
+2019-03-07 15:27:16,421 INFO 127.0.0.1 - - [07/Mar/2019 15:27:16] "GET /_debug_toolbar/static/css/toolbar.css?0.9692722749272376 HTTP/1.1" 200 -
+2019-03-07 15:27:16,427 INFO 127.0.0.1 - - [07/Mar/2019 15:27:16] "GET /_debug_toolbar/static/css/toolbar.css?0.9434675210271866 HTTP/1.1" 200 -
+2019-03-07 15:27:18,040 INFO 127.0.0.1 - - [07/Mar/2019 15:27:18] "GET /sw_main HTTP/1.1" 200 -
+2019-03-07 15:27:18,093 INFO 127.0.0.1 - - [07/Mar/2019 15:27:18] "GET /_debug_toolbar/static/css/toolbar.css?0.7729345468094249 HTTP/1.1" 200 -
+2019-03-07 15:27:18,095 INFO 127.0.0.1 - - [07/Mar/2019 15:27:18] "GET /_debug_toolbar/static/css/toolbar.css?0.17774843219748404 HTTP/1.1" 200 -
+2019-03-07 15:27:19,302 INFO 127.0.0.1 - - [07/Mar/2019 15:27:19] "GET /sw_getting_started HTTP/1.1" 200 -
+2019-03-07 15:27:19,438 INFO 127.0.0.1 - - [07/Mar/2019 15:27:19] "GET /_debug_toolbar/static/css/toolbar.css?0.7517014934010435 HTTP/1.1" 200 -
+2019-03-07 15:27:19,454 INFO 127.0.0.1 - - [07/Mar/2019 15:27:19] "GET /_debug_toolbar/static/css/toolbar.css?0.1593164412626138 HTTP/1.1" 200 -
+2019-03-07 15:27:21,092 INFO 127.0.0.1 - - [07/Mar/2019 15:27:21] "GET /logout HTTP/1.1" 200 -
+2019-03-07 15:27:21,148 INFO 127.0.0.1 - - [07/Mar/2019 15:27:21] "GET /_debug_toolbar/static/css/toolbar.css?0.13508767022830304 HTTP/1.1" 200 -
+2019-03-07 15:27:21,153 INFO 127.0.0.1 - - [07/Mar/2019 15:27:21] "GET /_debug_toolbar/static/css/toolbar.css?0.13954536562069353 HTTP/1.1" 200 -
+2019-03-07 15:27:24,056 INFO 127.0.0.1 - - [07/Mar/2019 15:27:24] "GET /login HTTP/1.1" 200 -
+2019-03-07 15:27:24,200 INFO 127.0.0.1 - - [07/Mar/2019 15:27:24] "GET /_debug_toolbar/static/css/toolbar.css?0.2661532122968635 HTTP/1.1" 200 -
+2019-03-07 15:27:24,221 INFO 127.0.0.1 - - [07/Mar/2019 15:27:24] "GET /_debug_toolbar/static/css/toolbar.css?0.32356036580513425 HTTP/1.1" 200 -
+2019-03-07 15:27:26,782 INFO 127.0.0.1 - - [07/Mar/2019 15:27:26] "GET /pass_reset_page HTTP/1.1" 200 -
+2019-03-07 15:27:26,847 INFO 127.0.0.1 - - [07/Mar/2019 15:27:26] "GET /_debug_toolbar/static/css/toolbar.css?0.2503511370824427 HTTP/1.1" 200 -
+2019-03-07 15:27:27,289 INFO 127.0.0.1 - - [07/Mar/2019 15:27:27] "GET /_debug_toolbar/static/css/toolbar.css?0.22813196068291708 HTTP/1.1" 200 -
+2019-03-07 15:27:36,565 INFO 127.0.0.1 - - [07/Mar/2019 15:27:36] "POST /pass_reset HTTP/1.1" 500 -
+2019-03-07 15:27:36,572 INFO 127.0.0.1 - - [07/Mar/2019 15:27:36] "POST /pass_reset HTTP/1.1" 500 -

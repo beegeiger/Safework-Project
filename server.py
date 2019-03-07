@@ -1694,9 +1694,9 @@ def pass_change():
     hashed_word = bcrypt.hashpw(pword, bcrypt.gensalt()).decode('utf-8')
         
 
-    p_word = user_query[0].password
-    if isinstance(pw_input, str):
-        pw_input = bytes(old_pw, 'utf-8')
+    p_word = user_query.password
+    # if isinstance(pw_input, str):
+    pw_input = bytes(old_pw, 'utf-8')
     passwd = bytes(p_word, 'utf-8')
 
 
@@ -1804,7 +1804,7 @@ def pass_reset_page():
 if __name__ == "__main__":
     start_runner()
     print("should be working")
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     connect_to_db(app, 'postgresql:///safework')
     print("Connected to DB.")
     app.run()

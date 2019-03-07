@@ -8,6 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, ForeignKey, Integer, Unicode
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from flask_debugtoolbar import DebugToolbarExtension
 # from sqlalchemy_imageattach.entity import Image, image_attachment
 
 # from server import app
@@ -15,10 +16,13 @@ from sqlalchemy.ext.declarative import declarative_base
 # Required to use Flask sessions and the debug toolbar
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///safework'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy()
+app.debug = True
 db.app = app
-
+app.config['SECRET_KEY'] = '123ABC'
+toolbar = DebugToolbarExtension(app)
+toolbar.init_app(app)
 ################################################
 
 class Forum(db.Model):
