@@ -831,3 +831,71 @@ NameError: name 'email_input' is not defined
 2019-03-07 15:44:19,494 INFO 127.0.0.1 - - [07/Mar/2019 15:44:19] "GET /sw_main HTTP/1.1" 302 -
 2019-03-07 15:44:19,510 INFO 127.0.0.1 - - [07/Mar/2019 15:44:19] "GET /sw_getting_started HTTP/1.1" 200 -
 2019-03-07 15:45:51,860 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-03-07 15:46:52,330 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-07 15:46:52,334 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-03-07 15:46:57,871 INFO 127.0.0.1 - - [07/Mar/2019 15:46:57] "GET / HTTP/1.1" 200 -
+2019-03-07 15:47:00,793 INFO 127.0.0.1 - - [07/Mar/2019 15:47:00] "GET /logout HTTP/1.1" 302 -
+2019-03-07 15:47:00,810 INFO 127.0.0.1 - - [07/Mar/2019 15:47:00] "GET /login HTTP/1.1" 200 -
+2019-03-07 15:47:03,378 INFO 127.0.0.1 - - [07/Mar/2019 15:47:03] "GET /pass_reset_page HTTP/1.1" 200 -
+2019-03-07 15:47:13,831 DEBUG Starting new HTTPS connection (1): api.mailgun.net:443
+2019-03-07 15:47:13,840 DEBUG Starting new HTTPS connection (1): api.mailgun.net:443
+2019-03-07 15:47:14,062 DEBUG https://api.mailgun.net:443 "POST /v3/sw.safeworkproject.org/messages HTTP/1.1" 200 107
+2019-03-07 15:47:14,071 INFO 127.0.0.1 - - [07/Mar/2019 15:47:14] "POST /pass_reset HTTP/1.1" 200 -
+2019-03-07 15:47:14,581 DEBUG https://api.mailgun.net:443 "POST /v3/sw.safeworkproject.org/messages HTTP/1.1" 200 107
+2019-03-07 15:47:14,591 INFO 127.0.0.1 - - [07/Mar/2019 15:47:14] "POST /pass_reset HTTP/1.1" 200 -
+2019-03-07 15:47:33,948 INFO 127.0.0.1 - - [07/Mar/2019 15:47:33] "GET /pass_reset_page HTTP/1.1" 200 -
+2019-03-07 15:47:33,976 INFO 127.0.0.1 - - [07/Mar/2019 15:47:33] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-03-07 15:47:34,117 INFO 127.0.0.1 - - [07/Mar/2019 15:47:34] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-03-07 15:47:34,248 INFO 127.0.0.1 - - [07/Mar/2019 15:47:34] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-03-07 15:48:01,849 DEBUG Starting new HTTPS connection (1): api.mailgun.net:443
+2019-03-07 15:48:01,849 DEBUG Starting new HTTPS connection (1): api.mailgun.net:443
+2019-03-07 15:48:02,024 DEBUG https://api.mailgun.net:443 "POST /v3/sw.safeworkproject.org/messages HTTP/1.1" 200 107
+2019-03-07 15:48:02,024 DEBUG https://api.mailgun.net:443 "POST /v3/sw.safeworkproject.org/messages HTTP/1.1" 200 107
+2019-03-07 15:48:02,035 INFO 127.0.0.1 - - [07/Mar/2019 15:48:02] "POST /pass_reset HTTP/1.1" 200 -
+2019-03-07 15:48:02,038 INFO 127.0.0.1 - - [07/Mar/2019 15:48:02] "POST /pass_reset HTTP/1.1" 200 -
+2019-03-07 15:48:10,252 DEBUG Starting new HTTPS connection (1): api.mailgun.net:443
+2019-03-07 15:48:10,252 DEBUG Starting new HTTPS connection (1): api.mailgun.net:443
+2019-03-07 15:48:10,257 DEBUG Starting new HTTPS connection (1): api.mailgun.net:443
+2019-03-07 15:48:10,440 DEBUG https://api.mailgun.net:443 "POST /v3/sw.safeworkproject.org/messages HTTP/1.1" 200 107
+2019-03-07 15:48:10,448 INFO 127.0.0.1 - - [07/Mar/2019 15:48:10] "POST /pass_reset HTTP/1.1" 200 -
+2019-03-07 15:48:10,451 DEBUG https://api.mailgun.net:443 "POST /v3/sw.safeworkproject.org/messages HTTP/1.1" 200 107
+2019-03-07 15:48:10,460 INFO 127.0.0.1 - - [07/Mar/2019 15:48:10] "POST /pass_reset HTTP/1.1" 200 -
+2019-03-07 15:48:10,462 DEBUG https://api.mailgun.net:443 "POST /v3/sw.safeworkproject.org/messages HTTP/1.1" 200 107
+2019-03-07 15:48:10,471 INFO 127.0.0.1 - - [07/Mar/2019 15:48:10] "POST /pass_reset HTTP/1.1" 200 -
+2019-03-07 15:48:13,334 INFO 127.0.0.1 - - [07/Mar/2019 15:48:13] "GET /pass_reset_page HTTP/1.1" 200 -
+2019-03-07 15:48:13,364 INFO 127.0.0.1 - - [07/Mar/2019 15:48:13] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-03-07 15:48:13,495 INFO 127.0.0.1 - - [07/Mar/2019 15:48:13] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-03-07 15:48:13,612 INFO 127.0.0.1 - - [07/Mar/2019 15:48:13] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-03-07 15:48:25,709 INFO 127.0.0.1 - - [07/Mar/2019 15:48:25] "GET /pass_reset_page HTTP/1.1" 200 -
+2019-03-07 15:48:25,742 INFO 127.0.0.1 - - [07/Mar/2019 15:48:25] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-03-07 15:48:25,879 INFO 127.0.0.1 - - [07/Mar/2019 15:48:25] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-03-07 15:48:26,109 INFO 127.0.0.1 - - [07/Mar/2019 15:48:26] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-03-07 15:48:35,081 DEBUG Starting new HTTPS connection (1): api.mailgun.net:443
+2019-03-07 15:48:35,085 DEBUG Starting new HTTPS connection (1): api.mailgun.net:443
+2019-03-07 15:48:35,492 DEBUG https://api.mailgun.net:443 "POST /v3/sw.safeworkproject.org/messages HTTP/1.1" 200 107
+2019-03-07 15:48:35,498 INFO 127.0.0.1 - - [07/Mar/2019 15:48:35] "POST /pass_reset HTTP/1.1" 200 -
+2019-03-07 15:48:35,499 DEBUG https://api.mailgun.net:443 "POST /v3/sw.safeworkproject.org/messages HTTP/1.1" 200 107
+2019-03-07 15:48:35,508 INFO 127.0.0.1 - - [07/Mar/2019 15:48:35] "POST /pass_reset HTTP/1.1" 200 -
+2019-03-07 15:49:02,327 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-03-07 15:51:37,700 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-07 15:51:37,705 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-03-07 15:52:14,485 INFO 127.0.0.1 - - [07/Mar/2019 15:52:14] "GET /pass_reset_page HTTP/1.1" 200 -
+2019-03-07 15:52:14,509 INFO 127.0.0.1 - - [07/Mar/2019 15:52:14] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-03-07 15:52:14,638 INFO 127.0.0.1 - - [07/Mar/2019 15:52:14] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-03-07 15:52:14,876 INFO 127.0.0.1 - - [07/Mar/2019 15:52:14] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-03-07 15:52:21,904 DEBUG Starting new HTTPS connection (1): api.mailgun.net:443
+2019-03-07 15:52:22,301 DEBUG https://api.mailgun.net:443 "POST /v3/sw.safeworkproject.org/messages HTTP/1.1" 200 107
+2019-03-07 15:52:22,311 INFO 127.0.0.1 - - [07/Mar/2019 15:52:22] "POST /pass_reset HTTP/1.1" 200 -
+2019-03-07 15:52:53,099 DEBUG Starting new HTTPS connection (1): safeworkproject.org:443
+2019-03-07 15:52:53,104 INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-03-07 15:52:53,270 DEBUG https://safeworkproject.org:443 "GET / HTTP/1.1" 200 None
+2019-03-07 15:52:55,015 INFO 127.0.0.1 - - [07/Mar/2019 15:52:55] "GET /pass_reset_page HTTP/1.1" 200 -
+2019-03-07 15:52:55,046 INFO 127.0.0.1 - - [07/Mar/2019 15:52:55] "GET /static/img/SafeWork2.gif HTTP/1.1" 200 -
+2019-03-07 15:52:55,148 INFO 127.0.0.1 - - [07/Mar/2019 15:52:55] "GET /static/img/103.jpg HTTP/1.1" 200 -
+2019-03-07 15:52:55,865 INFO 127.0.0.1 - - [07/Mar/2019 15:52:55] "GET /static/img/fav.png HTTP/1.1" 200 -
+2019-03-07 15:52:58,797 DEBUG Starting new HTTPS connection (1): api.mailgun.net:443
+2019-03-07 15:52:59,166 DEBUG https://api.mailgun.net:443 "POST /v3/sw.safeworkproject.org/messages HTTP/1.1" 200 107
+2019-03-07 15:52:59,174 INFO 127.0.0.1 - - [07/Mar/2019 15:52:59] "POST /pass_reset HTTP/1.1" 200 -
+2019-03-07 15:53:29,224 INFO 127.0.0.1 - - [07/Mar/2019 15:53:29] "POST /pass_code HTTP/1.1" 200 -
+2019-03-07 15:53:40,865 INFO 127.0.0.1 - - [07/Mar/2019 15:53:40] "POST /new_pass HTTP/1.1" 302 -
+2019-03-07 15:53:40,874 INFO 127.0.0.1 - - [07/Mar/2019 15:53:40] "GET / HTTP/1.1" 200 -

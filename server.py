@@ -1737,7 +1737,6 @@ def pass_reset():
         message = "Enter the following reset code in the field at 'safeworkproject.org/pass_reset_page' / Reset Code: " + reset_code
         session['reset'] = "reset_sent"
         send_email(email, message)
-        flash('A reset code has been sent to your e-mail. It will be valid for the next 10 minutes.')
         (db.session.query(User).filter(
             User.email == email).update(
                 {'reset_code': reset_code, 'reset_datetime': dt}))

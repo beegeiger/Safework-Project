@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Additional Resources{% endblock %}
+{% block title %}Reset Your Password{% endblock %}
 {% block head %}
 
 {% endblock %}
@@ -47,34 +47,27 @@
 }
 
     function passreset(){
-        $( "#pass_reset" ).submit(function(event){
-            console.log('Pass_reset form submitted');
-            $.post("/pass_reset", $("#pass_reset").serialize(), function(data) {
-                console.log("data then value:");
-                console.log(data);
-                console.log(data.value);
-                if(data == "code_sent") {
-                    $( "#pass_code" ).show()
-                }
-            });
-                
-            
+        console.log('Pass_reset form submitted');
+        $.post("/pass_reset", $("#pass_reset").serialize(), function(data) {
+            console.log("data then value:");
+            console.log(data);
+            console.log(data.value);
+            if(data == "code_sent") {
+                $( "#pass_code" ).show()
+            }
         });
+                   
     };
 
     function passcode(){
-        $( "#pass_code" ).submit(function(event){
-            console.log('Pass_code form submitted');
-            $.post("/pass_code", $("#pass_code").serialize(), function(data) {
-                console.log("data then value:");
-                console.log(data);
-                console.log(data.value);
-                if(data == "code_correct") {
-                    $( "#new_pass" ).show()
-                }
-            });
-                
-            
+        console.log('Pass_code form submitted');
+        $.post("/pass_code", $("#pass_code").serialize(), function(data) {
+            console.log("data then value:");
+            console.log(data);
+            console.log(data.value);
+            if(data == "code_correct") {
+                $( "#new_pass" ).show()
+            }
         });
     };
 
