@@ -18,12 +18,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///safework'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
-app.debug = False
 db.app = app
-# app.config['SECRET_KEY'] = '123ABC'
-# toolbar = DebugToolbarExtension(app)
-# toolbar.init_app(app)
-################################################
+#######################
 
 class Forum(db.Model):
 	"""Discussion Forum in SafeWork App"""
