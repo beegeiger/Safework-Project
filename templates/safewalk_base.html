@@ -83,12 +83,14 @@
 		var year = currentTime.getYear() + 1900;
 	    var month = currentTime.getMonth() + 1;
 	    var day = currentTime.getDate();
-	    var hours = currentTime.getUTCHours();
+	    
+	    
+	    var hours = currentTime.getUTCHours() + 1;
 	    var minutes = currentTime.getMinutes();
 	    var seconds = currentTime.getSeconds();
 	    var meridiem = "AM";
 	    hours = hours + {{ timezone }};
-	    if (hours < 1) {
+	    if (hours < 0) {
 	    	hours = 24 + hours
 	    }
 	    if (hours > 12) {
