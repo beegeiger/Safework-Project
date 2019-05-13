@@ -619,8 +619,8 @@ def add_post(forum_id, page_num=1):
 
     #Adds the new post to the database
     new_post = Post(parent_post_id=0, user_id=user.user_id, username=user.username,
-                    forum_id=forum_id, content=post_content, p_datetime=datetime.now(),
-                    date_posted=(str(datetime.now())[:16]))
+                    forum_id=forum_id, content=post_content, p_datetime=datetime.datetime.now(),
+                    date_posted=(str(datetime.datetime.now())[:16]))
 
     #Doublechecks that the user isn't creating a duplicate post
     if Post.query.filter(Post.content == new_post.content,
@@ -672,8 +672,8 @@ def add_child_post(post_id, page_num=1):
 
     #Adds the new post to the database
     new_post = Post(user_id=user.user_id, username=user.username, forum_id=parent_post.forum_id,
-                    parent_post_id=post_id, content=post_content, p_datetime=datetime.now(),
-                    date_posted=(str(datetime.now())[:16]))
+                    parent_post_id=post_id, content=post_content, p_datetime=datetime.datetime.now(),
+                    date_posted=(str(datetime.datetime.now())[:16]))
 
     #Doublechecks that the user isn't creating a duplicate post
     if Post.query.filter(Post.content == post_content, Post.username == user.username).all() == []:
@@ -694,7 +694,7 @@ def edit_post(post_id):
 
     #Updates post content
     (db.session.query(Post).filter_by(post_id=post_id).update(
-        {'content': post_content, 'edit_datetime': datetime.now()}))
+        {'content': post_content, 'edit_datetime': datetime.datetime.now()}))
     db.session.commit()
 
     #Queries the parent post to double-check the forum_id
@@ -714,7 +714,7 @@ def delete_post(post_id):
     if post_content == "Yes":
         (db.session.query(Post).filter_by(post_id=post_id).update(
             {'content': 'This post has been deleted by its poster.',
-             'edit_datetime': datetime.now(), 'deleted': True}))
+             'edit_datetime': datetime.datetime.now(), 'deleted': True}))
         db.session.commit()
 
     #Queries the parent post to double-check the forum_id
