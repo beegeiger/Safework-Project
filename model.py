@@ -379,7 +379,7 @@ def example_data():
 	
 	#Example Posts
 	p1 = Post(user_id=1, forum_id=1, username="LaceyKittey", content="Testing 123", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=0, dislike_num=0)
-	p2 = Post(user_id=1, forum_id=3, username="HappyDoc", content="PlumpyDopey", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=1, dislike_num=0)
+	p2 = Post(user_id=2, forum_id=3, username="HappyDoc", content="PlumpyDopey", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=1, dislike_num=0)
 
 	#Example Police
 	po1 = Police(police_dept_id=1, name="San Franciso Police Department", city="San Francisco", state="CA")
@@ -400,6 +400,10 @@ def example_data():
 	fl1 = Flag(user_id=3, post_id=1, flag_type="trolling")
 	fl2 = Flag(user_id=3, post_id=2, flag_type="abusive")
 
+	#Example Contacts
+	c1 = Contact(contact_id=1, user_id=3, name="BFriend", email="bfriend@gmail.com", phone="7045557373", c_message="Testing Safewalk Contact 1")
+	c1 = Contact(contact_id=2, user_id=3, name="Parent", email="parent@gmail.com", phone="7045557375", c_message="Testing Safewalk Contact 2")
+
 	db.session.add_all([f1, f2, f3, u1, u2, u3])
 	db.session.commit()
 	db.session.add_all([p1, p2, po1, po2])
@@ -411,6 +415,7 @@ def example_data():
 	db.session.add_all([l1])
 	db.session.commit()
 	db.session.add_all([fl1, fl2])
+	db.session.add_all([c1, c2])
 	db.session.commit()
 
 
