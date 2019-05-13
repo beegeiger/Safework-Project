@@ -249,8 +249,8 @@ class AlertSet(db.Model):
 
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
-		return "<alert_set_id={} user_id={} a_name={} a_desc={} start_time={} start_datetime={} date={} end_date={} notes={} active={} checked_in={}>".format(
-			self.alert_set_id, self.user_id, self.a_name, self.a_desc, self.start_time, self.start_datetime, self.date, self.end_date, self.notes, self.active, self.checked_in)
+		return "<alert_set_id={} user_id={} a_name={} a_desc={} start_time={} start_datetime={} date={} end_date={} notes={} interval={} active={} checked_in={}>".format(
+			self.alert_set_id, self.user_id, self.a_name, self.a_desc, self.start_time, self.start_datetime, self.date, self.end_date, self.notes, self.interval, self.active, self.checked_in)
 
 class Alert(db.Model):
 	"""SafeWalk AlertSet"""
@@ -404,6 +404,10 @@ def example_data():
 	c1 = Contact(contact_id=1, user_id=3, name="BFriend", email="bfriend@gmail.com", phone="7045557373", c_message="Testing Safewalk Contact 1")
 	c1 = Contact(contact_id=2, user_id=3, name="Parent", email="parent@gmail.com", phone="7045557375", c_message="Testing Safewalk Contact 2")
 
+	#Example Alert Sets
+	as1 = AlertSet(alert_set_id=1, user_id=3, a_name="Testing1", a_desc="Sched Set Testing", start_time=datetime.time.now(), start_datetime=datetime.datetime.now(), date=datetime.date.now(), notes="This is for Testing", interval=None, active=False, checked_in=False)
+	as2 = AlertSet(alert_set_id=2, user_id=3, a_name="Testing2", a_desc="Recurr Testing", start_time=datetime.time.now(), start_datetime=datetime.datetime.now(), date=datetime.date.now(), notes="This is for Testing", interval=60, active=False, checked_in=False)
+
 	db.session.add_all([f1, f2, f3, u1, u2, u3])
 	db.session.commit()
 	db.session.add_all([p1, p2, po1, po2])
@@ -416,6 +420,7 @@ def example_data():
 	db.session.commit()
 	db.session.add_all([fl1, fl2])
 	db.session.add_all([c1, c2])
+	db.session.add_all([as1, as2])
 	db.session.commit()
 
 
