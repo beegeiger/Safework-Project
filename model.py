@@ -1,7 +1,7 @@
 """Models and database functions for SafeWork App"""
 from flask import jsonify, Flask
 import datetime
-from datetime import datetime
+
 import bcrypt
 import json
 from flask_sqlalchemy import SQLAlchemy
@@ -373,13 +373,13 @@ def example_data():
 	f3 = Forum(forum_id=11, forum_name="Escorting", forum_type="main", forum_desc="Central Forum for all escorts to discuss Strategies.", created_by="dev", parent_forum_id=1)
 
 	#Example Users
-	u1 = User(password=bcrypt.hashpw("12356".encode(), bcrypt.gensalt()), username="LaceyKittey", fname="Lacey", lname="Kittey", email="lkitty@.com", description="Former Escort", created_at=datetime.now(), edited_at=datetime.now())
-	u2 = User(password=bcrypt.hashpw("abcdef".encode(), bcrypt.gensalt()), username="HappyDoc", fname="Happy", lname="Doc", email="HDoc@.com", description="Former Cam Model", created_at=datetime.now(), edited_at=datetime.now())
-	u3 = User(password=bcrypt.hashpw("Testing".encode(), bcrypt.gensalt()), username="Testing", fname="Dev", lname="Tester", email="Testing@gmail.com", description="Former Sugar baby", created_at=datetime.now(), edited_at=datetime.now())
+	u1 = User(password=bcrypt.hashpw("12356".encode(), bcrypt.gensalt()), username="LaceyKittey", fname="Lacey", lname="Kittey", email="lkitty@.com", description="Former Escort", created_at=datetime.datetime.now(), edited_at=datetime.datetime.now())
+	u2 = User(password=bcrypt.hashpw("abcdef".encode(), bcrypt.gensalt()), username="HappyDoc", fname="Happy", lname="Doc", email="HDoc@.com", description="Former Cam Model", created_at=datetime.datetime.now(), edited_at=datetime.datetime.now())
+	u3 = User(password=bcrypt.hashpw("Testing".encode(), bcrypt.gensalt()), username="Testing", fname="Dev", lname="Tester", email="Testing@gmail.com", description="Former Sugar baby", created_at=datetime.datetime.now(), edited_at=datetime.datetime.now())
 	
 	#Example Posts
-	p1 = Post(user_id=1, forum_id=1, username="LaceyKittey", content="Testing 123", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=0, dislike_num=0)
-	p2 = Post(user_id=2, forum_id=3, username="HappyDoc", content="PlumpyDopey", p_datetime=datetime.now(), edit_datetime=datetime.now(), like_num=1, dislike_num=0)
+	p1 = Post(user_id=1, forum_id=1, username="LaceyKittey", content="Testing 123", p_datetime=datetime.datetime.now(), edit_datetime=datetime.datetime.now(), like_num=0, dislike_num=0)
+	p2 = Post(user_id=2, forum_id=3, username="HappyDoc", content="PlumpyDopey", p_datetime=datetime.datetime.now(), edit_datetime=datetime.datetime.now(), like_num=1, dislike_num=0)
 
 	#Example Police
 	po1 = Police(police_dept_id=1, name="San Franciso Police Department", city="San Francisco", state="CA")
@@ -390,8 +390,8 @@ def example_data():
 	s2 = Source(source_id=1, s_name="DataSF", police_dept_id=1, s_description="San Franciso Police API", url="https://data.sfgov.org/resource/PdId.json", s_type="gov api")
 
 	#Example Incidents
-	i1 = Incident(police_dept_id=1, source_id=1, inc_type="API", latitude="33.23425", longitude="-122.124141", address="Address", city="San Francisco", state="CA", date=datetime.now(), year=2018, time="3:00", description="Prost", police_rec_num="asasdasd")
-	i2 = Incident(police_dept_id=1, source_id=1, inc_type="API", latitude="33.21235", longitude="-122.123141", address="Address", city="San Francisco", state="CA", date=datetime.now(), year=2018, time="3:00", description="Prostitution Solicitation", police_rec_num="123123")
+	i1 = Incident(police_dept_id=1, source_id=1, inc_type="API", latitude="33.23425", longitude="-122.124141", address="Address", city="San Francisco", state="CA", date=datetime.datetime.now(), year=2018, time="3:00", description="Prost", police_rec_num="asasdasd")
+	i2 = Incident(police_dept_id=1, source_id=1, inc_type="API", latitude="33.21235", longitude="-122.123141", address="Address", city="San Francisco", state="CA", date=datetime.datetime.now(), year=2018, time="3:00", description="Prostitution Solicitation", police_rec_num="123123")
 	
 	#Example Likes
 	l1 = Like(user_id=1, post_id=2, like_dislike="like")
@@ -402,11 +402,11 @@ def example_data():
 
 	#Example Contacts
 	c1 = Contact(contact_id=1, user_id=3, name="BFriend", email="bfriend@gmail.com", phone="7045557373", c_message="Testing Safewalk Contact 1")
-	c1 = Contact(contact_id=2, user_id=3, name="Parent", email="parent@gmail.com", phone="7045557375", c_message="Testing Safewalk Contact 2")
+	c2 = Contact(contact_id=2, user_id=3, name="Parent", email="parent@gmail.com", phone="7045557375", c_message="Testing Safewalk Contact 2")
 
 	#Example Alert Sets
-	as1 = AlertSet(alert_set_id=1, user_id=3, a_name="Testing1", a_desc="Sched Set Testing", start_time=datetime.time.now(), start_datetime=datetime.datetime.now(), date=datetime.date.now(), notes="This is for Testing", interval=None, active=False, checked_in=False)
-	as2 = AlertSet(alert_set_id=2, user_id=3, a_name="Testing2", a_desc="Recurr Testing", start_time=datetime.time.now(), start_datetime=datetime.datetime.now(), date=datetime.date.now(), notes="This is for Testing", interval=60, active=False, checked_in=False)
+	as1 = AlertSet(alert_set_id=1, user_id=3, a_name="Testing1", a_desc="Sched Set Testing", start_time=datetime.datetime.now().time(), start_datetime=datetime.datetime.now(), date=datetime.datetime.today(), notes="This is for Testing", interval=None, active=False, checked_in=False)
+	as2 = AlertSet(alert_set_id=2, user_id=3, a_name="Testing2", a_desc="Recurr Testing", start_time=datetime.datetime.now().time(), start_datetime=datetime.datetime.now(), date=datetime.datetime.today(), notes="This is for Testing", interval=60, active=False, checked_in=False)
 
 	db.session.add_all([f1, f2, f3, u1, u2, u3])
 	db.session.commit()

@@ -279,9 +279,13 @@ class FlaskTestsSafeWalk(unittest.TestCase):
         db.create_all()
         example_data()
 
-    def test_forums(self):
-        result = self.client.get('/forums')
-        self.assertIn('Example Forum Name For Testing', str(result.data))
+    def test_sw_main(self):
+        result = self.client.get('/sw_main')
+        self.assertIn('Press this Button to Generate a New Code.', str(result.data))
+
+    def test_sw_gettingstarted(self):
+        result = self.client.get('/sw_getting_started')
+        self.assertIn('A scheduled alert-set allows you to pre-set alerts(/check-in requirements) by time.', str(result.data))
 
     
 
