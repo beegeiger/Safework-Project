@@ -13,6 +13,8 @@ from flask import (Flask, render_template, redirect, request, flash,
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (update, desc)
+import flask_testing
+
 
 #######################################################33
 
@@ -65,13 +67,15 @@ from sqlalchemy import (update, desc)
 
 class safeworkTestsDatabase(unittest.TestCase):
     """Flask tests that use the database."""
-
+    # db = SQLAlchemy()
+    # db.app = app
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///testdb'
     def setUp(self):
         """Stuff to do before every test."""
 
         # Get the Flask test client
         self.client = app.test_client()
-        app.config['TESTING'] = True
+        server.app.config['TESTING'] = True
 
         # Connect to test database
         connect_to_db(app, "postgresql:///testdb")
