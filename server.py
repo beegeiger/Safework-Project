@@ -1039,7 +1039,7 @@ def resources():
 
 @app.route("/sw_main")
 def safewalk_main():
-    """Renders the main safewalk page including a user's alert-sets"""
+    """Renders the main safewalk page including a user's alert-sets. Tested."""
 
     #Creates variables for the curent time, date, and datetime for convenience
     time = datetime.datetime.now().time()
@@ -1131,7 +1131,7 @@ def safewalk_main():
 
 @app.route("/sw_getting_started")
 def get_started():
-    """Renders the 'Getting Started with SafeWalk' Page"""
+    """Renders the 'Getting Started with SafeWalk' Page. Tested."""
 
     #Queries the current user and their contact info
     user = User.query.filter_by(email=session['current_user']).one()
@@ -1142,7 +1142,7 @@ def get_started():
 
 @app.route("/rec_alerts")
 def recurring_alerts():
-    """Renders the 'Create a Recurring Alert-Set' Page"""
+    """Renders the 'Create a Recurring Alert-Set' Page.  Tested."""
 
     #Queries the current user and their contact info
     user = User.query.filter_by(email=session['current_user']).one()
@@ -1152,7 +1152,7 @@ def recurring_alerts():
 
 @app.route("/sched_alerts")
 def scheduled_alerts():
-    """Renders the 'Create a Scheduled Alert-Set' Page"""
+    """Renders the 'Create a Scheduled Alert-Set' Page.  Tested."""
 
     #Queries the current user and their contact info
     user = User.query.filter_by(email=session['current_user']).one()
