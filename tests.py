@@ -287,7 +287,13 @@ class FlaskTestsSafeWalk(unittest.TestCase):
         result = self.client.get('/sw_getting_started')
         self.assertIn('A scheduled alert-set allows you to pre-set alerts(/check-in requirements) by time.', str(result.data))
 
-    
+    def test_rec_alerts(self):
+        result = self.client.get('/rec_alerts')
+        self.assertIn('How often would you like to require checking in with the app?', str(result.data))    
+
+    def test_sched_alerts(self):
+        result = self.client.get('/sched_alerts')
+        self.assertIn('What would you like to name this alert set?', str(result.data))    
 
     def tearDown(self):
         """Do at end of every test."""
