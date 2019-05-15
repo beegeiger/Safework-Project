@@ -293,7 +293,27 @@ class FlaskTestsSafeWalk(unittest.TestCase):
 
     def test_sched_alerts(self):
         result = self.client.get('/sched_alerts')
-        self.assertIn('What would you like to name this alert set?', str(result.data))    
+        self.assertIn('What would you like to name this alert set?', str(result.data)) 
+
+
+
+
+
+    def test_contacts(self):
+        result = self.client.get('/contacts')
+        self.assertIn('What would you like to name this alert set?', str(result.data))   
+
+    def test_edit_rec(self):
+        result = self.client.get('/edit_recset/2')
+        self.assertIn('What would you like to name this alert set?', str(result.data))
+
+    def test_edit_sched(self):
+        result = self.client.get('/edit_schedset/1')
+        self.assertIn('What would you like to name this alert set?', str(result.data))
+    
+    def test_check_ins(self):
+        result = self.client.get('/check_ins')
+        self.assertIn('What would you like to name this alert set?', str(result.data))
 
     def tearDown(self):
         """Do at end of every test."""
