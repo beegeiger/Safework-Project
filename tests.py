@@ -301,19 +301,19 @@ class FlaskTestsSafeWalk(unittest.TestCase):
 
     def test_contacts(self):
         result = self.client.get('/contacts')
-        self.assertIn('What would you like to name this alert set?', str(result.data))   
+        self.assertIn('Custom Message For Contact', str(result.data))   
 
     def test_edit_rec(self):
         result = self.client.get('/edit_recset/2')
-        self.assertIn('What would you like to name this alert set?', str(result.data))
+        self.assertIn('How often would you like to require checking in with the app?', str(result.data))
 
     def test_edit_sched(self):
         result = self.client.get('/edit_schedset/1')
-        self.assertIn('What would you like to name this alert set?', str(result.data))
+        self.assertIn('Where are you going and/or what are you doing that you might need this alert?', str(result.data))
     
     def test_check_ins(self):
         result = self.client.get('/check_ins')
-        self.assertIn('What would you like to name this alert set?', str(result.data))
+        self.assertIn('Include a short message about where you are, if you are safe, and/or what your plans are:', str(result.data))
 
     def tearDown(self):
         """Do at end of every test."""

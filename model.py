@@ -408,6 +408,10 @@ def example_data():
 	as1 = AlertSet(alert_set_id=1, user_id=3, a_name="Testing1", a_desc="Sched Set Testing", start_time=datetime.datetime.now().time(), start_datetime=datetime.datetime.now(), date=datetime.datetime.today(), notes="This is for Testing", interval=None, active=False, checked_in=False)
 	as2 = AlertSet(alert_set_id=2, user_id=3, a_name="Testing2", a_desc="Recurr Testing", start_time=datetime.datetime.now().time(), start_datetime=datetime.datetime.now(), date=datetime.datetime.today(), notes="This is for Testing", interval=60, active=False, checked_in=False)
 
+	#Example Alerts
+	a1 = Alert(alert_id=1, alert_set_id=1, user_id=3, contact_id1=1, active=False, sent=False, time=datetime.datetime.now().time(), message="Message for Testing", datetime=datetime.datetime.now())
+	a2 = Alert(alert_id=2, alert_set_id=2, user_id=3, contact_id1=2, active=False, sent=False, time=datetime.datetime.now().time(), message="Message for Testing", datetime=datetime.datetime.now())
+
 	db.session.add_all([f1, f2, f3, u1, u2, u3])
 	db.session.commit()
 	db.session.add_all([p1, p2, po1, po2])
@@ -421,6 +425,7 @@ def example_data():
 	db.session.add_all([fl1, fl2])
 	db.session.add_all([c1, c2])
 	db.session.add_all([as1, as2])
+	db.session.add_all([a1, a2])
 	db.session.commit()
 
 
