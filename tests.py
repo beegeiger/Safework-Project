@@ -280,14 +280,17 @@ class FlaskTestsSafeWalk(unittest.TestCase):
         example_data()
 
     def test_sw_main(self):
+        """Tests that the main Safewalk Page Loads."""
         result = self.client.get('/sw_main')
         self.assertIn('Press this Button to Generate a New Code.', str(result.data))
 
     def test_sw_gettingstarted(self):
+        """Tests that the Safewalk Getting Started Page Loads."""
         result = self.client.get('/sw_getting_started')
         self.assertIn('A scheduled alert-set allows you to pre-set alerts(/check-in requirements) by time.', str(result.data))
 
     def test_rec_alerts(self):
+        """Tests that the recurring alerts page loads."""
         result = self.client.get('/rec_alerts')
         self.assertIn('How often would you like to require checking in with the app?', str(result.data))    
 
@@ -312,6 +315,7 @@ class FlaskTestsSafeWalk(unittest.TestCase):
         self.assertIn('Where are you going and/or what are you doing that you might need this alert?', str(result.data))
     
     def test_check_ins(self):
+        """Still needs work"""
         result = self.client.get('/check_ins')
         self.assertIn('Include a short message about where you are, if you are safe, and/or what your plans are:', str(result.data))
 
