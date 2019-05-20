@@ -295,27 +295,27 @@ class FlaskTestsSafeWalk(unittest.TestCase):
         self.assertIn('How often would you like to require checking in with the app?', str(result.data))    
 
     def test_sched_alerts(self):
+        """Test that the scheduled alerts page loads."""
         result = self.client.get('/sched_alerts')
         self.assertIn('What would you like to name this alert set?', str(result.data)) 
 
-
-
-
-
     def test_contacts(self):
+        """Tests that the contact page loads."""
         result = self.client.get('/contacts')
         self.assertIn('Custom Message For Contact', str(result.data))   
 
     def test_edit_rec(self):
+        """Tests that the edit recurring set page loads."""
         result = self.client.get('/edit_recset/2')
         self.assertIn('How often would you like to require checking in with the app?', str(result.data))
 
     def test_edit_sched(self):
+        """Tests that the edit scheduled set page loads."""
         result = self.client.get('/edit_schedset/1')
         self.assertIn('Where are you going and/or what are you doing that you might need this alert?', str(result.data))
     
     def test_check_ins(self):
-        """Still needs work"""
+        """Tests that the check-in page loads."""
         result = self.client.get('/check_ins')
         self.assertIn('Include a short message about where you are, if you are safe, and/or what your plans are:', str(result.data))
 

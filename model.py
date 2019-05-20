@@ -423,8 +423,11 @@ def example_data():
 	db.session.add_all([l1])
 	db.session.commit()
 	db.session.add_all([fl1, fl2])
+	db.session.commit()
 	db.session.add_all([c1, c2])
+	db.session.commit()
 	db.session.add_all([as1, as2])
+	db.session.commit()
 	db.session.add_all([a1, a2])
 	db.session.commit()
 
