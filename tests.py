@@ -319,6 +319,19 @@ class FlaskTestsSafeWalk(unittest.TestCase):
         result = self.client.get('/check_ins')
         self.assertIn('Include a short message about where you are, if you are safe, and/or what your plans are:', str(result.data))
 
+    def test_pass_page(self):
+        """Tests that the password Change page loads."""
+        result = self.client.get('/pass_page')
+        self.assertIn('Change Password', str(result.data))
+
+    def test_reset_page(self):
+        """Tests that the password reset page loads."""
+        result = self.client.get('/pass_reset_page')
+        self.assertIn('Change/Reset Password', str(result.data))    
+
+
+
+
     def tearDown(self):
         """Do at end of every test."""
         db.session.close()
