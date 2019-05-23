@@ -329,7 +329,13 @@ class FlaskTestsSafeWalk(unittest.TestCase):
         result = self.client.get('/pass_reset_page')
         self.assertIn('Change/Reset Password', str(result.data))    
 
+    def test_add_contact(self):
+        """Test login page."""
 
+        result = self.client.post("/contacts",
+                                  data={"email": "Testing@gmail.com", "name": "AmazingTester123"},
+                                  follow_redirects=True)
+        self.assertIn("AmazingTester123", str(result.data))
 
 
     def tearDown(self):
