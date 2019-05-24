@@ -1687,6 +1687,7 @@ def smsin():
 
 @app.route('/pass_change', methods=['POST'])
 def pass_change():
+    """Changes user password"""
     old_pw = request.form['pw_old']
     new_pw1 = request.form['pw_new']
     new_pw2 = request.form['pw_new2']
@@ -1725,7 +1726,7 @@ def pass_change():
 
 @app.route('/pass_reset', methods=['POST'])
 def pass_reset():
-
+    """Resets users password"""
     email = request.form['email']
     user_query = User.query.filter(User.email == email).all()
     dt = datetime.datetime.now()
