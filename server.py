@@ -1792,12 +1792,13 @@ def new_pass():
 
 @app.route("/pass_page", methods=["GET"])
 def pass_page():
+    """Renders the password change page"""
 
     return render_template("pass_change.html")
 
 @app.route("/pass_reset_page", methods=["GET"])
 def pass_reset_page():
-
+    """Renders password reset page"""
     return render_template("reset.html")
 
 #####################################################
