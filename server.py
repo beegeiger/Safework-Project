@@ -1688,34 +1688,42 @@ def smsin():
 @app.route('/pass_change', methods=['POST'])
 def pass_change():
     """Changes user password"""
+
+    #Posts the values from the form
     old_pw = request.form['pw_old']
     new_pw1 = request.form['pw_new']
     new_pw2 = request.form['pw_new2']
+    
+    #Queries User
     user_query = User.query.filter_by(email=session['current_user']).one()
 
+    #Hashes Password
     pword = bytes(new_pw1, 'utf-8')
     hashed_word = bcrypt.hashpw(pword, bcrypt.gensalt()).decode('utf-8')
         
 
     p_word = user_query.password
-    # if isinstance(pw_input, str):
+
     pw_input = bytes(old_pw, 'utf-8')
     passwd = bytes(p_word, 'utf-8')
 
 
+    #If the passwords don't match old password, redirects to pass page
     if bcrypt.hashpw(pw_input, passwd) != passwd:
         flash('Your existing password is incorrect. Please Try again.')
         return redirect("/pass_page")
 
-
+    #If the two passwords don't match, redirects to page
     elif new_pw1 != new_pw2:
         flash("Your passwords don't match!")
         return redirect("/pass_page")
 
+    #If the new password is too short, it redirects
     elif len(new_pw2) < 6:
         flash("Your password must be at least 6 characters!")
         return redirect("/pass_page")
 
+    #Otherwise the new password is added to the User object!
     else:
         (db.session.query(User).filter(
             User.email == session['current_user']).update(
