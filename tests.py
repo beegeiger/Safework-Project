@@ -333,7 +333,7 @@ class FlaskTestsSafeWalk(unittest.TestCase):
         """Test login page."""
 
         result = self.client.post("/contacts",
-                                  data={"email": "Testing@gmail.com", "name": "AmazingTester123"},
+                                  data={"email": "Testing@gmail.com", "name": "AmazingTester123", "c_type": "family"},
                                   follow_redirects=True)
         self.assertIn("AmazingTester123", str(result.data))
 
