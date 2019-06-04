@@ -333,6 +333,24 @@ class Feedback(db.Model):
 		"""Provide helpful representation when printed."""
 		return "<feedback_id={} user_id={} datetime={} content={}>".format(
 			self.feedback_id, self.user_id, self.datetime, self.content)
+
+class GeoPoint(db.Model):
+	"""Geolocation Points"""
+
+	__tablename__ = "geopoints"
+
+	geopoint_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	latitude = db.Column(db.String(256), nullable=True)
+	longitude = db.Column(db.String(256), nullable=True)
+	datetime = db.Column(db.DateTime, nullable=True)
+	notes = db.Column(db.String(2056))
+
+
+	def __repr__(self):
+		"""Provide helpful representation when printed."""
+		return "<geopoint_id={} user_id={} latitude={} longtitude={} datetime={} notes={}>".format(
+			self.geopoint_id, self.user_id, self.latitude, self.longitude self.datetime, self.notes)
  
 
 
