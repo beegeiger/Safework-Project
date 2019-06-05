@@ -22,4 +22,48 @@
 
 <a href="/sw_main">Go Back to Main SafeWalk Page</a>
 </div>
+
+
+
+
+
+
+<script>
+    //Modifies code from https://www.w3.org/TR/geolocation-API/
+        // Request a position. We only accept cached positions whose age is not
+    // greater than 10 minutes. If the user agent does not have a fresh
+    // enough cached position object, it will immediately invoke the error
+    // callback.
+    navigator.geolocation.getCurrentPosition(successCallback,
+                                             errorCallback,
+                                             {maximumAge:600000, timeout:0});
+
+    function successCallback(position) {
+      // By using the 'maximumAge' option above, the position
+      // object is guaranteed to be at most 10 minutes old.
+      // By using a 'timeout' of 0 milliseconds, if there is
+      // no suitable cached position available, the user agent 
+      // will asynchronously invoke the error callback with code
+      // TIMEOUT and will not initiate a new position
+      // acquisition process.
+    }
+
+    function errorCallback(error) {
+      switch(error.code) {
+        case error.TIMEOUT:
+          // Quick fallback when no suitable cached position exists.
+          doFallback();
+          // Acquire a new position object.
+          navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+          break;
+        case ... // treat the other error cases.
+      };
+    }
+
+    function doFallback() {
+      // No fresh enough cached position available.
+      // Fallback to a default position.
+    }
+    
+</script>
 {% endblock %}
