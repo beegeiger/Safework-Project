@@ -350,7 +350,7 @@ class GeoPoint(db.Model):
 	def __repr__(self):
 		"""Provide helpful representation when printed."""
 		return "<geopoint_id={} user_id={} latitude={} longtitude={} datetime={} notes={}>".format(
-			self.geopoint_id, self.user_id, self.latitude, self.longitude self.datetime, self.notes)
+			self.geopoint_id, self.user_id, self.latitude, self.longitude, self.datetime, self.notes)
  
 
 
