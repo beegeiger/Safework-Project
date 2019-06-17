@@ -1810,6 +1810,11 @@ def pass_reset_page():
     """Renders password reset page"""
     return render_template("reset.html")
 
+@app.route("/geo_point", methods=["POST"])
+def add_geo_point():
+    """Adds New Geo Point for user's phone"""
+    return
+
 #####################################################
 
 if __name__ == "__main__":
