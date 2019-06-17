@@ -1813,6 +1813,10 @@ def pass_reset_page():
 @app.route("/geo_point", methods=["POST"])
 def add_geo_point():
     """Adds New Geo Point for user's phone"""
+    lat = request.form['lat']
+    lon = request.form['long']
+    print("Lat + Long =")
+    print(lat, lon)
     return
 
 #####################################################

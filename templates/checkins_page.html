@@ -50,6 +50,8 @@
     status.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
   }
 
+  $.post("/geo_point", { lat: ${latitude}, long: ${longitude}} );
+
   function error() {
     status.textContent = 'Unable to retrieve your location';
   }
@@ -60,6 +62,7 @@
     status.textContent = 'Locating…';
     navigator.geolocation.getCurrentPosition(success, error);
   }
+  
 
 }
 
