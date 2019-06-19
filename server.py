@@ -1817,7 +1817,7 @@ def add_geo_point():
     lon = request.form['long']
     print("Lat + Long =")
     print(lat, lon)
-    return
+    return "success"
 
 #####################################################
 

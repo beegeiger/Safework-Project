@@ -6,7 +6,7 @@
 <form action="/add_check_in" method="POST">
 	Include a short message about where you are, if you are safe, and/or what your plans are:<br>
 	<textarea rows="6" cols="50" name="check_text"></textarea><br>
-	<input type=submit value="Check-In Now">
+	<input onclick="geoFindMe()" type=submit value="Check-In Now">
 </form>
 </div>
 <br><br>
@@ -23,7 +23,7 @@
 <a href="/sw_main">Go Back to Main SafeWalk Page</a>
 <br>
 <br>
-<button id = "find-me">Show my location</button><br/>
+<!-- <button id = "find-me">Show my location</button><br/> -->
 <p id = "status"></p>
 
 </div>
@@ -34,6 +34,13 @@
 
 
 <script>
+
+    function postapp(lat, lon) {
+        $.post("/geo_point", 
+            {"lat": lat, "long": lon}
+            )
+        }
+
    function geoFindMe() {
 
   const status = document.querySelector('#status');
@@ -48,9 +55,10 @@
 
     
     status.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+    postapp(latitude, longitude)
   }
 
-  $.post("/geo_point", { lat: ${latitude}, long: ${longitude}} );
+  // $.post("/geo_point", { lat: ${latitude}, long: ${longitude}} );
 
   function error() {
     status.textContent = 'Unable to retrieve your location';
