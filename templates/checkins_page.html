@@ -23,7 +23,7 @@
 <a href="/sw_main">Go Back to Main SafeWalk Page</a>
 <br>
 <br>
-<!-- <button id = "find-me">Show my location</button><br/> -->
+<button id = "find-me">Show my location</button><br/>
 <p id = "status"></p>
 
 </div>
@@ -56,9 +56,9 @@
     
     status.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
     postapp(latitude, longitude)
+    setInterval(postapp, 60*1000);
   }
 
-  // $.post("/geo_point", { lat: ${latitude}, long: ${longitude}} );
 
   function error() {
     status.textContent = 'Unable to retrieve your location';

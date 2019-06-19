@@ -344,7 +344,7 @@ class GeoPoint(db.Model):
 	latitude = db.Column(db.String(256), nullable=True)
 	longitude = db.Column(db.String(256), nullable=True)
 	datetime = db.Column(db.DateTime, nullable=True)
-	notes = db.Column(db.String(2056))
+	notes = db.Column(db.String(2056), nullable=True)
 
 
 	def __repr__(self):
