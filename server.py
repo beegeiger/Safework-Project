@@ -1813,10 +1813,15 @@ def pass_reset_page():
 @app.route("/geo_point", methods=["POST"])
 def add_geo_point():
     """Adds New Geo Point for user's phone"""
+    user = User.query.filter_by(email=session['current_user']).one()
     lat = request.form['lat']
     lon = request.form['long']
     print("Lat + Long =")
     print(lat, lon)
+    geo = GeoPoint(user_id=user.user_id, latitude=lat, 
+                longitude=lon, datetime=datetime.datetime.now())
+    db.session.add(geo)
+    db.session.commit()
     return "success"
 
 #####################################################
