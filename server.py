@@ -23,10 +23,6 @@ from model import Forum, Post, User, Incident, Police, Source, Like, Flag, Conta
 import requests
 # from secrets_env import CLIENT_ID
 import logging
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///safework'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy()
-db.app = app
 
 db.init_app(app)
 

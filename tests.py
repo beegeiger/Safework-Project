@@ -254,99 +254,99 @@ import flask_testing
 
 #########################################################
 
-class FlaskTestsSafeWalk(unittest.TestCase):
-    """Flask tests with user logged in to session."""
+# class FlaskTestsSafeWalk(unittest.TestCase):
+#     """Flask tests with user logged in to session."""
 
-    def setUp(self):
-        """Stuff to do before every test."""
+#     def setUp(self):
+#         """Stuff to do before every test."""
 
-        app.config['TESTING'] = True
-        app.config['SECRET_KEY'] = 'ABC'
-        self.client = app.test_client()
+#         app.config['TESTING'] = True
+#         app.config['SECRET_KEY'] = 'ABC'
+#         self.client = app.test_client()
 
-        with self.client as c:
-            with c.session_transaction() as sess:
-                sess['current_user'] = "Testing@gmail.com"
+#         with self.client as c:
+#             with c.session_transaction() as sess:
+#                 sess['current_user'] = "Testing@gmail.com"
 
 
 
-        # Connect to test database
-        connect_to_db(app, "postgresql:///testdb")
+#         # Connect to test database
+#         connect_to_db(app, "postgresql:///testdb")
 
-        # Create tables and add sample data
+#         # Create tables and add sample data
 
-        db.drop_all()
-        db.create_all()
-        example_data()
+#         db.drop_all()
+#         db.create_all()
+#         example_data()
 
-    def test_sw_main(self):
-        """Tests that the main Safewalk Page Loads."""
-        result = self.client.get('/sw_main')
-        self.assertIn('Press this Button to Generate a New Code.', str(result.data))
+#     def test_sw_main(self):
+#         """Tests that the main Safewalk Page Loads."""
+#         result = self.client.get('/sw_main')
+#         self.assertIn('Press this Button to Generate a New Code.', str(result.data))
 
-    def test_sw_gettingstarted(self):
-        """Tests that the Safewalk Getting Started Page Loads."""
-        result = self.client.get('/sw_getting_started')
-        self.assertIn('A scheduled alert-set allows you to pre-set alerts(/check-in requirements) by time.', str(result.data))
+#     def test_sw_gettingstarted(self):
+#         """Tests that the Safewalk Getting Started Page Loads."""
+#         result = self.client.get('/sw_getting_started')
+#         self.assertIn('A scheduled alert-set allows you to pre-set alerts(/check-in requirements) by time.', str(result.data))
 
-    def test_rec_alerts(self):
-        """Tests that the recurring alerts page loads."""
-        result = self.client.get('/rec_alerts')
-        self.assertIn('How often would you like to require checking in with the app?', str(result.data))    
+#     def test_rec_alerts(self):
+#         """Tests that the recurring alerts page loads."""
+#         result = self.client.get('/rec_alerts')
+#         self.assertIn('How often would you like to require checking in with the app?', str(result.data))    
 
-    def test_sched_alerts(self):
-        """Test that the scheduled alerts page loads."""
-        result = self.client.get('/sched_alerts')
-        self.assertIn('What would you like to name this alert set?', str(result.data)) 
+#     def test_sched_alerts(self):
+#         """Test that the scheduled alerts page loads."""
+#         result = self.client.get('/sched_alerts')
+#         self.assertIn('What would you like to name this alert set?', str(result.data)) 
 
-    def test_contacts(self):
-        """Tests that the contact page loads."""
-        result = self.client.get('/contacts')
-        self.assertIn('Custom Message For Contact', str(result.data))   
+#     def test_contacts(self):
+#         """Tests that the contact page loads."""
+#         result = self.client.get('/contacts')
+#         self.assertIn('Custom Message For Contact', str(result.data))   
 
-    def test_edit_rec(self):
-        """Tests that the edit recurring set page loads."""
-        result = self.client.get('/edit_recset/2')
-        self.assertIn('How often would you like to require checking in with the app?', str(result.data))
+#     def test_edit_rec(self):
+#         """Tests that the edit recurring set page loads."""
+#         result = self.client.get('/edit_recset/2')
+#         self.assertIn('How often would you like to require checking in with the app?', str(result.data))
 
-    def test_edit_sched(self):
-        """Tests that the edit scheduled set page loads."""
-        result = self.client.get('/edit_schedset/1')
-        self.assertIn('Where are you going and/or what are you doing that you might need this alert?', str(result.data))
+#     def test_edit_sched(self):
+#         """Tests that the edit scheduled set page loads."""
+#         result = self.client.get('/edit_schedset/1')
+#         self.assertIn('Where are you going and/or what are you doing that you might need this alert?', str(result.data))
     
-    def test_check_ins(self):
-        """Tests that the check-in page loads."""
-        result = self.client.get('/check_ins')
-        self.assertIn('Include a short message about where you are, if you are safe, and/or what your plans are:', str(result.data))
+#     def test_check_ins(self):
+#         """Tests that the check-in page loads."""
+#         result = self.client.get('/check_ins')
+#         self.assertIn('Include a short message about where you are, if you are safe, and/or what your plans are:', str(result.data))
 
-    def test_pass_page(self):
-        """Tests that the password Change page loads."""
-        result = self.client.get('/pass_page')
-        self.assertIn('Change Password', str(result.data))
+#     def test_pass_page(self):
+#         """Tests that the password Change page loads."""
+#         result = self.client.get('/pass_page')
+#         self.assertIn('Change Password', str(result.data))
 
-    def test_reset_page(self):
-        """Tests that the password reset page loads."""
-        result = self.client.get('/pass_reset_page')
-        self.assertIn('Change/Reset Password', str(result.data))    
+#     def test_reset_page(self):
+#         """Tests that the password reset page loads."""
+#         result = self.client.get('/pass_reset_page')
+#         self.assertIn('Change/Reset Password', str(result.data))    
 
-    def test_add_contact(self):
-        """Test login page."""
+#     def test_add_contact(self):
+#         """Test login page."""
 
-        result = self.client.post("/contacts",
-                                  data={"email": "Testing@gmail.com", "name": "AmazingTester123", "c_type": "family"},
-                                  follow_redirects=True)
-        self.assertIn("AmazingTester123", str(result.data))
-
-
-    def tearDown(self):
-        """Do at end of every test."""
-        db.session.close()
+#         result = self.client.post("/contacts",
+#                                   data={"email": "Testing@gmail.com", "name": "AmazingTester123", "c_type": "family"},
+#                                   follow_redirects=True)
+#         self.assertIn("AmazingTester123", str(result.data))
 
 
+#     def tearDown(self):
+#         """Do at end of every test."""
+#         db.session.close()
 
 
 
-##########################################################
-if __name__ == '__main__':
-    # If called like a script, run our tests
-    unittest.main()
+
+
+# ##########################################################
+# if __name__ == '__main__':
+#     # If called like a script, run our tests
+#     unittest.main()

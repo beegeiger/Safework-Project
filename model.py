@@ -19,7 +19,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///safework'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
 db.app = app
-db.init_app(app)
 #######################
 
 class Forum(db.Model):
@@ -345,6 +344,7 @@ class GeoPoint(db.Model):
 	longitude = db.Column(db.String(256), nullable=True)
 	datetime = db.Column(db.DateTime, nullable=True)
 	notes = db.Column(db.String(2056), nullable=True)
+	print("Geo Points Adding")
 
 
 	def __repr__(self):
@@ -457,13 +457,27 @@ def connect_to_db(app, db_uri='postgresql:///safework'):
 	"""Connect the database to our Flask app."""
 	# Configure to use our PstgreSQL database
 	print("Connecting")
-	app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+	# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///safework'
 	# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 	# db.app = app
 	db.init_app(app)
-	print("Should be conntected to DB")
 
 if __name__ == "__main__":	
 	connect_to_db(app, 'postgresql:///safework')
 	print("Connected to DB.")
+
+# def connect_to_db(app, db_uri='postgresql:///safework'):
+# 	"""Connect the database to our Flask app."""
+# 	# Configure to use our PstgreSQL database
+# 	print("Connecting")
+# 	app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+# 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# 	db.app = app
+# 	db.init_app(app)
+# 	print("Should be conntected to DB")
+
+# if __name__ == "__main__":	
+# 	connect_to_db(app, 'postgresql:///safework')
+# 	print("Connected to DB.")
