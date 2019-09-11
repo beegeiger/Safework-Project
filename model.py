@@ -367,6 +367,13 @@ def example_data():
 	Source.query.delete()
 	Like.query.delete()
 	Flag.query.delete()
+	Contact.query.delete()
+	AlertSet.query.delete()
+	Alert.query.delete()
+	CheckIn.query.delete()
+	ReqCheck.query.delete()
+	Feedback.query.delete()
+	GeoPoint.query.delete()
 
 	#Example Forum Objects
 	cam = Forum(forum_id=1, forum_name="Cam Modeling", forum_type="main", forum_desc="Central Forum for all Cam Models to discuss Strategies.", created_by="dev", parent_forum_id=0)
