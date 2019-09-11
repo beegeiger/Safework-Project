@@ -430,6 +430,10 @@ def example_data():
 	a1 = Alert(alert_id=1, alert_set_id=1, user_id=3, contact_id1=1, active=False, sent=False, time=datetime.datetime.now().time(), message="Message for Testing", datetime=datetime.datetime.now())
 	a2 = Alert(alert_id=2, alert_set_id=2, user_id=3, contact_id1=2, active=False, sent=False, time=datetime.datetime.now().time(), message="Message for Testing", datetime=datetime.datetime.now())
 
+	#Example CheckIn
+	ci1 = CheckIn(user_id=2, notes="I am Here!", time=datetime.datetime.now().time(), datetime=datetime.datetime.now(), lat="1.3242", lon="3.6432")
+	ci2 = CheckIn(user_id=3, notes="I don't know where I am!", time=datetime.datetime.now().time(), datetime=datetime.datetime.now(), lat="1.1442", lon="-3.6432")
+
 	db.session.add_all([f1, f2, f3, u1, u2, u3])
 	db.session.commit()
 	db.session.add_all([p1, p2, po1, po2])
@@ -447,6 +451,8 @@ def example_data():
 	db.session.add_all([as1, as2])
 	db.session.commit()
 	db.session.add_all([a1, a2])
+	db.session.commit()
+	db.session.add_all([ci1, ci2])
 	db.session.commit()
 
 
