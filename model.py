@@ -445,6 +445,10 @@ def example_data():
 	rc1 = ReqCheck(alert_id=1, alert_set_id=1, user_id=3, checked=False)
 	rc2 = ReqCheck(alert_id=2, alert_set_id=2, user_id=3, checked=True)
 
+	#Example Feedback
+	fb1 = Feedback(user_id=2, datetime=datetime.datetime.now(), content="This thing could use work!")
+	fb2 = Feedback(user_id=3, datetime=datetime.datetime.now(), content="That thing could use work!")
+
 
 	db.session.add_all([f1, f2, f3, u1, u2, u3])
 	db.session.add_all([p1, p2, po1, po2])
