@@ -6,7 +6,7 @@
 <form action="/add_check_in" method="POST">
 	Include a short message about where you are, if you are safe, and/or what your plans are:<br>
 	<textarea rows="6" cols="50" name="check_text"></textarea><br>
-	<input onclick="geoFindMe()" type=submit value="Check-In Now">
+	<input onclick="geoFindMe()" id="check-click" type=submit value="Check-In Now">
 </form>
 </div>
 <br><br>
@@ -74,6 +74,6 @@
 
 }
 
-document.querySelector('#find-me').addEventListener('click', geoFindMe);
+document.querySelector('#check-click').addEventListener('click', geoFindMe);
 </script>
 {% endblock %}
