@@ -449,6 +449,9 @@ def example_data():
 	fb1 = Feedback(user_id=2, datetime=datetime.datetime.now(), content="This thing could use work!")
 	fb2 = Feedback(user_id=3, datetime=datetime.datetime.now(), content="That thing could use work!")
 
+	#Example GeoPoints
+	gp1 = GeoPoint(user_id=2, latitude="2.3525", longitude="-1.342", datetime=datetime.datetime.now().time(), notes="I am Here!")
+	gp2 = GeoPoint(user_id=3, latitude="1.3525", longitude="-0.342", datetime=datetime.datetime.now().time(), notes="I am There!")
 
 	db.session.add_all([f1, f2, f3, u1, u2, u3])
 	db.session.add_all([p1, p2, po1, po2])
@@ -461,6 +464,8 @@ def example_data():
 	db.session.add_all([a1, a2])
 	db.session.add_all([ci1, ci2])
 	db.session.add_all([rc1, rc2])
+	db.session.add_all([fb1, fb2])
+	db.session.add_all([gp1, gp2])
 	db.session.commit()
 
 
