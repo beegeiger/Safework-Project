@@ -56,8 +56,9 @@
 
     
     status.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
-    postapp(latitude, longitude)
+    postapp(latitude, longitude);
     setInterval(postapp, 60*1000);
+    console.log("location found");
   }
 
 
@@ -76,5 +77,6 @@
 }
 
 document.querySelector('#check-click').addEventListener('click', geoFindMe);
+document.querySelector('#find-me').addEventListener('click', geoFindMe);
 </script>
 {% endblock %}
