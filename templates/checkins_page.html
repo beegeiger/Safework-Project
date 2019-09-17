@@ -3,10 +3,10 @@
 {% block safewalk %}
 <div class="gen_div">
 <h1>Check-In Now!</h1>
-<form action="/add_check_in" method="POST">
+<form id="check-form" action="/add_check_in" method="POST">
 	Include a short message about where you are, if you are safe, and/or what your plans are:<br>
 	<textarea rows="6" cols="50" name="check_text"></textarea><br>
-	<input onclick="geoFindMe()" id="check-click" type=submit value="Check-In Now">
+	<button id="check-click" type=submit value="Check-In Now"></button>
 </form>
 </div>
 <br><br>
@@ -75,8 +75,24 @@
   
 
 }
-
+$(document).ready(function () {
+    $('#check-click').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url : $(this).attr('/add_check_in') || window.location.pathname,
+            type: "POST",
+            data: $(this).serialize(),
+            success: function (data) {
+                $("#form_output").html(data);
+            },
+            error: function (jXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        geoFindMe();
+        });
+    });
+});
 document.querySelector('#check-click').addEventListener('click', geoFindMe);
-document.querySelector('#find-me').addEventListener('click', geoFindMe);
+
 </script>
 {% endblock %}
