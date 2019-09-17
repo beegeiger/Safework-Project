@@ -6,7 +6,7 @@
 <form id="check-form" action="/add_check_in" method="POST">
 	Include a short message about where you are, if you are safe, and/or what your plans are:<br>
 	<textarea rows="6" cols="50" name="check_text"></textarea><br>
-	<button id="check-click" type=submit value="Check-In Now"></button>
+	<input onclick="geoFindMe()" id="check-click" type=submit value="Check-In Now">
 </form>
 </div>
 <br><br>
@@ -76,7 +76,7 @@
 
 }
 $(document).ready(function () {
-    $('#check-click').on('submit', function(e) {
+    $('#check-form').on('submit', function(e) {
         e.preventDefault();
         $.ajax({
             url : $(this).attr('/add_check_in') || window.location.pathname,
@@ -88,10 +88,10 @@ $(document).ready(function () {
             error: function (jXHR, textStatus, errorThrown) {
                 alert(errorThrown);
             }
-        geoFindMe();
         });
     });
 });
+document.querySelector('#check-click').addEventListener('click', geoFindMe);
 document.querySelector('#check-click').addEventListener('click', geoFindMe);
 
 </script>
